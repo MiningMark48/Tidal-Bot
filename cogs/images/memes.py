@@ -13,7 +13,7 @@ class Memes(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.session = aiohttp.ClientSession(loop=bot.loop)
-    
+
     def draw_text(self, draw, line, pos, font, font_color, outlined=False):
         (x,y) = pos
         if outlined:
@@ -148,9 +148,9 @@ class Memes(commands.Cog):
             file = discord.File(filename="exit12.png", fp=final_buffer)
             await ctx.send(file=file)
 
-    @commands.command()
+    @commands.command(name="financialsupport")
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def financialsupport(self, ctx, *, text: str):
+    async def financial_support(self, ctx, *, text: str):
         """Financially support me plz"""
         await self.try_delete(ctx)
         chars_per_line = 30
@@ -246,9 +246,31 @@ class Memes(commands.Cog):
             wrapper = textwrap.TextWrapper(width=chars_per_line)
             lines1 = wrapper.wrap(text=text1.upper())
             lines2 = wrapper.wrap(text=text2.upper())
-            fn = partial(self.processing_drawtext_multi, [lines1, lines2], "patrickpush.jpg", [(0, 5), (0, 525)], 30, 0xffffff, "impact", centered=True, outlined=True)
+            fn = partial(self.processing_drawtext_multi, [lines1, lines2], "patrickpush.jpg", [(0, 5), (0, 525)], 30,
+                         0xffffff, "impact", centered=True, outlined=True)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="patrickpush.png", fp=final_buffer)
+            await ctx.send(file=file)
+
+    @commands.command(name="pelosirip", aliases=['pelrip'])
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def pelosi_rip(self, ctx, *, text: str):
+        """*Rips speech*"""
+        await self.try_delete(ctx)
+        chars_per_line = 15
+        lines = 2
+
+        max_chars = chars_per_line * lines
+        if len(text) > max_chars:
+            return await ctx.send(f'Too many characters! Must be less than `{max_chars}`.')
+
+        async with ctx.typing():
+            wrapper = textwrap.TextWrapper(width=chars_per_line)
+            lines = wrapper.wrap(text=text.upper())
+            fn = partial(self.processing_drawtext, lines, "pelosirip.png", (515, 255), 30, font_color=0xffffff,
+                         font_name="impact", outlined=True)
+            final_buffer = await self.bot.loop.run_in_executor(None, fn)
+            file = discord.File(filename="pelosi_rip.png", fp=final_buffer)
             await ctx.send(file=file)
 
     @commands.command()
