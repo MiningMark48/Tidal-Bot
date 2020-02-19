@@ -1,0 +1,121 @@
+import discord
+from discord.ext import commands
+import json
+import os.path as osp
+import email
+import smtplib, ssl
+import time
+import util.servconf as sc
+from random import randint
+
+print("Starting...")
+
+extensions = ["errors", "fun.fun", "fun.minesweeper", "fun.trivia", "images.memelicense", "images.memes", "images.progress", "info", "owner", "servmng.follow", "servmng.msgjoin", "servmng.prefix", "servmng.toggle", "utility.announce", "utility.utility", "utility.poll" ]
+load_music = False
+
+bot_token = "bot.token"
+bot_key = ";"
+
+config_path = "config.json"
+
+def_config = {
+    "bot_token": bot_token,
+    "bot_key": bot_key
+}
+
+do_run = True
+
+global servers_cfg
+servers_cfg = None
+
+print("Loading config...")
+if osp.isfile(config_path):
+    with open(config_path, 'r') as file:
+        data = json.load(file)
+        bot_token = data["bot_token"]
+        bot_key = data["bot_key"]
+        print("Config loaded.")
+else:
+    with open(config_path, 'w') as file:
+        print("Config file not found, creating...")
+        json.dump(def_config, file, indent=4)
+        print("Config file created.")
+        do_run = False
+
+
+def prefix(bot, message):
+    pfx = bot_key
+    if message.guild:
+        pfx = sc.get_v(str(message.guild.id), "prefix")
+    return pfx if pfx else bot_key
+
+
+def_help = commands.DefaultHelpCommand(dm_help=None, dm_help_threshold=750)
+bot = commands.Bot(command_prefix=prefix, help_command=def_help)
+
+
+@bot.event
+async def on_ready():
+    print(f'We have logged in as {bot.user}')
+    await bot.change_presence(activity=discord.Activity(name=f"Do {bot_key}help", type=discord.ActivityType.playing))
+
+
+@bot.event
+async def on_message(message):
+    # start_time = time.time()
+
+    if message.author == bot.user:
+        return
+
+    ctx = await bot.get_context(message)
+    if ctx:
+        if ctx.command and ctx.guild:
+            if sc.array_contains(str(ctx.guild.id), ctx.command.name, "command_blacklist"):
+                await ctx.send(f'`{ctx.command.name}` has been disabled.')
+                return
+        # await bot.invoke(ctx) # Uses this so webhooks/bots can use the bot
+
+    await bot.process_commands(message)
+    # print(f'{time.time() - start_time} ms') # Delay
+
+
+@bot.event
+async def on_command(ctx):
+    if not ctx.guild:
+        return
+
+    channel = discord.utils.find(lambda c: (isinstance(c, discord.TextChannel) and "[tb-log]" in (c.topic if c.topic else "")), ctx.guild.channels)
+    if channel:
+        embed = discord.Embed(title=ctx.command.name, color=ctx.message.author.top_role.color)
+        embed.add_field(name="Executed by", value=ctx.author.mention)
+        embed.add_field(name="Executed at", value=str(ctx.message.created_at)[:19])
+        embed.add_field(name="Message Link", value=f'[Click Here]({ctx.message.jump_url})')
+        message_content = ctx.message.content
+        embed.add_field(name="Full Message", value=f'{message_content[:100]}...' if len(message_content) > 100 else message_content, inline=False)
+
+        try:
+            await channel.send(embed=embed)
+        except discord.HTTPException:
+            await ctx.send("Error, could not send embed.")
+
+
+@bot.event
+async def on_guild_remove(guild):
+    sc.remove_server_data(str(guild.id))
+
+if __name__ == "__main__":
+
+    if load_music:
+        extensions.append("music")
+
+    for extension in extensions:
+        try:
+            bot.load_extension(f"cogs.{extension}")
+            print(f"[Cog] Loaded {extension}")
+        except Exception as error:
+            print(f"{extension} cannot be loaded. [{error}]")
+
+if do_run:
+    bot.run(bot_token)
+else:
+    print("Startup aborted.")
