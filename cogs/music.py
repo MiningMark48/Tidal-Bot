@@ -565,21 +565,21 @@ class Music(commands.Cog):
         await player.seek(time*1000)
         await ctx.send(f'Seeking to `{time}` seconds.', delete_after=15)
 
-    @commands.command(aliases=['ffd'])
-    @commands.cooldown(5, 10, commands.BucketType.user)
-    @commands.guild_only()
-    async def fast_forward(self, ctx, time: int):
-        """Fast-Forward the track by a specified amount of seconds"""
-        await self.delete_original(ctx)
-        player = self.bot.wavelink.get_player(ctx.guild.id, cls=Player)
-
-        if not player.is_connected:
-            return await ctx.send('I am not currently connected to voice!')
-
-        print(player.position)
-
-        # await player.seek(time*1000)
-        # await ctx.send(f'Seeking to `{time}` seconds.', delete_after=15)
+    # @commands.command(aliases=['ffd'])
+    # @commands.cooldown(5, 10, commands.BucketType.user)
+    # @commands.guild_only()
+    # async def fast_forward(self, ctx, time: int):
+    #     """Fast-Forward the track by a specified amount of seconds"""
+    #     await self.delete_original(ctx)
+    #     player = self.bot.wavelink.get_player(ctx.guild.id, cls=Player)
+    #
+    #     if not player.is_connected:
+    #         return await ctx.send('I am not currently connected to voice!')
+    #
+    #     print(player.position)
+    #
+    #     # await player.seek(time*1000)
+    #     # await ctx.send(f'Seeking to `{time}` seconds.', delete_after=15)
 
     @commands.command(name='skip')
     @commands.cooldown(5, 10, commands.BucketType.user)
