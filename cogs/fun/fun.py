@@ -1,7 +1,7 @@
 import discord
 import random
 from discord.ext import commands
-# import cogs.checks as cks
+from util.spongemock import mockify
 
 class Fun(commands.Cog):
     def __init__(self, bot):
@@ -36,5 +36,16 @@ class Fun(commands.Cog):
         """Slap someone with a fish"""
         await ctx.send(f"*slaps {user} with a fish.* :fish:")
 
+    @commands.command()
+    async def mock(self, ctx, *, text: str):
+        """spOngEBoB MoCKifY soMe TeXT"""
+        try:
+            await ctx.message.delete()
+        except discord.HTTPException:
+            pass
+        await ctx.send(mockify(text))
+
+
 def setup(bot):
     bot.add_cog(Fun(bot))
+

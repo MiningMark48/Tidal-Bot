@@ -7,7 +7,7 @@ from discord.ext import commands
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 from functools import partial
 from io import BytesIO
-from typing import Union
+from util.spongemock import mockify
 
 class Memes(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -311,6 +311,26 @@ class Memes(commands.Cog):
             fn = partial(self.processing_drawtext, lines, "spongebreathe.jpg", (30, 30))
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="spongebreathe.png", fp=final_buffer)
+            await ctx.send(file=file)
+
+    @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def spongemock(self, ctx, *, text: str):
+        """Financially support me plz"""
+        await self.try_delete(ctx)
+        chars_per_line = 35
+        lines = 3
+
+        max_chars = chars_per_line * lines
+        if len(text) > max_chars:
+            return await ctx.send(f'Too many characters! Must be less than `{max_chars}`.')
+
+        async with ctx.typing():
+            wrapper = textwrap.TextWrapper(width=chars_per_line)
+            lines = wrapper.wrap(text=mockify(text))
+            fn = partial(self.processing_drawtext, lines, "spongemock.png", (20, 20), 40, centered=True)
+            final_buffer = await self.bot.loop.run_in_executor(None, fn)
+            file = discord.File(filename="spongemock.png", fp=final_buffer)
             await ctx.send(file=file)
 
     @commands.command()
