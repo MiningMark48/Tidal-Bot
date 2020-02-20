@@ -168,6 +168,33 @@ class Memes(commands.Cog):
             file = discord.File(filename="finan_support.png", fp=final_buffer)
             await ctx.send(file=file)
 
+    @commands.command(name="flextape", aliases=["philswift", "flexon", "flexseal"])
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def flex_tape(self, ctx, text1: str, text2: str, text3: str):
+        """
+        Flex on!
+
+        Note: This will likely require quotes.
+        """
+        await self.try_delete(ctx)
+        chars_per_line = 10
+        lines = 3
+
+        max_chars = chars_per_line * lines
+        if len(text1) > max_chars or len(text2) > max_chars or len(text3) > max_chars:
+            return await ctx.send(f'Too many characters! Must be less than `{max_chars}`.')
+
+        async with ctx.typing():
+            wrapper = textwrap.TextWrapper(width=chars_per_line)
+            lines1 = wrapper.wrap(text=text1.upper())
+            lines2 = wrapper.wrap(text=text2.upper())
+            lines3 = wrapper.wrap(text=text3.upper())
+            fn = partial(self.processing_drawtext_multi, [lines1, lines2, lines3], "flextape.png",
+                         [(80, 115), (350, 115), (230, 370)], 30, 0xffffff, font_name="impact", outlined=True)
+            final_buffer = await self.bot.loop.run_in_executor(None, fn)
+            file = discord.File(filename="flex_tape.png", fp=final_buffer)
+            await ctx.send(file=file)
+
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def kkchum(self, ctx, text1: str, text2: str):
