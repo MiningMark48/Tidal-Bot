@@ -3,6 +3,7 @@ import random
 from discord.ext import commands
 from util.spongemock import mockify
 
+
 class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -16,7 +17,7 @@ class Fun(commands.Cog):
     @commands.command(aliases=["dice", "rolldice"])
     async def diceroll(self, ctx, amt=1):
         """Roll a dice!"""
-        if amt > 0 and amt <= 25:
+        if 0 < amt <= 25:
             roll = ', '.join(str(random.randint(1, 6)) for x in range(amt))
             await ctx.send(f':game_die: You rolled a die and got... **{roll}**! :game_die:')
         else:
@@ -25,7 +26,7 @@ class Fun(commands.Cog):
     @commands.command(aliases=["rand", "random"])
     async def randnum(self, ctx, min: int, max: int, amt=1):
         """Get a random number between two values"""
-        if amt > 0 and amt <= 25:
+        if 0 < amt <= 25:
             roll = ', '.join(str(random.randint(min, max)) for x in range(amt))
             await ctx.send(f'Your random number is... **{roll}**!')
         else:
