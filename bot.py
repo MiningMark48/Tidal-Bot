@@ -1,12 +1,10 @@
-import discord
-from discord.ext import commands
 import json
 import os.path as osp
-import email
-import smtplib, ssl
-import time
+
+import discord
+from discord.ext import commands
+
 import util.servconf as sc
-from random import randint
 
 print("Starting...")
 
