@@ -1,12 +1,14 @@
-import discord
-import aiohttp
-import os
-import textwrap
 import random
-from discord.ext import commands
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+import textwrap
+import typing
 from functools import partial
 from io import BytesIO
+
+import aiohttp
+import discord
+from PIL import Image, ImageDraw, ImageFont
+from discord.ext import commands
+
 from util.spongemock import mockify
 
 
@@ -414,11 +416,15 @@ class Memes(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def spongemock(self, ctx, *, text: str):
+    async def spongemock(self, ctx, *, text: typing.Optional[str]):
         """spOngEBoB MoCKifY soMe TeXT"""
         await self.try_delete(ctx)
         chars_per_line = 35
         lines = 3
+
+        if not text:
+            messages = await ctx.channel.history(limit=1).flatten()
+            text = messages[0].content
 
         max_chars = chars_per_line * lines
         if len(text) > max_chars:

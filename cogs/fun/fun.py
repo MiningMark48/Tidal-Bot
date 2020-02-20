@@ -1,5 +1,6 @@
 import discord
 import random
+import typing
 from discord.ext import commands
 from util.spongemock import mockify
 
@@ -59,13 +60,18 @@ class Fun(commands.Cog):
         await ctx.send(f"*slaps {user} with a fish.* :fish:")
 
     @commands.command()
-    async def mock(self, ctx, *, text: str):
+    async def mock(self, ctx, *, text: typing.Optional[str]):
         """spOngEBoB MoCKifY soMe TeXT"""
         try:
             await ctx.message.delete()
         except discord.HTTPException:
             pass
-        await ctx.send(mockify(text))
+        if not text:
+            messages = await ctx.channel.history(limit=1).flatten()
+            text = messages[0].content
+
+        if text:
+            await ctx.send(mockify(text))
 
 
 def setup(bot):
