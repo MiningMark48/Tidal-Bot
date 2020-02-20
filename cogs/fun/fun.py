@@ -8,6 +8,27 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(name="bubblewrap")
+    async def bubble_wrap(self, ctx):
+        """Satisfying popping"""
+        try:
+            await ctx.message.delete()
+        except discord.HTTPException:
+            pass
+
+        rows = 10
+        columns = 10
+        grid = [["||     ||" for n in range(columns)] for n in range(rows)]
+        sb = []
+        for rws in grid:
+            sb.append(''.join(map(str, rws)))
+        sb = '\n'.join(sb)
+
+        final = f'{ctx.author.mention}, here\'s your bubble wrap!\n\n' \
+                f'{sb}\n\n'
+
+        await ctx.send(final)
+
     @commands.command(aliases=["coin", "flipcoin"])
     async def coinflip(self, ctx):
         """Flip a coin!"""
