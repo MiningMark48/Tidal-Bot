@@ -269,6 +269,24 @@ class Memes(commands.Cog):
             file = discord.File(filename="linus.png", fp=final_buffer)
             await ctx.send(file=file)
 
+    @commands.command(name="linuspenguin")
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def linus_penguin(self, ctx, *, text: str):
+        """
+        Linus penguin!
+        """
+        await self.try_delete(ctx)
+        max_chars = 60
+        if len(text) > max_chars:
+            return await ctx.send(f'Too many characters! Must be less than `{max_chars}`.')
+
+        async with ctx.typing():
+            fn = partial(self.processing_drawtext_snapchat, text, "linuspenguin.png", random.randint(300, 375),
+                         scale=1)
+            final_buffer = await self.bot.loop.run_in_executor(None, fn)
+            file = discord.File(filename="linus_penguin.png", fp=final_buffer)
+            await ctx.send(file=file)
+
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def nobrain(self, ctx, *, text: str):
