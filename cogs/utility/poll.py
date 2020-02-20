@@ -3,6 +3,8 @@ import asyncio
 import typing
 from discord.ext import commands
 from collections import defaultdict
+
+
 # import cogs.checks as cks
 
 class Utility(commands.Cog):
@@ -13,7 +15,8 @@ class Utility(commands.Cog):
 
     @commands.command()
     @commands.guild_only()
-    async def poll(self, ctx, question: str, time: int, opt1: typing.Optional[str], opt2: typing.Optional[str], opt3: typing.Optional[str], opt4: typing.Optional[str]):
+    async def poll(self, ctx, question: str, time: int, opt1: typing.Optional[str], opt2: typing.Optional[str],
+                   opt3: typing.Optional[str], opt4: typing.Optional[str]):
         """
         Create a poll for people to vote on
         
@@ -33,13 +36,14 @@ class Utility(commands.Cog):
         if not opt1 or not opt2:
             opt1 = "Yes"
             opt2 = "No"
-        embed.add_field(name = "-", value=f'🇦  {opt1}', inline=False)
-        embed.add_field(name = "-", value=f'🇧  {opt2}', inline=False)
+        embed.add_field(name="-", value=f'🇦  {opt1}', inline=False)
+        embed.add_field(name="-", value=f'🇧  {opt2}', inline=False)
         if opt3:
-            embed.add_field(name = "-", value=f'🇨  {opt3}', inline=False)
+            embed.add_field(name="-", value=f'🇨  {opt3}', inline=False)
         if opt4:
-            embed.add_field(name = "-", value=f'🇩  {opt4}', inline=False)
-        embed.add_field(name="Time", value=("∞" if time == -1 else (f'{time} minute{"s" if time > 1 else ""}')), inline=False)
+            embed.add_field(name="-", value=f'🇩  {opt4}', inline=False)
+        embed.add_field(name="Time", value=("∞" if time == -1 else f'{time} minute{"s" if time > 1 else ""}'),
+                        inline=False)
         embed.set_footer(text=f"Created by {ctx.author.name}")
         msg = await ctx.send(embed=embed)
 
@@ -52,12 +56,12 @@ class Utility(commands.Cog):
         if opt4:
             await msg.add_reaction("🇩")
 
-        if time > 0 and time <= 120 :
+        if 0 < time <= 120:
             self.poll_messages.append(msg.id)
             await asyncio.sleep(time * 60)
             self.poll_messages.remove(msg.id)
 
-            try: 
+            try:
                 await msg.clear_reactions()
 
                 total = len(self.user_answers)
@@ -92,8 +96,10 @@ class Utility(commands.Cog):
                     self.user_answers[user.id] = reaction_emoji
                     await reac.remove(user)
 
+
 def get_result_msg(amt, total):
-    return f'{amt} out of {total} ({"0" if amt == 0 else round(amt/(total)*100)}%)'
+    return f'{amt} out of {total} ({"0" if amt == 0 else round(amt/total*100)}%)'
+
 
 def setup(bot):
     bot.add_cog(Utility(bot))
