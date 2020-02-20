@@ -5,6 +5,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 from discord.ext import commands
 from io import BytesIO
 
+
 class Images(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -46,7 +47,11 @@ class Images(commands.Cog):
 
                 draw.rectangle(shape_bg2, fill=0x000000)
                 draw.rectangle(shape_bg, fill=0xffffff)
-                draw.rectangle(shape_fg, fill=ctx.message.author.top_role.color.to_rgb())                
+
+                try:
+                    draw.rectangle(shape_fg, fill=ctx.message.author.top_role.color.to_rgb())
+                except AttributeError:
+                    draw.rectangle(shape_fg, fill=0x00ff00)
 
                 tw = draw.textsize(text, font)[0]
                 draw.text(((w-tw)/2, 25), text, fill=0x000000, font=font)
@@ -59,6 +64,7 @@ class Images(commands.Cog):
             final_buffer.seek(0)
             file = discord.File(filename=f"progressbar_{year}.png", fp=final_buffer)
             await ctx.send(file=file)
+
 
 def setup(bot):
     bot.add_cog(Images(bot))
