@@ -22,10 +22,13 @@ class Memes(commands.Cog):
                 draw.text(p, line, font=font, fill=0x000000)
         draw.text((x, y), line, fill=font_color, font=font)
 
-    def processing_drawtext(self, text: list, template_name: str, base_pos=(0,0), font_size=55, font_color=0x000000, font_name="arial", centered=False, outlined=False) -> BytesIO:
-        return self.processing_drawtext_multi([text], template_name, [base_pos], font_size, font_color, font_name, centered, outlined)
+    def processing_drawtext(self, text: list, template_name: str, base_pos=(0,0), font_size=55, font_color=0x000000,
+                            font_name="arial", centered=False, outlined=False) -> BytesIO:
+        return self.processing_drawtext_multi([text], template_name, [base_pos], font_size, font_color, font_name,
+                                              centered, outlined)
 
-    def processing_drawtext_multi(self, text: list, template_name: str, base_pos=list, font_size=55, font_color=0x000000, font_name="arial", centered=False, outlined=False) -> BytesIO:
+    def processing_drawtext_multi(self, text: list, template_name: str, base_pos=list, font_size=55,
+                                  font_color=0x000000, font_name="arial", centered=False, outlined=False) -> BytesIO:
 
         with Image.open("./templates/template_{}".format(template_name)) as im:
             font = ImageFont.truetype(f'./fonts/{font_name}.ttf', size=font_size)
@@ -50,7 +53,8 @@ class Memes(commands.Cog):
         return final_buffer
 
     @staticmethod
-    def processing_drawtext_snapchat(text: str, template_name: str, height=0, scale=1, font_color=0xffffffff) -> BytesIO:
+    def processing_drawtext_snapchat(text: str, template_name: str, height=0, scale=1,
+                                     font_color=0xffffffff) -> BytesIO:
         font_size = 24 * scale
 
         with Image.open("./templates/template_{}".format(template_name)) as im:
@@ -117,7 +121,8 @@ class Memes(commands.Cog):
         async with ctx.typing():
             wrapper = textwrap.TextWrapper(width=chars_per_line)
             lines = wrapper.wrap(text=text.upper())
-            fn = partial(self.processing_drawtext, lines, "draw25.png", (125, 125), 24, font_color=0xffffff, font_name="impact", outlined=True)
+            fn = partial(self.processing_drawtext, lines, "draw25.png", (125, 125), 24, font_color=0xffffff,
+                         font_name="impact", outlined=True)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="draw25.png", fp=final_buffer)
             await ctx.send(file=file)
@@ -143,7 +148,8 @@ class Memes(commands.Cog):
             lines1 = wrapper.wrap(text=text1)
             lines2 = wrapper.wrap(text=text2)
             lines3 = wrapper.wrap(text=text3)
-            fn = partial(self.processing_drawtext_multi, [lines1, lines2, lines3], "exit12.png", [(200, 100), (420, 100), (415, 540)], 30, 0xffffff)
+            fn = partial(self.processing_drawtext_multi, [lines1, lines2, lines3], "exit12.png",
+                         [(200, 100), (420, 100), (415, 540)], 30, 0xffffff)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="exit12.png", fp=final_buffer)
             await ctx.send(file=file)
@@ -213,7 +219,8 @@ class Memes(commands.Cog):
             wrapper = textwrap.TextWrapper(width=chars_per_line)
             lines1 = wrapper.wrap(text=text1.upper())
             lines2 = wrapper.wrap(text=text2.upper())
-            fn = partial(self.processing_drawtext_multi, [lines1, lines2], "kkchum.jpg", [(165, 40), (200, 460)], 40, 0xffffff, "impact", centered=False, outlined=True)
+            fn = partial(self.processing_drawtext_multi, [lines1, lines2], "kkchum.jpg", [(165, 40), (200, 460)], 40,
+                         0xffffff, "impact", centered=False, outlined=True)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="kkchum.png", fp=final_buffer)
             await ctx.send(file=file)
@@ -418,7 +425,8 @@ class Memes(commands.Cog):
             wrapper = textwrap.TextWrapper(width=chars_per_line)
             lines1 = wrapper.wrap(text=text1.upper())
             lines2 = wrapper.wrap(text=text2.upper())
-            fn = partial(self.processing_drawtext_multi, [lines1, lines2], "tea.jpg", [(0, 5), (0, 475)], 55, 0xffffff, "impact", centered=True, outlined=True)
+            fn = partial(self.processing_drawtext_multi, [lines1, lines2], "tea.jpg", [(0, 5), (0, 475)], 55, 0xffffff,
+                         "impact", centered=True, outlined=True)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="tea.png", fp=final_buffer)
             await ctx.send(file=file)
