@@ -87,14 +87,17 @@ class Utility(commands.Cog):
     async def on_raw_reaction_add(self, payload):
         guild = self.bot.get_guild(payload.guild_id)
         channel = guild.get_channel(payload.channel_id)
-        rmsg = await channel.fetch_message(payload.message_id)
-        if rmsg.id in self.poll_messages:
-            reaction_emoji = str(payload.emoji)
-            user = self.bot.get_user(payload.user_id)
-            for reac in rmsg.reactions:
-                if not user == self.bot.user:
-                    self.user_answers[user.id] = reaction_emoji
-                    await reac.remove(user)
+        try:
+            rmsg = await channel.fetch_message(payload.message_id)
+            if rmsg.id in self.poll_messages:
+                reaction_emoji = str(payload.emoji)
+                user = self.bot.get_user(payload.user_id)
+                for reac in rmsg.reactions:
+                    if not user == self.bot.user:
+                        self.user_answers[user.id] = reaction_emoji
+                        await reac.remove(user)
+        except discord.errors.NotFound:
+            pass
 
 
 def get_result_msg(amt, total):
