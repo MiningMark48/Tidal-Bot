@@ -114,6 +114,11 @@ class Info(commands.Cog):
     async def serverinvite(self, ctx):
         await ctx.author.send(f'https://discordapp.com/oauth2/authorize?&client_id={self.bot.user.id}&scope=bot&permissions=70351936')
 
+    @commands.command(name="getdocs", aliases=["docs", "documentation"])
+    async def get_docs(self, ctx):
+        """Returns a link to bot documentation"""
+        await ctx.send("http://bit.ly/tidalbotdocs")
+
     @commands.command(aliases=["twitchuser", "twitchinfo"])
     async def twitch(self, ctx, user: str):
         """[WIP] Look up information about a user on Twitch"""
