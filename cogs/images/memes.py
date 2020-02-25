@@ -92,7 +92,7 @@ class Memes(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def dashdefine(self, ctx, *, text: str):
-        """It defined who I am"""
+        """It defines who I am"""
         await self.try_delete(ctx)
         chars_per_line = 28
         lines = 3
