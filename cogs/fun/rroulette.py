@@ -59,7 +59,8 @@ class Fun(commands.Cog):
             embed.description = f"Game ended.\n\n{dead_player.mention} lost."
             await rmsg.edit(embed=embed)
         else:
-            await ctx.send("Nobody joined the game. :(")
+            embed.description = f"Nobody joined the game :("
+            await rmsg.edit(embed=embed)
 
 
 def setup(bot):
