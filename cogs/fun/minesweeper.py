@@ -9,7 +9,7 @@ class Fun(commands.Cog):
 
     @commands.command(aliases=["ms", "mines"])
     async def minesweeper(self, ctx):
-        """Created a minefield!"""
+        """Create a minefield!"""
         columns = 10
         rows = 10
         bombs = random.randint(5, 10)
