@@ -18,7 +18,7 @@ class Fun(commands.Cog):
         except discord.HTTPException:
             pass
 
-        timeout = 5
+        timeout = 15
         reaction_emoji = "🔫"
 
         embed = discord.Embed(title="Russian Roulette", color=0xfc2c03)
