@@ -13,13 +13,11 @@
   -moz-transition: margin .25s ease-out;
   -o-transition: margin .25s ease-out;
   transition: margin .25s ease-out;
-  background-color: var(--color-primary-2);
 }
 
 #sidebar-wrapper .sidebar-heading {
   padding: 0.875rem 1.25rem;
   font-size: 1.2rem;
-  background-color: var(--color-primary-2);
 }
 
 #sidebar-wrapper .list-group {
@@ -51,4 +49,13 @@
 
 .navbar-light {
     background-color: var(--color-primary-1);
+}
+
+.servers-button {
+    margin-top: 10px;
+}
+
+.overview-banner {
+    text-align: center;
+    background-color: var(--color-primary-3);
 }

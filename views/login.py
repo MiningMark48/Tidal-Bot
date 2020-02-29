@@ -42,7 +42,7 @@ def make_session(token=None, state=None, scope=None):
 def index():
     scope = request.args.get(
         'scope',
-        'identify email connections guilds')
+        'identify email guilds')
     discord = make_session(scope=scope.split(' '))
     authorization_url, state = discord.authorization_url(AUTHORIZATION_BASE_URL)
     session['oauth2_state'] = state
@@ -59,7 +59,7 @@ def callback():
         client_secret=OAUTH2_CLIENT_SECRET,
         authorization_response=request.url)
     session['oauth2_token'] = token
-    return redirect(url_for('.me'))
+    return redirect('/servers/')
 
 
 @login.route('/me')
