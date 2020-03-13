@@ -119,6 +119,18 @@ class Utility(commands.Cog):
         txt = f'**Pastebin** (*{code}*): ```{({data[:1500]}) if len(data) > 1500 else data}``` Visit {base_url} for more'
         await ctx.send(txt)
 
+    @commands.command(name="pidigit", aliases=['piindex'])
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def pi_digit(self, ctx, num: int):
+        """Search for Digits in Pi (up to a million digits)"""
+        with open('pi_million_digits.txt', 'r') as file:
+            digits = file.read().replace('\n', '')[2:]
+            try:
+                index = digits.index(str(num))
+                await ctx.send(f'Found `{num}` at the index of `{index}`')
+            except ValueError:
+                await ctx.send(f'Unable to find `{num}` within a million digits of Pi.')
+
     @commands.command()
     async def ping(self, ctx):
         """Latency of the bot"""
