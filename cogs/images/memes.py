@@ -374,6 +374,26 @@ class Memes(commands.Cog):
             file = discord.File(filename="pelosi_rip.png", fp=final_buffer)
             await ctx.send(file=file)
 
+    @commands.command(aliases=['pikasurprise', 'surprisedpika'])
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def pika(self, ctx, *, text: str):
+        """!"""
+        await self.try_delete(ctx)
+        chars_per_line = 35
+        lines = 3
+
+        max_chars = chars_per_line * lines
+        if len(text) > max_chars:
+            return await ctx.send(f'Too many characters! Must be less than `{max_chars}`.')
+
+        async with ctx.typing():
+            wrapper = textwrap.TextWrapper(width=chars_per_line)
+            lines = wrapper.wrap(text=text)
+            fn = partial(self.processing_drawtext, lines, "pika.png", (20, 20), 30, centered=True)
+            final_buffer = await self.bot.loop.run_in_executor(None, fn)
+            file = discord.File(filename="pika.png", fp=final_buffer)
+            await ctx.send(file=file)
+
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def shocked(self, ctx, *, text: str):
