@@ -8,8 +8,45 @@ import util.servconf as sc
 
 print("Starting...")
 
+extensions = ["errors", "fun.fun", "fun.minesweeper", "fun.trivia", "fun.rroulette", "fun.sudoku",
+              "images.memelicense", "images.memes", "images.progress", "info", "owner", "servmng.follow",
+              "servmng.msgjoin", "servmng.prefix", "servmng.toggle", "utility.announce", "utility.utility",
+              "utility.poll"]
+
+load_battleship = False
+if load_battleship:
+    extensions.append("fun.battleship")
+
+load_music = False
+
 bot_token = "bot.token"
 bot_key = ";"
+
+config_path = "config.json"
+
+def_config = {
+    "bot_token": bot_token,
+    "bot_key": bot_key
+}
+
+do_run = True
+
+global servers_cfg
+servers_cfg = None
+
+print("Loading config...")
+if osp.isfile(config_path):
+    with open(config_path, 'r') as file:
+        data = json.load(file)
+        bot_token = data["bot_token"]
+        bot_key = data["bot_key"]
+        print("Config loaded.")
+else:
+    with open(config_path, 'w') as file:
+        print("Config file not found, creating...")
+        json.dump(def_config, file, indent=4)
+        print("Config file created.")
+        do_run = False
 
 
 def prefix(bot, message):
@@ -21,50 +58,6 @@ def prefix(bot, message):
 
 def_help = commands.DefaultHelpCommand(dm_help=None, dm_help_threshold=750)
 bot = commands.Bot(command_prefix=prefix, help_command=def_help)
-
-extensions = ["errors", "fun.fun", "fun.minesweeper", "fun.trivia", "fun.rroulette", "fun.sudoku",
-              "images.memelicense", "images.memes", "images.progress", "info", "owner", "servmng.follow",
-              "servmng.msgjoin", "servmng.prefix", "servmng.toggle", "utility.announce", "utility.utility",
-              "utility.poll"]
-
-load_music = False
-
-
-def run():
-    global bot_token
-    global bot_key
-
-    config_path = "config.json"
-
-    def_config = {
-        "bot_token": bot_token,
-        "bot_key": bot_key
-    }
-
-    do_run = True
-
-    servers_cfg = None
-
-    print("Loading config...")
-    if osp.isfile(config_path):
-        with open(config_path, 'r') as file:
-            data = json.load(file)
-            bot_token = data["bot_token"]
-            bot_key = data["bot_key"]
-            print("Config loaded.")
-    else:
-        with open(config_path, 'w') as file:
-            print("Config file not found, creating...")
-            json.dump(def_config, file, indent=4)
-            print("Config file created.")
-            do_run = False
-
-    load_extensions()
-
-    if do_run:
-        bot.run(bot_token)
-    else:
-        print("Startup aborted.")
 
 
 @bot.event
@@ -116,8 +109,8 @@ async def on_command(ctx):
 async def on_guild_remove(guild):
     sc.remove_server_data(str(guild.id))
 
+if __name__ == "__main__":
 
-def load_extensions():
     if load_music:
         extensions.append("music")
 
@@ -128,8 +121,7 @@ def load_extensions():
         except Exception as error:
             print(f"{extension} cannot be loaded. [{error}]")
 
-
-if __name__ == "__main__":
-    load_extensions()
-    run()
-
+if do_run:
+    bot.run(bot_token)
+else:
+    print("Startup aborted.")
