@@ -89,6 +89,10 @@ class Memes(commands.Cog):
         except discord.HTTPException:
             pass
 
+    @staticmethod
+    def get_message(ctx):
+        return f'{ctx.author.mention}, here you go!'
+
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def dashdefine(self, ctx, *, text: str):
@@ -107,7 +111,7 @@ class Memes(commands.Cog):
             fn = partial(self.processing_drawtext, lines, "dashdefine.png", (20, 20), 55)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="dashdefine.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command(name="draw25")
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -128,7 +132,7 @@ class Memes(commands.Cog):
                          font_name="impact", outlined=True)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="draw25.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command(name="exit12")
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -155,7 +159,7 @@ class Memes(commands.Cog):
                          [(200, 100), (420, 100), (415, 540)], 30, 0xffffff)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="exit12.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command(name="financialsupport")
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -175,7 +179,7 @@ class Memes(commands.Cog):
             fn = partial(self.processing_drawtext, lines, "financialsupport.png", (20, 20), 40, centered=True)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="finan_support.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command(name="flexboat", aliases=["flextapeboat", "philswiftboat", "flexonboat", "flexsealboat"])
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -201,7 +205,7 @@ class Memes(commands.Cog):
                          [(235, 170), (70, 245), (400, 245)], 24, 0xffffff, font_name="impact", outlined=True)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="flex_boat.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command(name="flextape", aliases=["philswift", "flexon", "flexseal"])
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -228,7 +232,7 @@ class Memes(commands.Cog):
                          [(80, 115), (350, 115), (230, 370)], 30, 0xffffff, font_name="impact", outlined=True)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="flex_tape.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -252,7 +256,7 @@ class Memes(commands.Cog):
                          0xffffff, "impact", centered=False, outlined=True)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="kkchum.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -269,7 +273,7 @@ class Memes(commands.Cog):
             fn = partial(self.processing_drawtext_snapchat, text, "linus.jpg", random.randint(250, 450))
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="linus.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command(name="linuspenguin")
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -287,7 +291,7 @@ class Memes(commands.Cog):
                          scale=1)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="linus_penguin.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -307,7 +311,7 @@ class Memes(commands.Cog):
             fn = partial(self.processing_drawtext, lines, "nobrain.jpg", (40, 380), 24)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="nobrain.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command(name="nothere")
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -327,7 +331,7 @@ class Memes(commands.Cog):
             fn = partial(self.processing_drawtext, lines, "nothere.png", (20, 20), 28, centered=True)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="not_here.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -351,7 +355,7 @@ class Memes(commands.Cog):
                          0xffffff, "impact", centered=True, outlined=True)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="patrickpush.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command(name="pelosirip", aliases=['pelrip'])
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -372,7 +376,7 @@ class Memes(commands.Cog):
                          font_name="impact", outlined=True)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="pelosi_rip.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command(aliases=['pikasurprise', 'surprisedpika'])
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -392,7 +396,7 @@ class Memes(commands.Cog):
             fn = partial(self.processing_drawtext, lines, "pika.png", (20, 20), 30, centered=True)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="pika.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -412,7 +416,7 @@ class Memes(commands.Cog):
             fn = partial(self.processing_drawtext, lines, "shocked.png", (20, 20), 32)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="shocked.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -432,7 +436,7 @@ class Memes(commands.Cog):
             fn = partial(self.processing_drawtext, lines, "spongebreathe.jpg", (30, 30))
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="spongebreathe.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -456,7 +460,7 @@ class Memes(commands.Cog):
             fn = partial(self.processing_drawtext, lines, "spongemock.png", (20, 20), 40, centered=True)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="spongemock.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -476,7 +480,7 @@ class Memes(commands.Cog):
             fn = partial(self.processing_drawtext, lines, "spongeout.png", (20, 20), 40, centered=True)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="spongeout.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -500,7 +504,7 @@ class Memes(commands.Cog):
                          "impact", centered=True, outlined=True)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="tea.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -525,7 +529,7 @@ class Memes(commands.Cog):
             fn = partial(self.processing_drawtext_multi, [lines1, lines2], "twobuttons.png", [(80, 80), (240, 50)], 30)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="twobuttons.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -548,7 +552,7 @@ class Memes(commands.Cog):
             fn = partial(self.processing_drawtext_multi, [lines1, lines2], "win.png", [(20, 100), (370, 100)], 30)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="win.png", fp=final_buffer)
-            await ctx.send(file=file)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
 
 def setup(bot: commands.Bot):
