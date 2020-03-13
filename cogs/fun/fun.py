@@ -50,7 +50,7 @@ class Fun(commands.Cog):
         """Get a random number between two values"""
         if 0 < amt <= 25:
             roll = ', '.join(str(random.randint(min, max)) for x in range(amt))
-            await ctx.send(f'Your random number is... **{roll}**!')
+            await ctx.send(f'Your random number{"s are" if amt > 1 else " is"}... **{roll}**!')
         else:
             await ctx.send('Amount must be between **0** and **25**!')
 
