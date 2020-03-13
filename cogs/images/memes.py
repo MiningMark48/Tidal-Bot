@@ -383,7 +383,7 @@ class Memes(commands.Cog):
     async def pika(self, ctx, *, text: str):
         """!"""
         await self.try_delete(ctx)
-        chars_per_line = 45
+        chars_per_line = 40
         lines = 3
 
         max_chars = chars_per_line * lines
