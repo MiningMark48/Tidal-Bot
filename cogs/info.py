@@ -3,6 +3,7 @@ import urllib.request
 import json
 from discord.ext import commands
 
+
 class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -21,6 +22,15 @@ class Info(commands.Cog):
             await ctx.send(embed=embed)
         except discord.HTTPException:
             await ctx.send("Error sending embeded message, please try again later")
+
+    @commands.command(aliases=["covid", "covid19", "corona"])
+    async def coronavirus(self, ctx):
+        """Get information regarding COVID-19, Coronavirus"""
+        await ctx.send(
+            "For information regarding COVID-19, better known as the Coronavirus, please visit "
+            "<https://coronavirus.gov/>.\n\n"
+            "Be safe, protect yourself as well as others!"
+        )
 
     @commands.command(aliases=["githubuser", "githubinfo"])
     async def github(self, ctx, user: str):
@@ -70,7 +80,8 @@ class Info(commands.Cog):
         base_url = f"https://mixer.com/api/v1/channels/{user}"
         with urllib.request.urlopen(base_url) as url:
             data = json.loads(url.read().decode())
-            embed = discord.Embed(title=data["token"], color=ctx.message.author.top_role.color, url=f"https://mixer.com/{user}")
+            embed = discord.Embed(title=data["token"], color=ctx.message.author.top_role.color,
+                                  url=f"https://mixer.com/{user}")
             embed.add_field(name="Stream Title", value=data["name"], inline=False)
             embed.add_field(name="Game", value=data["type"]["name"], inline=False)
             embed.add_field(name="Is Online?", value="Yes" if data["online"] else "No")
@@ -112,7 +123,8 @@ class Info(commands.Cog):
 
     @commands.command(hidden=True, aliases=["invite"])
     async def serverinvite(self, ctx):
-        await ctx.author.send(f'https://discordapp.com/oauth2/authorize?&client_id={self.bot.user.id}&scope=bot&permissions=70351936')
+        await ctx.author.send(
+            f'https://discordapp.com/oauth2/authorize?&client_id={self.bot.user.id}&scope=bot&permissions=70351936')
 
     @commands.command(name="getdocs", aliases=["docs", "documentation"])
     async def get_docs(self, ctx):
@@ -160,17 +172,21 @@ class Info(commands.Cog):
         base_url = f"https://www.googleapis.com/youtube/v3/channels?&key=AIzaSyBnt38rBPV1WAZGx6imcMvp0GuuQU15YKE&part=statistics,brandingSettings&forUsername={user}"
         with urllib.request.urlopen(base_url) as url:
             data = json.loads(url.read().decode())
-            embed = discord.Embed(title=data["items"][0]["brandingSettings"]["channel"]["title"], color=ctx.message.author.top_role.color, url=f"http://www.youtube.com/channel/{data['items'][0]['id']}")
+            embed = discord.Embed(title=data["items"][0]["brandingSettings"]["channel"]["title"],
+                                  color=ctx.message.author.top_role.color,
+                                  url=f"http://www.youtube.com/channel/{data['items'][0]['id']}")
             embed.add_field(name="Name", value=data["items"][0]["brandingSettings"]["channel"]["title"])
             embed.add_field(name="Subscribers", value=data["items"][0]["statistics"]["subscriberCount"])
             embed.add_field(name="Views", value=data["items"][0]["statistics"]["viewCount"])
             embed.add_field(name="Videos", value=data["items"][0]["statistics"]["videoCount"])
-            embed.add_field(name="Description", value=data["items"][0]["brandingSettings"]["channel"]["description"], inline=False)
+            embed.add_field(name="Description", value=data["items"][0]["brandingSettings"]["channel"]["description"],
+                            inline=False)
             embed.set_footer(text=f"YouTube Information, requested by {ctx.author.name}")
             try:
                 await ctx.send(embed=embed)
             except discord.HTTPException:
                 await ctx.send("Error sending embeded message, please try again later")
+
 
 def setup(bot):
     bot.add_cog(Info(bot))
