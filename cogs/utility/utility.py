@@ -205,7 +205,7 @@ class Utility(commands.Cog):
         Have the bot remind you about something
 
         Note: Time has a max of 120 minutes (2 hours).
-        Also, if the the bot goes offline, the reminder is cleared.
+        Also, if the bot goes offline, the reminder is cleared.
         """
         try:
             await ctx.message.delete()
