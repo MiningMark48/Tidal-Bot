@@ -17,7 +17,6 @@ class Fun(commands.Cog):
     async def do_mccree(self):
         """Bot loop action"""
         time = dt.now()
-        print(time)
         if time.minute == 0:
             channel = discord.utils.find(
                 lambda c: (isinstance(c, discord.TextChannel) and "[tb-mccree]" in (c.topic if c.topic else "")),
