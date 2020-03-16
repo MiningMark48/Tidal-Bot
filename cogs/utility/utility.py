@@ -1,5 +1,6 @@
 import asyncio
 import datetime
+import json
 import random
 import time
 import typing
@@ -35,6 +36,23 @@ class Utility(commands.Cog):
         """Get a list of all emojis for the server"""
         list = ' '.join(str(x) for x in ctx.guild.emojis)
         await ctx.send(f'**Emojis: **{list}')
+
+    @commands.command(aliases=["gistget"])
+    async def gist(self, ctx, user: str, code: str):
+        """Get the RAW text from a Gist"""
+        await ctx.message.delete()
+
+        base_url = f"https://api.github.com/gists/7a1cac603faa553d2ee62f88e853702c"
+        with urllib.request.urlopen(base_url) as url:
+            data = json.loads(str(url.read().decode()))
+        base_obj = data['files'][next(iter(data['files']))]
+        language = base_obj['language']
+        content = base_obj['content']
+
+        txt = f'**Gist** (*{user}*/*{code}*): ```{language}\n{(content[:1500]) if len(content) > 1500 else content}``` ' \
+              f'Visit {base_url} for more'
+
+        await ctx.send(txt)
 
     @commands.command()
     @commands.guild_only()
