@@ -50,7 +50,7 @@ class Utility(commands.Cog):
         content = base_obj['content']
 
         txt = f'**Gist** (*{code}*): ```{language}\n{(content[:1500]) if len(content) > 1500 else content}``` ' \
-              f'Visit {base_url} for more'
+              f'Visit {base_obj["raw_url"]} for more'
 
         await ctx.send(txt)
 
