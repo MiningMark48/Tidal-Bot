@@ -38,18 +38,18 @@ class Utility(commands.Cog):
         await ctx.send(f'**Emojis: **{list}')
 
     @commands.command(aliases=["gistget"])
-    async def gist(self, ctx, user: str, code: str):
+    async def gist(self, ctx, code: str):
         """Get the RAW text from a Gist"""
         await ctx.message.delete()
 
-        base_url = f"https://api.github.com/gists/7a1cac603faa553d2ee62f88e853702c"
+        base_url = f"https://api.github.com/gists/{code}"
         with urllib.request.urlopen(base_url) as url:
             data = json.loads(str(url.read().decode()))
         base_obj = data['files'][next(iter(data['files']))]
         language = base_obj['language']
         content = base_obj['content']
 
-        txt = f'**Gist** (*{user}*/*{code}*): ```{language}\n{(content[:1500]) if len(content) > 1500 else content}``` ' \
+        txt = f'**Gist** (*{code}*): ```{language}\n{(content[:1500]) if len(content) > 1500 else content}``` ' \
               f'Visit {base_url} for more'
 
         await ctx.send(txt)
