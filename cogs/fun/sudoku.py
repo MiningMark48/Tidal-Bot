@@ -40,7 +40,11 @@ class Fun(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 15, commands.BucketType.user)
     async def sudoku(self, ctx, dm_solution=True):
-        """Generate a Sudoku puzzle auto-magically"""
+        """
+        Generate a Sudoku puzzle auto-magically
+
+        Note: Sudoku difficulty is harder the lower the number.
+        """
         async with ctx.typing():
             base = 3
             board = self.gen_board(base)
@@ -90,7 +94,7 @@ class Fun(commands.Cog):
     def create_blanks(base, board):
         side = base * base
         board_squares = side * side
-        empty_spaces = board_squares * 3 // 4
+        empty_spaces = board_squares * 3 // 5
         for p in sample(range(board_squares), empty_spaces):
             board[p // side][p % side] = 0
         return board
