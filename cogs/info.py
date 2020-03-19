@@ -35,7 +35,7 @@ class Info(commands.Cog):
     async def github(self, ctx, user: str):
         """Look up information about a user on Github"""
         base_url = f"https://api.github.com/users/{user}"
-        url = requests.get(base_url)
+        url = requests.get(base_url, timeout=0.5)
         data = url.json()
         embed = discord.Embed(title=data["login"], color=ctx.message.author.top_role.color, url=data["html_url"])
         embed.add_field(name="Name", value=data["name"])
@@ -77,7 +77,7 @@ class Info(commands.Cog):
     async def mixer(self, ctx, user: str):
         """Look up information about a user on Mixer"""
         base_url = f"https://mixer.com/api/v1/channels/{user}"
-        url = requests.get(base_url)
+        url = requests.get(base_url, timeout=0.5)
         data = url.json()
         embed = discord.Embed(title=data["token"], color=ctx.message.author.top_role.color,
                               url=f"https://mixer.com/{user}")
@@ -170,7 +170,7 @@ class Info(commands.Cog):
         """Look up information about a user on YouTube"""
         base_url = f"https://www.googleapis.com/youtube/v3/channels?&key=AIzaSyBnt38rBPV1WAZGx6imcMvp0GuuQU15YKE" \
                    f"&part=statistics,brandingSettings&forUsername={user}"
-        url = requests.get(base_url)
+        url = requests.get(base_url, timeout=0.5)
         data = url.json()
 
         embed = discord.Embed(title=data["items"][0]["brandingSettings"]["channel"]["title"],

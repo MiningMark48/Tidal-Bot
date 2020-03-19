@@ -41,7 +41,7 @@ class Utility(commands.Cog):
         await ctx.message.delete()
 
         base_url = f"https://api.github.com/gists/{code}"
-        url = requests.get(base_url)
+        url = requests.get(base_url, timeout=0.5)
         data = url.json()
         base_obj = data['files'][next(iter(data['files']))]
         language = base_obj['language']
@@ -130,7 +130,7 @@ class Utility(commands.Cog):
         """Get the RAW text from a Pastebin"""
         await ctx.message.delete()
         base_url = f"https://pastebin.com/raw/{code}"
-        url = requests.get(base_url)
+        url = requests.get(base_url, timeout=0.5)
         data = url.text
         txt = f'**Pastebin** (*{code}*): ```{({data[:1500]}) if len(data) > 1500 else data}``` ' \
               f'Visit {base_url} for more'
@@ -173,7 +173,7 @@ class Utility(commands.Cog):
         """Generate a QR Code from a string of text"""
         base_url = f"http://api.qrserver.com/v1/create-qr-code/"
         payload = {'size': '200x200', 'margin': '10', 'bgcolor': 'ffffff', 'color': '000000', 'data': text}
-        r = requests.get(base_url, params=payload)
+        r = requests.get(base_url, params=payload, timeout=0.5)
         buffer = BytesIO(r.content)
         f = discord.File(buffer, filename=f'{text}.png')
         await ctx.send(file=f)
