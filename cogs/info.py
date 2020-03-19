@@ -130,20 +130,20 @@ class Info(commands.Cog):
         """Returns a link to bot documentation"""
         await ctx.send("http://bit.ly/tidalbotdocs")
 
-    @commands.command(aliases=["twitchuser", "twitchinfo"])
-    async def twitch(self, ctx, user: str):
-        """[WIP] Look up information about a user on Twitch"""
-        # base_url = f"https://mixer.com/api/v1/channels/{user}"
-        # with urllib.request.urlopen(base_url) as url:
-        #     data = json.loads(url.read().decode())
-        #     embed = discord.Embed(title=data["token"], color=ctx.message.author.top_role.color, url=f"https://mixer.com/{user}")
-        #     embed.add_field(name="Stream Title", value=data["name"], inline=False)
-        #     embed.set_thumbnail(url=data["user"]["avatarUrl"])
-        #     embed.set_footer(text=f"Mixer Information, requested by {ctx.author.name}")
-        #     try:
-        #         await ctx.send(embed=embed)
-        #     except discord.HTTPException:
-        #         await ctx.send("Error sending embeded message, please try again later")
+    # @commands.command(aliases=["twitchuser", "twitchinfo"])
+    # async def twitch(self, ctx, user: str):
+    #     """[WIP] Look up information about a user on Twitch"""
+    #     base_url = f"https://mixer.com/api/v1/channels/{user}"
+    #     with urllib.request.urlopen(base_url) as url:
+    #         data = json.loads(url.read().decode())
+    #         embed = discord.Embed(title=data["token"], color=ctx.message.author.top_role.color, url=f"https://mixer.com/{user}")
+    #         embed.add_field(name="Stream Title", value=data["name"], inline=False)
+    #         embed.set_thumbnail(url=data["user"]["avatarUrl"])
+    #         embed.set_footer(text=f"Mixer Information, requested by {ctx.author.name}")
+    #         try:
+    #             await ctx.send(embed=embed)
+    #         except discord.HTTPException:
+    #             await ctx.send("Error sending embeded message, please try again later")
 
         await ctx.send("This command is a work-in-progress!")
 
@@ -165,28 +165,28 @@ class Info(commands.Cog):
         except discord.HTTPException:
             await ctx.send("Error sending embeded message, please try again later")
 
-    @commands.command(aliases=["youtubeuser", "youtubeinfo"])
-    async def youtube(self, ctx, user: str):
-        """Look up information about a user on YouTube"""
-        base_url = f"https://www.googleapis.com/youtube/v3/channels?&key=AIzaSyBnt38rBPV1WAZGx6imcMvp0GuuQU15YKE" \
-                   f"&part=statistics,brandingSettings&forUsername={user}"
-        url = requests.get(base_url, timeout=0.5)
-        data = url.json()
-
-        embed = discord.Embed(title=data["items"][0]["brandingSettings"]["channel"]["title"],
-                              color=ctx.message.author.top_role.color,
-                              url=f"http://www.youtube.com/channel/{data['items'][0]['id']}")
-        embed.add_field(name="Name", value=data["items"][0]["brandingSettings"]["channel"]["title"])
-        embed.add_field(name="Subscribers", value=data["items"][0]["statistics"]["subscriberCount"])
-        embed.add_field(name="Views", value=data["items"][0]["statistics"]["viewCount"])
-        embed.add_field(name="Videos", value=data["items"][0]["statistics"]["videoCount"])
-        embed.add_field(name="Description", value=data["items"][0]["brandingSettings"]["channel"]["description"],
-                        inline=False)
-        embed.set_footer(text=f"YouTube Information, requested by {ctx.author.name}")
-        try:
-            await ctx.send(embed=embed)
-        except discord.HTTPException:
-            await ctx.send("Error sending embeded message, please try again later")
+    # @commands.command(aliases=["youtubeuser", "youtubeinfo"])
+    # async def youtube(self, ctx, user: str):
+    #     """Look up information about a user on YouTube"""
+    #     base_url = f"https://www.googleapis.com/youtube/v3/channels?&key=AIzaSyBnt38rBPV1WAZGx6imcMvp0GuuQU15YKE" \
+    #                f"&part=statistics,brandingSettings&forUsername={user}"
+    #     url = requests.get(base_url, timeout=0.5)
+    #     data = url.json()
+    #
+    #     embed = discord.Embed(title=data["items"][0]["brandingSettings"]["channel"]["title"],
+    #                           color=ctx.message.author.top_role.color,
+    #                           url=f"http://www.youtube.com/channel/{data['items'][0]['id']}")
+    #     embed.add_field(name="Name", value=data["items"][0]["brandingSettings"]["channel"]["title"])
+    #     embed.add_field(name="Subscribers", value=data["items"][0]["statistics"]["subscriberCount"])
+    #     embed.add_field(name="Views", value=data["items"][0]["statistics"]["viewCount"])
+    #     embed.add_field(name="Videos", value=data["items"][0]["statistics"]["videoCount"])
+    #     embed.add_field(name="Description", value=data["items"][0]["brandingSettings"]["channel"]["description"],
+    #                     inline=False)
+    #     embed.set_footer(text=f"YouTube Information, requested by {ctx.author.name}")
+    #     try:
+    #         await ctx.send(embed=embed)
+    #     except discord.HTTPException:
+    #         await ctx.send("Error sending embeded message, please try again later")
 
 
 def setup(bot):
