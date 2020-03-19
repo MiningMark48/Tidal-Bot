@@ -4,13 +4,13 @@ import json
 import random
 import time
 import typing
-import urllib.request
 from datetime import datetime as dt
 from io import BytesIO
 from unicodedata import name
 
 import aiohttp
 import discord
+import requests
 from discord.ext import commands
 
 start_time = time.time()
@@ -43,8 +43,8 @@ class Utility(commands.Cog):
         await ctx.message.delete()
 
         base_url = f"https://api.github.com/gists/{code}"
-        with urllib.request.urlopen(base_url) as url:
-            data = json.loads(str(url.read().decode()))
+        url = requests.get(base_url)
+        data = json.loads(str(url.text))
         base_obj = data['files'][next(iter(data['files']))]
         language = base_obj['language']
         content = base_obj['content']
@@ -132,9 +132,10 @@ class Utility(commands.Cog):
         """Get the RAW text from a Pastebin"""
         await ctx.message.delete()
         base_url = f"https://pastebin.com/raw/{code}"
-        with urllib.request.urlopen(base_url) as url:
-            data = url.read().decode()
-        txt = f'**Pastebin** (*{code}*): ```{({data[:1500]}) if len(data) > 1500 else data}``` Visit {base_url} for more'
+        url = requests.get(base_url)
+        data = url.text
+        txt = f'**Pastebin** (*{code}*): ```{({data[:1500]}) if len(data) > 1500 else data}``` ' \
+              f'Visit {base_url} for more'
         await ctx.send(txt)
 
     @commands.command(name="pidigit", aliases=['piindex'])
@@ -172,7 +173,8 @@ class Utility(commands.Cog):
     @commands.command(aliases=["qrcodecreate", "createqr", "qr"])
     async def qrcode(self, ctx, *, text: str):
         """Generate a QR Code from a string of text"""
-        base_url = f"http://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=10&bgcolor=ffffff&color=000000&data={text}"
+        base_url = f"http://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=10&bgcolor=ffffff&color=000000" \
+                   f"&data={text}"
         async with aiohttp.ClientSession() as session:
             async with session.get(base_url) as resp:
                 buffer = BytesIO(await resp.read())

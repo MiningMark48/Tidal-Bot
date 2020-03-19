@@ -1,6 +1,7 @@
-import discord
-import urllib.request
 import json
+
+import discord
+import requests
 from discord.ext import commands
 
 
@@ -36,23 +37,23 @@ class Info(commands.Cog):
     async def github(self, ctx, user: str):
         """Look up information about a user on Github"""
         base_url = f"https://api.github.com/users/{user}"
-        with urllib.request.urlopen(base_url) as url:
-            data = json.loads(url.read().decode())
-            embed = discord.Embed(title=data["login"], color=ctx.message.author.top_role.color, url=data["html_url"])
-            embed.add_field(name="Name", value=data["name"])
-            embed.add_field(name="Company", value=data["company"])
-            embed.add_field(name="Location", value=data["location"])
-            embed.add_field(name="Bio", value=data["bio"], inline=False)
-            embed.add_field(name="Website", value=data["blog"], inline=False)
-            embed.add_field(name="Followers", value=data["followers"])
-            embed.add_field(name="Following", value=data["following"])
-            embed.add_field(name="Joined", value=data["created_at"][:-10])
-            embed.set_thumbnail(url=data["avatar_url"])
-            embed.set_footer(text=f"Github Information, requested by {ctx.author.name}")
-            try:
-                await ctx.send(embed=embed)
-            except discord.HTTPException:
-                await ctx.send("Error sending embeded message, please try again later")
+        url = requests.get(base_url)
+        data = json.loads(url.text)
+        embed = discord.Embed(title=data["login"], color=ctx.message.author.top_role.color, url=data["html_url"])
+        embed.add_field(name="Name", value=data["name"])
+        embed.add_field(name="Company", value=data["company"])
+        embed.add_field(name="Location", value=data["location"])
+        embed.add_field(name="Bio", value=data["bio"], inline=False)
+        embed.add_field(name="Website", value=data["blog"], inline=False)
+        embed.add_field(name="Followers", value=data["followers"])
+        embed.add_field(name="Following", value=data["following"])
+        embed.add_field(name="Joined", value=data["created_at"][:-10])
+        embed.set_thumbnail(url=data["avatar_url"])
+        embed.set_footer(text=f"Github Information, requested by {ctx.author.name}")
+        try:
+            await ctx.send(embed=embed)
+        except discord.HTTPException:
+            await ctx.send("Error sending embeded message, please try again later")
 
     @commands.command(aliases=["serverinfo", "servinfo"])
     async def guildinfo(self, ctx):
@@ -62,8 +63,8 @@ class Info(commands.Cog):
         embed.add_field(name="ID", value=ctx.guild.id)
         embed.add_field(name="Owner", value=ctx.guild.owner.name)
         embed.add_field(name="Created on", value="--")
-        embed.add_field(name="Users Joined", value=len(ctx.guild.members))
-        embed.add_field(name="Emote Amount", value=len(ctx.guild.emojis))
+        embed.add_field(name="Users Joined", value=str(len(ctx.guild.members)))
+        embed.add_field(name="Emote Amount", value=str(len(ctx.guild.emojis)))
         embed.add_field(name="Verified?", value="--")
         embed.add_field(name="Region", value=ctx.guild.region)
         embed.add_field(name="AFK Timeout", value=f'{ctx.guild.afk_timeout/60} minutes')
@@ -78,31 +79,31 @@ class Info(commands.Cog):
     async def mixer(self, ctx, user: str):
         """Look up information about a user on Mixer"""
         base_url = f"https://mixer.com/api/v1/channels/{user}"
-        with urllib.request.urlopen(base_url) as url:
-            data = json.loads(url.read().decode())
-            embed = discord.Embed(title=data["token"], color=ctx.message.author.top_role.color,
-                                  url=f"https://mixer.com/{user}")
-            embed.add_field(name="Stream Title", value=data["name"], inline=False)
-            embed.add_field(name="Game", value=data["type"]["name"], inline=False)
-            embed.add_field(name="Is Online?", value="Yes" if data["online"] else "No")
-            embed.add_field(name="Is Partnered?", value="Yes" if data["partnered"] else "No")
-            embed.add_field(name="Audience", value=data["audience"])
-            embed.add_field(name="Member Since", value=data["createdAt"][:-14])
-            embed.add_field(name="Last Updated", value=data["updatedAt"][:-14])
-            embed.add_field(name="Level", value=data["user"]["level"])
-            embed.add_field(name="Sparks", value=data["user"]["sparks"])
-            embed.add_field(name="Followers", value=data["numFollowers"])
-            embed.add_field(name="Total Viewers", value=data["viewersTotal"])
-            embed.add_field(name="Current Viewers", value=data["viewersCurrent"])
-            embed.add_field(name="Is Interactive?", value="Yes" if data["interactive"] else "No")
-            embed.add_field(name="VODs Enabled?", value="Yes" if data["vodsEnabled"] else "No")
+        url = requests.get(base_url)
+        data = json.loads(url.text)
+        embed = discord.Embed(title=data["token"], color=ctx.message.author.top_role.color,
+                              url=f"https://mixer.com/{user}")
+        embed.add_field(name="Stream Title", value=data["name"], inline=False)
+        embed.add_field(name="Game", value=data["type"]["name"], inline=False)
+        embed.add_field(name="Is Online?", value="Yes" if data["online"] else "No")
+        embed.add_field(name="Is Partnered?", value="Yes" if data["partnered"] else "No")
+        embed.add_field(name="Audience", value=data["audience"])
+        embed.add_field(name="Member Since", value=data["createdAt"][:-14])
+        embed.add_field(name="Last Updated", value=data["updatedAt"][:-14])
+        embed.add_field(name="Level", value=data["user"]["level"])
+        embed.add_field(name="Sparks", value=data["user"]["sparks"])
+        embed.add_field(name="Followers", value=data["numFollowers"])
+        embed.add_field(name="Total Viewers", value=data["viewersTotal"])
+        embed.add_field(name="Current Viewers", value=data["viewersCurrent"])
+        embed.add_field(name="Is Interactive?", value="Yes" if data["interactive"] else "No")
+        embed.add_field(name="VODs Enabled?", value="Yes" if data["vodsEnabled"] else "No")
 
-            embed.set_thumbnail(url=data["user"]["avatarUrl"])
-            embed.set_footer(text=f"Mixer Information, requested by {ctx.author.name}")
-            try:
-                await ctx.send(embed=embed)
-            except discord.HTTPException:
-                await ctx.send("Error sending embeded message, please try again later")
+        embed.set_thumbnail(url=data["user"]["avatarUrl"])
+        embed.set_footer(text=f"Mixer Information, requested by {ctx.author.name}")
+        try:
+            await ctx.send(embed=embed)
+        except discord.HTTPException:
+            await ctx.send("Error sending embeded message, please try again later")
 
     @commands.command(aliases=["meinfo", "whome"])
     async def selfinfo(self, ctx):
@@ -169,23 +170,25 @@ class Info(commands.Cog):
     @commands.command(aliases=["youtubeuser", "youtubeinfo"])
     async def youtube(self, ctx, user: str):
         """Look up information about a user on YouTube"""
-        base_url = f"https://www.googleapis.com/youtube/v3/channels?&key=AIzaSyBnt38rBPV1WAZGx6imcMvp0GuuQU15YKE&part=statistics,brandingSettings&forUsername={user}"
-        with urllib.request.urlopen(base_url) as url:
-            data = json.loads(url.read().decode())
-            embed = discord.Embed(title=data["items"][0]["brandingSettings"]["channel"]["title"],
-                                  color=ctx.message.author.top_role.color,
-                                  url=f"http://www.youtube.com/channel/{data['items'][0]['id']}")
-            embed.add_field(name="Name", value=data["items"][0]["brandingSettings"]["channel"]["title"])
-            embed.add_field(name="Subscribers", value=data["items"][0]["statistics"]["subscriberCount"])
-            embed.add_field(name="Views", value=data["items"][0]["statistics"]["viewCount"])
-            embed.add_field(name="Videos", value=data["items"][0]["statistics"]["videoCount"])
-            embed.add_field(name="Description", value=data["items"][0]["brandingSettings"]["channel"]["description"],
-                            inline=False)
-            embed.set_footer(text=f"YouTube Information, requested by {ctx.author.name}")
-            try:
-                await ctx.send(embed=embed)
-            except discord.HTTPException:
-                await ctx.send("Error sending embeded message, please try again later")
+        base_url = f"https://www.googleapis.com/youtube/v3/channels?&key=AIzaSyBnt38rBPV1WAZGx6imcMvp0GuuQU15YKE" \
+                   f"&part=statistics,brandingSettings&forUsername={user}"
+        url = requests.get(base_url)
+        data = json.loads(url.text)
+
+        embed = discord.Embed(title=data["items"][0]["brandingSettings"]["channel"]["title"],
+                              color=ctx.message.author.top_role.color,
+                              url=f"http://www.youtube.com/channel/{data['items'][0]['id']}")
+        embed.add_field(name="Name", value=data["items"][0]["brandingSettings"]["channel"]["title"])
+        embed.add_field(name="Subscribers", value=data["items"][0]["statistics"]["subscriberCount"])
+        embed.add_field(name="Views", value=data["items"][0]["statistics"]["viewCount"])
+        embed.add_field(name="Videos", value=data["items"][0]["statistics"]["videoCount"])
+        embed.add_field(name="Description", value=data["items"][0]["brandingSettings"]["channel"]["description"],
+                        inline=False)
+        embed.set_footer(text=f"YouTube Information, requested by {ctx.author.name}")
+        try:
+            await ctx.send(embed=embed)
+        except discord.HTTPException:
+            await ctx.send("Error sending embeded message, please try again later")
 
 
 def setup(bot):

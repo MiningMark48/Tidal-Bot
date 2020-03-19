@@ -17,7 +17,7 @@ load_battleship = False
 if load_battleship:
     extensions.append("fun.battleship")
 
-load_music = True
+load_music = False
 
 bot_token = "bot.token"
 bot_key = ";"

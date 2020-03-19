@@ -1,12 +1,16 @@
-import discord
-import urllib.request
-import json
-import random
 import asyncio
 import html
+import json
+import random
 import typing
+
+import discord
+import requests
 from discord.ext import commands
+
+
 # import cogs.checks as cks
+
 
 class Fun(commands.Cog):
     def __init__(self, bot):
@@ -27,62 +31,62 @@ class Fun(commands.Cog):
             num = random.randint(0, 2)
             d = "easy" if num == 0 else ("medium" if num == 1 else "hard")
         base_url = f'https://opentdb.com/api.php?amount=1&type=multiple&difficulty={d}'
-        with urllib.request.urlopen(base_url) as url:
-            data = json.loads(url.read().decode())
-            item = data["results"][0]
-            correct_answer = item["correct_answer"]
-            answers = { correct_answer: "correct" }
-            for ans in item["incorrect_answers"]:
-                answers[ans] = "incorrect"
-            answers_list = list(answers.keys())
-            random.shuffle(answers_list)
+        url = requests.get(base_url)
+        data = json.loads(url.text)
+        item = data["results"][0]
+        correct_answer = item["correct_answer"]
+        answers = { correct_answer: "correct" }
+        for ans in item["incorrect_answers"]:
+            answers[ans] = "incorrect"
+        answers_list = list(answers.keys())
+        random.shuffle(answers_list)
 
-            embed = discord.Embed(title=html.unescape(item["question"]), color=ctx.message.author.top_role.color)
-            for ans in answers_list:
-                embed.add_field(name="‎", value=f'**{getChoice(answers_list, ans)})** {html.unescape(ans)}', inline=False)
-            embed.add_field(name="‎", value="‎", inline=False)
-            embed.add_field(name="Category", value=item['category'])
-            embed.add_field(name="Difficulty", value=item['difficulty'].capitalize())
-            embed.add_field(name="Time", value=f'{time} seconds')
-            msg = await ctx.send(embed=embed)
+        embed = discord.Embed(title=html.unescape(item["question"]), color=ctx.message.author.top_role.color)
+        for ans in answers_list:
+            embed.add_field(name="‎", value=f'**{getChoice(answers_list, ans)})** {html.unescape(ans)}', inline=False)
+        embed.add_field(name="‎", value="‎", inline=False)
+        embed.add_field(name="Category", value=item['category'])
+        embed.add_field(name="Difficulty", value=item['difficulty'].capitalize())
+        embed.add_field(name="Time", value=f'{time} seconds')
+        msg = await ctx.send(embed=embed)
 
-            await msg.add_reaction("🇦")
-            await msg.add_reaction("🇧")
-            await msg.add_reaction("🇨")
-            await msg.add_reaction("🇩")
+        await msg.add_reaction("🇦")
+        await msg.add_reaction("🇧")
+        await msg.add_reaction("🇨")
+        await msg.add_reaction("🇩")
 
-            self.trivia_messages.append(msg.id)
-            await asyncio.sleep(time)
-            self.trivia_messages.remove(msg.id)
+        self.trivia_messages.append(msg.id)
+        await asyncio.sleep(time)
+        self.trivia_messages.remove(msg.id)
 
-            try:
-                re_msg = await ctx.channel.fetch_message(msg.id)
-                users_correct = []
+        try:
+            re_msg = await ctx.channel.fetch_message(msg.id)
+            users_correct = []
 
-                for reac in re_msg.reactions:
-                    if re_msg.reactions.index(reac) == answers_list.index(correct_answer):
-                        async for usr in reac.users():
-                            if not usr.bot:
-                                users_correct.append(usr)
+            for reac in re_msg.reactions:
+                if re_msg.reactions.index(reac) == answers_list.index(correct_answer):
+                    async for usr in reac.users():
+                        if not usr.bot:
+                            users_correct.append(usr)
 
-                await msg.clear_reactions()
-                
-                if users_correct:
-                    amt_crt = len(users_correct)
-                    correct_list = ', '.join(x.name for x in users_correct)
-                    # await ctx.send(f':white_check_mark:  **Correct:** {correct_list}')
-                    correct_message = f'**there {"was" if amt_crt == 1 else "were"} {amt_crt} correct answer{"s" if not amt_crt == 1 else ""}:** *{correct_list}*'
-                else:
-                    # await ctx.send('but nobody got that correct!')
-                    correct_message = 'but nobody got that correct!'
-                await ctx.send(f'{":white_check_mark: " if users_correct else ""}The correct answer was `{getChoice(answers_list, correct_answer)}) {html.unescape(correct_answer)}`, {correct_message}')
+            await msg.clear_reactions()
 
-                await ctx.send('Click ❓ for a random trivia question.', delete_after=10)
-                await msg.add_reaction('❓')
-                self.new_trivia.append(msg.id)
+            if users_correct:
+                amt_crt = len(users_correct)
+                correct_list = ', '.join(x.name for x in users_correct)
+                # await ctx.send(f':white_check_mark:  **Correct:** {correct_list}')
+                correct_message = f'**there {"was" if amt_crt == 1 else "were"} {amt_crt} correct answer{"s" if not amt_crt == 1 else ""}:** *{correct_list}*'
+            else:
+                # await ctx.send('but nobody got that correct!')
+                correct_message = 'but nobody got that correct!'
+            await ctx.send(f'{":white_check_mark: " if users_correct else ""}The correct answer was `{getChoice(answers_list, correct_answer)}) {html.unescape(correct_answer)}`, {correct_message}')
 
-            except discord.errors.NotFound:
-                print("Message deleted, skipping trivia result.")
+            await ctx.send('Click ❓ for a random trivia question.', delete_after=10)
+            await msg.add_reaction('❓')
+            self.new_trivia.append(msg.id)
+
+        except discord.errors.NotFound:
+            print("Message deleted, skipping trivia result.")
 
     @commands.Cog.listener("on_raw_reaction_add")
     async def on_raw_reaction_add(self, payload):
@@ -107,10 +111,8 @@ class Fun(commands.Cog):
                     self.new_trivia.remove(rmsg.id)
                     await rmsg.clear_reactions()
                     await ctx.invoke(cmd)
-                    
-                    
 
-        
+
 def getChoice(lst, a):
     num = lst.index(a)
     if num == 0:
@@ -121,6 +123,7 @@ def getChoice(lst, a):
         return "C"
     else:
         return "D"
+
 
 def setup(bot):
     bot.add_cog(Fun(bot))
