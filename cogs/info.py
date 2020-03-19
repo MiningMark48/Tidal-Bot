@@ -1,5 +1,3 @@
-import json
-
 import discord
 import requests
 from discord.ext import commands
@@ -38,7 +36,7 @@ class Info(commands.Cog):
         """Look up information about a user on Github"""
         base_url = f"https://api.github.com/users/{user}"
         url = requests.get(base_url)
-        data = json.loads(url.text)
+        data = url.json()
         embed = discord.Embed(title=data["login"], color=ctx.message.author.top_role.color, url=data["html_url"])
         embed.add_field(name="Name", value=data["name"])
         embed.add_field(name="Company", value=data["company"])
@@ -80,7 +78,7 @@ class Info(commands.Cog):
         """Look up information about a user on Mixer"""
         base_url = f"https://mixer.com/api/v1/channels/{user}"
         url = requests.get(base_url)
-        data = json.loads(url.text)
+        data = url.json()
         embed = discord.Embed(title=data["token"], color=ctx.message.author.top_role.color,
                               url=f"https://mixer.com/{user}")
         embed.add_field(name="Stream Title", value=data["name"], inline=False)
@@ -173,7 +171,7 @@ class Info(commands.Cog):
         base_url = f"https://www.googleapis.com/youtube/v3/channels?&key=AIzaSyBnt38rBPV1WAZGx6imcMvp0GuuQU15YKE" \
                    f"&part=statistics,brandingSettings&forUsername={user}"
         url = requests.get(base_url)
-        data = json.loads(url.text)
+        data = url.json()
 
         embed = discord.Embed(title=data["items"][0]["brandingSettings"]["channel"]["title"],
                               color=ctx.message.author.top_role.color,

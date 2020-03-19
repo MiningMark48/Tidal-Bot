@@ -1,6 +1,5 @@
 import asyncio
 import html
-import json
 import random
 import typing
 
@@ -32,7 +31,7 @@ class Fun(commands.Cog):
             d = "easy" if num == 0 else ("medium" if num == 1 else "hard")
         base_url = f'https://opentdb.com/api.php?amount=1&type=multiple&difficulty={d}'
         url = requests.get(base_url)
-        data = json.loads(url.text)
+        data = url.json()
         item = data["results"][0]
         correct_answer = item["correct_answer"]
         answers = { correct_answer: "correct" }

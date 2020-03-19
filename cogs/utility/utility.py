@@ -1,6 +1,5 @@
 import asyncio
 import datetime
-import json
 import random
 import time
 import typing
@@ -44,7 +43,7 @@ class Utility(commands.Cog):
 
         base_url = f"https://api.github.com/gists/{code}"
         url = requests.get(base_url)
-        data = json.loads(str(url.text))
+        data = url.json()
         base_obj = data['files'][next(iter(data['files']))]
         language = base_obj['language']
         content = base_obj['content']
