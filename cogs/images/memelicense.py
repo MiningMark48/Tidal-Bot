@@ -27,7 +27,7 @@ class Memes(commands.Cog):
         dt = datetime.date.today()
         year = dt.year
 
-        with Image.open("./memetemps/template_memelicense.png") as im:
+        with Image.open("./images/memetemps/template_memelicense.png") as im:
             im = im.convert("RGBA")
             font = ImageFont.truetype(f'./fonts/arial.ttf', size=18)
             font_sig = ImageFont.truetype(f'./fonts/kunstler.ttf', size=48)

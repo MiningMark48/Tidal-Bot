@@ -14,7 +14,7 @@ class Fun(commands.Cog):
     @staticmethod
     def processing(board) -> BytesIO:
 
-        with Image.open("./memetemps/template_sudoku.png") as im:
+        with Image.open("./images/template_sudoku.png") as im:
             im = im.convert("RGB")
             font = ImageFont.truetype(f'./fonts/arial.ttf', size=28)
             draw = ImageDraw.Draw(im)

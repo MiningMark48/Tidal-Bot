@@ -22,7 +22,7 @@ class Fun(commands.Cog):
                 lambda c: (isinstance(c, discord.TextChannel) and "[tb-mccree]" in (c.topic if c.topic else "")),
                 self.bot.get_all_channels())
             if channel:
-                with Image.open("./memetemps/highnoon.png") as im:
+                with Image.open("./images/highnoon.png") as im:
                     final_buffer = BytesIO()
                     im.save(final_buffer, "png")
                 final_buffer.seek(0)

@@ -33,7 +33,7 @@ class Memes(commands.Cog):
     def processing_drawtext_multi(self, text: list, template_name: str, base_pos=list, font_size=55,
                                   font_color=0x000000, font_name="arial", centered=False, outlined=False) -> BytesIO:
 
-        with Image.open("./memetemps/template_{}".format(template_name)) as im:
+        with Image.open("./images/memetemps/template_{}".format(template_name)) as im:
             font = ImageFont.truetype(f'./fonts/{font_name}.ttf', size=font_size)
             text_draw = ImageDraw.Draw(im)
 
@@ -60,7 +60,7 @@ class Memes(commands.Cog):
                                      font_color=0xffffffff) -> BytesIO:
         font_size = 24 * scale
 
-        with Image.open("./memetemps/template_{}".format(template_name)) as im:
+        with Image.open("./images/memetemps/template_{}".format(template_name)) as im:
             im = im.convert("RGBA")
             im_o = Image.new('RGBA', im.size, (0,0,0,0))
             font = ImageFont.truetype('./fonts/arial.ttf', size=font_size)
