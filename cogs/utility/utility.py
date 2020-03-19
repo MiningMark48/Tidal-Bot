@@ -171,9 +171,9 @@ class Utility(commands.Cog):
     @commands.command(aliases=["qrcodecreate", "createqr", "qr"])
     async def qrcode(self, ctx, *, text: str):
         """Generate a QR Code from a string of text"""
-        base_url = f"http://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=10&bgcolor=ffffff&color=000000" \
-                   f"&data={text}"
-        r = requests.get(base_url)
+        base_url = f"http://api.qrserver.com/v1/create-qr-code/"
+        payload = {'size': '200x200', 'margin': '10', 'bgcolor': 'ffffff', 'color': '000000', 'data': text}
+        r = requests.get(base_url, params=payload)
         buffer = BytesIO(r.content)
         f = discord.File(buffer, filename=f'{text}.png')
         await ctx.send(file=f)
