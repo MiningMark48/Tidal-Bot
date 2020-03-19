@@ -7,7 +7,6 @@ from datetime import datetime as dt
 from io import BytesIO
 from unicodedata import name
 
-import aiohttp
 import discord
 import requests
 from discord.ext import commands
@@ -174,9 +173,8 @@ class Utility(commands.Cog):
         """Generate a QR Code from a string of text"""
         base_url = f"http://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=10&bgcolor=ffffff&color=000000" \
                    f"&data={text}"
-        async with aiohttp.ClientSession() as session:
-            async with session.get(base_url) as resp:
-                buffer = BytesIO(await resp.read())
+        r = requests.get(base_url)
+        buffer = BytesIO(r.content)
         f = discord.File(buffer, filename=f'{text}.png')
         await ctx.send(file=f)
 
