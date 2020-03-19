@@ -23,6 +23,7 @@ bot_token = "bot.token"
 bot_key = ";"
 
 config_path = "config.json"
+resources_path = "./resources/"
 
 def_config = {
     "bot_token": bot_token,

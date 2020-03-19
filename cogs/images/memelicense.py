@@ -27,10 +27,10 @@ class Memes(commands.Cog):
         dt = datetime.date.today()
         year = dt.year
 
-        with Image.open("./images/memetemps/template_memelicense.png") as im:
+        with Image.open("./resources/images/memetemps/template_memelicense.png") as im:
             im = im.convert("RGBA")
-            font = ImageFont.truetype(f'./fonts/arial.ttf', size=18)
-            font_sig = ImageFont.truetype(f'./fonts/kunstler.ttf', size=48)
+            font = ImageFont.truetype(f'./resources/fonts/arial.ttf', size=18)
+            font_sig = ImageFont.truetype(f'./resources/fonts/kunstler.ttf', size=48)
             draw = ImageDraw.Draw(im)
             # font_color = member.color.to_rgb()
             font_color = (0,79,74)

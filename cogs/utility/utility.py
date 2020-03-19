@@ -140,7 +140,7 @@ class Utility(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def pi_digit(self, ctx, num: int):
         """Search for Digits in Pi (up to a million digits)"""
-        with open('pi_million_digits.txt', 'r') as file:
+        with open('resources/pi_million_digits.txt', 'r') as file:
             digits = file.read().replace('\n', '')[2:]
             try:
                 index = digits.index(str(num))

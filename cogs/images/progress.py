@@ -33,7 +33,7 @@ class Images(commands.Cog):
                 text = f'{year} is {percentage}% complete.'
 
                 font_size = 70
-                font = ImageFont.truetype(f'./fonts/arial.ttf', size=font_size)
+                font = ImageFont.truetype(f'./resources/fonts/arial.ttf', size=font_size)
                 draw = ImageDraw.Draw(im)
 
                 w, h = im.size
