@@ -33,7 +33,7 @@ def put_r_portable(sftp, localdir, remotedir, preserve_mtime=False):
 
 def upload_files():
     print("Starting upload...")
-    directories = ['cogs', 'memetemps', 'util']
+    directories = ['cogs', 'resources', 'util']
     cnopts = sftp.CnOpts()
     cnopts.hostkeys = None
 
