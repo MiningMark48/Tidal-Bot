@@ -17,17 +17,17 @@ load_battleship = False
 if load_battleship:
     extensions.append("fun.battleship")
 
-load_music = True
-
 bot_token = "bot.token"
 bot_key = ";"
+load_music = True
 
 config_path = "config.json"
 resources_path = "./resources/"
 
 def_config = {
     "bot_token": bot_token,
-    "bot_key": bot_key
+    "bot_key": bot_key,
+    "load_music": load_music
 }
 
 do_run = True
@@ -41,6 +41,7 @@ if osp.isfile(config_path):
         data = json.load(file)
         bot_token = data["bot_token"]
         bot_key = data["bot_key"]
+        load_music = data["load_music"]
         print("Config loaded.")
 else:
     with open(config_path, 'w') as file:
