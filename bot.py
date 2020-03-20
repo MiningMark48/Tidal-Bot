@@ -10,8 +10,8 @@ print("Starting...")
 
 extensions = ["errors", "fun.fun", "fun.mccree", "fun.minesweeper", "fun.trivia", "fun.rroulette", "fun.sudoku",
               "images.memelicense", "images.memes", "images.progress", "info", "owner", "servmng.follow",
-              "servmng.msgjoin", "servmng.prefix", "servmng.toggle", "utility.announce", "utility.utility",
-              "utility.poll"]
+              "servmng.msgjoin", "servmng.prefix", "servmng.toggle", "utility.announce", "utility.giveaway",
+              "utility.utility", "utility.poll"]
 
 load_battleship = False
 if load_battleship:
