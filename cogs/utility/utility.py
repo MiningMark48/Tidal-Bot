@@ -5,6 +5,7 @@ import time
 import typing
 from datetime import datetime as dt
 from io import BytesIO
+from time import gmtime, strftime
 from unicodedata import name
 
 import discord
@@ -74,11 +75,14 @@ class Utility(commands.Cog):
 
         if 0 < time <= 60:
             end_time = dt.now() + datetime.timedelta(minutes=time)
+            timezone = "".join(c[0] for c in strftime("%Z", gmtime()).split())
+
+            print(datetime.timedelta(minutes=time))
 
             embed = discord.Embed(title=f"{reaction_emoji} Giveaway {reaction_emoji}", color=0xfc68a6)
             embed.description = f'**{giveaway}**\n\n' \
                                 f'React with {reaction_emoji} to enter!\n\n' \
-                                f'Ends at: \n{end_time.strftime("%I:%M:%S %p EST")}'
+                                f'*Ends at:* \n{end_time.strftime("%I:%M:%S %p")} {timezone}'
             embed.set_footer(text=f'Created by {ctx.author.display_name}')
 
             msg = await ctx.send(embed=embed)
