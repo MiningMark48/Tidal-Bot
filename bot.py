@@ -9,7 +9,7 @@ import util.servconf as sc
 print("Starting...")
 
 extensions = ["errors", "fun.fun", "fun.mccree", "fun.minesweeper", "fun.trivia", "fun.rroulette", "fun.sudoku",
-              "images.memelicense", "images.memes", "images.progress", "info", "owner", "servmng.follow",
+              "fun.xkcd", "images.memelicense", "images.memes", "images.progress", "info", "owner", "servmng.follow",
               "servmng.msgjoin", "servmng.prefix", "servmng.toggle", "utility.announce", "utility.giveaway",
               "utility.utility", "utility.poll"]
 
