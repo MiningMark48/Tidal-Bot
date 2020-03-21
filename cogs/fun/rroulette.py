@@ -59,22 +59,25 @@ class Fun(commands.Cog):
             while not player_dead:
                 if i == len(players)*3:
                     player_dead = random.choice(players)
-                    await ctx.send(f'{player_dead.mention} pulls the trigger, BAM! Dead.', delete_after=20)
+                    embed.description = f"{player_dead.mention} pulls the trigger, BAM! Dead."
+                    await rmsg.edit(embed=embed)
                     break
 
                 for player in players:
                     rand_num = random.randint(1, chance)
                     if rand_num != 1:
-                        await ctx.send(f'{player.mention} pulls the trigger, it clicks. Safe.', delete_after=20)
+                        embed.description = f"{player.mention} pulls the trigger, it clicks. Safe."
+                        await rmsg.edit(embed=embed)
                     else:
-                        await ctx.send(f'{player.mention} pulls the trigger, BAM! Dead.', delete_after=20)
+                        embed.description = f"{player.mention} pulls the trigger, BAM! Dead."
+                        await rmsg.edit(embed=embed)
                         player_dead = player
                         break
                     i += 1
                     await asyncio.sleep(2)
 
-            embed.description = f"Game ended.\n\n{player_dead.mention} died."
-            await rmsg.edit(embed=embed)
+            # embed.description = f"Game ended.\n\n{player_dead.mention} died."
+            # await rmsg.edit(embed=embed)
         else:
             embed.description = f"Nobody joined the game :("
             await rmsg.edit(embed=embed)
