@@ -1,8 +1,8 @@
+import asyncio
 import random
 
 import discord
 from discord.ext import commands
-import asyncio
 
 
 class Fun(commands.Cog):
@@ -10,15 +10,21 @@ class Fun(commands.Cog):
         self.bot = bot
 
     @commands.command(name="russianroulette", aliases=["rr", "rroulette"])
-    async def russian_roulette(self, ctx):
-        """Russian Roulette"""
+    async def russian_roulette(self, ctx, chance=6):
+        """
+        Russian Roulette
+
+        Chance to die: Min of 2, max of 10, default of 6
+        """
 
         try:
             await ctx.message.delete()
         except discord.HTTPException:
             pass
 
-        timeout = 15
+        chance = max(2, min(chance, 10))
+
+        timeout = 10
         reaction_emoji = "🔫"
 
         embed = discord.Embed(title="Russian Roulette", color=0xfc2c03)
@@ -48,15 +54,26 @@ class Fun(commands.Cog):
         await asyncio.sleep(2)
 
         if players:
-            dead_player = random.choice(players)
-            for player in players:
-                if player != dead_player:
-                    await ctx.send(f'{player.mention} pulls the trigger, it clicks. Safe.', delete_after=10)
-                else:
-                    await ctx.send(f'{player.mention} pulls the trigger, BAM! Dead.', delete_after=10)
+            player_dead = None
+            i = 0
+            while not player_dead:
+                if i == len(players)*3:
+                    player_dead = random.choice(players)
+                    await ctx.send(f'{player_dead.mention} pulls the trigger, BAM! Dead.', delete_after=20)
                     break
-                await asyncio.sleep(3)
-            embed.description = f"Game ended.\n\n{dead_player.mention} lost."
+
+                for player in players:
+                    rand_num = random.randint(1, chance)
+                    if rand_num != 1:
+                        await ctx.send(f'{player.mention} pulls the trigger, it clicks. Safe.', delete_after=20)
+                    else:
+                        await ctx.send(f'{player.mention} pulls the trigger, BAM! Dead.', delete_after=20)
+                        player_dead = player
+                        break
+                    i += 1
+                    await asyncio.sleep(2)
+
+            embed.description = f"Game ended.\n\n{player_dead.mention} died."
             await rmsg.edit(embed=embed)
         else:
             embed.description = f"Nobody joined the game :("
