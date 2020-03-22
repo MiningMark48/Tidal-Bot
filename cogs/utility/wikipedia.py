@@ -53,8 +53,8 @@ class Fun(commands.Cog):
 
             except IndexError:
                 await ctx.send("No search results found!")
-            except Exception:
-                await ctx.send("An error occurred!")
+            except Exception as e:
+                await ctx.send(f"An error occurred!\n`{e}`")
 
 
 def setup(bot):
