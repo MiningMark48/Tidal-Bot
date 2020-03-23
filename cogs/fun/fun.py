@@ -43,7 +43,19 @@ class Fun(commands.Cog):
             roll = ', '.join(str(random.randint(1, 6)) for x in range(amt))
             await ctx.send(f':game_die: You rolled a die and got... **{roll}**! :game_die:')
         else:
-            await ctx.send('Amount must be between **0** and **25**!') 
+            await ctx.send('Amount must be between **0** and **25**!')
+
+    @commands.command(name="magic8ball", aliases=["8ball", "magicball", "magic8"])
+    async def magic_8_ball(self, ctx):
+        """The Magic 8 Ball says..."""
+        responses = ["It is certain", "It is decidedly so", "Without a doubt", "Yes - definitely", "You may rely on it",
+                     "As I see it, yes", "Most likely", "Outlook good", "Yes", "Signs point to yes",
+                     "Reply hazy, try again", "Ask again later", "Better not tell you now", "Cannot predict now",
+                     "Concentrate and ask again", "Don't count on it", "My reply is no", "My sources say no",
+                     "Outlook not so good", "Very doubtful"]
+        rand_resp = random.choice(responses)
+
+        await ctx.send(f"The Magic 8 Ball says... `{rand_resp}`")
 
     @commands.command(aliases=["rand", "random"])
     async def randnum(self, ctx, min: int, max: int, amt=1):
