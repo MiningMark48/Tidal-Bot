@@ -173,6 +173,31 @@ class Utility(commands.Cog):
         await ctx.message.delete()
         await ctx.send(msg)
 
+    # noinspection PyBroadException
+    @commands.command(name="websitecheck", aliases=["downdetect", "isup"])
+    async def website_check(self, ctx, *, url: str):
+        """
+        Check if a website is online
+
+        Note: URL must resemble https://example.com
+        """
+        async with ctx.typing():
+            try:
+                r = requests.head(url, timeout=2)
+                status = r.status_code
+                if status == 200 or status == 301:
+                    await ctx.send(f"`{url}` seems to be **online**!")
+                else:
+                    await ctx.send(f"`{url}` seems to be **offline** with status code `{status}`")
+            except requests.exceptions.ConnectTimeout:
+                await ctx.send(f"`{url}` seems to be **offline** as the connection timed out.")
+            except requests.exceptions.SSLError:
+                await ctx.send(f"`{url}` may be online, but is not SSL certified.")
+            except requests.exceptions.MissingSchema:
+                await ctx.send("Invalid URL!\nURL must resemble `https://example.com`")
+            except Exception as e:
+                await ctx.send(f"Error: `{e}`")
+
 
 def setup(bot):
     bot.add_cog(Utility(bot))
