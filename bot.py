@@ -8,8 +8,8 @@ import util.servconf as sc
 
 print("Starting...")
 
-extensions = ["errors", "fun.fun", "fun.minesweeper", "fun.trivia", "fun.rroulette", "fun.sudoku",
-              "fun.xkcd", "images.memelicense", "images.memes", "images.progress", "info", "owner", "servmng.follow",
+extensions = ["errors", "fun.fun", "fun.minesweeper", "fun.trivia", "fun.rroulette", "fun.sudoku", "fun.xkcd",
+              "images.memelicense", "images.memes", "images.progress", "info", "owner", "servmng.follow",
               "servmng.msgjoin", "servmng.prefix", "servmng.toggle", "utility.announce", "utility.dictionary",
               "utility.giveaway", "utility.utility", "utility.poll", "utility.scale", "utility.wikipedia"]
 
