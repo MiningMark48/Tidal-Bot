@@ -1,3 +1,4 @@
+import asyncio
 import typing
 
 import discord
@@ -10,13 +11,14 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.lyric_messages = []
-        self.lyric_pages = []
+        self.lyric_pages = {}
+        self.page_index = {}
 
-        self.def_embed = discord.Embed(title="")
+        self.def_embed = {}
 
     # noinspection PyBroadException
     @commands.command(aliases=['cf', 'curse'])
-    @commands.cooldown(1, 3.5)
+    @commands.cooldown(1, 10)
     async def lyrics(self, ctx, song: str, author: typing.Optional[str]):
         """
         Search for lyrics for a song
@@ -50,20 +52,24 @@ class Fun(commands.Cog):
                 page_title_div = s_soup.find_all("div", class_="pagetitle")[0]
                 page_title = page_title_div.find_all("h1")[0].get_text()
 
-                max_chars = 1800
-                self.lyric_pages = [(lyrics[i:i+max_chars]) for i in range(0, len(lyrics), max_chars)]
+                max_chars = 750
+                lyric_pages = [(lyrics[i:i+max_chars]) for i in range(0, len(lyrics), max_chars)]
+
+                page_info = f'\n\n**Page:** {1}/{len(lyric_pages)}'
 
                 embed = discord.Embed(title=page_title, url=s_r.url)
-                embed.description = f'{lyrics[:max_chars]}{"..." if len(lyrics) > max_chars else ""}'
+                embed.description = f'{lyrics[:max_chars]} {page_info if len(lyric_pages)>1 else ""}'
                 embed.set_footer(text="Fetched from SongLyrics.com")
-
-                self.def_embed = embed
 
                 msg = await ctx.send(embed=embed)
 
-                await msg.add_reaction("⬅️")
-                await msg.add_reaction("➡️")
-                self.lyric_messages.append(msg.id)
+                if len(lyric_pages) > 1:
+                    await msg.add_reaction("◀")
+                    await msg.add_reaction("▶")
+                    self.lyric_messages.append(msg.id)
+                    self.lyric_pages.update({msg.id: lyric_pages})
+                    self.page_index.update({msg.id: 0})
+                    self.def_embed.update({msg.id: embed})
 
             except IndexError or requests.exceptions.ConnectTimeout:
                 await ctx.send("No search results found!")
@@ -79,15 +85,33 @@ class Fun(commands.Cog):
             if rmsg.id in self.lyric_messages:
                 reaction_emoji = str(payload.emoji)
                 user = self.bot.get_user(payload.user_id)
-                for reac in rmsg.reactions:
-                    if not user == self.bot.user:
+                if not user == self.bot.user:
+
+                    mid = rmsg.id
+                    p_index = {mid: self.page_index.get(mid)}
+                    update = False
+                    if reaction_emoji == "▶":
+                        p_index.update({mid: p_index.get(mid) + 1})
+                        update = True
+                    elif reaction_emoji == "◀":
+                        p_index.update({mid: p_index.get(mid) - 1})
+                        update = True
+
+                    if update:
+                        p_index.update({mid: max(min(p_index.get(mid), len(self.lyric_pages.get(mid))-1), 0)})
+                        self.page_index.update(p_index)
+
+                        page_info = f'\n\n**Page:** {self.page_index.get(mid)+1}/{len(self.lyric_pages.get(mid))}'
+
+                        e = self.def_embed.get(mid)
+
+                        e.description = f'{self.lyric_pages.get(mid)[self.page_index.get(mid)]}' \
+                                        f' {page_info if len(self.lyric_pages.get(mid))>1 else ""}'
+                        await rmsg.edit(embed=e)
+                        self.def_embed.update({mid: e})
+
+                    for reac in rmsg.reactions:
                         await reac.remove(user)
-
-                        embed = self.def_embed
-                        embed.description = self.lyric_pages[1]
-                        await rmsg.edit(embed=embed)
-
-                        # self.user_answers[user.id] = reaction_emoji
 
         except discord.errors.NotFound:
             pass
