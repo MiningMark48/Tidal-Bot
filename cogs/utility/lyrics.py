@@ -64,8 +64,13 @@ class Fun(commands.Cog):
                 msg = await ctx.send(embed=embed)
 
                 if len(lyric_pages) > 1:
+                    if len(lyric_pages) > 2:
+                        await msg.add_reaction("⏪")
                     await msg.add_reaction("◀")
                     await msg.add_reaction("▶")
+                    if len(lyric_pages) > 2:
+                        await msg.add_reaction("⏩")
+
                     self.lyric_messages.append(msg.id)
                     self.lyric_pages.update({msg.id: lyric_pages})
                     self.page_index.update({msg.id: 0})
@@ -95,6 +100,12 @@ class Fun(commands.Cog):
                         update = True
                     elif reaction_emoji == "◀":
                         p_index.update({mid: p_index.get(mid) - 1})
+                        update = True
+                    elif reaction_emoji == "⏪":
+                        p_index.update({mid: 0})
+                        update = True
+                    elif reaction_emoji == "⏩":
+                        p_index.update({mid: len(self.lyric_pages.get(mid))-1})
                         update = True
 
                     if update:
