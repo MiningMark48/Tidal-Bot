@@ -1,6 +1,10 @@
+import html
+
 import discord
 import random
 import typing
+
+import requests
 from discord.ext import commands
 from util.spongemock import mockify
 
@@ -29,6 +33,28 @@ class Fun(commands.Cog):
                 f'{sb}\n\n'
 
         await ctx.send(final)
+
+    @commands.command(name="chucknorris", aliases=["chuck", "norris"])
+    async def chuck_norris(self, ctx):
+        """Fetch a Chuck Norris Joke"""
+        base_url = "http://api.icndb.com/jokes/random"
+        r = requests.get(base_url, timeout=1)
+        content = r.json()
+        joke = content["value"]
+        joke_text = joke["joke"]
+        joke_text = html.unescape(joke_text)
+        categories = joke["categories"]
+
+        embed = discord.Embed(title="Chuck Norris")
+        embed.description = joke_text
+        embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Chuck_Norris_May_2015.jpg/"
+                            "220px-Chuck_Norris_May_2015.jpg")
+        embed.set_footer(text="Fetched from The Internet Chuck Norris Database")
+
+        if categories:
+            embed.add_field(name="Categories", value=" ,".join(str(c).capitalize() for c in categories), inline=False)
+
+        await ctx.send(embed=embed)
 
     @commands.command(aliases=["coin", "flipcoin"])
     async def coinflip(self, ctx):
