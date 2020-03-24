@@ -52,7 +52,7 @@ class Fun(commands.Cog):
                 page_title_div = s_soup.find_all("div", class_="pagetitle")[0]
                 page_title = page_title_div.find_all("h1")[0].get_text()
 
-                max_chars = 750
+                max_chars = 700
                 lyric_pages = [(lyrics[i:i+max_chars]) for i in range(0, len(lyrics), max_chars)]
 
                 page_info = f'\n\n**Page:** {1}/{len(lyric_pages)}'
