@@ -1,11 +1,10 @@
-import html
-
-import discord
 import random
 import typing
 
+import discord
 import requests
 from discord.ext import commands
+
 from util.spongemock import mockify
 
 
@@ -38,11 +37,11 @@ class Fun(commands.Cog):
     async def chuck_norris(self, ctx):
         """Fetch a Chuck Norris Joke"""
         base_url = "http://api.icndb.com/jokes/random"
-        r = requests.get(base_url, timeout=1)
+        payload = {"escape": "html"}
+        r = requests.get(base_url, params=payload, timeout=1)
         content = r.json()
         joke = content["value"]
         joke_text = joke["joke"]
-        joke_text = html.unescape(joke_text)
         categories = joke["categories"]
 
         embed = discord.Embed(title="Chuck Norris")
