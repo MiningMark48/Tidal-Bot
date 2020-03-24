@@ -1,4 +1,3 @@
-import asyncio
 import typing
 
 import discord
@@ -17,7 +16,7 @@ class Fun(commands.Cog):
         self.def_embed = {}
 
     # noinspection PyBroadException
-    @commands.command(aliases=['cf', 'curse'])
+    @commands.command(aliases=['lyric', 'lyr'])
     @commands.cooldown(1, 10)
     async def lyrics(self, ctx, song: str, author: typing.Optional[str]):
         """
@@ -54,8 +53,7 @@ class Fun(commands.Cog):
 
                 max_chars = 700
                 lyric_pages = [(lyrics[i:i+max_chars]) for i in range(0, len(lyrics), max_chars)]
-
-                page_info = f'\n\n**Page:** {1}/{len(lyric_pages)}'
+                page_info = f'\n\n**Page:** 1/{len(lyric_pages)}'
 
                 embed = discord.Embed(title=page_title, url=s_r.url)
                 embed.description = f'{lyrics[:max_chars]} {page_info if len(lyric_pages)>1 else ""}'
