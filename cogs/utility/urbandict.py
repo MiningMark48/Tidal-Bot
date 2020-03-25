@@ -27,6 +27,9 @@ class Fun(commands.Cog):
                 content = r.content
                 soup = bs(content, 'html.parser')
 
+                for br in soup.find_all("br"):
+                    br.replace_with("\n")
+
                 div_content = soup.find_all(id="content")[0]
                 def_panel = div_content.find_all("div", class_="def-panel")[0]
                 def_header = def_panel.find_all("div", class_="def-header")[0]

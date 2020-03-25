@@ -23,6 +23,9 @@ class Fun(commands.Cog):
                 content = r.content
                 soup = bs(content, 'html.parser')
 
+                for br in soup.find_all("br"):
+                    br.replace_with("\n")
+
                 word = soup.find_all("h1", class_="hword")[0]
                 word_text = word.get_text()
 
