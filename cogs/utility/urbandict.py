@@ -16,7 +16,7 @@ class Fun(commands.Cog):
     @commands.is_nsfw()
     async def urban(self, ctx, *, query: str):
         """
-        Define a word
+        Define a word from Urban Dictionary
         """
         async with ctx.typing():
             try:
