@@ -42,6 +42,9 @@ class Errors(commands.Cog):
             cmdhelp = ctx.command.help
             return await ctx.send(f'`{ctx.command}` is missing required arguments! More info:\n```{ctx.prefix}{ctx.command} {ctx.command.signature}\n\n{cmdhelp if cmdhelp else ""}```')
 
+        elif isinstance(error, commands.NSFWChannelRequired):
+            return await ctx.send(f'`{ctx.command}` can only be used in a NSFW channel!')
+
         elif isinstance(error, commands.MissingPermissions):
             return await ctx.send(error)
 
