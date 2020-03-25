@@ -11,7 +11,7 @@ print("Starting...")
 extensions = ["errors", "fun.fun", "fun.minesweeper", "fun.trivia", "fun.rroulette", "fun.sudoku", "fun.xkcd",
               "images.memelicense", "images.memes", "images.progress", "info", "owner", "servmng.follow",
               "servmng.msgjoin", "servmng.prefix", "servmng.toggle", "utility.announce", "utility.dictionary",
-              "utility.giveaway", "utility.lyrics", "utility.urbandict", "utility.utility", "utility.poll",
+              "utility.giveaway", "utility.lyrics", "utility.memesearch", "utility.urbandict", "utility.utility",
               "utility.scale", "utility.wikipedia"]
 
 load_battleship = False
