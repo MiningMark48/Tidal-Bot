@@ -16,16 +16,6 @@ class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(aliases=["emojieval", "evalemoji", "evalunicode", "uce"])
-    @commands.guild_only()
-    async def unicodeeval(self, ctx, char: str):
-        """[WIP] Evalutate a Unicode character or an emoji"""
-        if len(char) == 1:
-            hex = 'U+{:X}'.format(ord(char))
-            await ctx.send(f'**Unicode Evaluation:**\n`{hex}` [`N/A`] `{char}` {char} *{name(char)}*')
-        else:
-            await ctx.send("Unicode must be a single character.")
-
     @commands.command(aliases=["emojis"])
     @commands.guild_only()
     async def emojilist(self, ctx):
@@ -114,6 +104,16 @@ class Utility(commands.Cog):
             await ctx.send(embed=embed)
         except discord.HTTPException:
             await ctx.send("Error sending embeded message, please try again later")
+
+    @commands.command(aliases=["emojieval", "evalemoji", "evalunicode", "uce"])
+    @commands.guild_only()
+    async def unicodeeval(self, ctx, char: str):
+        """[WIP] Evalutate a Unicode character or an emoji"""
+        if len(char) == 1:
+            hex = 'U+{:X}'.format(ord(char))
+            await ctx.send(f'**Unicode Evaluation:**\n`{hex}` [`N/A`] `{char}` {char} *{name(char)}*')
+        else:
+            await ctx.send("Unicode must be a single character.")
 
     @commands.command()
     async def uptime(self, ctx):
