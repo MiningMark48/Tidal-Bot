@@ -74,7 +74,7 @@ class Fun(commands.Cog):
                     self.page_index.update({msg.id: 0})
                     self.def_embed.update({msg.id: embed})
 
-            except IndexError or requests.exceptions.ConnectTimeout:
+            except IndexError or requests.exceptions.ConnectTimeout or requests.exceptions.ReadTimeout:
                 await ctx.send("No search results found!")
             except Exception as e:
                 await ctx.send(f"An error occurred!\n`{e}`")
