@@ -31,8 +31,8 @@ class Utility(commands.Cog):
 
             with Image.new("RGB", (1600, 1600), 0xffffff) as im:
                 font_text_size = 34
-                font_title = ImageFont.truetype(f'./fonts/impact.ttf', size=48)
-                font_text = ImageFont.truetype(f'./fonts/arial.ttf', size=font_text_size)
+                font_title = ImageFont.truetype(f'./resources/fonts/impact.ttf', size=48)
+                font_text = ImageFont.truetype(f'./resources/fonts/arial.ttf', size=font_text_size)
                 draw = ImageDraw.Draw(im)                
 
                 title_start = (15, 15)
