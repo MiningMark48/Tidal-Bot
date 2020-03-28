@@ -548,7 +548,6 @@ class Music(commands.Cog):
         for track in player.entries:
             if title.lower() in track.title.lower():
                 player.queue._queue.remove(track)
-                # player.queue._queue.appendleft(track)
                 player.update = True
                 return await ctx.send(f'Removed `{track.title}` from the queue.', delete_after=15)
 
