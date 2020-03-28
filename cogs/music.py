@@ -528,6 +528,30 @@ class Music(commands.Cog):
                 player.update = True
                 return await ctx.send(f'Playing `{track.title}` next.', delete_after=15)
 
+    @commands.command(name='remove', aliases=['rem'])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.guild_only()
+    async def remove_(self, ctx, *, title: str):
+        """Pick a track from the queue to remove."""
+        try:
+            await ctx.message.delete()
+        except discord.HTTPException:
+            pass
+        player = self.bot.wavelink.get_player(ctx.guild.id, cls=Player)
+
+        if not player.is_connected:
+            return await ctx.send('I am not currently connected to voice!')
+
+        if not player.entries:
+            return await ctx.send('No tracks in the queue!', delete_after=15)
+
+        for track in player.entries:
+            if title.lower() in track.title.lower():
+                player.queue._queue.remove(track)
+                # player.queue._queue.appendleft(track)
+                player.update = True
+                return await ctx.send(f'Removed `{track.title}` from the queue.', delete_after=15)
+
     @commands.command(name='resume')
     @commands.guild_only()
     async def resume_(self, ctx):
