@@ -14,9 +14,9 @@ class Fun(commands.Cog):
     @staticmethod
     def processing(board) -> BytesIO:
 
-        with Image.open("./images/template_sudoku.png") as im:
+        with Image.open("./resources/images/template_sudoku.png") as im:
             im = im.convert("RGB")
-            font = ImageFont.truetype(f'./fonts/arial.ttf', size=28)
+            font = ImageFont.truetype(f'./resources/fonts/arial.ttf', size=28)
             draw = ImageDraw.Draw(im)
             font_color = (0, 0, 0)
 
