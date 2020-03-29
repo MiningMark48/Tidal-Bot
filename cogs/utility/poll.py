@@ -102,7 +102,7 @@ class Utility(commands.Cog):
         """
         Quickly, create a poll for people to vote on
 
-        Usage: quickpoll <Time (minutes)> "<Question>" "[Option 1]" "[Option 2]" ...
+        Usage: quickpoll <Time (minutes)> "<Question>" "<Option 1>" "<Option 2>" ...
 
         Note:
         You may have up to 20 options.
