@@ -111,7 +111,7 @@ class Utility(commands.Cog):
         """[WIP] Evalutate a Unicode character or an emoji"""
         if len(char) == 1:
             hex = 'U+{:X}'.format(ord(char))
-            await ctx.send(f'**Unicode Evaluation:**\n`{hex}` [`N/A`] `{char}` {char} *{name(char)}*')
+            await ctx.send(f'**Unicode Evaluation:**\n`{hex}` `{char}` {char} *{name(char)}*')
         else:
             await ctx.send("Unicode must be a single character.")
 
