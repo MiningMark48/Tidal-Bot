@@ -50,7 +50,7 @@ class Utility(commands.Cog):
         query = html.escape(query)
         query = query.replace(" ", "%20")
 
-        url = f"https://lmgtfy.com/?q={query}"
+        url = f"<https://lmgtfy.com/?q={query}>"
 
         await ctx.send(url)
 
