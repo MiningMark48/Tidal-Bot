@@ -1,5 +1,7 @@
 import asyncio
 import datetime
+import html
+import string
 import time
 import typing
 from io import BytesIO
@@ -39,6 +41,18 @@ class Utility(commands.Cog):
               f'Visit {base_obj["raw_url"]} for more'
 
         await ctx.send(txt)
+
+    @commands.command(aliases=["lmg", "google"])
+    async def lmgtfy(self, ctx, *, query: str):
+        """When people can't Google, Google for them"""
+
+        query = query.translate(str.maketrans('', '', string.punctuation))
+        query = html.escape(query)
+        query = query.replace(" ", "%20")
+
+        url = f"https://lmgtfy.com/?q={query}"
+
+        await ctx.send(url)
 
     @commands.command(aliases=["pastebinget", "pasteget", "pb"])
     async def pastebin(self, ctx, code: str):
