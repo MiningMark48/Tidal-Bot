@@ -36,11 +36,15 @@ class Errors(commands.Cog):
                 return await ctx.send('I could not find that member. Please try again.')
             else:
                 cmdhelp = ctx.command.help
-                return await ctx.send(f'`{ctx.command}` received an invalid argument! More info:\n```{ctx.prefix}{ctx.command} {ctx.command.signature}\n\n{cmdhelp if cmdhelp else ""}```')
+                return await ctx.send(f'`{ctx.command}` received an invalid argument! '
+                                      f'More info:\n```{ctx.prefix}{ctx.command} {ctx.command.signature}\n\n'
+                                      f'{cmdhelp if cmdhelp else ""}```')
             
         elif isinstance(error, commands.MissingRequiredArgument):
             cmdhelp = ctx.command.help
-            return await ctx.send(f'`{ctx.command}` is missing required arguments! More info:\n```{ctx.prefix}{ctx.command} {ctx.command.signature}\n\n{cmdhelp if cmdhelp else ""}```')
+            return await ctx.send(f'`{ctx.command}` is missing required arguments! '
+                                  f'More info:\n```{ctx.prefix}{ctx.command} {ctx.command.signature}\n\n'
+                                  f'{cmdhelp if cmdhelp else ""}```')
 
         elif isinstance(error, commands.NSFWChannelRequired):
             return await ctx.send(f'`{ctx.command}` can only be used in a NSFW channel!')
@@ -52,7 +56,9 @@ class Errors(commands.Cog):
         #     return await ctx.send(f'`{ctx.command}` received an invalid argument!')
 
         elif isinstance(error, commands.UserInputError):
-            return await ctx.send(f'`{ctx.command}` is either missing or received an invalid argument! Do `{ctx.prefix}help {ctx.command}` for more info.')
+            return await ctx.send(f'`{ctx.command}` is either missing or received an invalid argument! '
+                                  f'More info:\n```{ctx.prefix}{ctx.command} {ctx.command.signature}\n\n'
+                                  f'{cmdhelp if cmdhelp else ""}```')
 
         elif isinstance(error, commands.CommandOnCooldown):
             return await ctx.send(f'`{ctx.command}`: {error}')
