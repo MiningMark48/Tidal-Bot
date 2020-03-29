@@ -1,11 +1,9 @@
-import discord
 import asyncio
-import typing
-from discord.ext import commands
 from collections import defaultdict
 
+import discord
+from discord.ext import commands
 
-# import cogs.checks as cks
 
 class Utility(commands.Cog):
     def __init__(self, bot):
@@ -13,17 +11,17 @@ class Utility(commands.Cog):
         self.poll_messages = []
         self.user_answers = {}
 
+    # noinspection PyBroadException
     @commands.command()
     @commands.guild_only()
-    async def poll(self, ctx, question: str, time: int, opt1: typing.Optional[str], opt2: typing.Optional[str],
-                   opt3: typing.Optional[str], opt4: typing.Optional[str]):
+    async def poll(self, ctx, time: int, *, question: str):
         """
-        Create a poll for people to vote on
+        Interactively, create a poll for people to vote on
         
-        Usage: poll "<Question>" <Time (minutes)> "[Option 1]" "[Option 2]" "[Option 3]" "[Option 4]"
+        Usage: poll <Time (minutes)> <Question>
 
-        Note: If option 1 and 2 are not given, they default to Yes and No, respectively. 
-        Also, if the question or any of the options are a single word, quotes are not needed.
+        Note:
+        You may have up to 20 options.
         If time is less than 1 or more than 120 (2 hours), no timer will be used.
         """
 
@@ -32,52 +30,132 @@ class Utility(commands.Cog):
         except discord.HTTPException:
             pass
 
+        time = max(min(time, 120), 1)
+
+        def check(m):
+            return m.author == ctx.author and m.channel == ctx.channel and len(m.content) <= 100
+
         embed = discord.Embed(title=question, color=ctx.message.author.top_role.color)
-        if not opt1 or not opt2:
-            opt1 = "Yes"
-            opt2 = "No"
-        embed.add_field(name="-", value=f'🇦  {opt1}', inline=False)
-        embed.add_field(name="-", value=f'🇧  {opt2}', inline=False)
-        if opt3:
-            embed.add_field(name="-", value=f'🇨  {opt3}', inline=False)
-        if opt4:
-            embed.add_field(name="-", value=f'🇩  {opt4}', inline=False)
+        embed.set_footer(text=f"Created by {ctx.author.name}")
+
+        # Messages that are deleted after poll creation
+        messages = [ctx.message]
+        choices = []
+        for i in range(20):
+            messages.append(await ctx.send(f'Say poll option or `{ctx.prefix}publish` to publish poll.'))
+
+            try:
+                entry = await self.bot.wait_for('message', check=check, timeout=30)
+            except asyncio.TimeoutError:
+                break
+            messages.append(entry)
+
+            cleaned = entry.clean_content
+            if cleaned.startswith(f'{ctx.prefix}publish'):
+                break
+
+            choices.append((to_emoji(i), cleaned))
+
+        try:
+            await ctx.channel.delete_messages(messages)
+        except Exception:
+            pass
+
+        for keycap, content in choices:
+            embed.add_field(name="⠀", value=f'{keycap} {content}', inline=True if len(choices) > 5 else False)
         embed.add_field(name="Time", value=("∞" if time == -1 else f'{time} minute{"s" if time > 1 else ""}'),
                         inline=False)
-        embed.set_footer(text=f"Created by {ctx.author.name}")
+
         msg = await ctx.send(embed=embed)
 
-        if opt1:
-            await msg.add_reaction("🇦")
-        if opt2:
-            await msg.add_reaction("🇧")
-        if opt3:
-            await msg.add_reaction("🇨")
-        if opt4:
-            await msg.add_reaction("🇩")
+        for emoji, _ in choices:
+            await msg.add_reaction(emoji)
 
+        # Post-poll time handling below
         if 0 < time <= 120:
             self.poll_messages.append(msg.id)
             await asyncio.sleep(time * 60)
+            # await asyncio.sleep(5)
             self.poll_messages.remove(msg.id)
 
             try:
                 await msg.clear_reactions()
 
-                total = len(self.user_answers)
-                counter = defaultdict(int)
-                for v in self.user_answers.values():
-                    counter[v] += 1
-
-                c = {"a": counter["🇦"], "b": counter["🇧"], "c": counter["🇨"], "d": counter["🇩"]}
+                total = 0
+                c = defaultdict(int)
+                for k, v in self.user_answers.items():
+                    if k[0] == msg.id:
+                        c[v] += 1
+                        total += 1
 
                 embed_results = discord.Embed(title=f'Results: "{question}"', color=ctx.message.author.top_role.color)
-                embed_results.add_field(name=f"🇦  {opt1}", value=get_result_msg(c['a'], total), inline=False)
-                embed_results.add_field(name=f"🇧  {opt2}", value=get_result_msg(c['b'], total), inline=False)
-                if opt3:
-                    embed_results.add_field(name=f"🇨  {opt3}", value=get_result_msg(c['c'], total), inline=False)
-                if opt4:
-                    embed_results.add_field(name=f"🇩  {opt4}", value=get_result_msg(c['d'], total), inline=False)
+                for key, content in choices:
+                    embed_results.add_field(name=f"{key} {content}", value=get_result_msg(c[key], total),
+                                            inline=True if len(choices) > 5 else False)
+
+                await msg.edit(embed=embed_results)
+            except discord.errors.NotFound:
+                print("Message deleted, skipping poll result.")
+
+    @commands.command()
+    @commands.guild_only()
+    async def quickpoll(self, ctx, time: int, question: str, *choices: str):
+        """
+        Quickly, create a poll for people to vote on
+
+        Usage: quickpoll <Time (minutes)> "<Question>" "[Option 1]" "[Option 2]" ...
+
+        Note:
+        You may have up to 20 options.
+        If time is less than 1 or more than 120 (2 hours), no timer will be used.
+        """
+
+        try:
+            await ctx.message.delete()
+        except discord.HTTPException:
+            pass
+
+        if len(choices) < 2:
+            return await ctx.send('You need at least 2 choices.')
+        elif len(choices) > 20:
+            return await ctx.send('You can only have up to 20 choices.')
+
+        # question = questions_and_choices[0]
+        choices = [(to_emoji(e), v) for e, v in enumerate(choices)]
+
+        embed = discord.Embed(title=question, color=ctx.message.author.top_role.color)
+        embed.set_footer(text=f"Created by {ctx.author.name}")
+
+        for key, content in choices:
+            embed.add_field(name="⠀", value=f'{key} {content}', inline=True if len(choices) > 5 else False)
+        embed.add_field(name="Time", value=("∞" if time == -1 else f'{time} minute{"s" if time > 1 else ""}'),
+                        inline=False)
+
+        msg = await ctx.send(embed=embed)
+        for emoji, _ in choices:
+            await msg.add_reaction(emoji)
+
+        # Post-poll time handling below
+        if 0 < time <= 120:
+            self.poll_messages.append(msg.id)
+            await asyncio.sleep(time * 60)
+            # await asyncio.sleep(5)
+            self.poll_messages.remove(msg.id)
+
+            try:
+                await msg.clear_reactions()
+
+                total = 0
+                c = defaultdict(int)
+                for k, v in self.user_answers.items():
+                    if k[0] == msg.id:
+                        c[v] += 1
+                        total += 1
+
+                embed_results = discord.Embed(title=f'Results: "{question}"', color=ctx.message.author.top_role.color)
+                for key, content in choices:
+                    embed_results.add_field(name=f"{key} {content}", value=get_result_msg(c[key], total),
+                                            inline=True if len(choices) > 5 else False)
 
                 await msg.edit(embed=embed_results)
             except discord.errors.NotFound:
@@ -94,7 +172,7 @@ class Utility(commands.Cog):
                 user = self.bot.get_user(payload.user_id)
                 for reac in rmsg.reactions:
                     if not user == self.bot.user:
-                        self.user_answers[user.id] = reaction_emoji
+                        self.user_answers[(rmsg.id, user.id)] = reaction_emoji
                         await reac.remove(user)
         except discord.errors.NotFound:
             pass
@@ -102,6 +180,11 @@ class Utility(commands.Cog):
 
 def get_result_msg(amt, total):
     return f'{amt} out of {total} ({"0" if amt == 0 else round(amt/total*100)}%)'
+
+
+def to_emoji(c):
+    base = 0x1f1e6
+    return chr(base + c)
 
 
 def setup(bot):
