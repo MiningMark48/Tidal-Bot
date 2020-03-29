@@ -29,7 +29,7 @@ class Fun(commands.Cog):
                 query = html.escape(query)
                 base_url = f"https://www.urbandictionary.com/define.php?term={query}"
 
-                r = requests.get(base_url, timeout=1)
+                r = requests.get(base_url, timeout=3)
                 content = r.content
                 soup = bs(content, 'html.parser')
 
@@ -51,7 +51,7 @@ class Fun(commands.Cog):
 
                 page_info = f'\n\n**Page:** 1/{len(dict_pages)}'
                 w, m = dict_pages[0]
-                embed = discord.Embed(title=w, url=r.url)
+                embed = discord.Embed(title=w, url=r.url, color=0x1d2439)
                 embed.description = f'{m[:1800]} {"..." if len(m) > 1800 else ""} ' \
                                     f'{page_info if len(page_info)>1 else ""}'
                 embed.set_footer(text="Fetched from Urban Dictionary")

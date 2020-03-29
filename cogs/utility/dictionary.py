@@ -19,7 +19,7 @@ class Fun(commands.Cog):
             try:
                 base_url = f"https://www.merriam-webster.com/dictionary/{query}"
 
-                r = requests.get(base_url, timeout=1)
+                r = requests.get(base_url, timeout=3)
                 content = r.content
                 soup = bs(content, 'html.parser')
 
@@ -34,7 +34,7 @@ class Fun(commands.Cog):
                 dict_entry_sect = dict_entry.find_all("div", attrs={"class": "sb"})
                 dict_entry_text = "\n\n".join(e.get_text() for e in dict_entry_sect)[:1000]
 
-                embed = discord.Embed(title=word_text, url=r.url)
+                embed = discord.Embed(title=word_text, url=r.url, color=0xc53539)
                 embed.description = f'{dict_entry_text}...'
                 embed.set_footer(text="Fetched from Merriam Webster")
 

@@ -27,7 +27,7 @@ class Fun(commands.Cog):
                                          'Chrome/50.0.2661.102 '
                                          'Safari/537.36'}
 
-                r = requests.get(base_url, params=payload, headers=headers, timeout=1)
+                r = requests.get(base_url, params=payload, headers=headers, timeout=3)
                 content = r.content
                 soup = bs(content, 'html.parser')
 
@@ -37,7 +37,7 @@ class Fun(commands.Cog):
                 thumbnail_url = top_result.find_all("img")[0]['data-src']
                 result_url = f"https://knowyourmeme.com{top_result['href']}"
 
-                s_r = requests.get(result_url, headers=headers, timeout=1)
+                s_r = requests.get(result_url, headers=headers, timeout=3)
                 s_content = s_r.content
                 s_soup = bs(s_content, 'html.parser')
 
@@ -48,7 +48,7 @@ class Fun(commands.Cog):
                 desc = body_sect.find_all("p")[0]
                 desc_text = desc.get_text()
 
-                embed = discord.Embed(title=title_text, url=s_r.url)
+                embed = discord.Embed(title=title_text, url=s_r.url, color=0x13133e)
                 embed.set_thumbnail(url=thumbnail_url)
                 embed.description = f'{desc_text[:1800]} {"..." if len(desc_text) > 1800 else ""}'
                 embed.set_footer(text="Fetched from Know Your Meme")

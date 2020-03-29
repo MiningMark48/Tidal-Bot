@@ -55,7 +55,7 @@ class Fun(commands.Cog):
                 lyric_pages = [(lyrics[i:i+max_chars]) for i in range(0, len(lyrics), max_chars)]
                 page_info = f'\n\n**Page:** 1/{len(lyric_pages)}'
 
-                embed = discord.Embed(title=page_title, url=s_r.url)
+                embed = discord.Embed(title=page_title, url=s_r.url, color=0x657079)
                 embed.description = f'{lyrics[:max_chars]} {page_info if len(lyric_pages)>1 else ""}'
                 embed.set_footer(text="Fetched from SongLyrics.com")
 
