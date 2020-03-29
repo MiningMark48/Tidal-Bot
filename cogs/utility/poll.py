@@ -30,8 +30,6 @@ class Utility(commands.Cog):
         except discord.HTTPException:
             pass
 
-        time = max(min(time, 120), 1)
-
         def check(m):
             return m.author == ctx.author and m.channel == ctx.channel and len(m.content) <= 100
 
@@ -63,7 +61,8 @@ class Utility(commands.Cog):
 
         for keycap, content in choices:
             embed.add_field(name="⠀", value=f'{keycap} {content}', inline=True if len(choices) > 5 else False)
-        embed.add_field(name="Time", value=("∞" if time == -1 else f'{time} minute{"s" if time > 1 else ""}'),
+        embed.add_field(name="Time",
+                        value=("∞" if time < 0 or time > 120 else f'{time} minute{"s" if time > 1 else ""}'),
                         inline=False)
 
         msg = await ctx.send(embed=embed)
@@ -128,7 +127,8 @@ class Utility(commands.Cog):
 
         for key, content in choices:
             embed.add_field(name="⠀", value=f'{key} {content}', inline=True if len(choices) > 5 else False)
-        embed.add_field(name="Time", value=("∞" if time == -1 else f'{time} minute{"s" if time > 1 else ""}'),
+        embed.add_field(name="Time",
+                        value=("∞" if time < 0 or time > 120 else f'{time} minute{"s" if time > 1 else ""}'),
                         inline=False)
 
         msg = await ctx.send(embed=embed)
@@ -139,7 +139,6 @@ class Utility(commands.Cog):
         if 0 < time <= 120:
             self.poll_messages.append(msg.id)
             await asyncio.sleep(time * 60)
-            # await asyncio.sleep(5)
             self.poll_messages.remove(msg.id)
 
             try:
