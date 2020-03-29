@@ -112,8 +112,8 @@ class Utility(commands.Cog):
         """Stats about the bot"""
         embed = discord.Embed(title="Bot Stats", color=ctx.message.author.top_role.color)
         embed.add_field(name="Latency", value=f"{str(round(self.bot.latency * 1000, 0))[:2]}ms")
-        embed.add_field(name="Connected Servers", value=len(self.bot.guilds))
-        embed.add_field(name="Users", value=len(self.bot.users))
+        embed.add_field(name="Connected Servers", value=str(len(self.bot.guilds)))
+        embed.add_field(name="Users", value=str(len(self.bot.users)))
         try:
             await ctx.send(embed=embed)
         except discord.HTTPException:
