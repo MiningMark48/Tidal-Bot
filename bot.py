@@ -86,7 +86,7 @@ async def on_message(message):
                 return
 
             # now = datetime.now()
-            # if datetime(now.year, now.month, now.day) == datetime(now.year, 4, 1) and random.randint(0, 10) == 0:
+            # if datetime(now.year, now.month, now.day) == datetime(now.year, 4, 1) and random.randint(0, 25) == 0:
             #     await ctx.send("Sometimes I feel like people are just using me like I'm a bot or something 🤷")
             #     return
 
