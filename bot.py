@@ -1,6 +1,7 @@
 import json
 import os.path as osp
 import random
+from datetime import datetime, timedelta
 
 import discord
 from discord.ext import commands
@@ -83,9 +84,12 @@ async def on_message(message):
             if sc.array_contains(str(ctx.guild.id), ctx.command.name, "command_blacklist"):
                 await ctx.send(f'`{ctx.command.name}` has been disabled.')
                 return
-            # if random.randint(0, 1000) == 0:
+
+            # now = datetime.now()
+            # if datetime(now.year, now.month, now.day) == datetime(now.year, 4, 1) and random.randint(0, 10) == 0:
             #     await ctx.send("Sometimes I feel like people are just using me like I'm a bot or something 🤷")
             #     return
+
         # await bot.invoke(ctx) # Uses this so webhooks/bots can use the bot
 
     await bot.process_commands(message)
