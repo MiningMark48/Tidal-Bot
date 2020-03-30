@@ -67,12 +67,14 @@ class Owner(commands.Cog):
     @commands.command(hidden=True)
     @commands.is_owner()
     async def getservers(self, ctx):
-        # guilds = {}
+        max_chars = 1750
         guilds = '\n'.join(f"{guild.name} ({guild.id})" for guild in self.bot.guilds)
-        # for guild in self.bot.guilds:
-        #     guilds[guild.id] = guild.name
-        await ctx.send('Check your DMs!')
-        await ctx.author.send(guilds)
+        guild_parts = [(guilds[i:i + max_chars]) for i in range(0, len(guilds), max_chars)]
+
+        for part in guild_parts:
+            await ctx.author.send(f"```{part}```")
+        if not isinstance(ctx.channel, discord.DMChannel):
+            await ctx.send('Check your DMs!')
 
     @commands.command(hidden=True)
     @commands.is_owner()
