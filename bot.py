@@ -83,9 +83,9 @@ async def on_message(message):
             if sc.array_contains(str(ctx.guild.id), ctx.command.name, "command_blacklist"):
                 await ctx.send(f'`{ctx.command.name}` has been disabled.')
                 return
-            if random.randint(0, 1000) == 0:
-                await ctx.send("Sometimes I feel like people are just using me like I'm a bot or something 🤷")
-                return
+            # if random.randint(0, 1000) == 0:
+            #     await ctx.send("Sometimes I feel like people are just using me like I'm a bot or something 🤷")
+            #     return
         # await bot.invoke(ctx) # Uses this so webhooks/bots can use the bot
 
     await bot.process_commands(message)
