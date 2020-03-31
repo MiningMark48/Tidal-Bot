@@ -48,7 +48,7 @@ class Utility(commands.Cog):
                 str_data = str_data + chr(decimal_data)
             await ctx.send(str_data)
         else:
-            print("INVALID")
+            await ctx.send("INVALID METHOD")
 
     @commands.command(aliases=["emojis"])
     @commands.guild_only()
