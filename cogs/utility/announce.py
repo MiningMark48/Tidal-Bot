@@ -1,9 +1,10 @@
-import discord
 import textwrap
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
-from discord.ext import commands
 from io import BytesIO
-from io import TextIOWrapper
+
+import discord
+from PIL import Image, ImageDraw, ImageFont
+from discord.ext import commands
+
 
 class Utility(commands.Cog):
     def __init__(self, bot):
@@ -13,7 +14,7 @@ class Utility(commands.Cog):
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.guild_only()
     async def announce(self, ctx, *, text: str):
-        """"Announce a message"""
+        """Announce a message"""
         await ctx.message.delete()
         
         title_text = "Announcement"
