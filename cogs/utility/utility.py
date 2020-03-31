@@ -18,6 +18,38 @@ class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(hidden=True)
+    async def binary(self, ctx, method: str, *, message: str):
+        """
+        [WIP] Encode/Decode to/from binary
+
+        Methods: Encode (e), Decode (d)
+
+        Note: This command is a work-in-progress, some errors may and will occur.
+        """
+
+        def binary_to_decimal(binary):
+            string = int(binary, 2)
+            return string
+
+        if len(message) > 250:
+            await ctx.send("Message must be no more than 250 characters.")
+            return
+
+        method = method.lower()
+        if method in ["encode", "e"]:
+            b = ' '.join(format(ord(i), 'b').zfill(8) for i in message)
+            await ctx.send(str(b))
+        elif method in ["decode", "d"]:
+            str_data = ' '
+            for i in range(0, len(message), 7):
+                temp_data = message[i:i+7]
+                decimal_data = binary_to_decimal(temp_data)
+                str_data = str_data + chr(decimal_data)
+            await ctx.send(str_data)
+        else:
+            print("INVALID")
+
     @commands.command(aliases=["emojis"])
     @commands.guild_only()
     async def emojilist(self, ctx):
