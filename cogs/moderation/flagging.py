@@ -46,7 +46,7 @@ class Moderation(commands.Cog):
 
         info = "Flagging allows members of a server to flag a message they find inappropriate for deletion.\n\n" \
                "The reaction for flagging is NO_ENTRY_SIGN (🚫).\n" \
-               "The default required amount of reactions is **15**, and uses **set** mode.\n" \
+               "The default required amount of reactions is **0** (disabled), and uses **set** mode.\n" \
                "This value can be changed with `setflagamt` and the mode can be changed with `setflagmode`\n" \
                "Use the `getflagamt` command to see the currently set value.\n" \
                "Use the `getflagmode` command to see the currently set mode.\n\n" \
@@ -69,7 +69,7 @@ class Moderation(commands.Cog):
 
         amt = sc.get_v(str(ctx.guild.id), "flag_amt")
         if not amt:
-            amt = 15
+            amt = 0
         del_amt = self.calc_prop_members(ctx.guild.members, amt)
         await ctx.send(f'The flag amount is `{amt}{"%` of server members" if not mode else "`"}.'
                        f'\n\n{"**Currently:** " + str(del_amt) if not mode else ""}')
@@ -133,7 +133,7 @@ class Moderation(commands.Cog):
             try:
                 amt = cfg_data[id]['flag_amt']
             except KeyError:
-                amt = 15
+                amt = 0
             self.flag_amts[id] = amt
 
     def update_flag_modes(self):
