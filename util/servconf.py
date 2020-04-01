@@ -10,6 +10,7 @@ def_config = {
     "servers": {}
 }
 
+
 def check_and_gen():
     if not osp.isfile(servcfg_path):
         with open(servcfg_path, 'w') as file:
@@ -17,8 +18,10 @@ def check_and_gen():
             json.dump(def_config, file, indent=4, sort_keys=True)
             print("Server configs file created.")
 
+
 def update_servers(data):
     def_config["servers"] = data
+
 
 def get_data():
     global def_config
@@ -28,9 +31,11 @@ def get_data():
             def_config = json.load(file)
     return def_config["servers"]
 
+
 def save_data():
     with open(servcfg_path, 'w') as file:
         json.dump(def_config, file, indent=4, sort_keys=True)
+
 
 def remove_server_data(guild_id: str):
     servcfg = get_data()
@@ -38,6 +43,7 @@ def remove_server_data(guild_id: str):
         del servcfg[guild_id]
     update_servers(servcfg)
     save_data()
+
 
 def toggle_string_array(guild_id: str, emt_name: str, array_name: str):
     servcfg = get_data()
@@ -51,7 +57,7 @@ def toggle_string_array(guild_id: str, emt_name: str, array_name: str):
 
     if array_name not in servcfg[guild_id]:
         servcfg[guild_id][array_name] = []
-    
+
     array_list = servcfg[guild_id][array_name]
     if emt_name in array_list:
         array_list.remove(emt_name)
@@ -65,12 +71,14 @@ def toggle_string_array(guild_id: str, emt_name: str, array_name: str):
     save_data()
     return result_rem
 
+
 def array_contains(guild_id: str, emt_name: str, array_name: str):
     servcfg = get_data()
     try:
         return emt_name in servcfg[guild_id][array_name]
     except:
         return False
+
 
 def set_kv(guild_id: str, key_name: str, value):
     servcfg = get_data()
@@ -86,13 +94,15 @@ def set_kv(guild_id: str, key_name: str, value):
     update_servers(servcfg)
     save_data()
 
+
 def get_v(guild_id: str, key_name: str):
     servcfg = get_data()
 
     try:
         return servcfg[guild_id][key_name]
-    except: 
+    except:
         return None
+
 
 def del_v(guild_id: str, key_name: str):
     servcfg = get_data()
