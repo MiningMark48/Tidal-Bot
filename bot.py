@@ -14,7 +14,8 @@ extensions = ["errors", "fun.fun", "fun.minesweeper", "fun.numberguess", "fun.tr
               "fun.xkcd", "images.memelicense", "images.memes", "images.progress", "info", "moderation.flagging",
               "owner", "servmng.follow", "servmng.msgjoin", "servmng.prefix", "servmng.toggle", "utility.announce",
               "utility.colorgen", "utility.dictionary", "utility.giveaway", "utility.lyrics", "utility.memesearch",
-              "utility.poll", "utility.urbandict", "utility.utility", "utility.scale", "utility.wikipedia"]
+              "utility.poll", "utility.random", "utility.urbandict", "utility.utility", "utility.scale",
+              "utility.wikipedia"]
 
 load_battleship = False
 if load_battleship:
