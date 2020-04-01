@@ -20,7 +20,7 @@ class Images(commands.Cog):
             pass
 
         async with ctx.typing():
-            with Image.new("RGB", (800, 400), 0xffffff) as im:
+            with Image.new("RGB", (800, 400), 0x202225) as im:
                 
                 dt = datetime.date.today()
                 year = dt.year
@@ -30,7 +30,7 @@ class Images(commands.Cog):
 
                 percentage = round((day/total_days)*100)
 
-                text = f'{year} is {percentage}% complete.'
+                text = f'{year} is {percentage}% complete'
 
                 font_size = 70
                 font = ImageFont.truetype(f'./resources/fonts/arial.ttf', size=font_size)
@@ -45,16 +45,16 @@ class Images(commands.Cog):
                 shape_bg2 = ((spacing-outline_size, (h/2)-(shape_h/2)-outline_size), (prog_width+outline_size, (h/2)+(shape_h/2)+outline_size))
                 shape_fg = ((spacing, (h/2)-(shape_h/2)), (((prog_width/100)*percentage)+(spacing/2), (h/2)+(shape_h/2)))
 
-                draw.rectangle(shape_bg2, fill=0x000000)
-                draw.rectangle(shape_bg, fill=0xffffff)
+                draw.rectangle(shape_bg2, fill=0xffffff)
+                draw.rectangle(shape_bg, fill=0x2f3136)
 
                 try:
                     draw.rectangle(shape_fg, fill=ctx.message.author.top_role.color.to_rgb())
                 except AttributeError:
-                    draw.rectangle(shape_fg, fill=0x00ff00)
+                    draw.rectangle(shape_fg, fill=0xb9ae92)
 
                 tw = draw.textsize(text, font)[0]
-                draw.text(((w-tw)/2, 25), text, fill=0x000000, font=font)
+                draw.text(((w-tw)/2, 35), text, fill=0xffffff, font=font)
 
                 im = im.crop((0, 0, w, (h/2)+(shape_h/2)+spacing))
 
