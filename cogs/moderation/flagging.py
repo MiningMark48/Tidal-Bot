@@ -28,8 +28,7 @@ class Moderation(commands.Cog):
                 if self.flag_modes.get(str(guild.id)):
                     del_amt = self.flag_amts.get(str(guild.id))
                 else:
-                    del_amt = self.flag_amts.get(str(guild.id))
-                    del_amt = round(len(guild.members) * (del_amt / 100))
+                    del_amt = self.calc_prop_members(guild.members, self.flag_amts.get(str(guild.id)))
 
                 if del_amt == 0:
                     return
@@ -71,7 +70,7 @@ class Moderation(commands.Cog):
         amt = sc.get_v(str(ctx.guild.id), "flag_amt")
         if not amt:
             amt = 2
-        del_amt = round(len(ctx.guild.members) * (amt / 100))
+        del_amt = self.calc_prop_members(ctx.guild.members, amt)
         await ctx.send(f'The flag amount is `{amt}{"%` of server members" if not mode else "`"}.'
                        f'\n\n{"**Currently:** " + str(del_amt) if not mode else ""}')
 
@@ -164,6 +163,10 @@ class Moderation(commands.Cog):
                 await channel.send(embed=embed)
         except discord.errors.HTTPException:
             pass
+
+    @staticmethod
+    def calc_prop_members(members, amt):
+        return round(len(members) * (amt / 100))
 
 
 def setup(bot):
