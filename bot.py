@@ -85,10 +85,10 @@ async def on_message(message):
                 await ctx.send(f'`{ctx.command.name}` has been disabled.')
                 return
 
-            # now = datetime.now()
-            # if datetime(now.year, now.month, now.day) == datetime(now.year, 4, 1) and random.randint(0, 25) == 0:
-            #     await ctx.send("Sometimes I feel like people are just using me like I'm a bot or something 🤷")
-            #     return
+            now = datetime.now()
+            if datetime(now.year, now.month, now.day) == datetime(now.year, 4, 1) and random.randint(0, 25) == 0:
+                await ctx.send("Sometimes I feel like people are just using me like I'm a bot or something 🤷")
+                return
 
         # await bot.invoke(ctx) # Uses this so webhooks/bots can use the bot
 
