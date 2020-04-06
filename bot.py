@@ -24,6 +24,7 @@ if load_battleship:
 bot_token = "bot.token"
 bot_key = ";"
 load_music = True
+bot_owners = []
 
 config_path = "config.json"
 resources_path = "./resources/"
@@ -31,7 +32,8 @@ resources_path = "./resources/"
 def_config = {
     "bot_token": bot_token,
     "bot_key": bot_key,
-    "load_music": load_music
+    "load_music": load_music,
+    "bot_owners": bot_owners
 }
 
 do_run = True
@@ -46,6 +48,7 @@ if osp.isfile(config_path):
         bot_token = data["bot_token"]
         bot_key = data["bot_key"]
         load_music = data["load_music"]
+        bot_owners = data["bot_owners"]
         print("Config loaded.")
 else:
     with open(config_path, 'w') as file:

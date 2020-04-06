@@ -6,6 +6,8 @@ from discord.ext import commands
 
 import util.userconf as uc
 
+from util.checks import is_bot_owner
+
 
 class GlobalChannel(commands.Converter):
     async def convert(self, ctx, argument):
@@ -93,7 +95,7 @@ class Owner(commands.Cog):
 
     # noinspection PyBroadException
     @commands.command(hidden=True, name="reloadmusic")
-    @commands.is_owner()
+    @is_bot_owner()
     async def reload_music(self, ctx):
         await ctx.send("Reloading music...")
         try:
