@@ -91,6 +91,18 @@ class Owner(commands.Cog):
     #     await self.bot.logout()
     #     self.bot.run(self.bot.bot_token)
 
+    # noinspection PyBroadException
+    @commands.command(hidden=True, name="reloadmusic")
+    @commands.is_owner()
+    async def reload_music(self, ctx):
+        await ctx.send("Reloading music...")
+        try:
+            self.bot.reload_extension("cogs.music")
+            await ctx.send("Music reloaded.")
+        except Exception as e:
+            print(e)
+            await ctx.send("Error reloading!")
+
     @commands.command(hidden=True)
     @commands.is_owner()
     async def shutdown(self, ctx):
