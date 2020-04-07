@@ -1,5 +1,6 @@
 import asyncio
 import random
+import string
 
 import discord
 from discord.colour import Color
@@ -11,7 +12,7 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="userguess")
+    @commands.command(name="userguess", aliases=["ug"])
     @commands.guild_only()
     @commands.cooldown(2, 5)
     async def user_guess(self, ctx):
@@ -49,9 +50,16 @@ class Fun(commands.Cog):
                 await msg.edit(embed=embed)
                 break
 
-            guess = guess_msg.clean_content
+            guess = guess_msg.clean_content.lower()
 
-            if guess == rand_user.name or guess == rand_user.nick:
+            printable = set(string.printable)
+            name = ''.join(filter(lambda x: x in printable, rand_user.name)).lower()
+
+            nick = rand_user.nick
+            if nick:
+                nick = ''.join(filter(lambda x: x in printable, nick)).lower()
+
+            if guess == name or guess == nick:
                 embed.description = f"{guess_msg.author.mention} guessed correctly! " \
                                     f"The user was **{rand_user.display_name}**!"
                 await msg.edit(embed=embed)
