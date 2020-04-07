@@ -55,6 +55,31 @@ class Fun(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command(hidden=True, name="fizzbuzz")
+    async def fizz_buzz(self, ctx, amt: int):
+        """1, 2, Fizz, 4, Buzz, Fizz, 7, 8, Fizz, 10"""
+
+        amt = max(0, min(amt, 500))
+
+        message = ""
+        for x in range(0, amt+1):
+            output = ""
+
+            if x % 3 == 0:
+                output += "Fizz"
+            if x % 5 == 0:
+                output += "Buzz"
+
+            if not output:
+                output = x
+
+            message += f"{output}\n"
+
+        parts = [(message[i:i + 1900]) for i in range(0, len(message), 1900)]
+
+        for part in parts:
+            await ctx.send(f"```{part}```")
+
     @commands.command(name="magic8ball", aliases=["8ball", "magicball", "magic8"])
     async def magic_8_ball(self, ctx):
         """The Magic 8 Ball says..."""
