@@ -1,5 +1,6 @@
 from discord.ext import commands
 import cogs.utility.tags.tagconf as tc
+from fuzzywuzzy import process as fwp
 
 
 class Tags(commands.Cog):
@@ -15,6 +16,7 @@ class Tags(commands.Cog):
     @commands.command(name="settag", aliases=["edittag", "newtag"])
     @commands.cooldown(1, 5)
     @commands.guild_only()
+    @commands.has_permissions(manage_guild=True)
     async def tag_set(self, ctx, tag_name: str, *, message: str):
         """
         Create a new bot tag.
@@ -32,6 +34,7 @@ class Tags(commands.Cog):
     @commands.command(name="deletetag", aliases=["deltag", "tagdelete"])
     @commands.cooldown(1, 5)
     @commands.guild_only()
+    @commands.has_permissions(manage_guild=True)
     async def tag_delete(self, ctx, *, tag_name: str):
         """
         Delete a bot tag.
@@ -52,15 +55,38 @@ class Tags(commands.Cog):
         """
         List available tags for the server.
         """
-        guild_tags = self.tags[str(ctx.guild.id)]
+        try:
+            guild_tags = self.tags[str(ctx.guild.id)]
 
-        tags = f"{ctx.guild.name} Server Tags\n\n"
-        for t in sorted(guild_tags):
-            tags += f"[{t}] {guild_tags[str(t)]}\n"
+            tags = f"{ctx.guild.name} Server Tags\n\n"
+            for t in sorted(guild_tags):
+                tags += f"[{t}] {guild_tags[str(t)]}\n"
 
-        parts = [(tags[i:i + 750]) for i in range(0, len(tags), 750)]
-        for part in parts:
-            await ctx.send(f"```{part}```")
+            parts = [(tags[i:i + 750]) for i in range(0, len(tags), 750)]
+            for part in parts:
+                await ctx.send(f"```{part}```")
+        except KeyError:
+            await ctx.send("No tags available!")
+
+    @commands.command(name="tagsearch", aliases=["searchtag"])
+    @commands.cooldown(1, 3)
+    @commands.guild_only()
+    async def tag_search(self, ctx, *, tag_name: str):
+        """
+        Search for a tag.
+        """
+        try:
+
+            search_results = self.handle_search(ctx, tag_name)
+
+            results_txt = f"Tag Search Results ({tag_name})\n\n"
+            for (res, ratio) in search_results:
+                results_txt += f"{res}\n"
+
+            await ctx.send(f"```{results_txt}```")
+
+        except KeyError:
+            await ctx.send("No tags available!")
 
     @commands.command()
     @commands.cooldown(1, 3)
@@ -72,6 +98,10 @@ class Tags(commands.Cog):
 
         tag_name = tag_name.lower()
 
+        if not str(ctx.guild.id) in self.tags:
+            await ctx.send("No tags available!")
+            return
+
         try:
             response = self.tags[str(ctx.guild.id)][tag_name]
 
@@ -79,7 +109,13 @@ class Tags(commands.Cog):
                 response = self.handle_variables(response, ctx)
                 await ctx.send(response)
         except KeyError:
-            await ctx.send("Invalid tag!")
+            search_results = self.handle_search(ctx, tag_name)[:3]
+
+            results_txt = ""
+            for (res, ratio) in search_results:
+                results_txt += f"{res}\n"
+
+            await ctx.send(f"Couldn't find that tag. Did you mean one of the following?\n```\n{results_txt}\n```")
 
     @commands.command(name="tagvariables", aliases=["tagvars", "variables", "vars"])
     @commands.cooldown(1, 3)
@@ -124,6 +160,15 @@ class Tags(commands.Cog):
             message = message.replace(to_key(v), str(variables[v]))
 
         return message
+
+    def handle_search(self, ctx, tag_name):
+        options = []
+        for tag in self.tags[str(ctx.guild.id)]:
+            options.append(tag)
+
+        search_results = fwp.extract(tag_name, options)
+
+        return search_results
 
 
 def setup(bot):
