@@ -1,8 +1,9 @@
 # import discord
 # from discord.ext import commands
-
 import json
 import os.path as osp
+
+from util.backups import backup_file
 
 usrcfg_path = "user_configs.json"
 
@@ -108,3 +109,7 @@ def get_all_if_equals(key_name: str, value):
         if usrcfg[user][key_name] == value:
             users.append(user)
     return users
+
+
+def backup_data():
+    backup_file(usrcfg_path)

@@ -10,7 +10,8 @@ class Lists(commands.Cog):
 
     @commands.Cog.listener("on_ready")
     async def on_ready(self):
-        """Load JSON tags when ready"""
+        """Load JSON lists when ready"""
+        lc.backup_data()
         self.lists = lc.get_data()
 
     @commands.command(name="listnew", aliases=["newlist"])

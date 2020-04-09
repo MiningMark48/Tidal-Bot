@@ -1,6 +1,7 @@
 from discord.ext import commands
-import cogs.utility.tags.tagconf as tc
 from fuzzywuzzy import process as fwp
+
+import cogs.utility.tags.tagconf as tc
 
 
 class Tags(commands.Cog):
@@ -11,6 +12,7 @@ class Tags(commands.Cog):
     @commands.Cog.listener("on_ready")
     async def on_ready(self):
         """Load JSON tags when ready"""
+        tc.backup_data()
         self.tags = tc.get_data()
 
     @commands.command(name="settag", aliases=["edittag", "newtag"])

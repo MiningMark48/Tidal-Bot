@@ -1,8 +1,9 @@
 # import discord
 # from discord.ext import commands
-
 import json
 import os.path as osp
+
+from util.backups import backup_file
 
 servcfg_path = "tags.json"
 
@@ -75,3 +76,7 @@ def del_v(guild_id: str, key_name: str):
         del servcfg[guild_id][key_name]
     update_servers(servcfg)
     save_data()
+
+
+def backup_data():
+    backup_file(servcfg_path)

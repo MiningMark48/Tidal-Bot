@@ -4,6 +4,8 @@
 import json
 import os.path as osp
 
+from util.backups import backup_file
+
 usercfg_path = "lists.json"
 
 def_config = {
@@ -75,3 +77,7 @@ def del_v(user_id: str, key_name: str):
         del usercfg[user_id][key_name]
     update_users(usercfg)
     save_data()
+
+
+def backup_data():
+    backup_file(usercfg_path)
