@@ -1,11 +1,12 @@
 import json
 import os.path as osp
 import random
-from datetime import datetime, timedelta
+from datetime import datetime
 
 import discord
 from discord.ext import commands
 
+import cogs.utility.tags.tagconf as tc
 import util.servconf as sc
 
 print("Starting...")
@@ -123,6 +124,7 @@ async def on_command(ctx):
 @bot.event
 async def on_guild_remove(guild):
     sc.remove_server_data(str(guild.id))
+    tc.remove_server_data(str(guild.id))
 
 if __name__ == "__main__":
 
