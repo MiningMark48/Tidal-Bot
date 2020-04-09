@@ -64,6 +64,7 @@ class Tags(commands.Cog):
 
             parts = [(tags[i:i + 750]) for i in range(0, len(tags), 750)]
             for part in parts:
+                part = part.replace("```", "")
                 await ctx.send(f"```{part}```")
         except KeyError:
             await ctx.send("No tags available!")
