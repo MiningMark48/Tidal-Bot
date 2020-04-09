@@ -60,7 +60,9 @@ class Tags(commands.Cog):
 
             tags = f"{ctx.guild.name} Server Tags\n\n"
             for t in sorted(guild_tags):
-                tags += f"[{t}] {guild_tags[str(t)]}\n"
+                value = guild_tags[str(t)]
+                value = value.replace("\n", "")
+                tags += f"[{t}] {value[:100]}{'...' if len(value) > 100 else ''}\n"
 
             parts = [(tags[i:i + 750]) for i in range(0, len(tags), 750)]
             for part in parts:
