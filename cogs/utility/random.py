@@ -1,4 +1,5 @@
 import random
+import string
 
 from discord.ext import commands
 
@@ -40,6 +41,32 @@ class Utility(commands.Cog):
             await ctx.send(f'Your random number{"s are" if amt > 1 else " is"}... **{roll}**!')
         else:
             await ctx.send('Amount must be between **0** and **25**!')
+
+    @commands.command(name="randtext", aliases=["lorem", "loremipsum"])
+    async def rand_text(self, ctx, sentences=5, words_per_sentence=10):
+        """Generate random text."""
+
+        sentences = max(min(sentences, 25), 1)
+        words_per_sentence = max(min(words_per_sentence, 20), 6)
+
+        sentences_list = []
+        for i in range(1, sentences+1):
+            words_list = []
+            for j in range(random.randint(1, 5), words_per_sentence+1):
+                words_list.append(''.join(random.choices(string.ascii_lowercase, k=random.randint(2, 10))))
+
+            sentence = ' '.join(word for word in words_list)
+            sentence = sentence.capitalize()
+            sentence += "."
+
+            sentences_list.append(sentence)
+
+        final = ' '.join(sentence for sentence in sentences_list)
+
+        parts = [(final[i:i + 1800]) for i in range(0, len(final), 1800)]
+
+        for part in parts:
+            await ctx.send(f"```{part}```")
 
 
 def setup(bot):
