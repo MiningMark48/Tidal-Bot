@@ -23,6 +23,33 @@ class Utility(commands.Cog):
         else:
             await ctx.send('Amount must be between **0** and **25**!')
 
+    @commands.command(name="randcard", aliases=["randcards", "card", "cards"])
+    async def rand_card(self, ctx, amt=1):
+        """Draw a random card from a deck"""
+
+        amt = max(min(amt, 52), 1)
+
+        suits = ["Spades", "Clubs", "Hearts", "Diamonds"]
+        nums = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"]
+
+        cards = []
+
+        def draw_card():
+            num = random.choice(nums)
+            suit = random.choice(suits)
+            card = f"{num} of {suit}"
+
+            if card in cards:
+                draw_card()
+            else:
+                cards.append(card)
+
+        for i in range(0, amt):
+            draw_card()
+
+        message = ', '.join(card for card in cards)
+        await ctx.send(f"{ctx.author.mention}, here ya go!\n{message}")
+
     @commands.command(name="randchoice", aliases=["randc", "randomc"])
     async def rand_choice(self, ctx, *choices: str):
         """Get a random choice from a list of provided choices"""
