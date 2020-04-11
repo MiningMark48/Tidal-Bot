@@ -34,60 +34,60 @@ class Utility(commands.Cog):
             pass
 
         reaction_emoji = "🎉"
+        time = max(min(time, 60), 1)
 
-        if 0 < time <= 60:
-            end_time = dt.now(tz=tz("US/Eastern")) + datetime.timedelta(minutes=time)
-            # timezone = strftime("%Z", gmtime())
+        end_time = dt.now(tz=tz("US/Eastern")) + datetime.timedelta(minutes=time)
+        # timezone = strftime("%Z", gmtime())
 
-            embed = discord.Embed(title=f"{reaction_emoji} Giveaway {reaction_emoji}", color=0xfc68a6)
-            embed.description = f'**{giveaway}**\n\n' \
-                                f'React with {reaction_emoji} to enter!\n\n' \
-                                f'Ends at: \n{end_time.strftime("%I:%M:%S %p %Z")}'
-            embed.set_footer(text=f'Created by {ctx.author.display_name}')
+        embed = discord.Embed(title=f"{reaction_emoji} Giveaway {reaction_emoji}", color=0xfc68a6)
+        embed.description = f'**{giveaway}**\n\n' \
+                            f'React with {reaction_emoji} to enter!\n\n' \
+                            f'Ends at: \n{end_time.strftime("%I:%M:%S %p %Z")}'
+        embed.set_footer(text=f'Created by {ctx.author.display_name}')
 
-            msg = await ctx.send(embed=embed)
-            await msg.add_reaction(reaction_emoji)
+        msg = await ctx.send(embed=embed)
+        await msg.add_reaction(reaction_emoji)
 
-            await asyncio.sleep(time * 60)
+        await asyncio.sleep(time * 60)
 
-            entries = []
+        entries = []
 
-            r_msg = await ctx.channel.fetch_message(msg.id)
+        r_msg = await ctx.channel.fetch_message(msg.id)
 
-            for reac in r_msg.reactions:
-                if reac.emoji == reaction_emoji:
-                    async for usr in reac.users():
-                        if not usr.bot:
-                            entries.append(usr)
+        for reac in r_msg.reactions:
+            if reac.emoji == reaction_emoji:
+                async for usr in reac.users():
+                    if not usr.bot:
+                        entries.append(usr)
 
-            await r_msg.clear_reactions()
+        await r_msg.clear_reactions()
 
-            if entries:
-                embed.description = f"**{giveaway}**\n\n" \
-                                    f"Giveaway Over!\n\n" \
-                                    f"Drawing winner..."
-                await r_msg.edit(embed=embed)
-                await asyncio.sleep(1)
+        if entries:
+            embed.description = f"**{giveaway}**\n\n" \
+                                f"Giveaway Over!\n\n" \
+                                f"Drawing winner..."
+            await r_msg.edit(embed=embed)
+            await asyncio.sleep(1)
 
-                winning_entry = random.choice(entries)
-                embed.description = f"**{giveaway}**\n\n" \
-                                    f"Giveaway Over!\n\n" \
-                                    f"Out of {len(entries)} entr{'y' if len(entries) == 1 else 'ies'},\n" \
-                                    f"{winning_entry.mention} is the winner!"
-                await r_msg.edit(embed=embed)
+            winning_entry = random.choice(entries)
+            embed.description = f"**{giveaway}**\n\n" \
+                                f"Giveaway Over!\n\n" \
+                                f"Out of {len(entries)} entr{'y' if len(entries) == 1 else 'ies'},\n" \
+                                f"{winning_entry.mention} is the winner!"
+            await r_msg.edit(embed=embed)
 
-                await ctx.author.send(f'Your giveaway `{giveaway}` just ended in {ctx.guild.name}. '
-                                      f'{winning_entry.mention} was the winner.')
-                await winning_entry.send(f'{winning_entry.mention}, you won the giveaway `{giveaway}` '
-                                         f'in {ctx.guild.name}!')
+            await ctx.author.send(f'Your giveaway `{giveaway}` just ended in {ctx.guild.name}. '
+                                  f'{winning_entry.mention} was the winner.')
+            await winning_entry.send(f'{winning_entry.mention}, you won the giveaway `{giveaway}` '
+                                     f'in {ctx.guild.name}!')
 
-            else:
-                embed.description = f"Giveaway Over!\n\n" \
-                                    f"Nobody entered the giveaway."
-                await r_msg.edit(embed=embed)
+        else:
+            embed.description = f"Giveaway Over!\n\n" \
+                                f"Nobody entered the giveaway."
+            await r_msg.edit(embed=embed)
 
-                await ctx.author.send(f'Your giveaway `{giveaway}` just ended in {ctx.guild.name}. '
-                                      f'There were no entries, so nobody won.')
+            await ctx.author.send(f'Your giveaway `{giveaway}` just ended in {ctx.guild.name}. '
+                                  f'There were no entries, so nobody won.')
 
 
 def setup(bot):
