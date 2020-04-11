@@ -12,7 +12,7 @@ def backup_file(filename: str):
 
     if path.exists(filename) and path.exists(backup_name):
         if filecmp.cmp(filename, backup_name):
-            print(f"{filename} is same as {backup_name}, skipping...")
+            # print(f"{filename} is same as {backup_name}, skipping...")
             return
 
     shutil.copyfile(f"{filename}", backup_name)
