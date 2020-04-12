@@ -109,30 +109,17 @@ class Utility(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name="randtext", aliases=["lorem", "loremipsum"])
-    async def rand_text(self, ctx, sentences=5, words_per_sentence=10):
+    async def rand_text(self, ctx, max_chars=500):
         """Generate random text."""
 
-        sentences = max(min(sentences, 25), 1)
-        words_per_sentence = max(min(words_per_sentence, 20), 6)
+        max_chars = max(min(max_chars, 1900), 25)
 
-        sentences_list = []
-        for i in range(1, sentences+1):
-            words_list = []
-            for j in range(random.randint(1, 5), words_per_sentence+1):
-                words_list.append(''.join(random.choices(string.ascii_lowercase, k=random.randint(2, 10))))
+        fake = Faker("en_US")
 
-            sentence = ' '.join(word for word in words_list)
-            sentence = sentence.capitalize()
-            sentence += "."
+        text = fake.text(max_nb_chars=max_chars, ext_word_list=None)
+        text = text.replace("\n", " ")
 
-            sentences_list.append(sentence)
-
-        final = ' '.join(sentence for sentence in sentences_list)
-
-        parts = [(final[i:i + 1800]) for i in range(0, len(final), 1800)]
-
-        for part in parts:
-            await ctx.send(f"```{part}```")
+        await ctx.send(f"```{text}```")
 
 
 def setup(bot):
