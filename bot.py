@@ -18,7 +18,8 @@ extensions = ["errors", "fun.fun", "fun.minesweeper", "fun.numberguess", "fun.rr
               "info", "moderation.flagging", "owner", "servmng.follow", "servmng.msgjoin", "servmng.prefix",
               "servmng.toggle", "utility.announce", "utility.colorgen", "utility.dictionary", "utility.giveaway",
               "utility.lists.lists", "utility.lyrics", "utility.memesearch", "utility.poll", "utility.random",
-              "utility.tags.tags", "utility.urbandict", "utility.utility", "utility.scale", "utility.wikipedia"]
+              "utility.rum", "utility.tags.tags", "utility.urbandict", "utility.utility", "utility.scale",
+              "utility.wikipedia"]
 
 load_battleship = False
 if load_battleship:

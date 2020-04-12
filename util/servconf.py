@@ -36,7 +36,10 @@ def get_data():
 
 def save_data():
     with open(servcfg_path, 'w') as file:
-        json.dump(def_config, file, indent=4, sort_keys=True)
+        # try:
+        #     json.dump(def_config, file, indent=4, sort_keys=True)
+        # except TypeError:
+        json.dump(def_config, file, indent=4)
 
 
 def remove_server_data(guild_id: str):
@@ -112,6 +115,13 @@ def del_v(guild_id: str, key_name: str):
         del servcfg[guild_id][key_name]
     update_servers(servcfg)
     save_data()
+
+
+def toggle_b(guild_id: str, key_name: str):
+
+    current_value = get_v(guild_id, key_name)
+    set_kv(guild_id, key_name, not current_value)
+    return current_value
 
 
 def backup_data():
