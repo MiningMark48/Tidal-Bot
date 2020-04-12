@@ -30,6 +30,9 @@ class Moderation(commands.Cog):
                                 await lmsg.remove_reaction(reaction_emoji, self.bot.user)
 
     @commands.command(name="togglerum", aliases=["togglemobileindicator", "toggleismobile"])
+    @commands.has_permissions(manage_guild=True)
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.guild_only()
     async def toggle_rum(self, ctx):
         """Toggle the mobile indicator reaction (RUM: R U Mobile?)"""
         result = sc.toggle_b(str(ctx.guild.id), "rum_enabled")
