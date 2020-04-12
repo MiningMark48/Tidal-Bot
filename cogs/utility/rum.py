@@ -3,7 +3,7 @@ from discord.ext import commands
 import util.servconf as sc
 
 
-class Moderation(commands.Cog):
+class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -40,4 +40,4 @@ class Moderation(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Moderation(bot))
+    bot.add_cog(Utility(bot))
