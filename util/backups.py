@@ -2,13 +2,19 @@ import filecmp
 import os
 import shutil
 from os import path
+from datetime import datetime as dt
 
 
 def backup_file(filename: str):
+    date = dt.now()
     folder_name = "backups"
-    backup_name = f"{folder_name}/{filename}"
+    subfolder_name = f"{date.strftime('%m%d%y')}"
+    backup_name = f"{folder_name}/{subfolder_name}/{filename}"
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
+
+    if not os.path.exists(f"{folder_name}/{subfolder_name}"):
+        os.makedirs(f"{folder_name}/{subfolder_name}")
 
     if path.exists(filename) and path.exists(backup_name):
         if filecmp.cmp(filename, backup_name):
