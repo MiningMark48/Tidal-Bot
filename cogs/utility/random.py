@@ -1,6 +1,9 @@
 import random
 import string
 
+import discord
+from faker import Faker
+
 from discord.ext import commands
 
 
@@ -68,6 +71,42 @@ class Utility(commands.Cog):
             await ctx.send(f'Your random number{"s are" if amt > 1 else " is"}... **{roll}**!')
         else:
             await ctx.send('Amount must be between **0** and **25**!')
+
+    @commands.command(name="randperson", aliases=["fakeperson"])
+    async def rand_person(self, ctx):
+        """Generate a fake person profile"""
+        fake = Faker("en_US")
+
+        profile = fake.profile(fields=None, sex=None)
+
+        name = profile["name"]
+        address = profile["address"]
+        sex = "Male" if profile["sex"] == "M" else "Female"
+        birthday = profile["birthdate"]
+        # phone = fake.phone_number()
+        ssn = profile["ssn"]
+        email = profile["mail"]
+        website = random.choice(profile["website"])
+        username = profile["username"]
+        company = profile["company"]
+        job = profile["job"]
+        license_plate = fake.license_plate()
+
+        embed = discord.Embed(title=name)
+        embed.add_field(name="Address", value=address, inline=False)
+        embed.add_field(name="Sex", value=sex)
+        embed.add_field(name="Birthday", value=birthday)
+        # embed.add_field(name="Phone", value=phone)
+        embed.add_field(name="SSN", value=ssn)
+        embed.add_field(name="Email", value=email)
+        embed.add_field(name="Website", value=website)
+        embed.add_field(name="Username", value=username)
+        embed.add_field(name="Company", value=company)
+        embed.add_field(name="Job", value=job)
+        embed.add_field(name="License Plate", value=license_plate)
+
+        embed.set_footer(text="Disclaimer: The profile generated is random data.")
+        await ctx.send(embed=embed)
 
     @commands.command(name="randtext", aliases=["lorem", "loremipsum"])
     async def rand_text(self, ctx, sentences=5, words_per_sentence=10):
