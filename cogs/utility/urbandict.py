@@ -24,9 +24,11 @@ class Fun(commands.Cog):
         """
         Define a word from Urban Dictionary
         """
+
         async with ctx.typing():
             try:
-                query = html.escape(query)
+                # query = html.escape(query)
+                query = query.replace(" ", "+")
                 base_url = f"https://www.urbandictionary.com/define.php?term={query}"
 
                 r = requests.get(base_url, timeout=3)
