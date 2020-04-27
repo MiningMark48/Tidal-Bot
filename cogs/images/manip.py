@@ -41,11 +41,11 @@ class Images(commands.Cog):
             await ctx.send("Invalid URL!")
             return
 
-    @commands.command(name="imflipvert", aliases=["imfv"])
+    @commands.command(name="imflip180", aliases=["imf180"])
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def flip_vert(self, ctx, url=None):
+    async def flip_180(self, ctx, url=None):
         """
-        Image Manipulation: Flip (Vert)
+        Image Manipulation: Flip 180
         """
 
         if not url:
