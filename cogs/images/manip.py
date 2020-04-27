@@ -41,6 +41,37 @@ class Images(commands.Cog):
             await ctx.send("Invalid URL!")
             return
 
+    @commands.command(name="imflipvert", aliases=["imfv"])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def flip_vert(self, ctx, url=None):
+        """
+        Image Manipulation: Flip (Vert)
+        """
+
+        if not url:
+            url = ctx.author.avatar_url
+
+        try:
+            r = requests.get(url, timeout=2)
+            buffer = BytesIO(r.content)
+
+            async with ctx.typing():
+                with Image.open(buffer) as im:
+                    im = im.convert("RGB")
+
+                    im = im.rotate(180)
+
+                    final_buffer = BytesIO()
+                    im.save(final_buffer, "png")
+
+                final_buffer.seek(0)
+                file = discord.File(filename=f"manipulated_image.png", fp=final_buffer)
+                await ctx.send(file=file)
+
+        except UnidentifiedImageError:
+            await ctx.send("Invalid URL!")
+            return
+
     @commands.command(name="imgrayscale", aliases=["imgs"])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def grayscale(self, ctx, url=None):
