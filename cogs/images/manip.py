@@ -1,8 +1,9 @@
+import random
 from io import BytesIO
 
 import discord
 import requests
-from PIL import Image, UnidentifiedImageError, ImageOps, ImageFilter
+from PIL import Image, UnidentifiedImageError, ImageOps, ImageFilter, ImageFont, ImageDraw
 from discord.ext import commands
 
 
@@ -37,7 +38,7 @@ class Images(commands.Cog):
                 file = discord.File(filename=f"manipulated_image.png", fp=final_buffer)
                 await ctx.send(file=file)
 
-        except UnidentifiedImageError:
+        except (UnidentifiedImageError, requests.exceptions.MissingSchema):
             await ctx.send("Invalid URL!")
             return
 
@@ -72,7 +73,7 @@ class Images(commands.Cog):
                 file = discord.File(filename=f"manipulated_image.png", fp=final_buffer)
                 await ctx.send(file=file)
 
-        except UnidentifiedImageError:
+        except (UnidentifiedImageError, requests.exceptions.MissingSchema):
             await ctx.send("Invalid URL!")
             return
 
@@ -103,7 +104,7 @@ class Images(commands.Cog):
                 file = discord.File(filename=f"manipulated_image.png", fp=final_buffer)
                 await ctx.send(file=file)
 
-        except UnidentifiedImageError:
+        except (UnidentifiedImageError, requests.exceptions.MissingSchema):
             await ctx.send("Invalid URL!")
             return
 
@@ -132,7 +133,7 @@ class Images(commands.Cog):
                 file = discord.File(filename=f"manipulated_image.png", fp=final_buffer)
                 await ctx.send(file=file)
 
-        except UnidentifiedImageError:
+        except (UnidentifiedImageError, requests.exceptions.MissingSchema):
             await ctx.send("Invalid URL!")
             return
 
@@ -165,7 +166,7 @@ class Images(commands.Cog):
                 file = discord.File(filename=f"manipulated_image.png", fp=final_buffer)
                 await ctx.send(file=file)
 
-        except UnidentifiedImageError:
+        except (UnidentifiedImageError, requests.exceptions.MissingSchema):
             await ctx.send("Invalid URL!")
             return
 
@@ -207,7 +208,59 @@ class Images(commands.Cog):
                 file = discord.File(filename=f"manipulated_image.png", fp=final_buffer)
                 await ctx.send(file=file)
 
-        except UnidentifiedImageError:
+        except (UnidentifiedImageError, requests.exceptions.MissingSchema):
+            await ctx.send("Invalid URL!")
+            return
+
+    @commands.command(name="imsnapchat", aliases=["imsc"])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def snapchat(self, ctx, text: str, url=None):
+        """
+        Image Manipulation: Snapchat
+        """
+
+        if not url:
+            url = ctx.author.avatar_url
+
+        try:
+            r = requests.get(url, timeout=2)
+            buffer = BytesIO(r.content)
+
+            async with ctx.typing():
+                with Image.open(buffer) as im:
+                    im = im.convert("RGBA")
+
+                    width, height = im.size
+
+                    height = random.randint(0, height)
+                    scale = 1
+                    font_color = 0xffffffff
+
+                    font_size = 24 * scale
+
+                    im_o = Image.new('RGBA', im.size, (0, 0, 0, 0))
+                    font = ImageFont.truetype('./resources/fonts/arial.ttf', size=font_size)
+                    draw = ImageDraw.Draw(im_o)
+
+                    w, h = im.size
+                    tw, th = draw.textsize(text, font)
+                    shape_h = 35 * scale
+                    shape = ((0, height), (w, height + shape_h))
+                    draw.rectangle(shape, fill=(0, 0, 0, 160))
+
+                    draw.text(((w - tw) / 2, height + (shape_h - th) / 2), text, fill=font_color, font=font)
+
+                    im = Image.alpha_composite(im, im_o)
+                    im = im.convert("RGB")
+
+                    final_buffer = BytesIO()
+                    im.save(final_buffer, "png")
+
+                final_buffer.seek(0)
+                file = discord.File(filename=f"manipulated_image.png", fp=final_buffer)
+                await ctx.send(file=file)
+
+        except (UnidentifiedImageError, requests.exceptions.MissingSchema):
             await ctx.send("Invalid URL!")
             return
 
