@@ -18,6 +18,9 @@ class Images(commands.Cog):
         Image Manipulation: Blur
         """
 
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
+
         if not url:
             url = ctx.author.avatar_url
 
@@ -48,6 +51,9 @@ class Images(commands.Cog):
         """
         Image Manipulation: Circle
         """
+
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
 
         if not url:
             url = ctx.author.avatar_url
@@ -84,6 +90,9 @@ class Images(commands.Cog):
         Image Manipulation: Flip 180
         """
 
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
+
         if not url:
             url = ctx.author.avatar_url
 
@@ -115,6 +124,9 @@ class Images(commands.Cog):
         Image Manipulation: Grayscale
         """
 
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
+
         if not url:
             url = ctx.author.avatar_url
 
@@ -143,6 +155,9 @@ class Images(commands.Cog):
         """
         Image Manipulation: Pixelate
         """
+
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
 
         if not url:
             url = ctx.author.avatar_url
@@ -176,6 +191,9 @@ class Images(commands.Cog):
         """
         Image Manipulation: Sepia
         """
+
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
 
         if not url:
             url = ctx.author.avatar_url
@@ -218,6 +236,9 @@ class Images(commands.Cog):
         """
         Image Manipulation: Snapchat
         """
+
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
 
         if not url:
             url = ctx.author.avatar_url
