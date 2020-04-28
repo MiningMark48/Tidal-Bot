@@ -41,6 +41,41 @@ class Images(commands.Cog):
             await ctx.send("Invalid URL!")
             return
 
+    @commands.command(name="imcircle", aliases=["imc"])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def circle(self, ctx, url=None):
+        """
+        Image Manipulation: Circle
+        """
+
+        if not url:
+            url = ctx.author.avatar_url
+
+        try:
+            r = requests.get(url, timeout=2)
+            buffer = BytesIO(r.content)
+
+            async with ctx.typing():
+                with Image.open(buffer) as im:
+                    im = im.convert("RGB")
+                    mask = Image.open("./resources/images/template_circle_mask.png").convert('L')
+                    mask = mask.resize(im.size)
+
+                    output = ImageOps.fit(im, mask.size, centering=(0.5, 0.5))
+                    output.putalpha(mask)
+                    # output = output.resize(im.size)
+
+                    final_buffer = BytesIO()
+                    output.save(final_buffer, "png")
+
+                final_buffer.seek(0)
+                file = discord.File(filename=f"manipulated_image.png", fp=final_buffer)
+                await ctx.send(file=file)
+
+        except UnidentifiedImageError:
+            await ctx.send("Invalid URL!")
+            return
+
     @commands.command(name="imflip180", aliases=["imf180"])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def flip_180(self, ctx, url=None):
