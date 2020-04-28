@@ -19,7 +19,7 @@ extensions = ["errors", "fun.fun", "fun.minesweeper", "fun.numberguess", "fun.rr
               "servmng.prefix", "servmng.toggle", "utility.announce", "utility.colorgen", "utility.dictionary",
               "utility.giveaway", "utility.lists.lists", "utility.lyrics", "utility.memesearch", "utility.poll",
               "utility.random", "utility.rum", "utility.tags.tags", "utility.urbandict", "utility.utility",
-              "utility.scale", "utility.wikipedia"]
+              "utility.wikipedia"]
 
 load_battleship = False
 if load_battleship:

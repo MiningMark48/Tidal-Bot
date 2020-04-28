@@ -12,27 +12,6 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="bubblewrap")
-    async def bubble_wrap(self, ctx):
-        """Satisfying popping"""
-        try:
-            await ctx.message.delete()
-        except discord.HTTPException:
-            pass
-
-        rows = 10
-        columns = 10
-        grid = [["||     ||" for n in range(columns)] for n in range(rows)]
-        sb = []
-        for rws in grid:
-            sb.append(''.join(map(str, rws)))
-        sb = '\n'.join(sb)
-
-        final = f'{ctx.author.mention}, here\'s your bubble wrap!\n\n' \
-                f'{sb}\n\n'
-
-        await ctx.send(final)
-
     @commands.command(name="chucknorris", aliases=["chuck", "norris"])
     async def chuck_norris(self, ctx):
         """Fetch a Chuck Norris Joke"""
@@ -54,31 +33,6 @@ class Fun(commands.Cog):
             embed.add_field(name="Categories", value=" ,".join(str(c).capitalize() for c in categories), inline=False)
 
         await ctx.send(embed=embed)
-
-    @commands.command(hidden=True, name="fizzbuzz")
-    async def fizz_buzz(self, ctx, amt: int):
-        """1, 2, Fizz, 4, Buzz, Fizz, 7, 8, Fizz, 10"""
-
-        amt = max(0, min(amt, 500))
-
-        message = ""
-        for x in range(0, amt+1):
-            output = ""
-
-            if x % 3 == 0:
-                output += "Fizz"
-            if x % 5 == 0:
-                output += "Buzz"
-
-            if not output:
-                output = x
-
-            message += f"{output}\n"
-
-        parts = [(message[i:i + 1900]) for i in range(0, len(message), 1900)]
-
-        for part in parts:
-            await ctx.send(f"```{part}```")
 
     @commands.command(name="magic8ball", aliases=["8ball", "magicball", "magic8"])
     async def magic_8_ball(self, ctx):

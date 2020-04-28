@@ -275,24 +275,6 @@ class Memes(commands.Cog):
             file = discord.File(filename="linus.png", fp=final_buffer)
             await ctx.send(content=self.get_message(ctx), file=file)
 
-    @commands.command(name="linuspenguin")
-    @commands.cooldown(1, 5, commands.BucketType.user)
-    async def linus_penguin(self, ctx, *, text: str):
-        """
-        Linus penguin!
-        """
-        await self.try_delete(ctx)
-        max_chars = 60
-        if len(text) > max_chars:
-            return await ctx.send(f'Too many characters! Must be less than `{max_chars}`.')
-
-        async with ctx.typing():
-            fn = partial(self.processing_drawtext_snapchat, text, "linuspenguin.png", random.randint(300, 375),
-                         scale=1)
-            final_buffer = await self.bot.loop.run_in_executor(None, fn)
-            file = discord.File(filename="linus_penguin.png", fp=final_buffer)
-            await ctx.send(content=self.get_message(ctx), file=file)
-
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def nobrain(self, ctx, *, text: str):
@@ -529,29 +511,6 @@ class Memes(commands.Cog):
             fn = partial(self.processing_drawtext_multi, [lines1, lines2], "twobuttons.png", [(80, 80), (240, 50)], 30)
             final_buffer = await self.bot.loop.run_in_executor(None, fn)
             file = discord.File(filename="twobuttons.png", fp=final_buffer)
-            await ctx.send(content=self.get_message(ctx), file=file)
-
-    @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.user)
-    async def win(self, ctx, text1: str, text2: str):
-        """
-        Who would win?   
-        """
-        await self.try_delete(ctx)
-        chars_per_line = 15
-        lines = 10
-
-        max_chars = chars_per_line * lines
-        if len(text1) > max_chars or len(text2) > max_chars:
-            return await ctx.send(f'Too many characters! Must be less than `{max_chars}`.')
-
-        async with ctx.typing():
-            wrapper = textwrap.TextWrapper(width=chars_per_line)
-            lines1 = wrapper.wrap(text=text1)
-            lines2 = wrapper.wrap(text=text2)
-            fn = partial(self.processing_drawtext_multi, [lines1, lines2], "win.png", [(20, 100), (370, 100)], 30)
-            final_buffer = await self.bot.loop.run_in_executor(None, fn)
-            file = discord.File(filename="win.png", fp=final_buffer)
             await ctx.send(content=self.get_message(ctx), file=file)
 
 
