@@ -5,7 +5,6 @@ import discord
 from discord.ext import commands
 
 import util.userconf as uc
-
 from util.checks import is_bot_owner
 
 
@@ -30,9 +29,10 @@ class Owner(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(hidden=True)
+    @commands.command()
     @commands.is_owner()
     async def botannounce(self, ctx, *, msg: str):
+        """Announce too all users following the bot a message"""
 
         def check(m):
             return m.author.id == ctx.author.id
@@ -60,15 +60,17 @@ class Owner(commands.Cog):
             await msg_c.delete()
             await ctx.send("Aborted!")
 
-    @commands.command(hidden=True)
+    @commands.command()
     @commands.is_owner()
     async def changepresence(self, ctx, *, presence: str):
+        """Change the bot's presence on the fly"""
         await self.bot.change_presence(activity=discord.Activity(name=presence, type=discord.ActivityType.playing))
         await ctx.send(f"Changed presence to `{presence}`")
 
-    @commands.command(hidden=True)
+    @commands.command()
     @commands.is_owner()
     async def getservers(self, ctx):
+        """Get a a list of all servers the bot is currently connected to"""
         max_chars = 1750
         guilds = '\n'.join(f"{guild.name} ({guild.id})" for guild in self.bot.guilds)
         guild_parts = [(guilds[i:i + max_chars]) for i in range(0, len(guilds), max_chars)]
@@ -78,9 +80,10 @@ class Owner(commands.Cog):
         if not isinstance(ctx.channel, discord.DMChannel):
             await ctx.send('Check your DMs!')
 
-    @commands.command(hidden=True)
+    @commands.command()
     @commands.is_owner()
     async def leaveserver(self, ctx, id: int):
+        """Make the bot leave a server"""
         guild = self.bot.get_guild(id)
         await guild.leave()
         await ctx.send(f'Left **{guild.name}** (*{guild.id}*).')
@@ -94,9 +97,10 @@ class Owner(commands.Cog):
     #     self.bot.run(self.bot.bot_token)
 
     # noinspection PyBroadException
-    @commands.command(hidden=True, name="reloadmusic")
+    @commands.command(name="reloadmusic")
     @is_bot_owner()
     async def reload_music(self, ctx):
+        """Reload the music module"""
         await ctx.send("Reloading music...")
         try:
             self.bot.reload_extension("cogs.music")
@@ -105,13 +109,14 @@ class Owner(commands.Cog):
             print(e)
             await ctx.send("Error reloading!")
 
-    @commands.command(hidden=True)
+    @commands.command()
     @commands.is_owner()
     async def shutdown(self, ctx):
+        """Shut the bot down."""
         await ctx.send("Shutting down bot...")
         await self.bot.logout()
 
-    @commands.command(hidden=True)
+    @commands.command()
     @commands.is_owner()
     async def sudo(self, ctx, channel: typing.Optional[GlobalChannel], who: discord.User, *, command: str):
         """Run a command as another user, optionally in another channel."""
