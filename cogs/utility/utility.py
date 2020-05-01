@@ -1,6 +1,7 @@
 import asyncio
 import datetime
 import html
+import re
 import string
 import time
 import typing
@@ -85,6 +86,25 @@ class Utility(commands.Cog):
         url = f"<https://lmgtfy.com/?q={query}>"
 
         await ctx.send(url)
+
+    @commands.command(name="matheval", aliases=["evalmath", "calc", "calculator"])
+    @commands.cooldown(5, 3)
+    async def math_eval(self, ctx, *, expression: str):
+        """Evaluate a mathematical expression"""
+        try:
+            with ctx.typing():
+                expression = re.sub(re.compile("([A-Za-z?$#@!{},;:'\"`~|])"), "", expression)
+                evaluated = eval(expression)
+
+            embed = discord.Embed(title="Math Evaluation", color=0x4AD473)
+            embed.add_field(name="Expression", value=expression, inline=False)
+            embed.add_field(name="Result", value=evaluated, inline=False)
+            embed.set_footer(text=f"Requested by {ctx.author.display_name}")
+
+            await ctx.send(embed=embed)
+
+        except SyntaxError:
+            await ctx.send("Syntax error!")
 
     @commands.command(aliases=["pastebinget", "pasteget", "pb"])
     async def pastebin(self, ctx, code: str):
