@@ -5,10 +5,12 @@ import re
 import string
 import time
 import typing
+from functools import partial
 from io import BytesIO
 from unicodedata import name
 
 import discord
+import googletrans
 import requests
 from discord.ext import commands
 
@@ -18,6 +20,7 @@ start_time = time.time()
 class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.trans = googletrans.Translator()
 
     @commands.command(hidden=True)
     async def binary(self, ctx, method: str, *, message: str):
@@ -226,6 +229,30 @@ class Utility(commands.Cog):
         """Make the bot say something"""
         await ctx.message.delete()
         await ctx.send(msg)
+
+    # noinspection PyBroadException
+    @commands.command()
+    async def translate(self, ctx, language: str, *, msg: str):
+        """Translate from a detected language to a specified language"""
+
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
+
+        loop = self.bot.loop
+
+        try:
+            fn = partial(self.trans.translate, dest=language)
+            ret = await loop.run_in_executor(None, fn, msg)
+        except Exception as e:
+            return await ctx.send(f'An error occurred: `{e.__class__.__name__}: {e}`')
+
+        embed = discord.Embed(title='Translate', colour=0xD8502F)
+        src = googletrans.LANGUAGES.get(ret.src, '(auto-detected)').title()
+        dest = googletrans.LANGUAGES.get(ret.dest, 'Unknown').title()
+        embed.add_field(name=f'From {src}', value=ret.origin, inline=False)
+        embed.add_field(name=f'To {dest}', value=ret.text, inline=False)
+
+        await ctx.send(embed=embed)
 
     # noinspection PyBroadException
     @commands.command(name="websitecheck", aliases=["downdetect", "isup"])
