@@ -10,6 +10,9 @@ class Utility(commands.Cog):
     @commands.Cog.listener("on_message")
     async def on_message(self, message):
 
+        if not message.guild:
+            return
+
         if not sc.get_v(str(message.guild.id), "rum_enabled"):
             return
 
