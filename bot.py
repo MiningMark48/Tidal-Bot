@@ -1,13 +1,10 @@
 import json
 import os.path as osp
-import random
-from datetime import datetime
 
 import discord
 from discord.ext import commands
 
 import cogs.utility.tags.tagconf as tc
-
 import util.servconf as sc
 import util.userconf as uc
 
@@ -17,9 +14,9 @@ extensions = ["errors", "fun.fun", "fun.minesweeper", "fun.numberguess", "fun.rr
               "fun.userguess", "fun.xkcd", "images.fakeping", "images.manip", "images.memelicense", "images.memes",
               "images.progress", "info", "moderation.flagging", "owner", "servmng.follow", "servmng.msgjoin",
               "servmng.prefix", "servmng.toggle", "utility.announce", "utility.colorgen", "utility.dictionary",
-              "utility.giveaway", "utility.lists.lists", "utility.lyrics", "utility.memesearch", "utility.poll",
-              "utility.random", "utility.rum", "utility.tags.tags", "utility.urbandict", "utility.utility",
-              "utility.wikipedia"]
+              "utility.feedback", "utility.giveaway", "utility.lists.lists", "utility.lyrics", "utility.memesearch",
+              "utility.poll", "utility.random", "utility.rum", "utility.tags.tags", "utility.urbandict",
+              "utility.utility", "utility.wikipedia"]
 
 load_battleship = False
 if load_battleship:
