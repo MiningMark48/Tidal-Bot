@@ -150,53 +150,6 @@ class Utility(commands.Cog):
         f = discord.File(buffer, filename=f'{text}.png')
         await ctx.send(file=f)
 
-    @commands.command(aliases=["botstats"])
-    async def stats(self, ctx):
-        """Stats about the bot"""
-        embed = discord.Embed(title="Bot Stats", color=ctx.message.author.top_role.color)
-        embed.add_field(name="Latency", value=f"{str(round(self.bot.latency * 1000, 0))[:2]}ms")
-        embed.add_field(name="Connected Servers", value=str(len(self.bot.guilds)))
-        embed.add_field(name="Users", value=str(len(self.bot.users)))
-        try:
-            await ctx.send(embed=embed)
-        except discord.HTTPException:
-            await ctx.send("Error sending embeded message, please try again later")
-
-    @commands.command(aliases=["emojieval", "evalemoji", "evalunicode", "uce"])
-    @commands.guild_only()
-    async def unicodeeval(self, ctx, char: str):
-        """[WIP] Evalutate a Unicode character or an emoji"""
-        if len(char) == 1:
-            hex = 'U+{:X}'.format(ord(char))
-            await ctx.send(f'**Unicode Evaluation:**\n`{hex}` `{char}` {char} *{name(char)}*')
-        else:
-            await ctx.send("Unicode must be a single character.")
-
-    @commands.command()
-    async def uptime(self, ctx):
-        """See how long the bot has been running"""
-        current_time = time.time()
-        difference = int(round(current_time - start_time))
-        time_d = datetime.timedelta(seconds=difference)
-        
-        days = time_d.days
-        hours = time_d.seconds//3600
-        minutes = (time_d.seconds//60)%60
-        seconds = time_d.seconds%60
-
-        text_days = f'{days} day{"" if days == 1 else "s"}'
-        text_hours = f'{hours} hour{"" if hours == 1 else "s"}'
-        text_minutes = f'{minutes} minute{"" if minutes == 1 else "s"}'
-        text_seconds = f'{seconds} second{"" if seconds == 1 else "s"}'
-        text = f'{text_days}, {text_hours}, {text_minutes}, and {text_seconds}'
-
-        embed = discord.Embed(title="Uptime", color=ctx.message.author.top_role.color)
-        embed.add_field(name="--", value=text)
-        try:
-            await ctx.send(embed=embed)
-        except discord.HTTPException:
-            await ctx.send("Current uptime: " + text)
-
     @commands.command(aliases=["reminder", "remindme"])
     @commands.has_permissions()
     async def remind(self, ctx, time: int, dm: typing.Optional[bool]=False, *, msg: str):
@@ -219,7 +172,7 @@ class Utility(commands.Cog):
         text = f'{ctx.author.mention}, this is your reminder: `{msg}`.'
         if not dm:
             await ctx.send(text)
-        else: 
+        else:
             await ctx.author.send(text)
 
     @commands.command()
@@ -230,29 +183,76 @@ class Utility(commands.Cog):
         await ctx.message.delete()
         await ctx.send(msg)
 
-    # noinspection PyBroadException
-    @commands.command()
-    async def translate(self, ctx, language: str, *, msg: str):
-        """Translate from a detected language to a specified language"""
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
-
-        loop = self.bot.loop
-
+    @commands.command(aliases=["botstats"])
+    async def stats(self, ctx):
+        """Stats about the bot"""
+        embed = discord.Embed(title="Bot Stats", color=ctx.message.author.top_role.color)
+        embed.add_field(name="Latency", value=f"{str(round(self.bot.latency * 1000, 0))[:2]}ms")
+        embed.add_field(name="Connected Servers", value=str(len(self.bot.guilds)))
+        embed.add_field(name="Users", value=str(len(self.bot.users)))
         try:
-            fn = partial(self.trans.translate, dest=language)
-            ret = await loop.run_in_executor(None, fn, msg)
-        except Exception as e:
-            return await ctx.send(f'An error occurred: `{e.__class__.__name__}: {e}`')
+            await ctx.send(embed=embed)
+        except discord.HTTPException:
+            await ctx.send("Error sending embeded message, please try again later")
 
-        embed = discord.Embed(title='Translate', colour=0xD8502F)
-        src = googletrans.LANGUAGES.get(ret.src, '(auto-detected)').title()
-        dest = googletrans.LANGUAGES.get(ret.dest, 'Unknown').title()
-        embed.add_field(name=f'From {src}', value=ret.origin, inline=False)
-        embed.add_field(name=f'To {dest}', value=ret.text, inline=False)
+        # noinspection PyBroadException
+        @commands.command()
+        async def translate(self, ctx, language: str, *, msg: str):
+            """Translate from a detected language to a specified language"""
 
-        await ctx.send(embed=embed)
+            if isinstance(ctx.channel, discord.TextChannel):
+                await ctx.message.delete()
+
+            loop = self.bot.loop
+
+            try:
+                fn = partial(self.trans.translate, dest=language)
+                ret = await loop.run_in_executor(None, fn, msg)
+            except Exception as e:
+                return await ctx.send(f'An error occurred: `{e.__class__.__name__}: {e}`')
+
+            embed = discord.Embed(title='Translate', colour=0xD8502F)
+            src = googletrans.LANGUAGES.get(ret.src, '(auto-detected)').title()
+            dest = googletrans.LANGUAGES.get(ret.dest, 'Unknown').title()
+            embed.add_field(name=f'From {src}', value=ret.origin, inline=False)
+            embed.add_field(name=f'To {dest}', value=ret.text, inline=False)
+
+            await ctx.send(embed=embed)
+
+    @commands.command(aliases=["emojieval", "evalemoji", "evalunicode", "uce"])
+    @commands.guild_only()
+    async def unicodeeval(self, ctx, char: str):
+        """[WIP] Evalutate a Unicode character or an emoji"""
+        if len(char) == 1:
+            hex = 'U+{:X}'.format(ord(char))
+            await ctx.send(f'**Unicode Evaluation:**\n`{hex}` `{char}` {char} *{name(char)}*')
+        else:
+            await ctx.send("Unicode must be a single character.")
+
+    @commands.command()
+    async def uptime(self, ctx):
+        """See how long the bot has been running"""
+        current_time = time.time()
+        difference = int(round(current_time - start_time))
+        time_d = datetime.timedelta(seconds=difference)
+
+        days = time_d.days
+        hours = time_d.seconds//3600
+        minutes = (time_d.seconds//60)%60
+        seconds = time_d.seconds%60
+
+        text_days = f'{days} day{"" if days == 1 else "s"}'
+        text_hours = f'{hours} hour{"" if hours == 1 else "s"}'
+        text_minutes = f'{minutes} minute{"" if minutes == 1 else "s"}'
+        text_seconds = f'{seconds} second{"" if seconds == 1 else "s"}'
+        text = f'{text_days}, {text_hours}, {text_minutes}, and {text_seconds}'
+
+        embed = discord.Embed(title="Uptime", color=ctx.message.author.top_role.color)
+        embed.add_field(name="--", value=text)
+        try:
+            await ctx.send(embed=embed)
+        except discord.HTTPException:
+            await ctx.send("Current uptime: " + text)
 
     # noinspection PyBroadException
     @commands.command(name="websitecheck", aliases=["downdetect", "isup"])
