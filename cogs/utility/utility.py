@@ -195,29 +195,29 @@ class Utility(commands.Cog):
         except discord.HTTPException:
             await ctx.send("Error sending embeded message, please try again later")
 
-        # noinspection PyBroadException
-        @commands.command()
-        async def translate(self, ctx, language: str, *, msg: str):
-            """Translate from a detected language to a specified language"""
+    # noinspection PyBroadException
+    @commands.command()
+    async def translate(self, ctx, language: str, *, msg: str):
+        """Translate from a detected language to a specified language"""
 
-            if isinstance(ctx.channel, discord.TextChannel):
-                await ctx.message.delete()
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
 
-            loop = self.bot.loop
+        loop = self.bot.loop
 
-            try:
-                fn = partial(self.trans.translate, dest=language)
-                ret = await loop.run_in_executor(None, fn, msg)
-            except Exception as e:
-                return await ctx.send(f'An error occurred: `{e.__class__.__name__}: {e}`')
+        try:
+            fn = partial(self.trans.translate, dest=language)
+            ret = await loop.run_in_executor(None, fn, msg)
+        except Exception as e:
+            return await ctx.send(f'An error occurred: `{e.__class__.__name__}: {e}`')
 
-            embed = discord.Embed(title='Translate', colour=0xD8502F)
-            src = googletrans.LANGUAGES.get(ret.src, '(auto-detected)').title()
-            dest = googletrans.LANGUAGES.get(ret.dest, 'Unknown').title()
-            embed.add_field(name=f'From {src}', value=ret.origin, inline=False)
-            embed.add_field(name=f'To {dest}', value=ret.text, inline=False)
+        embed = discord.Embed(title='Translate', colour=0xD8502F)
+        src = googletrans.LANGUAGES.get(ret.src, '(auto-detected)').title()
+        dest = googletrans.LANGUAGES.get(ret.dest, 'Unknown').title()
+        embed.add_field(name=f'From {src}', value=ret.origin, inline=False)
+        embed.add_field(name=f'To {dest}', value=ret.text, inline=False)
 
-            await ctx.send(embed=embed)
+        await ctx.send(embed=embed)
 
     @commands.command(aliases=["emojieval", "evalemoji", "evalunicode", "uce"])
     @commands.guild_only()
