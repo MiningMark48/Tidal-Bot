@@ -73,10 +73,10 @@ class Utility(commands.Cog):
             await ctx.send(file=file)
 
     @commands.command(name="announceembed", aliases=["announcementembed", "annembed"])
-    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.guild_only()
     async def announce_embed(self, ctx, *, text: str):
-        """Announce a message"""
+        """Announce a message, embedded"""
         await ctx.message.delete()
 
         max_chars = 1900
