@@ -19,6 +19,9 @@ class Utility(commands.Cog):
         The bot will communicate with you via DM about the status of your request if possible and when able.
         """
 
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
+
         embed = discord.Embed(title='Feedback', colour=0x6777EC)
         channel = self.bot.get_channel(705639785238102036)  # TODO: Make config
         if channel is None:
