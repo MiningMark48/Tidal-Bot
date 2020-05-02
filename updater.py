@@ -47,6 +47,7 @@ def upload_files():
             with s.cd(remote_path):
                 put_r_portable(s, dir, remote_path, preserve_mtime=False)
                 for f in files:
+                    print(f"Uploading: {f}")
                     s.put(f, f"/home/mark/tidalbot_python/{f}", preserve_mtime=False)
                 print(f"Upload complete: {dir}")
     print("All uploads complete")
