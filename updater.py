@@ -34,6 +34,7 @@ def put_r_portable(sftp, localdir, remotedir, preserve_mtime=False):
 def upload_files():
     print("Starting upload...")
     directories = ['cogs', 'resources', 'util']
+    files = ["bot.py", "extensions.py"]
     cnopts = sftp.CnOpts()
     cnopts.hostkeys = None
 
@@ -45,7 +46,8 @@ def upload_files():
             # local_path = 'testdir'
             with s.cd(remote_path):
                 put_r_portable(s, dir, remote_path, preserve_mtime=False)
-                s.put("bot.py", "/home/mark/tidalbot_python/bot.py", preserve_mtime=False)
+                for f in files:
+                    s.put(f, f"/home/mark/tidalbot_python/{f}", preserve_mtime=False)
                 print(f"Upload complete: {dir}")
     print("All uploads complete")
     s.close()
