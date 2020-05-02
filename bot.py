@@ -41,7 +41,6 @@ if osp.isfile(config_path):
         bot_key = data["bot_key"]
         load_music = data["load_music"]
         bot_owners = data["bot_owners"]
-        extensions = data["extensions"]
         Logger.success("Config loaded.")
 else:
     with open(config_path, 'w') as file:
