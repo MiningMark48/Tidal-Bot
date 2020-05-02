@@ -10,7 +10,7 @@ import util.userconf as uc
 from extensions import EXTENSIONS
 from util.logger import Logger
 
-Logger.info("Starting...")
+Logger.alert("Starting...")
 
 bot_token = "bot.token"
 bot_key = ";"

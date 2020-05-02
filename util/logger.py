@@ -42,6 +42,10 @@ class Logger:
         print(f"{color}{msg}{Colors.reset}")
 
     @staticmethod
+    def alert(msg):
+        Logger.log(Colors.FG.yellow, msg)
+
+    @staticmethod
     def info(msg):
         Logger.log(Colors.FG.light_grey, msg)
 
