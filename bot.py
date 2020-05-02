@@ -7,21 +7,15 @@ from discord.ext import commands
 import cogs.utility.tags.tagconf as tc
 import util.servconf as sc
 import util.userconf as uc
+from extensions import EXTENSIONS
 
 print("Starting...")
-
-extensions = ["errors", "fun.fun", "fun.minesweeper", "fun.numberguess", "fun.rroulette", "fun.sudoku", "fun.trivia",
-              "fun.userguess", "fun.xkcd", "images.fakeping", "images.manip", "images.memelicense", "images.memes",
-              "images.progress", "info", "moderation.flagging", "owner", "servmng.follow", "servmng.msgjoin",
-              "servmng.prefix", "servmng.toggle", "utility.announce", "utility.colorgen", "utility.dictionary",
-              "utility.feedback", "utility.giveaway", "utility.lists.lists", "utility.lyrics", "utility.memesearch",
-              "utility.poll", "utility.random", "utility.rum", "utility.tags.tags", "utility.urbandict",
-              "utility.utility", "utility.wikipedia"]
 
 bot_token = "bot.token"
 bot_key = ";"
 load_music = True
 bot_owners = []
+extensions = EXTENSIONS
 
 config_path = "config.json"
 resources_path = "./resources/"
@@ -46,6 +40,7 @@ if osp.isfile(config_path):
         bot_key = data["bot_key"]
         load_music = data["load_music"]
         bot_owners = data["bot_owners"]
+        extensions = data["extensions"]
         print("Config loaded.")
 else:
     with open(config_path, 'w') as file:
