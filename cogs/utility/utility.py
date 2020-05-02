@@ -279,6 +279,20 @@ class Utility(commands.Cog):
             except Exception as e:
                 await ctx.send(f"Error: `{e}`")
 
+    @commands.command(name="youtubestatus", aliases=["ytstatus"], hidden=True)
+    async def youtube_status(self, ctx, user: discord.Member):
+        """
+        Get the YouTube URL from someone's custom status.
+
+        Ex: John#0001 has the status `dQw4w9WgXcQ`. The command will return https://www.youtube.com/watch?v=dQw4w9WgXcQ.
+        """
+
+        base_url = "https://www.youtube.com/watch?v="
+        activity = str(user.activity)
+        activity = re.sub(r"<.+>", "", activity)
+        activity = activity.replace(" ", "")
+        await ctx.send(f"{base_url}{activity}")
+
 
 def setup(bot):
     bot.add_cog(Utility(bot))
