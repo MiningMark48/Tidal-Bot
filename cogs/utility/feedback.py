@@ -51,7 +51,7 @@ class Utility(commands.Cog):
 
         embed = discord.Embed(title='Feedback', colour=0x6777EC)
         embed.add_field(name="Message", value=content)
-        embed.description = '*This is DM was sent because you had previously requested feedback.' \
+        embed.description = '*This is DM was sent because you had previously submitted feedback.' \
                             'This DM is not monitored as is used to provide an update of your request.*'
         try:
             await user.send(embed=embed)
