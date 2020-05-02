@@ -3,6 +3,7 @@ import os
 import shutil
 from os import path
 from datetime import datetime as dt
+from util.logger import Logger
 
 
 def backup_file(filename: str):
@@ -22,4 +23,4 @@ def backup_file(filename: str):
             return
 
     shutil.copyfile(f"{filename}", backup_name)
-    print(f"Backed up {filename} to {backup_name}")
+    Logger.info(f"Backed up {filename} to {backup_name}")

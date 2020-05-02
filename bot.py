@@ -8,8 +8,9 @@ import cogs.utility.tags.tagconf as tc
 import util.servconf as sc
 import util.userconf as uc
 from extensions import EXTENSIONS
+from util.logger import Logger
 
-print("Starting...")
+Logger.info("Starting...")
 
 bot_token = "bot.token"
 bot_key = ";"
@@ -32,7 +33,7 @@ do_run = True
 global servers_cfg
 servers_cfg = None
 
-print("Loading config...")
+Logger.info("Loading config...")
 if osp.isfile(config_path):
     with open(config_path, 'r') as file:
         data = json.load(file)
@@ -41,12 +42,12 @@ if osp.isfile(config_path):
         load_music = data["load_music"]
         bot_owners = data["bot_owners"]
         extensions = data["extensions"]
-        print("Config loaded.")
+        Logger.success("Config loaded.")
 else:
     with open(config_path, 'w') as file:
-        print("Config file not found, creating...")
+        Logger.warn("Config file not found, creating...")
         json.dump(def_config, file, indent=4)
-        print("Config file created.")
+        Logger.success("Config file created.")
         do_run = False
 
 
@@ -63,7 +64,7 @@ bot = commands.Bot(command_prefix=prefix, help_command=def_help)
 
 @bot.event
 async def on_ready():
-    print(f'We have logged in as {bot.user}')
+    Logger.success(f"We have logged in as {bot.user}")
     await bot.change_presence(activity=discord.Activity(name=f"Do {bot_key}help", type=discord.ActivityType.playing))
 
     sc.backup_data()
@@ -128,11 +129,12 @@ if __name__ == "__main__":
     for extension in extensions:
         try:
             bot.load_extension(f"cogs.{extension}")
-            print(f"[Cog] Loaded {extension}")
+            Logger.info(f"[Cog] Loaded {extension}")
         except Exception as error:
-            print(f"{extension} cannot be loaded. [{error}]")
+            Logger.fatal(f"{extension} cannot be loaded. [{error}]")
+
 
 if do_run:
     bot.run(bot_token)
 else:
-    print("Startup aborted.")
+    Logger.fatal("Startup aborted.")
