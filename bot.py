@@ -18,10 +18,6 @@ extensions = ["errors", "fun.fun", "fun.minesweeper", "fun.numberguess", "fun.rr
               "utility.poll", "utility.random", "utility.rum", "utility.tags.tags", "utility.urbandict",
               "utility.utility", "utility.wikipedia"]
 
-load_battleship = False
-if load_battleship:
-    extensions.append("fun.battleship")
-
 bot_token = "bot.token"
 bot_key = ";"
 load_music = True
