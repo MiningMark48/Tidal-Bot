@@ -22,6 +22,11 @@ class Utility(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def reddit(self, ctx, subreddit="all"):
+        """
+        Fetch a random post from a subreddit.
+
+        When a subreddit isn't specified, the 'all' page is used.
+        """
         try:
             r = self.reddit
             sr = r.subreddit(subreddit)
