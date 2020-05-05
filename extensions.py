@@ -30,6 +30,7 @@ EXTENSIONS = [
     "utility.memesearch",
     "utility.poll",
     "utility.random",
+    "utility.reddit",
     "utility.rum",
     "utility.tags.tags",
     "utility.urbandict",
