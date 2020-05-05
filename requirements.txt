@@ -1,12 +1,14 @@
+wavelink==0.3.4
 humanize==0.5.1
-pytz==2019.2
 requests==2.22.0
 aiohttp==3.6.2
+pytz==2019.2
 discord.py==1.3.3
-wavelink==0.3.4
 beautifulsoup4==4.9.0
 discord==1.0.1
+Faker==4.0.3
 fuzzywuzzy==0.18.0
-Pillow==7.1.1
+googletrans==2.4.0
+Pillow==7.1.2
 pysftp==0.2.9
 ssh2==1.03
