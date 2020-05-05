@@ -20,7 +20,7 @@ class Utility(commands.Cog):
 
     # noinspection PyBroadException
     @commands.command()
-    @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def reddit(self, ctx, subreddit="all"):
         try:
             r = self.reddit
