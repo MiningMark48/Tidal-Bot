@@ -51,7 +51,7 @@ class Utility(commands.Cog):
 
             await ctx.send(embed=embed)
         except Exception as e:
-            await ctx.send(f"An error has occurred!\n`{e}`")
+            await ctx.send(f"An error has occurred! It's likely that subreddit does not exist or could not be loaded.`")
 
 
 def is_url_image(image_url):
