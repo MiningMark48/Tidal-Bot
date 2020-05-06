@@ -61,6 +61,27 @@ class Utility(commands.Cog):
         list = ' '.join(str(x) for x in ctx.guild.emojis)
         await ctx.send(f'**Emojis: **{list}')
 
+    @commands.command(name="explodingmessage", aliases=["explodemsg", "msgboom"])
+    async def exploding_message(self, ctx, *, msg: str):
+        """
+        Send a message that 'explodes' after 10 seconds.
+        """
+
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
+
+        delete_time = 10
+        embed = discord.Embed(title="Exploding Message", color=0xA53071)
+        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+        embed.timestamp = ctx.message.created_at
+        embed.description = f"{msg}\n\n*This message will be deleted in {delete_time} seconds*"
+
+        sent_msg = await ctx.send(embed=embed)
+        await asyncio.sleep(delete_time)
+
+        embed.description = "Message Exploded!"
+        await sent_msg.edit(embed=embed)
+
     @commands.command(aliases=["gistget"])
     async def gist(self, ctx, code: str):
         """Get the RAW text from a Gist"""
