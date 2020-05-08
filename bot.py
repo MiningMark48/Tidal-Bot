@@ -100,19 +100,21 @@ async def on_command(ctx):
     if not ctx.guild:
         return
 
-    channel = discord.utils.find(lambda c: (isinstance(c, discord.TextChannel) and "[tb-log]" in (c.topic if c.topic else "")), ctx.guild.channels)
-    if channel:
+    webhook = discord.utils.find(lambda w: (isinstance(w, discord.Webhook) and w.name == "tb-log"),
+                                 await ctx.guild.webhooks())
+    if webhook:
         embed = discord.Embed(title=ctx.command.name, color=ctx.message.author.top_role.color)
-        embed.add_field(name="Executed by", value=ctx.author.mention)
-        embed.add_field(name="Executed at", value=str(ctx.message.created_at)[:19])
-        embed.add_field(name="Message Link", value=f'[Click Here]({ctx.message.jump_url})')
+        embed.timestamp = ctx.message.created_at
+        embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
         message_content = ctx.message.content
-        embed.add_field(name="Full Message", value=f'{message_content[:100]}...' if len(message_content) > 100 else message_content, inline=False)
+        embed.description = f'{message_content[:100]}...' if len(message_content) > 100 else message_content
+        embed.add_field(name="Message Link", value=f'[Click Here]({ctx.message.jump_url})')
 
         try:
-            await channel.send(embed=embed)
+            await webhook.send(embed=embed, username=f"{str(bot.user.display_name)} - Log",
+                               avatar_url=str(bot.user.avatar_url))
         except discord.HTTPException:
-            await ctx.send("Error, could not send embed.")
+            await webhook.send("Error, could not send embed.")
 
 
 @bot.event
