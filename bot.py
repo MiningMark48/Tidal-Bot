@@ -125,13 +125,15 @@ if __name__ == "__main__":
     if load_music:
         extensions.append("music")
 
+    count = 0
     for extension in extensions:
         try:
             bot.load_extension(f"cogs.{extension}")
             Logger.info(f"[Cog] Loaded {extension}")
+            count += 1
         except Exception as error:
             Logger.fatal(f"{extension} cannot be loaded. [{error}]")
-
+    Logger.info(f"Loaded {count}/{len(extensions)} cogs")
 
 if do_run:
     bot.run(bot_token)
