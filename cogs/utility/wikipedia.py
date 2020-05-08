@@ -1,5 +1,6 @@
 import re
 
+import aiohttp
 import discord
 import requests
 from bs4 import BeautifulSoup as bs
@@ -23,33 +24,35 @@ class Fun(commands.Cog):
                 payload = {"search": query, "cirrusUserTesting": "control", "sort": "relevance", "title": "Special:Search",
                            "profile": "advanced", "fulltext": 1, "advancedSearch-current": "%7B%7D", "ns0": 1}
 
-                r = requests.get(base_url, params=payload, timeout=1)
-                content = r.content
-                soup = bs(content, 'html.parser')
-                search_results = soup.find("ul", class_="mw-search-results")
-                top_result = search_results.find_all_next("li")[0]
-                result_link_div = top_result.find_all_next("div")[0]
-                result_link_a = result_link_div.find("a")
-                result_link = "https://en.wikipedia.org{}".format(result_link_a['href'])
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(base_url, params=payload) as r:
+                        content = await r.content.read()
 
-                s_r = requests.get(result_link, timeout=1)
-                s_content = s_r.content
-                s_soup = bs(s_content, 'html.parser')
-                s_output = s_soup.find("div", class_="mw-parser-output")
-                s_p_no_class = s_output.find_all_next("p", attrs={'class': None})[0]
-                s_p_desc = s_p_no_class.get_text()[:500]
+                        soup = bs(content, 'html.parser')
+                        search_results = soup.find("ul", class_="mw-search-results")
+                        top_result = search_results.find_all_next("li")[0]
+                        result_link_div = top_result.find_all_next("div")[0]
+                        result_link_a = result_link_div.find("a")
+                        result_link = "https://en.wikipedia.org{}".format(result_link_a['href'])
 
-                s_meta_covimg = s_soup.find_all("meta", property=re.compile(r'^og:image'))
+                        s_r = requests.get(result_link, timeout=1)
+                        s_content = s_r.content
+                        s_soup = bs(s_content, 'html.parser')
+                        s_output = s_soup.find("div", class_="mw-parser-output")
+                        s_p_no_class = s_output.find_all_next("p", attrs={'class': None})[0]
+                        s_p_desc = s_p_no_class.get_text()[:500]
 
-                embed = discord.Embed(title=result_link_a['title'], url=s_r.url)
-                embed.description = f'{s_p_desc}...'
-                embed.set_footer(text="Fetched from Wikipedia")
+                        s_meta_covimg = s_soup.find_all("meta", property=re.compile(r'^og:image'))
 
-                if s_meta_covimg:
-                    s_covimg_link = s_meta_covimg[0]['content']
-                    embed.set_image(url=s_covimg_link)
+                        embed = discord.Embed(title=result_link_a['title'], url=s_r.url)
+                        embed.description = f'{s_p_desc}...'
+                        embed.set_footer(text="Fetched from Wikipedia")
 
-                await ctx.send(embed=embed)
+                        if s_meta_covimg:
+                            s_covimg_link = s_meta_covimg[0]['content']
+                            embed.set_image(url=s_covimg_link)
+
+                        await ctx.send(embed=embed)
 
             except IndexError:
                 await ctx.send("No search results found!")

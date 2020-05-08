@@ -1,7 +1,6 @@
-import html
+import aiohttp
 
 import discord
-import requests
 from bs4 import BeautifulSoup as bs
 from discord.ext import commands
 
@@ -31,47 +30,49 @@ class Fun(commands.Cog):
                 query = query.replace(" ", "+")
                 base_url = f"https://www.urbandictionary.com/define.php?term={query}"
 
-                r = requests.get(base_url, timeout=3)
-                content = r.content
-                soup = bs(content, 'html.parser')
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(base_url) as r:
+                        content = await r.content.read()
 
-                for br in soup.find_all("br"):
-                    br.replace_with("\n")
+                        soup = bs(content, 'html.parser')
 
-                div_content = soup.find_all(id="content")[0]
+                        for br in soup.find_all("br"):
+                            br.replace_with("\n")
 
-                def_panel_list = div_content.find_all("div", class_="def-panel")
-                dict_pages = []
-                for index in range(0, len(def_panel_list)-1):
-                    def_panel = def_panel_list[index]
-                    def_header = def_panel.find_all("div", class_="def-header")[0]
-                    word = def_header.find_all("a", class_="word")[0]
-                    word_text = str(word.get_text()).capitalize()
-                    meaning = def_panel.find_all("div", class_="meaning")[0]
-                    meaning_text = meaning.get_text()
-                    dict_pages.append((word_text, meaning_text))
+                        div_content = soup.find_all(id="content")[0]
 
-                page_info = f'\n\n**Page:** 1/{len(dict_pages)}'
-                w, m = dict_pages[0]
-                embed = discord.Embed(title=w, url=r.url, color=0x1d2439)
-                embed.description = f'{m[:1800]} {"..." if len(m) > 1800 else ""} ' \
-                                    f'{page_info if len(page_info)>1 else ""}'
-                embed.set_footer(text="Fetched from Urban Dictionary")
+                        def_panel_list = div_content.find_all("div", class_="def-panel")
+                        dict_pages = []
+                        for index in range(0, len(def_panel_list)-1):
+                            def_panel = def_panel_list[index]
+                            def_header = def_panel.find_all("div", class_="def-header")[0]
+                            word = def_header.find_all("a", class_="word")[0]
+                            word_text = str(word.get_text()).capitalize()
+                            meaning = def_panel.find_all("div", class_="meaning")[0]
+                            meaning_text = meaning.get_text()
+                            dict_pages.append((word_text, meaning_text))
 
-                msg = await ctx.send(embed=embed)
+                        page_info = f'\n\n**Page:** 1/{len(dict_pages)}'
+                        w, m = dict_pages[0]
+                        embed = discord.Embed(title=w, url=str(r.url), color=0x1d2439)
+                        embed.description = f'{m[:1800]} {"..." if len(m) > 1800 else ""} ' \
+                                            f'{page_info if len(page_info)>1 else ""}'
+                        embed.set_footer(text="Fetched from Urban Dictionary")
 
-                if len(dict_pages) > 1:
-                    if len(dict_pages) > 2:
-                        await msg.add_reaction("⏪")
-                    await msg.add_reaction("◀")
-                    await msg.add_reaction("▶")
-                    if len(dict_pages) > 2:
-                        await msg.add_reaction("⏩")
+                        msg = await ctx.send(embed=embed)
 
-                self.dict_messages.append(msg.id)
-                self.dict_pages.update({msg.id: dict_pages})
-                self.page_index.update({msg.id: 0})
-                self.def_embed.update({msg.id: embed})
+                        if len(dict_pages) > 1:
+                            if len(dict_pages) > 2:
+                                await msg.add_reaction("⏪")
+                            await msg.add_reaction("◀")
+                            await msg.add_reaction("▶")
+                            if len(dict_pages) > 2:
+                                await msg.add_reaction("⏩")
+
+                        self.dict_messages.append(msg.id)
+                        self.dict_pages.update({msg.id: dict_pages})
+                        self.page_index.update({msg.id: 0})
+                        self.def_embed.update({msg.id: embed})
 
             except IndexError:
                 await ctx.send("No search results found!")

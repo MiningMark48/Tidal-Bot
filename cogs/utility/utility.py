@@ -9,6 +9,7 @@ from functools import partial
 from io import BytesIO
 from unicodedata import name
 
+import aiohttp
 import discord
 import googletrans
 import requests
@@ -47,7 +48,7 @@ class Utility(commands.Cog):
         elif method in ["decode", "d"]:
             str_data = ' '
             for i in range(0, len(message), 7):
-                temp_data = message[i:i+7]
+                temp_data = message[i:i + 7]
                 decimal_data = binary_to_decimal(temp_data)
                 str_data = str_data + chr(decimal_data)
             await ctx.send(str_data)
@@ -88,16 +89,17 @@ class Utility(commands.Cog):
         await ctx.message.delete()
 
         base_url = f"https://api.github.com/gists/{code}"
-        url = requests.get(base_url, timeout=0.5)
-        data = url.json()
-        base_obj = data['files'][next(iter(data['files']))]
-        language = base_obj['language']
-        content = base_obj['content']
+        async with aiohttp.ClientSession() as session:
+            async with session.get(base_url) as r:
+                data = await r.json()
+                base_obj = data['files'][next(iter(data['files']))]
+                language = base_obj['language']
+                content = base_obj['content']
 
-        txt = f'**Gist** (*{code}*): ```{language}\n{(content[:1500]) if len(content) > 1500 else content}``` ' \
-              f'Visit {base_obj["raw_url"]} for more'
+                txt = f'**Gist** (*{code}*): ```{language}\n{(content[:1500]) if len(content) > 1500 else content}``` ' \
+                      f'Visit {base_obj["raw_url"]} for more'
 
-        await ctx.send(txt)
+                await ctx.send(txt)
 
     @commands.command(aliases=["lmg", "google"])
     async def lmgtfy(self, ctx, *, query: str):
@@ -135,11 +137,12 @@ class Utility(commands.Cog):
         """Get the RAW text from a Pastebin"""
         await ctx.message.delete()
         base_url = f"https://pastebin.com/raw/{code}"
-        url = requests.get(base_url, timeout=0.5)
-        data = url.text
-        txt = f'**Pastebin** (*{code}*): ```{({data[:1500]}) if len(data) > 1500 else data}``` ' \
-              f'Visit {base_url} for more'
-        await ctx.send(txt)
+        async with aiohttp.ClientSession() as session:
+            async with session.get(base_url) as r:
+                data = await r.text()
+                txt = f'**Pastebin** (*{code}*): ```{({data[:1500]}) if len(data) > 1500 else data}``` ' \
+                      f'Visit {base_url} for more'
+                await ctx.send(txt)
 
     @commands.command()
     async def ping(self, ctx):
@@ -166,14 +169,16 @@ class Utility(commands.Cog):
         """Generate a QR Code from a string of text"""
         base_url = f"http://api.qrserver.com/v1/create-qr-code/"
         payload = {'size': '200x200', 'margin': '10', 'bgcolor': 'ffffff', 'color': '000000', 'data': text}
-        r = requests.get(base_url, params=payload, timeout=0.5)
-        buffer = BytesIO(r.content)
-        f = discord.File(buffer, filename=f'{text}.png')
-        await ctx.send(file=f)
+        async with aiohttp.ClientSession() as session:
+            async with session.get(base_url, params=payload) as r:
+                content = await r.content.read()
+                buffer = BytesIO(content)
+                f = discord.File(buffer, filename=f'{text}.png')
+                await ctx.send(file=f)
 
     @commands.command(aliases=["reminder", "remindme"])
     @commands.has_permissions()
-    async def remind(self, ctx, time: int, dm: typing.Optional[bool]=False, *, msg: str):
+    async def remind(self, ctx, time: int, dm: typing.Optional[bool] = False, *, msg: str):
         """
         Have the bot remind you about something
 
@@ -188,7 +193,7 @@ class Utility(commands.Cog):
         time = max(min(time, 120), 0)
         await ctx.send(f'Ok, I will remind you `{msg}` in **{time}** minutes.', delete_after=10)
 
-        await asyncio.sleep(time*60)
+        await asyncio.sleep(time * 60)
 
         text = f'{ctx.author.mention}, this is your reminder: `{msg}`.'
         if not dm:
@@ -258,9 +263,9 @@ class Utility(commands.Cog):
         time_d = datetime.timedelta(seconds=difference)
 
         days = time_d.days
-        hours = time_d.seconds//3600
-        minutes = (time_d.seconds//60)%60
-        seconds = time_d.seconds%60
+        hours = time_d.seconds // 3600
+        minutes = (time_d.seconds // 60) % 60
+        seconds = time_d.seconds % 60
 
         text_days = f'{days} day{"" if days == 1 else "s"}'
         text_hours = f'{hours} hour{"" if hours == 1 else "s"}'
@@ -275,6 +280,7 @@ class Utility(commands.Cog):
         except discord.HTTPException:
             await ctx.send("Current uptime: " + text)
 
+    # TODO: Remove Website_Check (Command isn't super effective/useful)
     # noinspection PyBroadException
     @commands.command(name="websitecheck", aliases=["downdetect", "isup"])
     async def website_check(self, ctx, *, url: str):

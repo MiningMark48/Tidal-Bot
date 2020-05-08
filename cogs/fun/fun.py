@@ -1,8 +1,8 @@
 import random
 import typing
 
+import aiohttp
 import discord
-import requests
 from discord.ext import commands
 
 from util.spongemock import mockify
@@ -17,22 +17,23 @@ class Fun(commands.Cog):
         """Fetch a Chuck Norris Joke"""
         base_url = "http://api.icndb.com/jokes/random"
         payload = {"escape": "html"}
-        r = requests.get(base_url, params=payload, timeout=1)
-        content = r.json()
-        joke = content["value"]
-        joke_text = joke["joke"]
-        categories = joke["categories"]
+        async with aiohttp.ClientSession() as session:
+            async with session.get(base_url, params=payload) as r:
+                content = await r.json()
+                joke = content["value"]
+                joke_text = joke["joke"]
+                categories = joke["categories"]
 
-        embed = discord.Embed(title="Chuck Norris")
-        embed.description = joke_text
-        embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Chuck_Norris_May_2015.jpg/"
-                            "220px-Chuck_Norris_May_2015.jpg")
-        embed.set_footer(text="Fetched from The Internet Chuck Norris Database")
+                embed = discord.Embed(title="Chuck Norris")
+                embed.description = joke_text
+                embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Chuck_Norris_May_"
+                                        "2015.jpg/220px-Chuck_Norris_May_2015.jpg")
+                embed.set_footer(text="Fetched from The Internet Chuck Norris Database")
 
-        if categories:
-            embed.add_field(name="Categories", value=" ,".join(str(c).capitalize() for c in categories), inline=False)
+                if categories:
+                    embed.add_field(name="Categories", value=" ,".join(str(c).capitalize() for c in categories), inline=False)
 
-        await ctx.send(embed=embed)
+                await ctx.send(embed=embed)
 
     @commands.command(name="magic8ball", aliases=["8ball", "magicball", "magic8"])
     async def magic_8_ball(self, ctx):

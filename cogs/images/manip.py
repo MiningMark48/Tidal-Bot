@@ -1,6 +1,7 @@
 import random
 from io import BytesIO
 
+import aiohttp
 import discord
 import requests
 from PIL import Image, UnidentifiedImageError, ImageOps, ImageFilter, ImageFont, ImageDraw
@@ -22,11 +23,13 @@ class Images(commands.Cog):
             await ctx.message.delete()
 
         if not url:
-            url = ctx.author.avatar_url
+            url = str(ctx.author.avatar_url)
 
         try:
-            r = requests.get(url, timeout=2)
-            buffer = BytesIO(r.content)
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as r:
+                    content = await r.content.read()
+                    buffer = BytesIO(content)
 
             async with ctx.typing():
                 with Image.open(buffer) as im:
@@ -56,11 +59,13 @@ class Images(commands.Cog):
             await ctx.message.delete()
 
         if not url:
-            url = ctx.author.avatar_url
+            url = str(ctx.author.avatar_url)
 
         try:
-            r = requests.get(url, timeout=2)
-            buffer = BytesIO(r.content)
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as r:
+                    content = await r.content.read()
+                    buffer = BytesIO(content)
 
             async with ctx.typing():
                 with Image.open(buffer) as im:
@@ -94,11 +99,13 @@ class Images(commands.Cog):
             await ctx.message.delete()
 
         if not url:
-            url = ctx.author.avatar_url
+            url = str(ctx.author.avatar_url)
 
         try:
-            r = requests.get(url, timeout=2)
-            buffer = BytesIO(r.content)
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as r:
+                    content = await r.content.read()
+                    buffer = BytesIO(content)
 
             async with ctx.typing():
                 with Image.open(buffer) as im:
@@ -128,11 +135,13 @@ class Images(commands.Cog):
             await ctx.message.delete()
 
         if not url:
-            url = ctx.author.avatar_url
+            url = str(ctx.author.avatar_url)
 
         try:
-            r = requests.get(url, timeout=2)
-            buffer = BytesIO(r.content)
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as r:
+                    content = await r.content.read()
+                    buffer = BytesIO(content)
 
             async with ctx.typing():
                 with Image.open(buffer) as im:
@@ -160,11 +169,13 @@ class Images(commands.Cog):
             await ctx.message.delete()
 
         if not url:
-            url = ctx.author.avatar_url
+            url = str(ctx.author.avatar_url)
 
         try:
-            r = requests.get(url, timeout=2)
-            buffer = BytesIO(r.content)
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as r:
+                    content = await r.content.read()
+                    buffer = BytesIO(content)
 
             async with ctx.typing():
                 with Image.open(buffer) as im:
@@ -196,11 +207,13 @@ class Images(commands.Cog):
             await ctx.message.delete()
 
         if not url:
-            url = ctx.author.avatar_url
+            url = str(ctx.author.avatar_url)
 
         try:
-            r = requests.get(url, timeout=2)
-            buffer = BytesIO(r.content)
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as r:
+                    content = await r.content.read()
+                    buffer = BytesIO(content)
 
             async with ctx.typing():
                 with Image.open(buffer) as im:
@@ -241,11 +254,13 @@ class Images(commands.Cog):
             await ctx.message.delete()
 
         if not url:
-            url = ctx.author.avatar_url
+            url = str(ctx.author.avatar_url)
 
         try:
-            r = requests.get(url, timeout=2)
-            buffer = BytesIO(r.content)
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as r:
+                    content = await r.content.read()
+                    buffer = BytesIO(content)
 
             async with ctx.typing():
                 with Image.open(buffer) as im:

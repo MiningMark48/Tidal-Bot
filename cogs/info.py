@@ -1,5 +1,6 @@
+import aiohttp
+
 import discord
-import requests
 from discord.ext import commands
 
 
@@ -26,8 +27,9 @@ class Info(commands.Cog):
     async def github(self, ctx, user: str):
         """Look up information about a user on Github"""
         base_url = f"https://api.github.com/users/{user}"
-        url = requests.get(base_url, timeout=0.5)
-        data = url.json()
+        async with aiohttp.ClientSession() as session:
+            async with session.get(base_url) as r:
+                data = await r.json()
         embed = discord.Embed(title=data["login"], color=ctx.message.author.top_role.color, url=data["html_url"])
         embed.add_field(name="Name", value=data["name"])
         embed.add_field(name="Company", value=data["company"])
@@ -68,8 +70,9 @@ class Info(commands.Cog):
     async def mixer(self, ctx, user: str):
         """Look up information about a user on Mixer"""
         base_url = f"https://mixer.com/api/v1/channels/{user}"
-        url = requests.get(base_url, timeout=0.5)
-        data = url.json()
+        async with aiohttp.ClientSession() as session:
+            async with session.get(base_url) as r:
+                data = await r.json()
         embed = discord.Embed(title=data["token"], color=ctx.message.author.top_role.color,
                               url=f"https://mixer.com/{user}")
         embed.add_field(name="Stream Title", value=data["name"], inline=False)

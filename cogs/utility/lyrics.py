@@ -1,5 +1,6 @@
 import typing
 
+import aiohttp
 import discord
 import requests
 from bs4 import BeautifulSoup as bs
@@ -33,46 +34,47 @@ class Utility(commands.Cog):
                 base_url = f"http://www.songlyrics.com/index.php"
                 payload = {"section": "search", "searchW": query, "submit": "Search"}
 
-                r = requests.get(base_url, params=payload, timeout=2)
-                content = r.content
-                soup = bs(content, 'html.parser')
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(base_url, params=payload) as r:
+                        content = await r.content.read()
+                        soup = bs(content, 'html.parser')
 
-                search_results = soup.find_all("div", class_="serpresult")
-                top_result = search_results[0]
+                        search_results = soup.find_all("div", class_="serpresult")
+                        top_result = search_results[0]
 
-                link_elm = top_result.find_all("a")[0]
-                song_link = link_elm['href']
+                        link_elm = top_result.find_all("a")[0]
+                        song_link = link_elm['href']
 
-                s_r = requests.get(song_link, timeout=1)
-                s_content = s_r.content
-                s_soup = bs(s_content, 'html.parser')
+                        s_r = requests.get(song_link, timeout=1)
+                        s_content = s_r.content
+                        s_soup = bs(s_content, 'html.parser')
 
-                lyrics = s_soup.find_all(id="songLyricsDiv")[0].get_text()
-                page_title_div = s_soup.find_all("div", class_="pagetitle")[0]
-                page_title = page_title_div.find_all("h1")[0].get_text()
+                        lyrics = s_soup.find_all(id="songLyricsDiv")[0].get_text()
+                        page_title_div = s_soup.find_all("div", class_="pagetitle")[0]
+                        page_title = page_title_div.find_all("h1")[0].get_text()
 
-                max_chars = 700
-                lyric_pages = [(lyrics[i:i+max_chars]) for i in range(0, len(lyrics), max_chars)]
-                page_info = f'\n\n**Page:** 1/{len(lyric_pages)}'
+                        max_chars = 700
+                        lyric_pages = [(lyrics[i:i+max_chars]) for i in range(0, len(lyrics), max_chars)]
+                        page_info = f'\n\n**Page:** 1/{len(lyric_pages)}'
 
-                embed = discord.Embed(title=page_title, url=s_r.url, color=0x657079)
-                embed.description = f'{lyrics[:max_chars]} {page_info if len(lyric_pages)>1 else ""}'
-                embed.set_footer(text="Fetched from SongLyrics.com")
+                        embed = discord.Embed(title=page_title, url=s_r.url, color=0x657079)
+                        embed.description = f'{lyrics[:max_chars]} {page_info if len(lyric_pages)>1 else ""}'
+                        embed.set_footer(text="Fetched from SongLyrics.com")
 
-                msg = await ctx.send(embed=embed)
+                        msg = await ctx.send(embed=embed)
 
-                if len(lyric_pages) > 1:
-                    if len(lyric_pages) > 2:
-                        await msg.add_reaction("⏪")
-                    await msg.add_reaction("◀")
-                    await msg.add_reaction("▶")
-                    if len(lyric_pages) > 2:
-                        await msg.add_reaction("⏩")
+                        if len(lyric_pages) > 1:
+                            if len(lyric_pages) > 2:
+                                await msg.add_reaction("⏪")
+                            await msg.add_reaction("◀")
+                            await msg.add_reaction("▶")
+                            if len(lyric_pages) > 2:
+                                await msg.add_reaction("⏩")
 
-                    self.lyric_messages.append(msg.id)
-                    self.lyric_pages.update({msg.id: lyric_pages})
-                    self.page_index.update({msg.id: 0})
-                    self.def_embed.update({msg.id: embed})
+                            self.lyric_messages.append(msg.id)
+                            self.lyric_pages.update({msg.id: lyric_pages})
+                            self.page_index.update({msg.id: 0})
+                            self.def_embed.update({msg.id: embed})
 
             except IndexError or requests.exceptions.ConnectTimeout or requests.exceptions.ReadTimeout:
                 await ctx.send("No search results found!")
