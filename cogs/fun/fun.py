@@ -66,7 +66,34 @@ class Fun(commands.Cog):
         if text:
             await ctx.send(mockify(text))
 
+    @commands.command(name="nocontext", aliases=["ooc"])
+    @commands.cooldown(1, 8, commands.BucketType.user)
+    async def out_of_context(self, ctx, limit=500):
+        """Picks a random message from the channel, out-of-context."""
+        limit = max(min(limit, 2000), 0)
+
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
+
+        og_msg = await ctx.send(f"Finding an out-of-context message out of *{limit}*...")
+
+        messages = []
+        async for msg in ctx.channel.history(limit=limit):
+            messages.append(msg)
+
+        def get_rand_msg():
+            rmsg = random.choice(messages)
+            if rmsg.content:
+                return rmsg
+            return get_rand_msg()
+
+        rand_msg = get_rand_msg()
+        embed = discord.Embed(title="Out-of-Context Message", color=0x9C10F7)
+        embed.description = rand_msg.content
+        embed.set_author(name=rand_msg.author, icon_url=rand_msg.author.avatar_url)
+        embed.timestamp = rand_msg.created_at
+        await og_msg.edit(embed=embed, content="")
+
 
 def setup(bot):
     bot.add_cog(Fun(bot))
-
