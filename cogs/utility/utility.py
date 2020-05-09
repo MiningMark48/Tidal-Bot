@@ -177,7 +177,6 @@ class Utility(commands.Cog):
                 await ctx.send(file=f)
 
     @commands.command(aliases=["reminder", "remindme"])
-    @commands.has_permissions()
     async def remind(self, ctx, time: int, dm: typing.Optional[bool] = False, *, msg: str):
         """
         Have the bot remind you about something
