@@ -67,15 +67,15 @@ class Fun(commands.Cog):
             await ctx.send(mockify(text))
 
     @commands.command(name="nocontext", aliases=["ooc"])
-    @commands.cooldown(1, 8, commands.BucketType.user)
+    @commands.cooldown(1, 8, commands.BucketType.channel)
     async def out_of_context(self, ctx, limit=500):
         """
         Picks a random message from the channel, out-of-context.
 
-        Min: 10, Max: 2000
+        Min: 10, Max: 10000
 
         """
-        limit = max(min(limit, 2000), 10)
+        limit = max(min(limit, 10000), 10)
 
         if isinstance(ctx.channel, discord.TextChannel):
             await ctx.message.delete()
