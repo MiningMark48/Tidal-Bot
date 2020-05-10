@@ -8,6 +8,7 @@ EXTENSIONS = [
     "fun.trivia",
     "fun.userguess",
     "fun.xkcd",
+    "fun.ytstatus",
     "images.fakeping",
     "images.manip",
     "images.memelicense",
