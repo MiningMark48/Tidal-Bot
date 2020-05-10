@@ -47,7 +47,7 @@ class Background(commands.Cog, command_attrs=dict(hidden=True)):
         activity = random.choice(list(self.activities.keys()))  # Random
         await self.bot.change_presence(activity=discord.Activity(name=activity, type=self.activities.get(activity)))
 
-    @tasks.loop(seconds=5, reconnect=True)
+    @tasks.loop(minutes=15, reconnect=True)
     async def loop(self):
         """Bot loop"""
         async with self.lock:
