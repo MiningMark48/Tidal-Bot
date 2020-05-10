@@ -1,5 +1,6 @@
 EXTENSIONS = [
     "background.activities",
+    "background.ytstatus",
     "errors",
     "fun.fun",
     "fun.minesweeper",
@@ -9,7 +10,6 @@ EXTENSIONS = [
     "fun.trivia",
     "fun.userguess",
     "fun.xkcd",
-    "fun.ytstatus",
     "images.fakeping",
     "images.manip",
     "images.memelicense",

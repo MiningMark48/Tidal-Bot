@@ -64,7 +64,7 @@ bot = commands.Bot(command_prefix=prefix, help_command=def_help)
 @bot.event
 async def on_ready():
     Logger.success(f"We have logged in as {bot.user}")
-    await bot.change_presence(activity=discord.Activity(name=f"Do {bot_key}help", type=discord.ActivityType.playing))
+    # await bot.change_presence(activity=discord.Activity(name=f"Do {bot_key}help", type=discord.ActivityType.playing))
 
     sc.backup_data()
     uc.backup_data()
