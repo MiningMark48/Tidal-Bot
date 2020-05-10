@@ -7,7 +7,7 @@ from PIL import Image
 from discord.ext import commands, tasks
 
 
-class Fun(commands.Cog):
+class Background(commands.Cog, command_attrs=dict(hidden=True)):
     def __init__(self, bot):
         self.bot = bot
         self.index = 0
@@ -40,4 +40,4 @@ class Fun(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Fun(bot))
+    bot.add_cog(Background(bot))

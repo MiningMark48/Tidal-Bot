@@ -1,4 +1,5 @@
 EXTENSIONS = [
+    "background.activities",
     "errors",
     "fun.fun",
     "fun.minesweeper",

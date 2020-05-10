@@ -3,7 +3,7 @@ import re
 from discord.ext import commands
 
 
-class Fun(commands.Cog):
+class Background(commands.Cog, command_attrs=dict(hidden=True)):
     def __init__(self, bot):
         self.bot = bot
 
@@ -23,4 +23,4 @@ class Fun(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Fun(bot))
+    bot.add_cog(Background(bot))
