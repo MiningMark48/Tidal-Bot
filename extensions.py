@@ -6,6 +6,7 @@ EXTENSIONS = [
     "fun.minesweeper",
     "fun.numberguess",
     "fun.rroulette",
+    "fun.speedtype",
     "fun.sudoku",
     "fun.trivia",
     "fun.userguess",
