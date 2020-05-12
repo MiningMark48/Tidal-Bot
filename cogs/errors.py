@@ -56,6 +56,7 @@ class Errors(commands.Cog):
         #     return await ctx.send(f'`{ctx.command}` received an invalid argument!')
 
         elif isinstance(error, commands.UserInputError):
+            cmdhelp = ctx.command.help
             return await ctx.send(f'`{ctx.command}` is either missing or received an invalid argument! '
                                   f'More info:\n```{ctx.prefix}{ctx.command} {ctx.command.signature}\n\n'
                                   f'{cmdhelp if cmdhelp else ""}```')

@@ -1,3 +1,5 @@
+import operator
+
 import aiohttp
 
 import discord
@@ -7,6 +9,50 @@ from discord.ext import commands
 class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command(aliases=["leaderboard"])
+    @commands.cooldown(1, 30, commands.BucketType.channel)
+    async def activity(self, ctx, limit=1000):
+        """
+        View a leaderboard of the user with the most sent messages in a channel from a specified amount.
+
+        Min: 10, Max: 5000
+        """
+
+        limit = max(min(limit, 5000), 10)
+
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
+
+        embed = discord.Embed(title="Most Active Users", color=0xDB9066)
+        embed.description = f"Fetching activity from *{limit}* messages."
+        embed.timestamp = ctx.message.created_at
+
+        og_msg = await ctx.send(embed=embed)
+
+        activity = {}
+        async for msg in ctx.channel.history(limit=limit):
+            author = msg.author
+            if not author.bot:
+                if author not in activity:
+                    activity.update({author: 1})
+                else:
+                    activity.update({author: activity.get(author) + 1})
+
+        activity = {k: v for k, v in sorted(activity.items(), key=lambda item: item[1], reverse=True)}
+
+        new_desc = ""
+        index = 0
+        for i in activity:
+            if index <= 5:
+                amt = activity.get(i)
+                new_desc += f"**{index+1})** {i.mention}\n{amt} Message{'s' if amt != 1 else ''} Sent\n\n"
+            index += 1
+
+        new_desc += f"Out of the last *{limit}* messages in *{ctx.channel.name}*"
+
+        embed.description = new_desc
+        await og_msg.edit(embed=embed)
 
     @commands.command()
     async def botinfo(self, ctx):
