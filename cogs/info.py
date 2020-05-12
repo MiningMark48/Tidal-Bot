@@ -1,5 +1,3 @@
-import operator
-
 import aiohttp
 
 import discord
