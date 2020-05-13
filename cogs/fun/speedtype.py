@@ -97,13 +97,22 @@ class Fun(commands.Cog):
 
                 time_taken = round(time.time() - start_time, 2)
                 wpm = round((max_words/time_taken)*60)
-                final_msg = f"**{guess_msg.author.mention}** typed the fastest!\n\n" \
-                            f"**Time Took:** {time_taken} seconds\n" \
-                            f"**WPM:** {wpm}\n"
-                if accuracy_ratio != 1.0:
-                    final_msg += f"**Accuracy:** {round(acc / 1 * 100, 1)}% " \
-                                 f"(Min: {round(accuracy_ratio / 1 * 100, 1)}%)"
-                await msg.edit(content=final_msg)
+
+                embed = discord.Embed(title="Speed Type: Results", color=0x112110)
+                embed.add_field(name="Faster Typer", value=guess_msg.author.mention, inline=False)
+                embed.add_field(name="Time Took", value=f"{time_taken} seconds")
+                embed.add_field(name="WPM", value=str(wpm))
+                embed.add_field(name="Accuracy",
+                                value=f"{round(acc / 1 * 100, 1)}% (Min: {round(accuracy_ratio / 1 * 100, 1)}%)",
+                                inline=False)
+
+                # final_msg = f"**{guess_msg.author.mention}** typed the fastest!\n\n" \
+                #             f"**Time Took:** {time_taken} seconds\n" \
+                #             f"**WPM:** {wpm}\n"
+                # if accuracy_ratio != 1.0:
+                #     final_msg += f"**Accuracy:** {round(acc / 1 * 100, 1)}% " \
+                #                  f"(Min: {round(accuracy_ratio / 1 * 100, 1)}%)"
+                await msg.edit(content="", embed=embed)
                 break
 
 
