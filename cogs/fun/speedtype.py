@@ -1,6 +1,7 @@
 import asyncio
 import textwrap
 import time
+from difflib import SequenceMatcher
 from io import BytesIO
 
 import discord
@@ -48,8 +49,14 @@ class Fun(commands.Cog):
 
     @commands.command(name="speedtype")
     @commands.cooldown(2, 8, commands.BucketType.channel)
-    async def speed_type(self, ctx, max_words=5):
-        """See who can type the fastest!"""
+    async def speed_type(self, ctx, max_words=5, accuracy_ratio=1.0):
+        """
+        See who can type the fastest!
+
+        Words Min 1, Max 50
+
+        Accuracy Ratio is 0-1.0 with 0.25 being 25%, etc.
+        """
 
         max_words = max(min(max_words, 50), 1)
         timeout_time = max_words * 2
@@ -80,11 +87,23 @@ class Fun(commands.Cog):
                 await msg.edit(content="Time ran out!")
                 break
 
-            guess = guess_msg.clean_content.lower()
+            guess = str(guess_msg.clean_content.lower())
 
-            if guess == str(rand_text).lower():
+            # Accuracy Calculation
+            acc = SequenceMatcher(None, guess, str(rand_text).lower()).ratio()
+
+            if acc >= accuracy_ratio:
                 await guess_msg.delete()
-                await msg.edit(content=f"**{guess_msg.author.mention}** typed the fastest!")
+
+                time_taken = round(time.time() - start_time, 2)
+                wpm = round((max_words/time_taken)*60)
+                final_msg = f"**{guess_msg.author.mention}** typed the fastest!\n\n" \
+                            f"**Time Took:** {time_taken} seconds\n" \
+                            f"**WPM:** {wpm}\n"
+                if accuracy_ratio != 1.0:
+                    final_msg += f"**Accuracy:** {round(acc / 1 * 100, 1)}% " \
+                                 f"(Min: {round(accuracy_ratio / 1 * 100, 1)}%)"
+                await msg.edit(content=final_msg)
                 break
 
 
