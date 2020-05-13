@@ -106,12 +106,6 @@ class Fun(commands.Cog):
                                 value=f"{round(acc / 1 * 100, 1)}% (Min: {round(accuracy_ratio / 1 * 100, 1)}%)",
                                 inline=False)
 
-                # final_msg = f"**{guess_msg.author.mention}** typed the fastest!\n\n" \
-                #             f"**Time Took:** {time_taken} seconds\n" \
-                #             f"**WPM:** {wpm}\n"
-                # if accuracy_ratio != 1.0:
-                #     final_msg += f"**Accuracy:** {round(acc / 1 * 100, 1)}% " \
-                #                  f"(Min: {round(accuracy_ratio / 1 * 100, 1)}%)"
                 await msg.edit(content="", embed=embed)
                 break
 
