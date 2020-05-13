@@ -12,7 +12,7 @@ class Info(commands.Cog):
 
     @commands.command(aliases=["leaderboard"])
     @commands.cooldown(1, 30, commands.BucketType.channel)
-    async def activity(self, ctx, limit=1000, today_only=False, include_bots=False):
+    async def activity(self, ctx, limit=750, today_only=False, include_bots=False):
         """
         View a leaderboard of the user with the most sent messages in a channel from a specified amount.
 
@@ -34,6 +34,7 @@ class Info(commands.Cog):
 
             activity = {}
 
+            oldest = datetime.today()
             async for msg in ctx.channel.history(limit=limit):
                 author = msg.author
                 if not today_only or (today_only and str(msg.created_at.date()) == str(datetime.today().date())):
@@ -42,8 +43,12 @@ class Info(commands.Cog):
                             activity.update({author: 1})
                         else:
                             activity.update({author: activity.get(author) + 1})
+                        if msg.created_at < oldest:
+                            oldest = msg.created_at
 
             activity = {k: v for k, v in sorted(activity.items(), key=lambda item: item[1], reverse=True)}
+            if not today_only:
+                embed.add_field(name="Since", value=oldest.strftime("%m/%d/%Y"))
 
             new_desc = ""
             index = 0
@@ -53,7 +58,7 @@ class Info(commands.Cog):
                     new_desc += f"**{index+1})** {i.mention}\n{amt} Message{'s' if amt != 1 else ''} Sent\n\n"
                 index += 1
 
-            new_desc += f"Out of the last *{limit}* messages in *{ctx.channel.name}*"
+            new_desc += f"*{limit}* messages - *{ctx.channel.name}*"
 
             embed.description = new_desc
             await og_msg.edit(embed=embed)
