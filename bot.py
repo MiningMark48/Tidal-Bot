@@ -8,6 +8,7 @@ import cogs.utility.tags.tagconf as tc
 import util.servconf as sc
 import util.userconf as uc
 from extensions import EXTENSIONS
+from util.help_command import HelpCommand
 from util.logger import Logger
 
 Logger.alert("Starting...")
@@ -57,8 +58,8 @@ def prefix(bot, message):
     return pfx if pfx else bot_key
 
 
-def_help = commands.DefaultHelpCommand(dm_help=None, dm_help_threshold=750)
-bot = commands.Bot(command_prefix=prefix, help_command=def_help)
+# def_help = commands.DefaultHelpCommand(dm_help=None, dm_help_threshold=750)
+bot = commands.Bot(command_prefix=prefix, help_command=HelpCommand())
 
 
 @bot.event
@@ -121,6 +122,7 @@ async def on_command(ctx):
 async def on_guild_remove(guild):
     sc.remove_server_data(str(guild.id))
     tc.remove_server_data(str(guild.id))
+
 
 if __name__ == "__main__":
 
