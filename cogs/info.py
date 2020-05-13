@@ -16,10 +16,10 @@ class Info(commands.Cog):
         """
         View a leaderboard of the user with the most sent messages in a channel from a specified amount.
 
-        Min: 10, Max: 5000
+        Min: 10, Max: 2500
         """
         try:
-            limit = max(min(limit, 5000), 10)
+            limit = max(min(limit, 2500), 10)
 
             if isinstance(ctx.channel, discord.TextChannel):
                 await ctx.message.delete()
