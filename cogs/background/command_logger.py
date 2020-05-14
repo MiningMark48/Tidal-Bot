@@ -3,6 +3,9 @@ from discord.ext import commands
 
 
 class Background(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
     @commands.Cog.listener("on_command")
     async def on_command(self, ctx):
         if not ctx.guild:
@@ -19,8 +22,8 @@ class Background(commands.Cog):
             embed.add_field(name="Message Link", value=f'[Click Here]({ctx.message.jump_url})')
 
             try:
-                await webhook.send(embed=embed, username=f"{str(bot.user.display_name)} - Log",
-                                   avatar_url=str(bot.user.avatar_url))
+                await webhook.send(embed=embed, username=f"{str(self.bot.user.display_name)} - Log",
+                                   avatar_url=str(self.bot.user.avatar_url))
             except discord.HTTPException:
                 await webhook.send("Error, could not send embed.")
 
