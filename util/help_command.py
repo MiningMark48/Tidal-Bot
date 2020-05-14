@@ -5,7 +5,8 @@ class HelpCommand(commands.MinimalHelpCommand):
 
     def __init__(self):
         super().__init__(
-            dm_help=True,
+            dm_help_threshold=750,
+            dm_help=None,
             paginator=commands.Paginator()
         )
 
