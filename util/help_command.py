@@ -29,3 +29,24 @@ class HelpCommand(commands.MinimalHelpCommand):
 
     def add_aliases_formatting(self, aliases):
         self.paginator.add_line('\n%s %s' % (self.aliases_heading, ', '.join(aliases)), empty=True)
+
+    # noinspection PyNoneFunctionAssignment
+    async def send_group_help(self, group):
+        self.add_command_formatting(group)
+
+        filtered = await self.filter_commands(group.commands, sort=self.sort_commands)
+        if filtered:
+            note = self.get_opening_note()
+            if note:
+                self.paginator.add_line(note, empty=True)
+
+            self.paginator.add_line(self.commands_heading)
+            for command in filtered:
+                self.add_subcommand_formatting(command)
+
+            note = self.get_ending_note()
+            if note:
+                self.paginator.add_line()
+                self.paginator.add_line(note)
+
+        await self.send_pages()
