@@ -60,6 +60,7 @@ def prefix(bot, message):
 
 # def_help = commands.DefaultHelpCommand(dm_help=None, dm_help_threshold=750)
 bot = commands.Bot(command_prefix=prefix, help_command=HelpCommand())
+bot.description = "Tidal Bot is a bot for Discord written by MiningMark48 to serve then needs of The Tidal Waves."
 
 
 @bot.event
