@@ -1,5 +1,4 @@
 EXTENSIONS = [
-    "background.activities",
     "background.command_logger",
     "background.ytstatus",
     "bot.bot_cmds",

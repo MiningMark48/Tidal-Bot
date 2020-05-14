@@ -66,7 +66,7 @@ bot.description = "Tidal Bot is a bot for Discord written by MiningMark48 to ser
 @bot.event
 async def on_ready():
     Logger.success(f"We have logged in as {bot.user}")
-    # await bot.change_presence(activity=discord.Activity(name=f"Do {bot_key}help", type=discord.ActivityType.playing))
+    await bot.change_presence(activity=discord.Activity(name=f"Do {bot_key}help", type=discord.ActivityType.playing))
 
     sc.backup_data()
     uc.backup_data()
