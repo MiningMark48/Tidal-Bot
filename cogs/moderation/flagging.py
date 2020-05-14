@@ -40,23 +40,24 @@ class Moderation(commands.Cog):
                     await rmsg.delete()
                     await channel.send('Message deleted.', delete_after=10)
 
-    @commands.command(name="aboutflagging", aliases=["flaghelp"])
-    async def about_flagging(self, ctx):
-        """Get information regarding flagging"""
+    @commands.group(name="flagging", aliases=["flag"])
+    async def flagging(self, ctx):
+        """Flagging allows members of a server to flag a message they find inappropriate for deletion."""
 
-        info = "Flagging allows members of a server to flag a message they find inappropriate for deletion.\n\n" \
-               "The reaction for flagging is NO_ENTRY_SIGN (🚫).\n" \
-               "The default required amount of reactions is **0** (disabled), and uses **set** mode.\n" \
-               "This value can be changed with `setflagamt` and the mode can be changed with `setflagmode`\n" \
-               "Use the `getflagamt` command to see the currently set value.\n" \
-               "Use the `getflagmode` command to see the currently set mode.\n\n" \
-               "Setting the value to **0** will disable flagging.\n" \
-               "Flagging value has a maximum of **100**.\n\n" \
-               "**Modes:** Set is a specific amount, proportional is a percentage of members"
+        info = f"{ctx.command.help}\n\n" \
+               f"The reaction for flagging is NO_ENTRY_SIGN (🚫).\n" \
+               f"The default required amount of reactions is **0** (disabled), and uses **set** mode.\n" \
+               f"This value can be changed with `setflagamt` and the mode can be changed with `setflagmode`\n" \
+               f"Use the `getflagamt` command to see the currently set value.\n" \
+               f"Use the `getflagmode` command to see the currently set mode.\n\n" \
+               f"Setting the value to **0** will disable flagging.\n" \
+               f"Flagging value has a maximum of **100**.\n\n" \
+               f"**Modes:** Set is a specific amount, proportional is a percentage of members\n\n" \
+               f"Do `{ctx.prefix}help {ctx.command}` for a list of commands."
 
         await ctx.send(info)
 
-    @commands.command(name="getflagamt", aliases=["getflaga"])
+    @flagging.command(name="getamt")
     @commands.has_permissions(manage_guild=True)
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.guild_only()
@@ -74,7 +75,7 @@ class Moderation(commands.Cog):
         await ctx.send(f'The flag amount is `{amt}{"%` of server members" if not mode else "`"}.'
                        f'\n\n{"**Currently:** " + str(del_amt) if not mode else ""}')
 
-    @commands.command(name="setflagamt", aliases=["setflaga"])
+    @flagging.command(name="setamt")
     @commands.has_permissions(manage_guild=True)
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.guild_only()
@@ -87,7 +88,7 @@ class Moderation(commands.Cog):
         self.update_flag_amts()
         await ctx.send(f'Changed the flag amount to `{amt}`.')
 
-    @commands.command(name="setflagmode", aliases=["setflagm"])
+    @flagging.command(name="setmode")
     @commands.has_permissions(manage_guild=True)
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.guild_only()
@@ -112,7 +113,7 @@ class Moderation(commands.Cog):
         else:
             await ctx.send("Invalid mode.")
 
-    @commands.command(name="getflagmode", aliases=["getflagm"])
+    @flagging.command(name="getmode")
     @commands.has_permissions(manage_guild=True)
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.guild_only()
