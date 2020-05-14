@@ -26,7 +26,12 @@ class Utility(commands.Cog):
         else:
             await ctx.send('Amount must be between **0** and **25**!')
 
-    @commands.command(name="randcard", aliases=["randcards", "card", "cards"])
+    @commands.group(aliases=["rand"])
+    async def random(self, ctx):
+        """Commands that generate random data."""
+        pass
+
+    @random.command(name="card", aliases=["cards"])
     async def rand_card(self, ctx, amt=1):
         """Draw a random card from a deck"""
 
@@ -53,7 +58,7 @@ class Utility(commands.Cog):
         message = ', '.join(card for card in cards)
         await ctx.send(f"{ctx.author.mention}, here ya go!\n{message}")
 
-    @commands.command(name="randchoice", aliases=["randc", "randomc"])
+    @random.command(name="choice")
     async def rand_choice(self, ctx, *choices: str):
         """Get a random choice from a list of provided choices"""
         if len(choices) < 2:
@@ -63,7 +68,7 @@ class Utility(commands.Cog):
         choice = random.choice(choices)
         await ctx.send(f"Your random choice is `{choice}`!")
 
-    @commands.command(name="randnum", aliases=["rand", "random"])
+    @random.command(name="number", aliases=["num"])
     async def rand_num(self, ctx, min: int, max: int, amt=1):
         """Get a random number between two values"""
         if 0 < amt <= 25:
@@ -72,7 +77,7 @@ class Utility(commands.Cog):
         else:
             await ctx.send('Amount must be between **0** and **25**!')
 
-    @commands.command(name="randperson", aliases=["fakeperson"])
+    @random.command(name="person")
     async def rand_person(self, ctx):
         """Generate a fake person profile"""
         fake = Faker("en_US")
@@ -108,7 +113,7 @@ class Utility(commands.Cog):
         embed.set_footer(text="Disclaimer: The profile generated is random data.")
         await ctx.send(embed=embed)
 
-    @commands.command(name="randtext", aliases=["lorem", "loremipsum"])
+    @random.command(name="text", aliases=["lorem", "loremipsum"])
     async def rand_text(self, ctx, max_chars=500):
         """Generate random text."""
 
