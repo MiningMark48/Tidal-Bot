@@ -43,6 +43,11 @@ class Moderation(commands.Cog):
     @commands.group(name="flagging", aliases=["flag"])
     async def flagging(self, ctx):
         """Flagging allows members of a server to flag a message they find inappropriate for deletion."""
+        pass
+
+    @flagging.command(name="help")
+    async def flag_help(self, ctx):
+        """Get help with flagging"""
 
         info = f"{ctx.command.help}\n\n" \
                f"The reaction for flagging is NO_ENTRY_SIGN (🚫).\n" \
@@ -53,7 +58,7 @@ class Moderation(commands.Cog):
                f"Setting the value to **0** will disable flagging.\n" \
                f"Flagging value has a maximum of **100**.\n\n" \
                f"**Modes:** Set is a specific amount, proportional is a percentage of members\n\n" \
-               f"Do `{ctx.prefix}help {ctx.command}` for a list of commands."
+               f"Do `{ctx.prefix}help flagging` for a list of commands."
 
         await ctx.send(info)
 
