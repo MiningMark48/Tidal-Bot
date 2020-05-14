@@ -27,7 +27,6 @@ EXTENSIONS = [
     "utility.colorgen",
     "utility.dictionary",
     "utility.feedback",
-    "utility.giveaway",
     "utility.lists.lists",
     "utility.lyrics",
     "utility.memesearch",

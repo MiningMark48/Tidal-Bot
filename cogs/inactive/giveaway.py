@@ -42,8 +42,10 @@ class Utility(commands.Cog):
         embed = discord.Embed(title=f"{reaction_emoji} Giveaway {reaction_emoji}", color=0xfc68a6)
         embed.description = f'**{giveaway}**\n\n' \
                             f'React with {reaction_emoji} to enter!\n\n' \
-                            f'Ends at: \n{end_time.strftime("%I:%M:%S %p %Z")}'
-        embed.set_footer(text=f'Created by {ctx.author.display_name}')
+                            f'Created by {ctx.author.display_name}'
+
+        embed.set_footer(text=f'Ends:')
+        embed.timestamp = end_time
 
         msg = await ctx.send(embed=embed)
         await msg.add_reaction(reaction_emoji)
