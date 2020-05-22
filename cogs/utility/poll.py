@@ -96,9 +96,9 @@ class Utility(commands.Cog):
             except discord.errors.NotFound:
                 print("Message deleted, skipping poll result.")
 
-    @commands.command()
+    @commands.command(name="quickpoll")
     @commands.guild_only()
-    async def quickpoll(self, ctx, time: int, question: str, *choices: str):
+    async def quick_poll(self, ctx, time: int, question: str, *choices: str):
         """
         Quickly, create a poll for people to vote on
 
@@ -159,6 +159,33 @@ class Utility(commands.Cog):
                 await msg.edit(embed=embed_results)
             except discord.errors.NotFound:
                 print("Message deleted, skipping poll result.")
+
+    @commands.command(name="quickpolldef", aliases=["qpd"])
+    @commands.guild_only()
+    async def quick_poll_defaults(self, ctx, time: int, question: str, default_choice: str):
+        """
+        Quickly, create a poll for people to vote on using default choices
+
+        Usage: quickpoll <Time (minutes)> "<Question>" "<Default Choice>"
+
+        Default Choices: yesno (Yes/No), truefalse (True/False), scale15 (1/2/3/4/5), abcd (A/B/C/D)
+
+        Note:
+        If time is less than 1 or more than 120 (2 hours), no timer will be used.
+        """
+
+        default_choice = default_choice.lower()
+
+        if default_choice in ["yesno", "yn"]:
+            await self.quick_poll(ctx, time, question, "Yes", "No")
+        elif default_choice in ["truefalse", "tf"]:
+            await self.quick_poll(ctx, time, question, "True", "False")
+        elif default_choice in ["scale15", "s15"]:
+            await self.quick_poll(ctx, time, question, "1", "2", "3", "4", "5")
+        elif default_choice in ["abcd"]:
+            await self.quick_poll(ctx, time, question, "A", "B", "C", "D")
+        else:
+            await ctx.send("Default choice not found!", delete_after=10)
 
     @commands.Cog.listener("on_raw_reaction_add")
     async def on_raw_reaction_add(self, payload):
