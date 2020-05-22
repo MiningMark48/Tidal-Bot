@@ -1,6 +1,5 @@
 EXTENSIONS = [
     "background.command_logger",
-    "background.ytstatus",
     "bot.bot_cmds",
     "errors",
     "fun.fun",
