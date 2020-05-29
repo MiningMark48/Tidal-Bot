@@ -11,6 +11,8 @@ from extensions import EXTENSIONS
 from util.help_command import HelpCommand
 from util.logger import Logger
 
+import util.gen_list as GenList
+
 Logger.alert("Starting...")
 
 bot_token = "bot.token"
@@ -70,6 +72,9 @@ async def on_ready():
 
     sc.backup_data()
     uc.backup_data()
+
+    generator = GenList.Generator(bot)
+    generator.gen_list()
 
 
 @bot.event
