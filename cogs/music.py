@@ -7,6 +7,7 @@ Copyright (c) 2019 EvieePy(MysterialPy)
  If a copy of the MOL was not distributed with this file, You can obtain one at
  https://gist.github.com/EvieePy/bfe0332ad7bff98691f51686ded083ea.
 """
+from wavelink import Equalizer
 
 """
 The following code was based on the obtained code at 
@@ -98,7 +99,7 @@ class Player(wavelink.Player):
     async def player_loop(self):
         await self.bot.wait_until_ready()
 
-        await self.set_preq('Flat')
+        await self.set_eq(Equalizer.flat())
         # We can do any pre loop prep here...
         await self.set_volume(self.volume)
 
@@ -286,7 +287,7 @@ class Music(commands.Cog):
         self.bot = bot
 
         if not hasattr(bot, 'wavelink'):
-            self.bot.wavelink = wavelink.Client(bot)
+            self.bot.wavelink = wavelink.Client(bot=bot)
 
         bot.loop.create_task(self.initiate_nodes())
 
@@ -848,7 +849,7 @@ class Music(commands.Cog):
         await player.set_volume(vol)
         player.update = True
 
-    @commands.command(name='seteq', aliases=['eq', 'equalizer', 'setequalizer'])
+    @commands.command(name='seteq', aliases=['eq', 'equalizer', 'setequalizer'], enabled=False)
     @commands.guild_only()
     async def set_eq(self, ctx, *, eq: str):
         """
@@ -867,7 +868,7 @@ class Music(commands.Cog):
         if eq.upper() not in player.equalizers:
             return await ctx.send(f'`{eq}` is not a valid equalizer!\nTry Flat, Boost, Metal, Piano.')
 
-        await player.set_preq(eq)
+        await player.set_eq(Equalizer.flat())
         player.eq = eq.capitalize()
         await ctx.send(f'The equalizer was set to `{eq.capitalize()}`', delete_after=15)
         player.update = True
