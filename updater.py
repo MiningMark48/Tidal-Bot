@@ -71,7 +71,7 @@ def connect_and_start():
 
     channel.write('cd tidalbot_python\n')
     # channel.write('ls\n')
-    # channel.write("pip install -r requirements.txt")
+    # channel.write("pip install -r requirements.txt\n")
     channel.write('nohup /usr/bin/python3.7 bot.py &')
 
     print("Commands executed")
