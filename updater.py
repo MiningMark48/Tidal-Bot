@@ -34,7 +34,7 @@ def put_r_portable(sftp, localdir, remotedir, preserve_mtime=False):
 def upload_files():
     print("Starting upload...")
     directories = ['cogs', 'resources', 'util']
-    files = ["bot.py", "extensions.py"]
+    files = ["bot.py", "extensions.py", "requirements.txt"]
     cnopts = sftp.CnOpts()
     cnopts.hostkeys = None
 
@@ -71,6 +71,7 @@ def connect_and_start():
 
     channel.write('cd tidalbot_python\n')
     # channel.write('ls\n')
+    # channel.write("pip install -r requirements.txt")
     channel.write('nohup /usr/bin/python3.7 bot.py &')
 
     print("Commands executed")
