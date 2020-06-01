@@ -1,3 +1,17 @@
+import asyncio
+import datetime
+import itertools
+import math
+import random
+import re
+from typing import Union
+
+import discord
+import humanize
+import wavelink
+from discord.ext import commands
+from wavelink import Equalizer
+
 """
 Myst Open License - Version 0.1.
 =====================================
@@ -7,27 +21,14 @@ Copyright (c) 2019 EvieePy(MysterialPy)
  If a copy of the MOL was not distributed with this file, You can obtain one at
  https://gist.github.com/EvieePy/bfe0332ad7bff98691f51686ded083ea.
 """
-from wavelink import Equalizer
-
 """
 The following code was based on the obtained code at 
 https://github.com/PythonistaGuild/Wavelink/blob/master/examples/advanced/advanced.py
 and has been modified to better suit our needs.
 """
-import asyncio
-import datetime
-import discord
-import humanize
-import itertools
-import math
-import random
-import re
-import wavelink
-from collections import deque
-from discord.ext import commands
-from typing import Union
 
 RURL = re.compile(r'https?:\/\/(?:www\.)?.+')
+
 
 class Track(wavelink.Track):
     __slots__ = ('requester', 'channel', 'message')
@@ -158,7 +159,7 @@ class Player(wavelink.Player):
         # embed.add_field(name='Queue Length', value=str(len(self.entries)))
 
         if len(self.entries) > 0:
-            data = '\n'.join(f'**-** `{t.title[0:45]}{"..." if len(t.title) > 45 else ""}`\n{"-"*50}'
+            data = '\n'.join(f'**-** `{t.title[0:45]}{"..." if len(t.title) > 45 else ""}`\n{"-" * 50}'
                              for t in itertools.islice([e for e in self.entries if not e.is_dead], 0, 3, None))
             embed.add_field(name=f'Queue ({str(len(self.entries))}): ', value=data, inline=False)
 
@@ -282,6 +283,7 @@ class Player(wavelink.Player):
         return False
 
 
+# noinspection PyUnresolvedReferences
 class Music(commands.Cog):
     def __init__(self, bot: Union[commands.Bot, commands.AutoShardedBot]):
         self.bot = bot
@@ -293,15 +295,15 @@ class Music(commands.Cog):
 
     async def initiate_nodes(self):
         nodes = {
-                    'TidalWaveEast': {
-                                'host': '127.0.0.1',
-                                'port': 2333,
-                                'rest_url': 'http://127.0.0.1:2333',
-                                'password': "hvQe9As3VGGS",
-                                'identifier': 'TidalWaveEast',
-                                'region': 'us_east'
-                                }
-                }
+            'TidalWaveEast': {
+                'host': '127.0.0.1',
+                'port': 2333,
+                'rest_url': 'http://127.0.0.1:2333',
+                'password': "hvQe9As3VGGS",
+                'identifier': 'TidalWaveEast',
+                'region': 'us_east'
+            }
+        }
 
         for n in nodes.values():
             node = await self.bot.wavelink.initiate_node(host=n['host'],
@@ -521,7 +523,7 @@ class Music(commands.Cog):
 
         if not player.entries:
             return await ctx.send('No tracks in the queue!', delete_after=15)
-        
+
         for track in player.entries:
             if title.lower() in track.title.lower():
                 player.queue._queue.remove(track)
@@ -574,7 +576,7 @@ class Music(commands.Cog):
     async def do_resume(self, ctx):
         player = self.bot.wavelink.get_player(ctx.guild.id, cls=Player)
         await player.set_pause(False)
-    
+
     @commands.command(name='seek')
     @commands.cooldown(5, 10, commands.BucketType.user)
     @commands.guild_only()
@@ -586,7 +588,7 @@ class Music(commands.Cog):
         if not player.is_connected:
             return await ctx.send('I am not currently connected to voice!')
 
-        await player.seek(time*1000)
+        await player.seek(time * 1000)
         await ctx.send(f'Seeking to `{time}` seconds.', delete_after=15)
 
     # @commands.command(aliases=['ffd'])
@@ -724,10 +726,14 @@ class Music(commands.Cog):
         for track in player.entries:
             total_time += track.length
 
-        embed = discord.Embed(title=f'Current Queue ({len(player.entries)}) [{str(datetime.timedelta(milliseconds=int(total_time)))}]', color=0x1a74c7)
+        embed = discord.Embed(
+            title=f'Current Queue ({len(player.entries)}) [{str(datetime.timedelta(milliseconds=int(total_time)))}]',
+            color=0x1a74c7)
 
         for track in upcoming:
-            embed.add_field(name=f'({upcoming.index(track) + 1}) {track.title}', value=f'{str(datetime.timedelta(milliseconds=int(track.length)))} - *Added by {track.requester.mention}*\n[Video URL]({track.uri})', inline=False)
+            embed.add_field(name=f'({upcoming.index(track) + 1}) {track.title}',
+                            value=f'{str(datetime.timedelta(milliseconds=int(track.length)))} - *Added by {track.requester.mention}*\n[Video URL]({track.uri})',
+                            inline=False)
 
         amt_more = len(player.entries) - up_amt
         if amt_more > 0:
@@ -849,26 +855,33 @@ class Music(commands.Cog):
         await player.set_volume(vol)
         player.update = True
 
-    @commands.command(name='seteq', aliases=['eq', 'equalizer', 'setequalizer'], enabled=False)
+    @commands.command(name='seteq', aliases=['eq', 'equalizer', 'setequalizer'])
     @commands.guild_only()
     async def set_eq(self, ctx, *, eq: str):
         """
         Set the equalizer.
         
-        Types: flat, boost, metal, piano
+        Types: flat (f) [default], boost (b), metal (m), piano (p)
         """
 
-        try:
+        if isinstance(ctx.channel, discord.TextChannel):
             await ctx.message.delete()
-        except discord.HTTPException:
-            pass
+
+        eq = eq.lower()
+        eq_cls = Equalizer.flat()
+        if eq in ["boost", "b"]:
+            eq_cls = Equalizer.boost()
+        elif eq in ["metal", "m"]:
+            eq_cls = Equalizer.metal()
+        elif eq in ["piano", "p"]:
+            eq_cls = Equalizer.piano()
 
         player = self.bot.wavelink.get_player(ctx.guild.id, cls=Player)
-        
+
         if eq.upper() not in player.equalizers:
             return await ctx.send(f'`{eq}` is not a valid equalizer!\nTry Flat, Boost, Metal, Piano.')
 
-        await player.set_eq(Equalizer.flat())
+        await player.set_eq(eq_cls)
         player.eq = eq.capitalize()
         await ctx.send(f'The equalizer was set to `{eq.capitalize()}`', delete_after=15)
         player.update = True
@@ -883,14 +896,14 @@ class Music(commands.Cog):
             pass
 
         data = '⏯ - Pause/Resume\n' \
-                '⏹ - Stop\n' \
-                '⏭ - Skip\n' \
-                '🔀 - Shuffle\n' \
-                '🔂 - Repeat\n' \
-                '🔁 - Restart\n' \
-                '🇶 - Queue\n' \
-                '🔼 - Volume Up\n' \
-                '🔽 - Volume Down'
+               '⏹ - Stop\n' \
+               '⏭ - Skip\n' \
+               '🔀 - Shuffle\n' \
+               '🔂 - Repeat\n' \
+               '🔁 - Restart\n' \
+               '🇶 - Queue\n' \
+               '🔼 - Volume Up\n' \
+               '🔽 - Volume Down'
         await ctx.send(data, delete_after=15)
 
     @commands.command()
@@ -901,7 +914,7 @@ class Music(commands.Cog):
             await ctx.message.delete()
         except discord.HTTPException:
             pass
-        
+
         player = self.bot.wavelink.get_player(ctx.guild.id, cls=Player)
         node = player.node
 
