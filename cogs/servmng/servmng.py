@@ -38,7 +38,13 @@ class ServerManagement(commands.Cog, name="Server Management"):
 
     @commands.group(name="joinmessage", aliases=["joinmsg"])
     async def join_msg(self, ctx):
-        """Join message is a message to be sent to a user when they join the server."""
+        """
+        Join message is a message to be sent to a user when they join the server.
+
+        Commands: Set, Get, Clear
+
+        Usage: joinmessage get
+        """
         pass
 
     @join_msg.command(name="set")
