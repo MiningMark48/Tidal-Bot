@@ -12,6 +12,69 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(name="blackjack", aliases=["21"])
+    async def blackjack(self, ctx):
+        """Play a (modified) game of blackjack, simplistic-ly."""
+
+        def check(m):
+            return m.author.id == ctx.author.id
+
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
+
+        cards = list(range(1, 11))
+        cards_dealer = random.sample(cards, 2)
+        cards_player = random.sample(cards, 2)
+
+        embed = discord.Embed(title="Blackjack", color=0x076324)
+        embed.set_footer(text=f"{ctx.author.display_name}'s game")
+        embed.add_field(name="Dealer", value=f"{str(cards_dealer[0])}  ?")
+        embed.add_field(name="Player",
+                        value=f"{'  '.join(str(c) for c in cards_player)} ({sum(cards_player)})")
+
+        msg = await ctx.send(embed=embed)
+
+        async def play():
+            cards_player_sum = sum(cards_player)
+            if cards_player_sum == 21:  # Blackjack
+                embed.description = "Blackjack! You win!"
+                embed.set_field_at(0, name="Dealer",
+                                   value=f"{'  '.join(str(c) for c in cards_dealer)} ({sum(cards_dealer)})")
+                await msg.edit(embed=embed)
+            elif sum(cards_player) > 21:  # Bust
+                embed.description = "Bust, dealer wins."
+                embed.set_field_at(0, name="Dealer",
+                                   value=f"{'  '.join(str(c) for c in cards_dealer)} ({sum(cards_dealer)})")
+                await msg.edit(embed=embed)
+            else:  # Hit/Stay
+                embed.description = "Hit or stay?"
+                await msg.edit(embed=embed)
+                msg_wf = await self.bot.wait_for('message', check=check, timeout=15)
+
+                if msg_wf.content.lower() == "hit":
+                    cards_player.append(random.choice(cards))
+                    embed.set_field_at(1, name="Player",
+                                       value=f"{'  '.join(str(c) for c in cards_player)} ({sum(cards_player)})")
+                    await msg.edit(embed=embed)
+                    await msg_wf.delete()
+                    await play()
+                elif msg_wf.content.lower() == "stay":
+                    cards_player_sum = sum(cards_player)
+                    cards_dealer_sum = sum(cards_dealer)
+                    if cards_player_sum > cards_dealer_sum:
+                        embed.description = "Player wins!"
+                    elif cards_player_sum < cards_dealer_sum:
+                        embed.description = "Dealer wins."
+                    else:
+                        embed.description = "It's a push, you both win!"
+
+                    embed.set_field_at(0, name="Dealer",
+                                       value=f"{'  '.join(str(c) for c in cards_dealer)} ({sum(cards_dealer)})")
+                    await msg.edit(embed=embed)
+                    await msg_wf.delete()
+
+        await play()
+
     @commands.command(name="chucknorris", aliases=["chuck", "norris"])
     async def chuck_norris(self, ctx):
         """Fetch a Chuck Norris Joke"""
