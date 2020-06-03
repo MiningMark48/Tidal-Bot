@@ -25,14 +25,6 @@ class ServerManagement(commands.Cog, name="Server Management"):
         """Add a reactor message."""
         await ctx.message.delete()
 
-        try:
-            if not await ctx.fetch_message(message_id):
-                await ctx.send("Message not found!", delete_after=10)
-                return
-        except discord.errors.NotFound:
-            await ctx.send("Message not found!", delete_after=10)
-            return
-
         if not ctx.guild.get_role(role_id):
             await ctx.send("Role not found!", delete_after=10)
             return
