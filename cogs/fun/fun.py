@@ -56,7 +56,8 @@ class Fun(commands.Cog):
                     embed.set_field_at(1, name="Player",
                                        value=f"{'  '.join(str(c) for c in cards_player)} ({sum(cards_player)})")
                     await msg.edit(embed=embed)
-                    await msg_wf.delete()
+                    if isinstance(ctx.channel, discord.TextChannel):
+                        await msg_wf.delete()
                     await play()
                 elif msg_wf.content.lower() == "stay":
                     cards_player_sum = sum(cards_player)
