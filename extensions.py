@@ -19,6 +19,7 @@ EXTENSIONS = [
     "info",
     "moderation.flagging",
     "owner",
+    "servmng.reactionroles",
     "servmng.servmng",
     "utility.announce",
     "utility.colorgen",
