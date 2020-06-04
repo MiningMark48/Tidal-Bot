@@ -7,7 +7,7 @@ from discord.ext import commands
 import util.userconf as uc
 from util.checks import is_bot_owner
 
-from util.data.guild_data import add
+from util.data.guild_data import GuildData
 
 
 class GlobalChannel(commands.Converter):
@@ -134,7 +134,13 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def test(self, ctx):
         """TEST COMMAND"""
-        add()
+        data = GuildData(str(ctx.guild.id))
+        # data.booleans.insert("test2", True)
+        # data.tags.insert("test2", "This is a test!")
+
+        data.booleans.toggle_boolean("rum")
+
+        # await ctx.send(data.booleans.fetch_by_name("rum"))
 
 
 def setup(bot):
