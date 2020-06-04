@@ -1,6 +1,7 @@
 from discord.ext import commands
 
 import util.servconf as sc
+from util.data.guild_data import GuildData
 
 
 class Utility(commands.Cog):
@@ -13,7 +14,7 @@ class Utility(commands.Cog):
         if not message.guild:
             return
 
-        if not sc.get_v(str(message.guild.id), "rum_enabled"):
+        if not GuildData(str(message.guild.id)).booleans.fetch_by_name("rum_enabled"):
             return
 
         reaction_emoji = "📱"
@@ -38,8 +39,8 @@ class Utility(commands.Cog):
     @commands.guild_only()
     async def toggle_rum(self, ctx):
         """Toggle the mobile indicator reaction (RUM: R U Mobile?)"""
-        result = sc.toggle_b(str(ctx.guild.id), "rum_enabled")
-        await ctx.send(f'**{"Enabled" if not result else "Disabled"}** the mobile indicator.')
+        result = GuildData(str(ctx.guild.id)).booleans.toggle_boolean("rum_enabled")
+        await ctx.send(f'**{"Enabled" if result else "Disabled"}** the mobile indicator.')
 
 
 def setup(bot):

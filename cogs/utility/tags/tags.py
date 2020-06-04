@@ -3,6 +3,8 @@ from fuzzywuzzy import process as fwp
 
 import cogs.utility.tags.tagconf as tc
 
+from util.data.guild_data import GuildData
+
 
 class Tags(commands.Cog):
     def __init__(self, bot):
@@ -23,14 +25,12 @@ class Tags(commands.Cog):
         """
         Create a new bot tag.
         """
-        if not str(ctx.guild.id) in self.tags:
-            self.tags.update({str(ctx.guild.id): {}})
 
         tag_name = tag_name.lower()
         message = message[:1900]
-        self.tags[str(ctx.guild.id)].update({tag_name: message})
-        tc.update_servers(self.tags)
-        tc.save_data()
+
+        GuildData(str(ctx.guild.id)).tags.set(tag_name, message)
+
         await ctx.send(f"Set tag `{tag_name}` to `{message}`.")
 
     @commands.command(name="deletetag", aliases=["deltag", "tagdelete"])
@@ -41,13 +41,12 @@ class Tags(commands.Cog):
         """
         Delete a bot tag.
         """
-        try:
-            tag_name = tag_name.lower()
-            self.tags[str(ctx.guild.id)].pop(tag_name)
-            tc.update_servers(self.tags)
-            tc.save_data()
+        tag_name = tag_name.lower()
+
+        result = GuildData(str(ctx.guild.id)).tags.delete(tag_name)
+        if result:
             await ctx.send(f"Deleted tag `{tag_name}`.")
-        except KeyError:
+        else:
             await ctx.send("Invalid tag!")
 
     @commands.command(name="taglist", aliases=["listtags", "tags"])
@@ -57,21 +56,22 @@ class Tags(commands.Cog):
         """
         List available tags for the server.
         """
-        try:
-            guild_tags = self.tags[str(ctx.guild.id)]
+        guild_tags = GuildData(str(ctx.guild.id)).tags.fetch_all()
 
-            tags = f"{ctx.guild.name} Server Tags\n\n"
-            for t in sorted(guild_tags):
-                value = guild_tags[str(t)]
-                value = value.replace("\n", "")
-                tags += f"[{t}] {value[:100]}{'...' if len(value) > 100 else ''}\n"
-
-            parts = [(tags[i:i + 750]) for i in range(0, len(tags), 750)]
-            for part in parts:
-                part = part.replace("```", "")
-                await ctx.send(f"```{part}```")
-        except KeyError:
+        if not len(guild_tags) > 0:
             await ctx.send("No tags available!")
+            return
+
+        tags = f"{ctx.guild.name} Server Tags\n\n"
+        for t in sorted(guild_tags):
+            value = t[2]
+            value = value.replace("\n", "")
+            tags += f"[{t[1]}] {value[:100]}{'...' if len(value) > 100 else ''}\n"
+
+        parts = [(tags[i:i + 750]) for i in range(0, len(tags), 750)]
+        for part in parts:
+            part = part.replace("```", "")
+            await ctx.send(f"```{part}```")
 
     @commands.command(name="tagsearch", aliases=["searchtag"])
     @commands.cooldown(1, 3)
