@@ -49,8 +49,16 @@ class ServerManagement(commands.Cog, name="Server Management"):
         await ctx.message.delete()
 
         reactors = sc.get_v(str(ctx.guild.id), "reactors")
+
+        embed = discord.Embed(title="Reactors")
+        for r in reactors:
+            embed.add_field(name="Message ID", value=r['msg_id'])
+            embed.add_field(name="Role ID", value=r['role_id'])
+            embed.add_field(name="Emoji", value=f"{r['emoji']}\n--", inline=False)
+        embed.set_footer(text=f"Total Amount: {len(reactors)}")
+
         if reactors:
-            await ctx.send(f'Current reactors are `{reactors}`.', delete_after=10)
+            await ctx.send(embed=embed)
         else:
             await ctx.send(f'No reactors currently set!', delete_after=10)
 
