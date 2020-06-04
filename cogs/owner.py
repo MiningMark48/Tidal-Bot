@@ -7,6 +7,8 @@ from discord.ext import commands
 import util.userconf as uc
 from util.checks import is_bot_owner
 
+from util.data.guild_data import add
+
 
 class GlobalChannel(commands.Converter):
     async def convert(self, ctx, argument):
@@ -127,6 +129,12 @@ class Owner(commands.Cog):
         msg.content = ctx.prefix + command
         new_ctx = await self.bot.get_context(msg, cls=type(ctx))
         await self.bot.invoke(new_ctx)
+
+    @commands.command()
+    @commands.is_owner()
+    async def test(self, ctx):
+        """TEST COMMAND"""
+        add()
 
 
 def setup(bot):
