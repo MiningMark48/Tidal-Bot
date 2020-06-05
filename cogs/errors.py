@@ -63,6 +63,9 @@ class Errors(commands.Cog):
 
         elif isinstance(error, commands.CommandOnCooldown):
             return await ctx.send(f'`{ctx.command}`: {error}')
+
+        elif isinstance(error, discord.errors.Forbidden):
+            return await ctx.send(f'Bot does not have required permissions to use `{ctx.command}`.')
             
         print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
