@@ -13,6 +13,8 @@ from util.logger import Logger
 
 from util.data.data_backup import backup_databases
 
+from util.data.data_delete import delete_database_guild
+
 Logger.alert("Starting...")
 
 bot_token = "bot.token"
@@ -95,9 +97,9 @@ async def on_message(message):
     await bot.process_commands(message)
 
 
-# @bot.event
-# async def on_guild_remove(guild):
-    # TODO: remove server database on guild remove
+@bot.event
+async def on_guild_remove(guild):
+    delete_database_guild(str(guild.id))
 
 
 if __name__ == "__main__":
