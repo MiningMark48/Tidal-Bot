@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-import util.servconf as sc
+from util.data.guild_data import GuildData
 
 
 class ServerManagement(commands.Cog, name="Server Management"):
@@ -29,12 +29,8 @@ class ServerManagement(commands.Cog, name="Server Management"):
             await ctx.send("Role not found!", delete_after=10)
             return
 
-        current_reactors = sc.get_v(str(ctx.guild.id), "reactors")
-        if not current_reactors:
-            current_reactors = []
-        current_reactors.append({"msg_id": message_id, "role_id": role_id, "emoji": emoji})
+        GuildData(str(ctx.guild.id)).reactors.insert(message_id, role_id, emoji)
 
-        sc.set_kv(str(ctx.guild.id), "reactors", current_reactors)
         await ctx.send(f'Reactor has been set.', delete_after=10)
 
         msg = await ctx.fetch_message(message_id)
@@ -48,13 +44,13 @@ class ServerManagement(commands.Cog, name="Server Management"):
         """Get the available reactors."""
         await ctx.message.delete()
 
-        reactors = sc.get_v(str(ctx.guild.id), "reactors")
+        reactors = GuildData(str(ctx.guild.id)).reactors.fetch_all()
 
         embed = discord.Embed(title="Reactors")
         for r in reactors:
-            embed.add_field(name="Message ID", value=r['msg_id'])
-            embed.add_field(name="Role ID", value=r['role_id'])
-            embed.add_field(name="Emoji", value=f"{r['emoji']}\n--", inline=False)
+            embed.add_field(name="Message ID", value=r[1])
+            embed.add_field(name="Role ID", value=r[2])
+            embed.add_field(name="Emoji", value=f"{r[3]}\n--", inline=False)
         embed.set_footer(text=f"Total Amount: {len(reactors)}")
 
         if reactors:
@@ -70,19 +66,18 @@ class ServerManagement(commands.Cog, name="Server Management"):
         """Delete all reactors on a specific message."""
         await ctx.message.delete()
 
-        reactors = sc.get_v(str(ctx.guild.id), "reactors")
-        if reactors:
-            filtered = filter(lambda r: message_id == r["msg_id"], reactors)
-            for reac in list(filtered):
-                new = list(reactors)
-                new.remove(reac)
-                if len(new) > 0:
-                    sc.set_kv(str(ctx.guild.id), "reactors", new)
-                else:
-                    sc.del_v(str(ctx.guild.id), "reactors")
+        data_reactors = GuildData(str(ctx.guild.id)).reactors
+        reactors = data_reactors.fetch_all()
+
+        if reactors is None or len(reactors) == 0:
+            await ctx.send("No reactors currently set!", delete_after=10)
+            return
+
+        result = data_reactors.delete(message_id)
+        if result:
             await ctx.send("Reactors removed from message.", delete_after=10)
         else:
-            await ctx.send(f'No reactors currently set!', delete_after=10)
+            await ctx.send("Reactor not found.", delete_after=10)
 
     @reactor.command(name="clearall")
     @commands.has_permissions(manage_guild=True)
@@ -92,7 +87,8 @@ class ServerManagement(commands.Cog, name="Server Management"):
         """Clear all reactors."""
         await ctx.message.delete()
 
-        sc.del_v(str(ctx.guild.id), "reactors")
+        GuildData(str(ctx.guild.id)).reactors.delete_all()
+
         await ctx.send("All reactors deleted.")
 
     @commands.Cog.listener("on_raw_reaction_add")
@@ -113,15 +109,15 @@ class ServerManagement(commands.Cog, name="Server Management"):
         if user == self.bot.user:
             return
 
-        reactors = sc.get_v(str(guild.id), "reactors")
-        reactors_filtered = filter(lambda r: rmsg.id == r["msg_id"], reactors)
+        reactors = GuildData(str(guild.id)).reactors.fetch_all()
+        reactors_filtered = filter(lambda r: rmsg.id == r[1], reactors)
         list_reactors = list(reactors_filtered)
 
         if len(list_reactors) > 0:
             for reac in list_reactors:
-                re_msg_id = reac["msg_id"]
-                re_role_id = reac["role_id"]
-                re_emoji = reac["emoji"]
+                re_msg_id = reac[1]
+                re_role_id = reac[2]
+                re_emoji = reac[3]
 
                 reaction_emoji = str(payload.emoji)
                 if reaction_emoji == re_emoji:
@@ -139,18 +135,11 @@ class ServerManagement(commands.Cog, name="Server Management"):
     async def on_raw_message_delete(self, payload):
         guild = self.bot.get_guild(payload.guild_id)
 
-        reactors = sc.get_v(str(guild.id), "reactors")
-        if not reactors:
+        reactors = GuildData(str(guild.id)).reactors
+        if not reactors.fetch_all():
             return
 
-        filtered = filter(lambda r: payload.message_id == r["msg_id"], reactors)
-        for reac in list(filtered):
-            new = list(reactors)
-            new.remove(reac)
-            if len(new) > 0:
-                sc.set_kv(str(guild.id), "reactors", new)
-            else:
-                sc.del_v(str(guild.id), "reactors")
+        reactors.delete(payload.message_id)
 
 
 def setup(bot):

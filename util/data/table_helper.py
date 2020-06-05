@@ -18,6 +18,10 @@ class TableHelper:
         else:
             return False
 
+    def delete_all(self):
+        rep = self.table.delete()
+        self.conn.execute(rep)
+
     def fetch_all(self):
         sel = self.table.select()
         return list(self.conn.execute(sel))
