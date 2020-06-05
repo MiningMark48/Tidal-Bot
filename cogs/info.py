@@ -174,7 +174,9 @@ class Info(commands.Cog):
     @commands.command(hidden=True, aliases=["invite"])
     async def serverinvite(self, ctx):
         await ctx.author.send(
-            f'https://discordapp.com/oauth2/authorize?&client_id={self.bot.user.id}&scope=bot&permissions=70351936')
+            f'https://discordapp.com/oauth2/authorize?&client_id={self.bot.user.id}&scope=bot&permissions=8')
+        # await ctx.author.send(
+        #     f'https://discordapp.com/oauth2/authorize?&client_id={self.bot.user.id}&scope=bot&permissions=1043852400')
 
     # @commands.command(aliases=["twitchuser", "twitchinfo"])
     # async def twitch(self, ctx, user: str):
