@@ -1,8 +1,6 @@
 from discord.ext import commands
 from fuzzywuzzy import process as fwp
 
-import cogs.utility.tags.tagconf as tc
-
 from util.data.guild_data import GuildData
 
 
