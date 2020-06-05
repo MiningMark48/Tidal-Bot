@@ -136,7 +136,7 @@ class ServerManagement(commands.Cog, name="Server Management"):
         guild = self.bot.get_guild(payload.guild_id)
 
         reactors = GuildData(str(guild.id)).reactors
-        if not reactors.fetch_all():
+        if len(reactors.fetch_all()) <= 0:
             return
 
         reactors.delete(payload.message_id)
