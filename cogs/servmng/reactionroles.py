@@ -1,4 +1,3 @@
-import discord
 from discord.ext import commands
 
 from util.data.guild_data import GuildData
@@ -46,15 +45,17 @@ class ServerManagement(commands.Cog, name="Server Management"):
 
         reactors = GuildData(str(ctx.guild.id)).reactors.fetch_all()
 
-        embed = discord.Embed(title="Reactors")
-        for r in reactors:
-            embed.add_field(name="Message ID", value=r[1])
-            embed.add_field(name="Role ID", value=r[2])
-            embed.add_field(name="Emoji", value=f"{r[3]}\n--", inline=False)
-        embed.set_footer(text=f"Total Amount: {len(reactors)}")
-
         if reactors:
-            await ctx.send(embed=embed)
+            message = "\nReactors\n------------\nMessage ID - Role ID - Emoji\n\n"
+
+            for r in reactors:
+                message += f"{r[1]} - {r[2]} - {r[3]}\n"
+            message += f"\nTotal Amount: {len(reactors)}\n"
+
+            msg_parts = [(message[i:i + 1500]) for i in range(0, len(message), 1500)]
+
+            for part in msg_parts:
+                await ctx.send(f"```{part}```")
         else:
             await ctx.send(f'No reactors currently set!', delete_after=10)
 
