@@ -9,13 +9,11 @@ from util.data.guild_data import GuildData
 class Tags(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.tags = {}
 
     @commands.Cog.listener("on_ready")
     async def on_ready(self):
         """Load JSON tags when ready"""
-        tc.backup_data()
-        self.tags = tc.get_data()
+        # TODO: Implement backup data function
 
     @commands.command(name="settag", aliases=["edittag", "newtag"])
     @commands.cooldown(1, 5)
@@ -80,18 +78,18 @@ class Tags(commands.Cog):
         """
         Search for a tag.
         """
-        try:
 
-            search_results = self.handle_search(ctx, tag_name)
+        search_results = self.handle_search(ctx, tag_name)
 
-            results_txt = f"Tag Search Results ({tag_name})\n\n"
-            for (res, ratio) in search_results:
-                results_txt += f"{res}\n"
+        if len(search_results) <= 0:
+            await ctx.send("No search results found!")
+            return
 
-            await ctx.send(f"```{results_txt}```")
+        results_txt = f"Tag Search Results ({tag_name})\n\n"
+        for (res, ratio) in search_results:
+            results_txt += f"{res}\n"
 
-        except KeyError:
-            await ctx.send("No tags available!")
+        await ctx.send(f"```{results_txt}```")
 
     @commands.command()
     @commands.cooldown(1, 3)
@@ -102,18 +100,19 @@ class Tags(commands.Cog):
         """
 
         tag_name = tag_name.lower()
+        tags = GuildData(str(ctx.guild.id)).tags
 
-        if not str(ctx.guild.id) in self.tags:
+        if len(tags.fetch_all()) <= 0:
             await ctx.send("No tags available!")
             return
 
-        try:
-            response = self.tags[str(ctx.guild.id)][tag_name]
+        # response = self.tags[str(ctx.guild.id)][tag_name]
+        response = tags.fetch_by_name(tag_name)
 
-            if response:
-                response = self.handle_variables(response, ctx)
-                await ctx.send(response)
-        except KeyError:
+        if response:
+            response = self.handle_variables(response, ctx)
+            await ctx.send(response)
+        else:
             search_results = self.handle_search(ctx, tag_name)[:3]
 
             results_txt = ""
@@ -166,10 +165,11 @@ class Tags(commands.Cog):
 
         return message
 
-    def handle_search(self, ctx, tag_name):
+    @staticmethod
+    def handle_search(ctx, tag_name):
         options = []
-        for tag in self.tags[str(ctx.guild.id)]:
-            options.append(tag)
+        for tag in GuildData(str(ctx.guild.id)).tags.fetch_all():
+            options.append(tag[1])
 
         search_results = fwp.extract(tag_name, options)
 

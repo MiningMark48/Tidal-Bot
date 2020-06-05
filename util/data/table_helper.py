@@ -26,8 +26,8 @@ class TableHelper:
         sel = self.table.select().where(self.table.columns.name == name)
         return list(self.conn.execute(sel))
 
-    def fetch_by_name(self, name: str):
-        return ValueHelper.list_tuple_value(self.fetch_all_by_name(name))
+    def fetch_by_name(self, name: str, val_pos=2):
+        return ValueHelper.list_tuple_value(self.fetch_all_by_name(name), val_pos)
 
     def insert_(self, items: list):
         self.conn.execute(self.table.insert(), items)
