@@ -1,6 +1,5 @@
 from discord.ext import commands
 
-import util.servconf as sc
 from util.data.guild_data import GuildData
 
 

@@ -13,7 +13,9 @@ class GuildData:
         self.conn = engine.connect()
 
         self.booleans = self.Booleans(meta, self.conn)
+        self.disabled_commands = self.DisabledCommands(meta, self.conn)
         self.reactors = self.Reactors(meta, self.conn)
+        self.strings = self.Strings(meta, self.conn)
         self.tags = self.Tags(meta, self.conn)
 
         meta.create_all(engine)
@@ -33,6 +35,30 @@ class GuildData:
 
         def insert(self, name: str, value: bool):
             self.insert_([{'name': name, 'value': value}])
+
+    class DisabledCommands(TableHelper):
+        def __init__(self, meta, conn):
+            self.conn = conn
+
+            self.disabled_commands = Table(
+                'disabled_commands', meta,
+                Column('id', Integer, primary_key=True),
+                Column('name', String, unique=True)
+            )
+
+            super().__init__(self.disabled_commands, self.conn)
+
+        def delete(self, name: str):
+            val = self.fetch_by_name(name, 1)
+            if val is not None:
+                rep = self.table.delete().where(self.table.columns.name == name)
+                self.conn.execute(rep)
+                return True
+            else:
+                return False
+
+        def insert(self, name: str):
+            self.insert_([{'name': name}])
 
     class Reactors(TableHelper):
         def __init__(self, meta, conn):
@@ -66,6 +92,22 @@ class GuildData:
 
         def insert(self, message_id: int, role_id: int, emoji: str):
             self.insert_([{'message_id': message_id, 'role_id': role_id, 'emoji': emoji}])
+
+    class Strings(TableHelper):
+        def __init__(self, meta, conn):
+            self.conn = conn
+
+            self.strings = Table(
+                'strings', meta,
+                Column('id', Integer, primary_key=True),
+                Column('name', String, unique=True),
+                Column('value', String)
+            )
+
+            super().__init__(self.strings, self.conn)
+
+        def insert(self, name: str, value: str):
+            self.insert_([{'name': name, 'value': value}])
 
     class Tags(TableHelper):
         def __init__(self, meta, conn):

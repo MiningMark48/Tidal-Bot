@@ -1,6 +1,6 @@
 from discord.ext import commands
 
-import cogs.utility.lists.listconf as lc
+import cogs.inactive.lists.listconf as lc
 
 
 class Lists(commands.Cog):

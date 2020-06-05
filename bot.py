@@ -4,14 +4,14 @@ import os.path as osp
 import discord
 from discord.ext import commands
 
-import cogs.utility.tags.tagconf as tc
-import util.servconf as sc
+import util.gen_list as GenList
 import util.userconf as uc
 from extensions import EXTENSIONS
+from util.data.guild_data import GuildData
 from util.help_command import HelpCommand
 from util.logger import Logger
 
-import util.gen_list as GenList
+from util.data.data_backup import backup_databases
 
 Logger.alert("Starting...")
 
@@ -56,7 +56,7 @@ else:
 def prefix(bot, message):
     pfx = bot_key
     if message.guild:
-        pfx = sc.get_v(str(message.guild.id), "prefix")
+        pfx = GuildData(str(message.guild.id)).strings.fetch_by_name("prefix")
     return pfx if pfx else bot_key
 
 
@@ -70,8 +70,8 @@ async def on_ready():
     Logger.success(f"We have logged in as {bot.user}")
     await bot.change_presence(activity=discord.Activity(name=f"Do {bot_key}help", type=discord.ActivityType.playing))
 
-    sc.backup_data()
     uc.backup_data()
+    backup_databases()
 
     generator = GenList.Generator(bot)
     generator.gen_list()
@@ -86,7 +86,7 @@ async def on_message(message):
     ctx = await bot.get_context(message)
     if ctx:
         if ctx.command and ctx.guild:
-            if sc.array_contains(str(ctx.guild.id), ctx.command.name, "command_blacklist"):
+            if len(GuildData(str(ctx.guild.id)).disabled_commands.fetch_all_by_name(ctx.command.name)) > 0:
                 await ctx.send(f'`{ctx.command.name}` has been disabled.')
                 return
 
@@ -95,10 +95,9 @@ async def on_message(message):
     await bot.process_commands(message)
 
 
-@bot.event
-async def on_guild_remove(guild):
-    sc.remove_server_data(str(guild.id))
-    tc.remove_server_data(str(guild.id))
+# @bot.event
+# async def on_guild_remove(guild):
+    # TODO: remove server database on guild remove
 
 
 if __name__ == "__main__":

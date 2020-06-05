@@ -1,12 +1,38 @@
+import sqlalchemy.exc
 from discord.ext import commands
 
-import util.servconf as sc
-from util.servconf import toggle_string_array
+from util.data.guild_data import GuildData
 
 
 class ServerManagement(commands.Cog, name="Server Management"):
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command(name="commandblacklist", aliases=["togglecommand", "blacklistcommand"])
+    @commands.has_permissions(manage_guild=True)
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.guild_only()
+    async def command_blacklist(self, ctx, command: str, value=True):
+        """Enable/Disable commands"""
+        no_blacklist = ["commandblacklist"]
+
+        cmd = self.bot.get_command(command)
+        if not cmd:
+            return await ctx.send(f'`{command}` was not found as a valid command. Please try again!')
+        if cmd.name in no_blacklist:
+            return await ctx.send(f'You cannot disable `{cmd.name}`!')
+
+        data = GuildData(str(ctx.guild.id)).disabled_commands
+        if value:
+            try:
+                data.insert(cmd.name)
+            except sqlalchemy.exc.IntegrityError:
+                await ctx.send("Command already disabled!")
+                return
+        else:
+            data.delete(cmd.name)
+
+        await ctx.send(f'**{"Enabled" if not value else "Disabled"}** the `{cmd.name}` command.')
 
     @commands.command(aliases=["changeprefix"])
     @commands.has_permissions(manage_guild=True)
@@ -15,26 +41,8 @@ class ServerManagement(commands.Cog, name="Server Management"):
     async def setprefix(self, ctx, prefix: str):
         """Change the bot prefix for the server"""
 
-        sc.set_kv(str(ctx.guild.id), "prefix", prefix)
+        GuildData(str(ctx.guild.id)).strings.set("prefix", prefix)
         await ctx.send(f'Changed the server prefix to `{prefix}`.')
-
-    @commands.command(aliases=["commandtoggle"])
-    @commands.has_permissions(manage_guild=True)
-    @commands.cooldown(1, 2, commands.BucketType.user)
-    @commands.guild_only()
-    async def togglecommand(self, ctx, command: str):
-        """Enable/Disable commands"""
-        no_blacklist = ["togglecommand"]
-
-        cmd = self.bot.get_command(command)
-        if not cmd:
-            return await ctx.send(f'`{command}` was not found as a valid command. Please try again!')
-        if cmd.name in no_blacklist:
-            return await ctx.send(f'You cannot disable `{cmd.name}`!')
-
-        result = toggle_string_array(str(ctx.guild.id), cmd.name, "command_blacklist")
-
-        await ctx.send(f'**{"Enabled" if result else "Disabled"}** the `{cmd.name}` command.')
 
     @commands.group(name="joinmessage", aliases=["joinmsg"])
     async def join_msg(self, ctx):
@@ -49,7 +57,7 @@ class ServerManagement(commands.Cog, name="Server Management"):
         """Set a message to be sent to a user when they join the server."""
         await ctx.message.delete()
 
-        sc.set_kv(str(ctx.guild.id), "join_message", msg)
+        GuildData(str(ctx.guild.id)).strings.set("join_message", msg)
         await ctx.send(f'Set join message to `{msg}`.')
 
     @join_msg.command(name="get")
@@ -60,7 +68,7 @@ class ServerManagement(commands.Cog, name="Server Management"):
         """Get the message to be sent to a user when they join the server."""
         await ctx.message.delete()
 
-        msg = sc.get_v(str(ctx.guild.id), "join_message")
+        msg = GuildData(str(ctx.guild.id)).strings.fetch_by_name("join_message")
         if msg:
             await ctx.send(f'Current join message is `{msg}`.')
         else:
@@ -74,12 +82,12 @@ class ServerManagement(commands.Cog, name="Server Management"):
         """Clear the message to be sent to a user when they join the server."""
         await ctx.message.delete()
 
-        sc.del_v(str(ctx.guild.id), "join_message")
+        GuildData(str(ctx.guild.id)).strings.delete("join_message")
         await ctx.send(f'Deleted join message.')
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        msg = sc.get_v(str(member.guild.id), "join_message")
+        msg = GuildData(str(member.guild.id)).strings.fetch_by_name("join_message")
         if msg:
             await member.send(f'{msg}')
 
