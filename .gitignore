@@ -133,6 +133,7 @@ dmypy.json
 *.txt
 *.gz
 *.db
+*.zip
 ffmpeg.exe
 lavalink/
 !requirements.txt
