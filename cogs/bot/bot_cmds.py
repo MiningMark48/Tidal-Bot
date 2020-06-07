@@ -3,8 +3,6 @@ import time
 import discord
 from discord.ext import commands
 
-import util.userconf as uc
-
 start_time = time.time()
 
 
@@ -61,23 +59,6 @@ class Bot(commands.Cog):
             await ctx.send(f'Could not DM user by the ID: `{user_id}`')
         else:
             await ctx.send('DM successfully sent.')
-
-    @commands.command(aliases=["botfollow", "followmode"])
-    @commands.cooldown(1, 2, commands.BucketType.user)
-    async def follow(self, ctx):
-        """
-        Receive bot updates.
-
-        When following, you will receive DMs from the bot regarding
-        information on bot updates, when the bot is going offline, etc.
-        """
-
-        result = not uc.get_v(str(ctx.author.id), "follow_mode")
-        if result is None:
-            result = True
-        uc.set_kv(str(ctx.author.id), "follow_mode", bool(result))
-
-        await ctx.send(f'{ctx.author.mention}, you are {"now" if result else "no longer"} in follow mode.')
 
 
 def setup(bot):

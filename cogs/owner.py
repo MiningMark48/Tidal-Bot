@@ -4,9 +4,7 @@ import typing
 import discord
 from discord.ext import commands
 
-import util.userconf as uc
 from util.checks import is_bot_owner
-
 from util.data.guild_data import GuildData
 
 
@@ -30,37 +28,6 @@ class GlobalChannel(commands.Converter):
 class Owner(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
-    @commands.command()
-    @commands.is_owner()
-    async def botannounce(self, ctx, *, msg: str):
-        """Announce too all users following the bot a message"""
-
-        def check(m):
-            return m.author.id == ctx.author.id
-
-        msg_c = await ctx.send("Are you sure? Reply with **Yes** to confirm.")
-        msg_wf = await self.bot.wait_for('message', check=check, timeout=15)
-
-        if msg_wf.content == "Yes":
-            embed = discord.Embed(title="Announcement", color=0xffffff)
-            embed.description = f'{msg}\n\n\nYou received this message because you\'re subscribed as follower. Do `{ctx.prefix}follow` to unsubscribe.'
-            embed.set_footer(text=f'Sent by {ctx.author.name}#{ctx.author.discriminator}')
-
-            users = uc.get_all_if_equals("follow_mode", True)
-            sent = False
-            for u in users:
-                user = self.bot.get_user(int(u))
-                if user:
-                    await user.send(embed=embed)
-                    sent = True
-            if sent:
-                await ctx.send(f'Message sent!\n```{msg}```')
-            else:
-                await ctx.send(f'Message wasn\'t sent.')
-        else:
-            await msg_c.delete()
-            await ctx.send("Aborted!")
 
     @commands.command()
     @commands.is_owner()
