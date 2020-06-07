@@ -5,15 +5,12 @@ import discord
 from discord.ext import commands
 
 import util.gen_list as GenList
-import util.userconf as uc
 from extensions import EXTENSIONS
+from util.data.data_backup import backup_databases
+from util.data.data_delete import delete_database_guild
 from util.data.guild_data import GuildData
 from util.help_command import HelpCommand
 from util.logger import Logger
-
-from util.data.data_backup import backup_databases
-
-from util.data.data_delete import delete_database_guild
 
 Logger.alert("Starting...")
 
@@ -72,7 +69,6 @@ async def on_ready():
     Logger.success(f"We have logged in as {bot.user}")
     await bot.change_presence(activity=discord.Activity(name=f"Do {bot_key}help", type=discord.ActivityType.playing))
 
-    uc.backup_data()
     backup_databases()
 
     generator = GenList.Generator(bot)
