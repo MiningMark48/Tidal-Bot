@@ -3,7 +3,7 @@ from discord.ext import commands
 from util.data.guild_data import GuildData
 
 
-class Utility(commands.Cog):
+class ServerManagement(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -43,4 +43,4 @@ class Utility(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Utility(bot))
+    bot.add_cog(ServerManagement(bot))
