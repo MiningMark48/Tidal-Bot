@@ -59,7 +59,7 @@ class ServerManagement(commands.Cog, name="Server Management"):
         else:
             await ctx.send(f'No reactors currently set!', delete_after=10)
 
-    @reactor.command(name="delete")
+    @reactor.command(name="delete", aliases=["clear"])
     @commands.has_permissions(manage_guild=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.guild_only()
@@ -80,7 +80,7 @@ class ServerManagement(commands.Cog, name="Server Management"):
         else:
             await ctx.send("Reactor not found.", delete_after=10)
 
-    @reactor.command(name="clearall")
+    @reactor.command(name="clearall", aliases=["deleteall"])
     @commands.has_permissions(manage_guild=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.guild_only()
