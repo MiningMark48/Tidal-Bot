@@ -12,7 +12,7 @@ class Utility(commands.Cog):
         self.bot = bot
 
     # noinspection PyBroadException
-    @commands.command(name="memesearch", aliases=['knowyourmeme', 'kym'])
+    @commands.command(name="memesearch", aliases=['knowyourmeme', 'kym', 'meme'])
     @commands.cooldown(1, 3.5)
     async def meme_search(self, ctx, *, query: str):
         """
