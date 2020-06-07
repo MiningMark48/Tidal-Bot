@@ -1,11 +1,7 @@
-import time
-
 import discord
 from discord.ext import commands
 
 from util.data.user_data import UserData
-
-start_time = time.time()
 
 
 class Preferences(commands.Cog):
