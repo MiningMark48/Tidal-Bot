@@ -8,11 +8,6 @@ class Tags(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.Cog.listener("on_ready")
-    async def on_ready(self):
-        """Load JSON tags when ready"""
-        # TODO: Implement backup data function
-
     @commands.command(name="settag", aliases=["edittag", "newtag"])
     @commands.cooldown(1, 5)
     @commands.guild_only()
