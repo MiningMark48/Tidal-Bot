@@ -1,6 +1,7 @@
 from discord.ext import commands
 
 from util.data.guild_data import GuildData
+from util.data.user_data import UserData
 
 
 class ServerManagement(commands.Cog, name="Server Management"):
@@ -123,14 +124,17 @@ class ServerManagement(commands.Cog, name="Server Management"):
                 reaction_emoji = str(payload.emoji)
                 if reaction_emoji == re_emoji:
                     role = guild.get_role(re_role_id)
+                    dm_user = UserData(str(user.id)).booleans.fetch_by_name("dm_enabled")
                     if add_mode:
                         await user.add_roles(role, reason=f"Reacted: {re_msg_id}")
-                        await user.send(f"**Role Added**\nYou have been given the role *{role.name}* in *{guild.name}*"
-                                        f" by reacting.")
+                        if dm_user:
+                            await user.send(f"**Role Added**\nYou have been given the role *{role.name}* in *{guild.name}*"
+                                            f" by reacting.")
                     else:
                         await user.remove_roles(role, reason=f"Un-Reacted: {re_msg_id}")
-                        await user.send(f"**Role Removed**\nYou have gotten the role *{role.name}* removed in "
-                                        f"*{guild.name}* by un-reacting.")
+                        if dm_user:
+                            await user.send(f"**Role Removed**\nYou have gotten the role *{role.name}* removed in "
+                                            f"*{guild.name}* by un-reacting.")
 
     @commands.Cog.listener("on_raw_message_delete")
     async def on_raw_message_delete(self, payload):

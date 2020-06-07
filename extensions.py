@@ -18,6 +18,7 @@ EXTENSIONS = [
     "images.progress",
     "info",
     "owner",
+    "preferences.userprefs",
     "servmng.reactionroles",
     "servmng.servmng",
     "utility.announce",
