@@ -35,7 +35,7 @@ class ServerManagement(commands.Cog, name="Server Management"):
         msg = await ctx.fetch_message(message_id)
         await msg.add_reaction(emoji)
 
-    @reactor.command(name="get")
+    @reactor.command(name="get", aliases=["list"])
     @commands.has_permissions(manage_guild=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.guild_only()
