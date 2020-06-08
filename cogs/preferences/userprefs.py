@@ -24,7 +24,8 @@ class Preferences(commands.Cog):
 
         result = UserData(str(ctx.author.id)).booleans.set("dm_enabled", enabled)
 
-        await ctx.send(f"Bot DMs have been **{'enabled' if result else 'disabled'}**.", delete_after=10)
+        await ctx.send(f"{ctx.author.mention}, bot DMs have been **{'enabled' if result else 'disabled'}**.",
+                       delete_after=10)
 
 
 def setup(bot):
