@@ -5,7 +5,7 @@ import discord
 from discord.ext import commands
 
 import util.gen_list as GenList
-from extensions import EXTENSIONS
+from extensions import get_extensions
 from util.data.data_backup import backup_databases
 from util.data.data_delete import delete_database_guild
 from util.data.guild_data import GuildData
@@ -18,7 +18,7 @@ bot_token = "bot.token"
 bot_key = ";"
 load_music = True
 bot_owners = []
-extensions = EXTENSIONS
+extensions = get_extensions()
 
 config_path = "config.json"
 resources_path = "./resources/"

@@ -1,4 +1,4 @@
-EXTENSIONS = [
+extensions = [
     "background.command_logger",
     "bot.bot_cmds",
     "errors",
@@ -35,3 +35,8 @@ EXTENSIONS = [
     "utility.utility",
     "utility.wikipedia"
 ]
+
+
+def get_extensions():
+    return extensions
+
