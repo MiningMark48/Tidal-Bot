@@ -18,6 +18,9 @@ def backup_databases(always_run=True):
     if path.exists(f"{backups_folder_name}/{subfolder_name}/{zip_name}") and not always_run:
         return
 
+    if not os.path.exists(f"{backups_folder_name}/{subfolder_name}"):
+        os.makedirs(f"{backups_folder_name}/{subfolder_name}")
+
     loczip = f"{backups_folder_name}/{subfolder_name}/{zip_name}"
     zip = zipfile.ZipFile(loczip, "w", zipfile.ZIP_DEFLATED)
 
