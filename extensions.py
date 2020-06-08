@@ -30,7 +30,7 @@ extensions = [
     "utility.poll",
     "utility.random",
     "utility.reddit",
-    "utility.tags.tags",
+    "utility.tags",
     "utility.urbandict",
     "utility.utility",
     "utility.wikipedia"

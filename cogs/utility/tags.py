@@ -20,7 +20,7 @@ class Tags(commands.Cog):
         tag_name = tag_name.lower()
         message = message[:1900]
 
-        GuildData(str(ctx.guild.id)).tags.set(tag_name, mkessage)
+        GuildData(str(ctx.guild.id)).tags.set(tag_name, message)
 
         await ctx.send(f"Set tag `{tag_name}` to `{message}`.")
 
