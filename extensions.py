@@ -5,6 +5,7 @@ extensions = [
     "fun.fun",
     "fun.minesweeper",
     "fun.numberguess",
+    "fun.pressbutton",
     "fun.rroulette",
     "fun.speedtype",
     "fun.sudoku",
