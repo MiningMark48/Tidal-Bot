@@ -99,6 +99,22 @@ class Fun(commands.Cog):
 
                 await ctx.send(embed=embed)
 
+    @commands.command(name="emojialternate", aliases=["emal"])
+    async def emoji_alternate(self, ctx, msg: str, emoji: str):
+        """
+        *clap* Hello *clap* World *clap*
+
+        Alternates words in a string with an emoji
+        """
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
+
+        words = msg.split(" ")
+        final = f" {emoji} ".join(w for w in words)
+        final = f"{emoji} {final} {emoji}"
+
+        await ctx.send(final)
+
     @commands.command(name="magic8ball", aliases=["8ball", "magicball", "magic8"])
     async def magic_8_ball(self, ctx):
         """The Magic 8 Ball says..."""
