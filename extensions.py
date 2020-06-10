@@ -11,6 +11,7 @@ extensions = [
     "fun.sudoku",
     "fun.trivia",
     "fun.userguess",
+    "fun.wouldyourather",
     "fun.xkcd",
     "images.fakeping",
     "images.manip",
