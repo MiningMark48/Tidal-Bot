@@ -38,6 +38,10 @@ class ServerManagement(commands.Cog):
 
         Can be set using 'setrules'
         """
+
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
+
         result = GuildData(str(ctx.guild.id)).strings.fetch_by_name("server_rules")
         if result:
             if edit_mode:
