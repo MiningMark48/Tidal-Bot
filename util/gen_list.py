@@ -1,4 +1,9 @@
+import calendar
+import datetime
 import json
+from io import BytesIO
+
+from PIL import ImageFont, ImageDraw, Image
 
 from util.logger import Logger
 
@@ -29,3 +34,62 @@ class Generator:
             cmds = self.fetch_list()
             json.dump(cmds, file, indent=4)
             Logger.info(f"Commands list generated at {path} containing {len(cmds)} commands")
+
+    def gen_img_list(self):
+
+        def shorten_text(t: str, max_chars: int):
+            if len(t) > max_chars:
+                return "{}...".format(t[:max_chars])
+            return t
+
+        path = "cmdimgs/commands_{}.png"
+        cmds = self.fetch_list()
+
+        part_size = 30
+        parted_cmds = [(cmds[i:i + part_size]) for i in range(0, len(cmds), part_size)]
+
+        i = 1
+        for part in parted_cmds:
+
+            with Image.new("RGB", (2200, 2000), 0xffffff) as im:
+
+                draw = ImageDraw.Draw(im)
+
+                text_color = 0x000000
+
+                title_font_size = 70
+                title_font = ImageFont.truetype(f'./resources/fonts/arial.ttf', size=title_font_size)
+                title_text = "Commands"
+
+                subtitle_font_size = 65
+                subtitle_font = ImageFont.truetype(f'./resources/fonts/arial.ttf', size=subtitle_font_size)
+
+                norm_font_size = 50
+                norm_font = ImageFont.truetype(f'./resources/fonts/arial.ttf', size=norm_font_size)
+
+                w, h = im.size
+
+                # Title
+                title_width = draw.textsize(title_text, title_font)[0]
+                draw.text(((w - title_width) / 2, 35), title_text, fill=text_color, font=title_font)
+
+                draw.text((50, 150), "Name", fill=text_color, font=subtitle_font)
+                draw.text((650, 150), "Description", fill=text_color, font=subtitle_font)
+
+                start_y = 250
+                for cmd in part:
+                    desc = cmd['action'].replace("\n", " - ")
+                    desc = shorten_text(desc, 55)
+
+                    draw.text((50, start_y), cmd['name'], fill=text_color, font=norm_font)
+                    draw.text((650, start_y), desc, fill=text_color, font=norm_font)
+                    start_y += 60
+
+                # im = im.crop((0, 0, w, (h / 2) + (shape_h / 2) + spacing))
+
+                # im.resize((1920, 1080))
+                im.save(path.format(i), "png")
+
+                i += 1
+
+        Logger.info(f"Commands list images generated.")

@@ -73,6 +73,7 @@ async def on_ready():
 
     generator = GenList.Generator(bot)
     generator.gen_list()
+    # generator.gen_img_list()
 
 
 @bot.event
