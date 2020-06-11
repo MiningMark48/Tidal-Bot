@@ -22,6 +22,7 @@ extensions = [
     "owner",
     "preferences.userprefs",
     "servmng.reactionroles",
+    "servmng.rules",
     "servmng.rum",
     "servmng.servmng",
     "utility.announce",
