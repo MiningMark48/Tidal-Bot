@@ -139,3 +139,4 @@ lavalink/
 cmdimgs/
 !requirements.txt
 !pi_million_digits.txt
+!commands.json
