@@ -11,45 +11,23 @@ from util.data.data_delete import delete_database_guild
 from util.data.guild_data import GuildData
 from util.help_command import HelpCommand
 from util.logger import Logger
+from util.config import BotConfig
 
 Logger.alert("Starting...")
 
-bot_token = "bot.token"
-bot_key = ";"
-load_music = True
-bot_owners = []
-extensions = get_extensions()
-
-config_path = "config.json"
 resources_path = "./resources/"
 
-def_config = {
-    "bot_token": bot_token,
-    "bot_key": bot_key,
-    "load_music": load_music,
-    "bot_owners": bot_owners
-}
-
-do_run = True
-
-# global servers_cfg
-servers_cfg = None
-
 Logger.info("Loading config...")
-if osp.isfile(config_path):
-    with open(config_path, 'r') as file:
-        data = json.load(file)
-        bot_token = data["bot_token"]
-        bot_key = data["bot_key"]
-        load_music = data["load_music"]
-        bot_owners = data["bot_owners"]
-        Logger.success("Config loaded.")
-else:
-    with open(config_path, 'w') as file:
-        Logger.warn("Config file not found, creating...")
-        json.dump(def_config, file, indent=4)
-        Logger.success("Config file created.")
-        do_run = False
+config = BotConfig()
+config_data = config.data
+bot_token = config_data["bot_token"]
+bot_key = config_data["bot_key"]
+load_music = config_data["load_music"]
+bot_owners = config_data["bot_owners"]
+
+extensions = get_extensions()
+
+do_run = config.do_run
 
 
 def prefix(bot, message):
