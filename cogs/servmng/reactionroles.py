@@ -128,13 +128,12 @@ class ServerManagement(commands.Cog, name="Server Management"):
                     if add_mode:
                         await user.add_roles(role, reason=f"Reacted: {re_msg_id}")
                         if dm_user:
-                            await user.send(f"**Role Added**\nYou have been given the role *{role.name}* in *{guild.name}*"
+                            await user.send(f"**Role Added**\n*{role.name}* added in *{guild.name}*"
                                             f" by reacting.")
                     else:
                         await user.remove_roles(role, reason=f"Un-Reacted: {re_msg_id}")
                         if dm_user:
-                            await user.send(f"**Role Removed**\nYou have gotten the role *{role.name}* removed in "
-                                            f"*{guild.name}* by un-reacting.")
+                            await user.send(f"**Role Removed**\n*{role.name}* removed in *{guild.name}*.")
 
     @commands.Cog.listener("on_raw_message_delete")
     async def on_raw_message_delete(self, payload):
