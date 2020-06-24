@@ -12,11 +12,14 @@ class BotConfig:
             "bot_token": "!",
             "bot_key": "bot.key",
             "load_music": True,
-            "bot_owners": [1234]
+            "bot_owners": [1234],
+            "api_keys": []
         }
 
         self.data = self.load_data()
         self.do_run = True
+
+        # print(self.get_api_key("tenor"))
 
     def load_data(self):
         if osp.isfile(self.config_path):
@@ -32,3 +35,9 @@ class BotConfig:
                 Logger.success("Config file created.")
                 self.do_run = False
                 return self.def_config
+
+    def get_api_key(self, name):
+        result = list(filter(lambda i: i['name'] == name, self.data['api_keys']))
+        if result:
+            return result[0]['key']
+        return None
