@@ -160,10 +160,15 @@ class Fun(commands.Cog):
 
                 if r.status == 200:
                     gif_list = json.loads(content)
+                    if not gif_list:
+                        await ctx.send("Nothing found!")
+
                     results = gif_list['results']
                     random_gif = random.choice(results)['url']
 
                     await ctx.send(random_gif)
+                else:
+                    await ctx.send("Nothing found!")
 
     @commands.command()
     async def mock(self, ctx, *, text: typing.Optional[str]):
