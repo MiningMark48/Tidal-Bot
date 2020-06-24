@@ -672,6 +672,13 @@
         "action": "*Sips tea*"
     },
     {
+        "name": "tenor",
+        "aliases": "gif",
+        "type": "Fun",
+        "usage": "--",
+        "action": "Returns a random GIF based on search term"
+    },
+    {
         "name": "test",
         "aliases": "",
         "type": "Owner",

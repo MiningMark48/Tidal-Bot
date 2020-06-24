@@ -1,3 +1,4 @@
+import json
 import random
 import typing
 
@@ -6,6 +7,8 @@ import discord
 from discord.ext import commands
 
 from util.spongemock import mockify
+
+from util.config import BotConfig
 
 
 class Fun(commands.Cog):
@@ -131,6 +134,36 @@ class Fun(commands.Cog):
     async def slap(self, ctx, *, user: str):
         """Slap someone with a fish"""
         await ctx.send(f"*slaps {user} with a fish.* :fish:")
+
+    @commands.command(aliases=["gif"])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def tenor(self, ctx, search: str):
+        """
+        Returns a random GIF based on search term
+        """
+
+        api_key = BotConfig().get_api_key('tenor')
+
+        if not api_key:
+            await ctx.send("Error, missing API key. Report to bot owner.")
+            return
+
+        if isinstance(ctx.channel, discord.TextChannel):
+            await ctx.message.delete()
+
+        base_url = f"https://api.tenor.com/v1/search"
+        payload = {"q": search, "key": api_key, "limit": 16}
+
+        async with aiohttp.ClientSession() as session:
+            async with session.get(base_url, params=payload) as r:
+                content = await r.content.read()
+
+                if r.status == 200:
+                    gif_list = json.loads(content)
+                    results = gif_list['results']
+                    random_gif = random.choice(results)['url']
+
+                    await ctx.send(random_gif)
 
     @commands.command()
     async def mock(self, ctx, *, text: typing.Optional[str]):
