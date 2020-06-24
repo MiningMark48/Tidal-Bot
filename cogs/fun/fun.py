@@ -137,7 +137,7 @@ class Fun(commands.Cog):
 
     @commands.command(aliases=["gif"])
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def tenor(self, ctx, search: str):
+    async def tenor(self, ctx, *, search: str):
         """
         Returns a random GIF based on search term
         """
@@ -166,7 +166,7 @@ class Fun(commands.Cog):
                     results = gif_list['results']
                     random_gif = random.choice(results)['url']
 
-                    await ctx.send(random_gif)
+                    await ctx.send(f"{ctx.author.mention}:\n{random_gif}")
                 else:
                     await ctx.send("Nothing found!")
 
