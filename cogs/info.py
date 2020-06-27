@@ -195,6 +195,43 @@ class Info(commands.Cog):
 
         await ctx.send("This command is a work-in-progress!")
 
+    @commands.command(aliases=["steamuser", "steaminfo"])
+    async def steam(self, ctx, user: str):
+        """Look up information about a user on Mixer"""
+        base_url = f"https://playerdb.co/api/player/steam/{user}"
+        async with aiohttp.ClientSession() as session:
+            async with session.get(base_url) as r:
+                data = await r.json()
+
+                if data["code"] != "player.found":
+                    await ctx.send("User not found!")
+                    return
+
+                user_data = data["data"]
+                player_data = user_data["player"]
+                meta_data = player_data["meta"]
+
+                # date = datetime.fromtimestamp(meta_data["timecreated"] / 1e3)
+
+                embed = discord.Embed(title=player_data["username"], color=ctx.message.author.top_role.color,
+                                      url=f"https://steamcommunity.com/id/{user}")
+
+                embed.add_field(name="Username", value=player_data["username"])
+                embed.add_field(name="Real Name", value=meta_data["realname"])
+                embed.add_field(name="Country", value=meta_data["loccountrycode"])
+                # embed.add_field(name="Date Created", value=str(date))
+                status = meta_data["personastate"]
+                embed.add_field(name="Status", value="Offline" if status == 0 else ("Online" if status == 1 else
+                                                                                    ("Away" if status == 3 else "N/A")))
+                embed.add_field(name="ID", value=player_data["id"])
+
+                embed.set_thumbnail(url=player_data["avatar"])
+                embed.set_footer(text=f"Steam Information, requested by {ctx.author.name}")
+                try:
+                    await ctx.send(embed=embed)
+                except discord.HTTPException:
+                    await ctx.send("Error sending embeded message, please try again later")
+
     @commands.command(aliases=["userinfo"])
     @commands.guild_only()
     async def whois(self, ctx, user: discord.User):

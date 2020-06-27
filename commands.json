@@ -623,6 +623,13 @@
         "action": "Stats about the bot"
     },
     {
+        "name": "steam",
+        "aliases": "steamuser, steaminfo",
+        "type": "Info",
+        "usage": "--",
+        "action": "Look up information about a user on Mixer"
+    },
+    {
         "name": "sudo",
         "aliases": "",
         "type": "Owner",
