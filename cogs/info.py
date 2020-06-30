@@ -73,6 +73,7 @@ class Info(commands.Cog):
         embed.add_field(name="ID", value=self.bot.user.id)
         embed.add_field(name="Author", value="MiningMark48")
         embed.add_field(name="Library", value="discord.py")
+        embed.add_field(name="Total Commands", value=str(len(self.bot.commands)))
         # embed.add_field(name="Current Activity", value=self.bot.user.activity)
         # embed.add_field(name="Command Key", value=self.bot.bot_key)
         try:
