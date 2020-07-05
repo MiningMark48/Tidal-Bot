@@ -96,10 +96,14 @@ class Utility(commands.Cog):
                 language = base_obj['language']
                 content = base_obj['content']
 
-                txt = f'**Gist** (*{code}*): ```{language}\n{(content[:1500]) if len(content) > 1500 else content}``` ' \
-                      f'Visit {base_obj["raw_url"]} for more'
+                char_len = 1500
+                txt = f'*{code}*\n```{language}\n{(content[:char_len]) if len(content) > char_len else content}``` '
 
-                await ctx.send(txt)
+                embed = discord.Embed(title="Gist", color=0xf4cbb2,
+                                      url=base_obj["raw_url"])
+                embed.description = txt
+
+                await ctx.send(embed=embed)
 
     @commands.command(aliases=["lmg", "google"])
     async def lmgtfy(self, ctx, *, query: str):
@@ -140,9 +144,13 @@ class Utility(commands.Cog):
         async with aiohttp.ClientSession() as session:
             async with session.get(base_url) as r:
                 data = await r.text()
-                txt = f'**Pastebin** (*{code}*): ```{({data[:1500]}) if len(data) > 1500 else data}``` ' \
-                      f'Visit {base_url} for more'
-                await ctx.send(txt)
+                txt = f'*{code}*\n```{({data[:1500]}) if len(data) > 1500 else data}``` '
+
+                embed = discord.Embed(title="Pastebin", color=0xf4cbb2,
+                                      url=base_url)
+                embed.description = txt
+
+                await ctx.send(embed=embed)
 
     @commands.command()
     async def ping(self, ctx):
