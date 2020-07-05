@@ -102,6 +102,7 @@ class Utility(commands.Cog):
                 embed = discord.Embed(title="Gist", color=0xf4cbb2,
                                       url=base_obj["raw_url"])
                 embed.description = txt
+                embed.set_footer(text="Fetched raw from Gist")
 
                 await ctx.send(embed=embed)
 
@@ -119,6 +120,7 @@ class Utility(commands.Cog):
                 embed = discord.Embed(title="Hastebin", color=0x00222b,
                                       url=base_url)
                 embed.description = txt
+                embed.set_footer(text="Fetched raw from Hastebin")
 
                 await ctx.send(embed=embed)
 
@@ -167,6 +169,7 @@ class Utility(commands.Cog):
                 embed = discord.Embed(title="Pastebin", color=0x023654,
                                       url=base_url)
                 embed.description = txt
+                embed.set_footer(text="Fetched raw from Pastebin")
 
                 await ctx.send(embed=embed)
 
