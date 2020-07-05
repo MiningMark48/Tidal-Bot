@@ -105,6 +105,23 @@ class Utility(commands.Cog):
 
                 await ctx.send(embed=embed)
 
+    @commands.command(aliases=["hastebinget", "hasteget", "hb"])
+    async def hastebin(self, ctx, code: str):
+        """Get the RAW text from a Hastebin"""
+        await ctx.message.delete()
+        base_url = f"https://hastebin.com/raw/{code}"
+        async with aiohttp.ClientSession() as session:
+            async with session.get(base_url) as r:
+                data = await r.text()
+                char_len = 1500
+                txt = f'*{code}*\n```{({data[:char_len]}) if len(data) > char_len else data}``` '
+
+                embed = discord.Embed(title="Hastebin", color=0xf4cbb2,
+                                      url=base_url)
+                embed.description = txt
+
+                await ctx.send(embed=embed)
+
     @commands.command(aliases=["lmg", "google"])
     async def lmgtfy(self, ctx, *, query: str):
         """When people can't Google, Google for them"""
@@ -144,7 +161,8 @@ class Utility(commands.Cog):
         async with aiohttp.ClientSession() as session:
             async with session.get(base_url) as r:
                 data = await r.text()
-                txt = f'*{code}*\n```{({data[:1500]}) if len(data) > 1500 else data}``` '
+                char_len = 1500
+                txt = f'*{code}*\n```{({data[:char_len]}) if len(data) > char_len else data}``` '
 
                 embed = discord.Embed(title="Pastebin", color=0xf4cbb2,
                                       url=base_url)

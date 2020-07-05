@@ -217,6 +217,13 @@
         "action": "Get information about the server"
     },
     {
+        "name": "hastebin",
+        "aliases": "hastebinget, hasteget, hb",
+        "type": "Utility",
+        "usage": "--",
+        "action": "Get the RAW text from a Hastebin"
+    },
+    {
         "name": "help",
         "aliases": "",
         "type": "None",
