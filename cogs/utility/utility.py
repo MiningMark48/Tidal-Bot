@@ -116,7 +116,7 @@ class Utility(commands.Cog):
                 char_len = 1500
                 txt = f'*{code}*\n```{({data[:char_len]}) if len(data) > char_len else data}``` '
 
-                embed = discord.Embed(title="Hastebin", color=0xf4cbb2,
+                embed = discord.Embed(title="Hastebin", color=0x00222b,
                                       url=base_url)
                 embed.description = txt
 
@@ -164,7 +164,7 @@ class Utility(commands.Cog):
                 char_len = 1500
                 txt = f'*{code}*\n```{({data[:char_len]}) if len(data) > char_len else data}``` '
 
-                embed = discord.Embed(title="Pastebin", color=0xf4cbb2,
+                embed = discord.Embed(title="Pastebin", color=0x023654,
                                       url=base_url)
                 embed.description = txt
 
