@@ -1,4 +1,5 @@
 import asyncio
+import copy
 import datetime
 import itertools
 import math
@@ -11,6 +12,8 @@ import humanize
 import wavelink
 from discord.ext import commands
 from wavelink import Equalizer
+
+from util.data.user_data import UserData
 
 """
 Myst Open License - Version 0.1.
@@ -283,7 +286,6 @@ class Player(wavelink.Player):
         return False
 
 
-# noinspection PyUnresolvedReferences
 class Music(commands.Cog):
     def __init__(self, bot: Union[commands.Bot, commands.AutoShardedBot]):
         self.bot = bot
@@ -933,6 +935,62 @@ class Music(commands.Cog):
               f'Server CPU: `{cpu}` cores\n\n' \
               f'Server Uptime: `{datetime.timedelta(milliseconds=node.stats.uptime)}`'
         await ctx.send(fmt)
+
+    @commands.command(name="setplaylist", aliases=["addplaylist"])
+    @commands.guild_only()
+    async def set_playlist(self, ctx, playlist_name: str, *, youtube_url: str):
+        """Save a link to a YouTube playlist."""
+
+        if not youtube_url.startswith("https://www.youtube.com/playlist?list="):
+            await ctx.send("Invalid playlist!")
+            return
+
+        UserData(str(ctx.guild.id)).playlists.set(playlist_name, youtube_url)
+
+        await ctx.send(f"**Saved** <{youtube_url}> as *{playlist_name}*.")
+
+    @commands.command(name="removeplaylist", aliases=["remplaylist", "delplaylist"])
+    @commands.guild_only()
+    async def remove_playlist(self, ctx, playlist_name: str):
+        """Remove a saved YouTube playlist."""
+
+        if not UserData(str(ctx.guild.id)).playlists.fetch_by_name(playlist_name):
+            await ctx.send("Playlist not found.")
+            return
+
+        UserData(str(ctx.guild.id)).playlists.delete(playlist_name)
+
+        await ctx.send(f"**Removed** the playlist *{playlist_name}*.")
+
+    @commands.command(name="playplaylist", aliases=["getplaylist"])
+    @commands.guild_only()
+    async def play_playlist(self, ctx, playlist_name: str):
+        """Play a previously saved YouTube playlist."""
+
+        playlist = UserData(str(ctx.guild.id)).playlists.fetch_by_name(playlist_name)
+
+        if not playlist:
+            await ctx.send("Playlist not found.")
+            return
+
+        msg = copy.copy(ctx.message)
+        msg.content = f"{ctx.prefix}play {playlist}"
+        new_ctx = await self.bot.get_context(msg, cls=type(ctx))
+        await self.bot.invoke(new_ctx)
+
+    @commands.command(name="listplaylists", aliases=["getplaylists", "showplaylists", "playlists"])
+    @commands.guild_only()
+    async def list_playlists(self, ctx):
+        """Show all available YouTube playlists."""
+
+        playlists_o = sorted(list(UserData(str(ctx.guild.id)).playlists.fetch_all()))
+
+        max_chars = 1750
+        playlists = '\n'.join(f"{pl[1]} - {pl[2]}" for pl in playlists_o)
+        playlist_parts = [(playlists[i:i + max_chars]) for i in range(0, len(playlists), max_chars)]
+
+        for part in playlist_parts:
+            await ctx.send(f"```{part}```")
 
 
 def setup(bot):

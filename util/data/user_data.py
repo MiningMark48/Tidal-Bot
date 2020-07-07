@@ -12,6 +12,7 @@ class UserData:
         self.conn = engine.connect()
 
         self.booleans = self.Booleans(meta, self.conn)
+        self.playlists = self.Playlists(meta, self.conn)
 
         meta.create_all(engine)
 
@@ -29,4 +30,20 @@ class UserData:
             super().__init__(self.booleans, self.conn)
 
         def insert(self, name: str, value: bool):
+            self.insert_([{'name': name, 'value': value}])
+
+    class Playlists(TableHelper):
+        def __init__(self, meta, conn):
+            self.conn = conn
+
+            self.playlists = Table(
+                'playlists', meta,
+                Column('id', Integer, primary_key=True),
+                Column('name', String, unique=True),
+                Column('value', String)
+            )
+
+            super().__init__(self.playlists, self.conn)
+
+        def insert(self, name: str, value: str):
             self.insert_([{'name': name, 'value': value}])
