@@ -937,6 +937,7 @@ class Music(commands.Cog):
         await ctx.send(fmt)
 
     @commands.command(name="setplaylist", aliases=["addplaylist"])
+    @commands.cooldown(1, 2)
     @commands.guild_only()
     async def set_playlist(self, ctx, playlist_name: str, *, youtube_url: str):
         """Save a link to a YouTube playlist."""
@@ -950,6 +951,7 @@ class Music(commands.Cog):
         await ctx.send(f"**Saved** <{youtube_url}> as *{playlist_name}*.")
 
     @commands.command(name="removeplaylist", aliases=["remplaylist", "delplaylist"])
+    @commands.cooldown(1, 2)
     @commands.guild_only()
     async def remove_playlist(self, ctx, playlist_name: str):
         """Remove a saved YouTube playlist."""
@@ -963,6 +965,7 @@ class Music(commands.Cog):
         await ctx.send(f"**Removed** the playlist *{playlist_name}*.")
 
     @commands.command(name="playplaylist", aliases=["getplaylist"])
+    @commands.cooldown(1, 5)
     @commands.guild_only()
     async def play_playlist(self, ctx, playlist_name: str):
         """Play a previously saved YouTube playlist."""
@@ -979,6 +982,7 @@ class Music(commands.Cog):
         await self.bot.invoke(new_ctx)
 
     @commands.command(name="listplaylists", aliases=["getplaylists", "showplaylists", "playlists"])
+    @commands.cooldown(1, 10)
     @commands.guild_only()
     async def list_playlists(self, ctx):
         """Show all available YouTube playlists."""
