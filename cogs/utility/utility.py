@@ -12,7 +12,7 @@ from unicodedata import name
 import aiohttp
 import discord
 import googletrans
-import requests
+from bs4 import BeautifulSoup as bs
 from discord.ext import commands
 
 start_time = time.time()
@@ -154,6 +154,53 @@ class Utility(commands.Cog):
 
         except SyntaxError:
             await ctx.send("Syntax error!")
+
+    @commands.command(aliases=["news"])
+    @commands.cooldown(1, 15)
+    async def npr(self, ctx, max_articles=5):
+        """
+        Get a list of recent NPR news articles
+        """
+
+        max_articles = max(0, min(5, max_articles))
+
+        async with ctx.typing():
+
+            base_url = f"https://www.npr.org/sections/news/"
+
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(base_url) as r:
+                        content = await r.content.read()
+                        soup = bs(content, 'html.parser')
+
+                        results = soup.find_all("div", class_="list-overflow")[0]
+                        articles = results.find_all("article")
+
+                        embed = discord.Embed(title="NPR | Recent News", url=base_url, color=0xf15c1c)
+                        embed.timestamp = ctx.message.created_at
+                        embed.set_footer(text="Fetched from NPR")
+
+                        for article in articles[:max_articles]:
+                            title_elm = article.find_all("h2", class_="title")
+                            teaser_elm = article.find_all("p", class_="teaser")
+
+                            if title_elm and len(title_elm) > 0:
+                                title = title_elm[0]
+                            if teaser_elm and len(teaser_elm) > 0:
+                                teaser = teaser_elm[0]
+                            if title and teaser:
+                                title_text = title.get_text()
+                                teaser_text = teaser.get_text()
+                                url = title.find_all("a", href=True)[0]['href']
+
+                                # print("{} -- {}\n".format(title_text, teaser_text))
+
+                                embed.add_field(name=title_text, value=f"{teaser_text}\n[Link]({url})\n", inline=False)
+
+                        await ctx.send(embed=embed)
+            except Exception as e:
+                await ctx.send(f"An error occurred!\n`{e}`")
 
     @commands.command(aliases=["pastebinget", "pasteget", "pb"])
     async def pastebin(self, ctx, code: str):
