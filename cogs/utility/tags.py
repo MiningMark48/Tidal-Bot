@@ -8,7 +8,7 @@ class Tags(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="settag", aliases=["edittag", "newtag"])
+    @commands.command(name="settag", aliases=["edittag", "newtag", "addtag"])
     @commands.cooldown(1, 5)
     @commands.guild_only()
     @commands.has_permissions(manage_guild=True)
