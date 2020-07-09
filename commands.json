@@ -464,7 +464,7 @@
     {
         "name": "progress",
         "aliases": "progressbar",
-        "type": "Images",
+        "type": "Utility",
         "usage": "--",
         "action": "See how far into the year we are."
     },

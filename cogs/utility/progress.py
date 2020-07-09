@@ -6,7 +6,7 @@ from discord.ext import commands
 from io import BytesIO
 
 
-class Images(commands.Cog):
+class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -48,9 +48,9 @@ class Images(commands.Cog):
                 draw.rectangle(shape_bg2, fill=0xffffff)
                 draw.rectangle(shape_bg, fill=0x2f3136)
 
-                try:
+                if isinstance(ctx.channel, discord.TextChannel):
                     draw.rectangle(shape_fg, fill=ctx.message.author.top_role.color.to_rgb())
-                except AttributeError:
+                else:
                     draw.rectangle(shape_fg, fill=0xb9ae92)
 
                 tw = draw.textsize(text, font)[0]
@@ -63,8 +63,15 @@ class Images(commands.Cog):
 
             final_buffer.seek(0)
             file = discord.File(filename=f"progressbar_{year}.png", fp=final_buffer)
-            await ctx.send(file=file)
+
+            embed = discord.Embed(title="Year Progress", color=0xb9ae92)
+            if isinstance(ctx.channel, discord.TextChannel):
+                embed.__setattr__("color", ctx.message.author.top_role.color)
+            embed.set_image(url=f"attachment://progressbar_{year}.png")
+            embed.timestamp = ctx.message.created_at
+
+            await ctx.send(file=file, embed=embed)
 
 
 def setup(bot):
-    bot.add_cog(Images(bot))
+    bot.add_cog(Utility(bot))
