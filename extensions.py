@@ -27,6 +27,7 @@ extensions = [
     "servmng.servmng",
     "utility.announce",
     "utility.colorgen",
+    "utility.corona",
     "utility.dictionary",
     "utility.lyrics",
     "utility.memesearch",

@@ -84,6 +84,13 @@
         "action": "Enable/Disable commands"
     },
     {
+        "name": "coronastats",
+        "aliases": "corona, covid, cstats",
+        "type": "Utility",
+        "usage": "--",
+        "action": "Fetch COVID-19 Data for a specific country\n\nUsage: stats \"US\" \"Canada\""
+    },
+    {
         "name": "dashdefine",
         "aliases": "",
         "type": "Memes",
@@ -575,7 +582,7 @@
     },
     {
         "name": "settag",
-        "aliases": "edittag, newtag",
+        "aliases": "edittag, newtag, addtag",
         "type": "Tags",
         "usage": "--",
         "action": "Create a new bot tag."
