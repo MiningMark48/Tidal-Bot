@@ -84,11 +84,18 @@
         "action": "Enable/Disable commands"
     },
     {
+        "name": "coronaplot",
+        "aliases": "covidplot, cplot",
+        "type": "Utility",
+        "usage": "--",
+        "action": "Plot COVID-19 Data for a specific country\n\nUsage: plot \"US\""
+    },
+    {
         "name": "coronastats",
         "aliases": "corona, covid, cstats",
         "type": "Utility",
         "usage": "--",
-        "action": "Fetch COVID-19 Data for a specific country\n\nUsage: stats \"US\" \"Canada\""
+        "action": "Fetch COVID-19 Data for a specific country\n\nNote: You can specify up to 10 countries at once.\n\nUsage: stats \"US\" \"Canada\""
     },
     {
         "name": "dashdefine",

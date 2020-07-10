@@ -1,5 +1,15 @@
+import datetime
+import math
+from io import BytesIO
+
+import discord
 import requests
 from discord.ext import commands
+
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 
 class Utility(commands.Cog):
@@ -15,22 +25,25 @@ class Utility(commands.Cog):
         return data
 
     @commands.command(name="coronastats", aliases=["corona", "covid", "cstats"])
+    @commands.cooldown(1, 5)
     async def corona_stats(self, ctx, *countries: str):
         """
         Fetch COVID-19 Data for a specific country
 
+        Note: You can specify up to 10 countries at once.
+
         Usage: stats "US" "Canada"
         """
+
+        countries = countries[:10]
 
         if not countries:
             await ctx.send(f"Missing country!\nDo `{ctx.prefix}help stats` for more help.")
             return
 
         data = self.fetch_data()
-        # pattern = re.compile(r'\[(c19-)(.*?)\]')
-        # topic_matches = re.findall(pattern, channel.topic)
 
-        message = f"COVID-19 Cases\n\n\n"
+        message = ""
 
         for country in countries:
             try:
@@ -42,19 +55,82 @@ class Utility(commands.Cog):
                     heading = f"[{country}]".ljust(len(max(countries, key=len)) + 3, " ")
 
                     message += f"{heading} " \
-                               f"{latest['confirmed']} confirmed, " \
-                               f"{latest['deaths']} deaths, " \
-                               f"{latest['recovered']} recovered\n"
+                               f"{latest['confirmed']:,} c | " \
+                               f"{latest['deaths']:,} d | " \
+                               f"{latest['recovered']:,} r\n\n"
 
             except KeyError:
-                message += f"[{country}] N/A\n"
+                message += f"[{country}] N/A\n\n"
 
-        # message += "\n\nData Fetched Using: https://github.com/pomber/covid19"
+        message += "(C=Confirmed, D=Dead, R=Recovered)"
 
-        max_chars = 1900
-        msg_parts = [(message[i:i + max_chars]) for i in range(0, len(message), max_chars)]
-        for part in msg_parts:
-            await ctx.send(f"```css\n{part}```Data Fetched Using: <https://github.com/pomber/covid19>")
+        embed = discord.Embed(title="COVID-19 Cases")
+        embed.description = f"```css\n{message}```[Source](https://github.com/pomber/covid19)"
+
+        await ctx.send(embed=embed)
+
+    @commands.command(name="coronaplot", aliases=["covidplot", "cplot"])
+    # @commands.cooldown(1, 5)
+    async def corona_plot(self, ctx, country_1: str, country_2=""):
+        """
+        Plot COVID-19 Data for a specific country
+
+        Usage: plot "US"
+        """
+
+        data = self.fetch_data()
+
+        start_date = datetime.datetime(2020, 1, 22)
+        end_date = datetime.datetime.today()
+        t = np.arange(start_date, end_date, datetime.timedelta(days=1))[1:]
+        fig, ax = plt.subplots()
+
+        countries = [country_1]
+        has_two = country_2 != ""
+        if has_two:
+            countries.append(country_2)
+        for country in countries:
+            try:
+                country_data = data[country]
+
+                if country_data:
+
+                    index = 0
+                    data_c = []
+                    data_d = []
+                    data_r = []
+                    for t_ in range(0, len(t)):
+                        index_country = country_data[index]
+                        data_c.append(index_country['confirmed'])
+                        data_d.append(index_country['deaths'])
+                        data_r.append(index_country['recovered'])
+                        index += 1
+                    country_plot_name = country if has_two else ''
+                    ax.plot(t, data_c, label=f"{country_plot_name} Confirmed")
+                    ax.plot(t, data_d, label=f"{country_plot_name} Dead", linestyle="--")
+                    ax.plot(t, data_r, label=f"{country_plot_name} Recovered", linestyle="-.")
+
+            except KeyError:
+                await ctx.send("Invalid Country!")
+                return
+
+        ax.set(xlabel="Time", ylabel="Cases", title=f"COVID-19 Cases | {', '.join(c for c in countries)}")
+        ax.grid()
+        ax.legend()
+
+        fig.tight_layout()
+
+        final_buffer = BytesIO()
+        fig.savefig(final_buffer)
+
+        final_buffer.seek(0)
+        file = discord.File(filename=f"chart.png", fp=final_buffer)
+
+        embed = discord.Embed(title=f"COVID-19 Cases")
+        embed.set_image(url=f"attachment://chart.png")
+        embed.description = f"[Source](https://github.com/pomber/covid19)"
+
+        await ctx.send(embed=embed, file=file)
 
 
 def setup(bot):
