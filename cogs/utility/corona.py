@@ -55,9 +55,9 @@ class Utility(commands.Cog):
                     heading = f"[{country}]".ljust(len(max(countries, key=len)) + 3, " ")
 
                     message += f"{heading} " \
-                               f"{latest['confirmed']:,} c | " \
-                               f"{latest['deaths']:,} d | " \
-                               f"{latest['recovered']:,} r\n\n"
+                               f"{latest['confirmed']:,} C | " \
+                               f"{latest['deaths']:,} D | " \
+                               f"{latest['recovered']:,} R\n\n"
 
             except KeyError:
                 message += f"[{country}] N/A\n\n"
