@@ -70,7 +70,7 @@ class Utility(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name="coronaplot", aliases=["covidplot", "cplot"])
-    # @commands.cooldown(1, 5)
+    @commands.cooldown(1, 5)
     async def corona_plot(self, ctx, country_1: str, country_2=""):
         """
         Plot COVID-19 Data for a specific country
