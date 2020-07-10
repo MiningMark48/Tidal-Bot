@@ -81,7 +81,7 @@ class Utility(commands.Cog):
         data = self.fetch_data()
 
         start_date = datetime.datetime(2020, 1, 22)
-        end_date = datetime.datetime.today()
+        end_date = datetime.datetime.today()-datetime.timedelta(days=1)
         t = np.arange(start_date, end_date, datetime.timedelta(days=1))[1:]
         fig, ax = plt.subplots()
 
