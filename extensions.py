@@ -34,6 +34,7 @@ extensions = [
     "utility.progress",
     "utility.random",
     "utility.reddit",
+    "utility.stega",
     "utility.stock",
     "utility.tags",
     "utility.urbandict",
