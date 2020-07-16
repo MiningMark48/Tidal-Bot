@@ -41,6 +41,7 @@ class Utility(commands.Cog):
 
                         embed = discord.Embed(title=f"Stock | {symbol.upper()}", color=0x0087ba)
                         embed.timestamp = ctx.message.created_at
+                        embed.set_footer(text="Via AlphaVantage")
                         embed.add_field(name="Date", value=date, inline=False)
                         embed.add_field(name="Open", value="${}".format(latest['1. open'][:-2]))
                         embed.add_field(name="Close", value="${}".format(latest['4. close'][:-2]))
