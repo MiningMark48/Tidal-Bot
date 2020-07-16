@@ -79,6 +79,7 @@ class Utility(commands.Cog):
 
                         embed = discord.Embed(title=f"'{query}' | Best Match Symbol", color=0x86d9f3)
                         embed.timestamp = ctx.message.created_at
+                        embed.set_footer(text="Via AlphaVantage")
                         embed.add_field(name="Symbol", value=best['1. symbol'])
                         embed.add_field(name="Name", value=best['2. name'])
                         embed.add_field(name="Type", value=best['3. type'])
