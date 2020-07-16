@@ -355,6 +355,24 @@ class Utility(commands.Cog):
         except discord.HTTPException:
             await ctx.send("Current uptime: " + text)
 
+    @commands.command(name="urlshorten", aliases=["tinyurl"])
+    @commands.guild_only()
+    async def url_shortnen(self, ctx, url: str):
+        """Shorten a URL"""
+
+        base_url = "https://tinyurl.com/api-create.php?url={}"
+
+        async with aiohttp.ClientSession() as session:
+            async with session.get(base_url.format(url)) as r:
+                content = await r.text()
+                shortened = str(content)
+
+                embed = discord.Embed(title="Shortened URL", color=0x081f38)
+                embed.add_field(name="Original", value=url, inline=False)
+                embed.add_field(name="Shortened", value=shortened, inline=False)
+                embed.set_footer(text="Shortened with TinyURL")
+                await ctx.send(embed=embed)
+
     @commands.command(name="youtubestatus", aliases=["ytstatus"], hidden=True)
     async def youtube_status(self, ctx, user: discord.Member):
         """

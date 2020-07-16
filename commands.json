@@ -658,6 +658,20 @@
         "action": "Look up information about a user on Mixer"
     },
     {
+        "name": "stega",
+        "aliases": "",
+        "type": "Utility",
+        "usage": "--",
+        "action": "Encode and decode an image using Steganography\n\nNote: Issues may occur."
+    },
+    {
+        "name": "stock",
+        "aliases": "stocks",
+        "type": "Utility",
+        "usage": "--",
+        "action": "Get Stock info for a specific Symbol"
+    },
+    {
         "name": "sudo",
         "aliases": "",
         "type": "Owner",
@@ -670,6 +684,13 @@
         "type": "Fun",
         "usage": "--",
         "action": "Generate a Sudoku puzzle auto-magically\n\nNote: Sudoku difficulty is harder the lower the number."
+    },
+    {
+        "name": "symbolsearch",
+        "aliases": "lookupsymbol",
+        "type": "Utility",
+        "usage": "--",
+        "action": "Lookup a stock symbol"
     },
     {
         "name": "tag",
@@ -768,6 +789,13 @@
         "type": "Utility",
         "usage": "--",
         "action": "Define a word from Urban Dictionary"
+    },
+    {
+        "name": "urlshorten",
+        "aliases": "tinyurl",
+        "type": "Utility",
+        "usage": "--",
+        "action": "Shorten a URL"
     },
     {
         "name": "userguess",
