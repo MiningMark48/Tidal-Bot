@@ -28,6 +28,13 @@
         "action": "[WIP] Encode/Decode to/from binary\n\nMethods: Encode (e), Decode (d)\n\nNote: This command is a work-in-progress, some errors may and will occur."
     },
     {
+        "name": "bitcoin",
+        "aliases": "btc",
+        "type": "Utility",
+        "usage": "--",
+        "action": "Get info for Bitcoin (BTC)"
+    },
+    {
         "name": "blackjack",
         "aliases": "21",
         "type": "Fun",
