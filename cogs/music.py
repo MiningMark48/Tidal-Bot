@@ -409,12 +409,16 @@ class Music(commands.Cog):
             try:
                 channel = ctx.author.voice.channel
             except AttributeError:
-                raise discord.DiscordException('No channel to join. Please either specify a valid channel or join one.')
+                try:
+                    channel = next(filter(lambda vc: vc.name == "the-office-voice", ctx.guild.voice_channels))
+                except AttributeError or StopIteration:
+                    raise discord.DiscordException('No channel to join. '
+                                                   'Please either specify a valid channel or join one.')
 
         player = self.bot.wavelink.get_player(ctx.guild.id, cls=Player)
 
         if player.is_connected:
-            if ctx.author.voice.channel == ctx.guild.me.voice.channel:
+            if hasattr(ctx.author, 'voice') and ctx.author.voice.channel == ctx.guild.me.voice.channel:
                 return
 
         await player.connect(channel.id)

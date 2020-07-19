@@ -16,7 +16,7 @@ class Background(commands.Cog):
             webhook = discord.utils.find(lambda w: (isinstance(w, discord.Webhook) and w.name == "tb-log"),
                                          await ctx.guild.webhooks())
             if webhook:
-                embed = discord.Embed(title=ctx.command.name, color=ctx.message.author.top_role.color)
+                embed = discord.Embed(title=ctx.command.name, color=0x00ff00)
                 embed.timestamp = ctx.message.created_at
                 embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
                 message_content = ctx.message.content

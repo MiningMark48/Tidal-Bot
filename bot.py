@@ -69,7 +69,10 @@ async def on_message(message):
 
         # await bot.invoke(ctx) # Uses this so webhooks/bots can use the bot
 
-    await bot.process_commands(message)
+    if message.webhook_id:
+        await bot.invoke(ctx)
+    else:
+        await bot.process_commands(message)
 
 
 @bot.event
