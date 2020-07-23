@@ -95,7 +95,7 @@
         "aliases": "covidplot, cplot",
         "type": "Utility",
         "usage": "--",
-        "action": "Plot COVID-19 Data for a specific country\n\nUsage: plot \"US\""
+        "action": "Plot COVID-19 Data for a specific country\n\nNote: This will likely require the use of quotes.\n\nUsage: plot \"US\""
     },
     {
         "name": "coronastats",
