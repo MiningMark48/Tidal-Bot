@@ -6,24 +6,23 @@ import aiohttp
 import discord
 from discord.ext import commands
 
-from util.spongemock import mockify
-
 from util.config import BotConfig
+from util.decorators import delete_original
+from util.spongemock import mockify
 
 
 class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.api_key_tenor = BotConfig().get_api_key('tenor')
 
     @commands.command(name="blackjack", aliases=["21"])
+    @delete_original()
     async def blackjack(self, ctx):
         """Play a (modified) game of blackjack, simplistic-ly."""
 
         def check(m):
             return m.author.id == ctx.author.id
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         cards = list(range(1, 11))
         cards_dealer = random.sample(cards, 2)
@@ -103,14 +102,13 @@ class Fun(commands.Cog):
                 await ctx.send(embed=embed)
 
     @commands.command(name="emojialternate", aliases=["emal"])
+    @delete_original()
     async def emoji_alternate(self, ctx, msg: str, emoji: str):
         """
         *clap* Hello *clap* World *clap*
 
         Alternates words in a string with an emoji
         """
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         words = msg.split(" ")
         final = f" {emoji} ".join(w for w in words)
@@ -137,19 +135,17 @@ class Fun(commands.Cog):
 
     @commands.command(aliases=["gif"])
     @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
     async def tenor(self, ctx, *, search: str):
         """
         Returns a random GIF based on search term
         """
 
-        api_key = BotConfig().get_api_key('tenor')
+        api_key = self.api_key_tenor
 
         if not api_key:
             await ctx.send("Error, missing API key. Report to bot owner.")
             return
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         base_url = f"https://api.tenor.com/v1/search"
         payload = {"q": search, "key": api_key, "limit": 16}
@@ -186,6 +182,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="nocontext", aliases=["ooc"])
     @commands.cooldown(1, 8, commands.BucketType.channel)
+    @delete_original()
     async def out_of_context(self, ctx, limit=500):
         """
         Picks a random message from the channel, out-of-context.
@@ -194,9 +191,6 @@ class Fun(commands.Cog):
 
         """
         limit = max(min(limit, 10000), 10)
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         og_msg = await ctx.send(f"Finding an out-of-context message out of *{limit}*...")
 

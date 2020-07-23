@@ -1,7 +1,7 @@
-import discord
 from discord.ext import commands
 
 from util.data.user_data import UserData
+from util.decorators import delete_original
 
 
 class Preferences(commands.Cog):
@@ -10,6 +10,7 @@ class Preferences(commands.Cog):
 
     @commands.command(name="botdms", aliases=["botdm"])
     @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
     async def dms(self, ctx, *, enabled: bool):
         """
         Control whether or not the bot will DM you with certain commands/functions.
@@ -18,9 +19,6 @@ class Preferences(commands.Cog):
 
         Usage: botdms False
         """
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         result = UserData(str(ctx.author.id)).booleans.set("dm_enabled", enabled)
 

@@ -3,21 +3,21 @@ import discord
 from bs4 import BeautifulSoup as bs
 from discord.ext import commands
 
+from util.decorators import delete_original
+
 
 class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(name="pressbutton", aliases=["willyoupressbutton", "willyoupress", "wyptb"])
+    @delete_original()
     async def press_button(self, ctx):
         """
         Will you press the button?
         """
 
         site_url = "http://willyoupressthebutton.com/"
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         async with aiohttp.ClientSession() as session:
             async with session.get(site_url) as r:

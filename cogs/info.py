@@ -1,9 +1,10 @@
 from datetime import datetime
 
 import aiohttp
-
 import discord
 from discord.ext import commands
+
+from util.decorators import delete_original
 
 
 class Info(commands.Cog):
@@ -12,6 +13,7 @@ class Info(commands.Cog):
 
     @commands.command(aliases=["leaderboard"])
     @commands.cooldown(1, 30, commands.BucketType.channel)
+    @delete_original()
     async def activity(self, ctx, limit=750, today_only=False, include_bots=False):
         """
         View a leaderboard of the user with the most sent messages in a channel from a specified amount.
@@ -20,9 +22,6 @@ class Info(commands.Cog):
         """
         try:
             limit = max(min(limit, 2500), 10)
-
-            if isinstance(ctx.channel, discord.TextChannel):
-                await ctx.message.delete()
 
             embed = discord.Embed(title="Most Active Users", color=0xDB9066)
             embed.description = f"Fetching activity from *{limit}* messages."

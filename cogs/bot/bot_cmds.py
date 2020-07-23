@@ -3,6 +3,8 @@ import time
 import discord
 from discord.ext import commands
 
+from util.decorators import delete_original
+
 start_time = time.time()
 
 
@@ -12,15 +14,13 @@ class Bot(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 30, commands.BucketType.user)
+    @delete_original()
     async def feedback(self, ctx, *, content: str):
         """
         Gives feedback about the bot.
         This is a quick way to request features and submit issues.
         The bot will communicate with you via DM about the status of your request if possible and when able.
         """
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         embed = discord.Embed(title='Feedback', colour=0x6777EC)
         channel = self.bot.get_channel(705639785238102036)  # TODO: Make config
@@ -46,6 +46,7 @@ class Bot(commands.Cog):
     # noinspection PyBroadException
     @commands.command(name="feedbackdm", aliases=["fbdm"])
     @commands.is_owner()
+    @delete_original()
     async def feedback_dm(self, ctx, user_id: int, *, content: str):
         user = self.bot.get_user(user_id)
 

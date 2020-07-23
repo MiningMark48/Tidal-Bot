@@ -9,6 +9,8 @@ from PIL import ImageFont, ImageDraw, Image
 from discord.ext import commands
 from faker import Faker
 
+from util.decorators import delete_original
+
 
 class Fun(commands.Cog):
     def __init__(self, bot):
@@ -49,6 +51,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="speedtype")
     @commands.cooldown(2, 8, commands.BucketType.channel)
+    @delete_original()
     async def speed_type(self, ctx, max_words=5, accuracy_ratio=1.0):
         """
         See who can type the fastest!
@@ -63,9 +66,6 @@ class Fun(commands.Cog):
 
         def check(m):
             return m.channel == ctx.channel
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         rand_text_words = self.fake.words(nb=max_words, ext_word_list=None)
         rand_text = ' '.join(x for x in rand_text_words)

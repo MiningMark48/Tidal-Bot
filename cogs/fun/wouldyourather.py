@@ -3,21 +3,21 @@ import discord
 from bs4 import BeautifulSoup as bs
 from discord.ext import commands
 
+from util.decorators import delete_original
+
 
 class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(name="wouldyourather", aliases=["wyr", "wouldrather"])
+    @delete_original()
     async def would_you_rather(self, ctx):
         """
         Would you rather...?
         """
 
         site_url = "http://either.io/"
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         async with aiohttp.ClientSession() as session:
             async with session.get(site_url) as r:

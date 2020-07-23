@@ -1,9 +1,12 @@
-import discord
-import datetime
 import calendar
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
-from discord.ext import commands
+import datetime
 from io import BytesIO
+
+import discord
+from PIL import Image, ImageDraw, ImageFont
+from discord.ext import commands
+
+from util.decorators import delete_original
 
 
 class Utility(commands.Cog):
@@ -12,12 +15,9 @@ class Utility(commands.Cog):
 
     @commands.command(aliases=["progressbar"])
     @commands.cooldown(2, 30, commands.BucketType.user)
+    @delete_original()
     async def progress(self, ctx):
         """See how far into the year we are."""
-        try:
-            await ctx.message.delete()
-        except discord.HTTPException:
-            pass
 
         async with ctx.typing():
             with Image.new("RGB", (800, 400), 0x202225) as im:

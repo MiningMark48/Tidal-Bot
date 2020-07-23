@@ -15,6 +15,8 @@ import googletrans
 from bs4 import BeautifulSoup as bs
 from discord.ext import commands
 
+from util.decorators import delete_original
+
 start_time = time.time()
 
 
@@ -63,13 +65,11 @@ class Utility(commands.Cog):
         await ctx.send(f'**Emojis: **{list}')
 
     @commands.command(name="explodingmessage", aliases=["explodemsg", "msgboom"])
+    @delete_original()
     async def exploding_message(self, ctx, *, msg: str):
         """
         Send a message that 'explodes' after 10 seconds.
         """
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         delete_time = 10
         embed = discord.Embed(title="Exploding Message", color=0xA53071)
@@ -221,11 +221,10 @@ class Utility(commands.Cog):
                 await ctx.send(embed=embed)
 
     @commands.command()
+    @delete_original()
     async def ping(self, ctx):
         """Latency of the bot"""
         await ctx.send(f":ping_pong: Pong! {str(round(self.bot.latency * 1000, 0))[:2]}ms :signal_strength:")
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
     @commands.command(aliases=["purge", "nuke"])
     @commands.has_permissions(manage_messages=True)
@@ -298,11 +297,9 @@ class Utility(commands.Cog):
 
     # noinspection PyBroadException
     @commands.command()
+    @delete_original()
     async def translate(self, ctx, language: str, *, msg: str):
         """Translate from a detected language to a specified language"""
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         loop = self.bot.loop
 

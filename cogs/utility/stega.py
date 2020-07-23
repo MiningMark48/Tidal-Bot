@@ -6,6 +6,8 @@ import requests
 from PIL import Image, UnidentifiedImageError
 from discord.ext import commands
 
+from util.decorators import delete_original
+
 
 class Utility(commands.Cog):
     def __init__(self, bot):
@@ -89,13 +91,11 @@ class Utility(commands.Cog):
         pass
 
     @group_stega.command(name="encode")
+    @delete_original()
     async def stega_encode(self, ctx, url: str, *, data: str):
         """
         Encode an image using Steganography
         """
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         if not url:
             url = str(ctx.author.avatar_url)
@@ -129,13 +129,11 @@ class Utility(commands.Cog):
             return
 
     @group_stega.command(name="decode")
+    @delete_original()
     async def stega_decode(self, ctx, url: str):
         """
         Decode an image using Steganography
         """
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         if not url:
             url = str(ctx.author.avatar_url)

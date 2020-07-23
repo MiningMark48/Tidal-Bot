@@ -7,6 +7,8 @@ import requests
 from PIL import Image, UnidentifiedImageError, ImageOps, ImageFilter, ImageFont, ImageDraw
 from discord.ext import commands
 
+from util.decorators import delete_original
+
 
 class Images(commands.Cog):
     def __init__(self, bot):
@@ -14,13 +16,11 @@ class Images(commands.Cog):
 
     @commands.command(name="imblur", aliases=["imb"])
     @commands.cooldown(1, 3, commands.BucketType.user)
+    @delete_original()
     async def blur(self, ctx, url=None, radius=5):
         """
         Image Manipulation: Blur
         """
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         if not url:
             url = str(ctx.author.avatar_url)
@@ -50,13 +50,11 @@ class Images(commands.Cog):
 
     @commands.command(name="imcircle", aliases=["imc"])
     @commands.cooldown(1, 3, commands.BucketType.user)
+    @delete_original()
     async def circle(self, ctx, url=None):
         """
         Image Manipulation: Circle
         """
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         if not url:
             url = str(ctx.author.avatar_url)
@@ -90,13 +88,11 @@ class Images(commands.Cog):
 
     @commands.command(name="imflip180", aliases=["imf180"])
     @commands.cooldown(1, 3, commands.BucketType.user)
+    @delete_original()
     async def flip_180(self, ctx, url=None):
         """
         Image Manipulation: Flip 180
         """
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         if not url:
             url = str(ctx.author.avatar_url)
@@ -126,13 +122,11 @@ class Images(commands.Cog):
 
     @commands.command(name="imgrayscale", aliases=["imgs"])
     @commands.cooldown(1, 3, commands.BucketType.user)
+    @delete_original()
     async def grayscale(self, ctx, url=None):
         """
         Image Manipulation: Grayscale
         """
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         if not url:
             url = str(ctx.author.avatar_url)
@@ -160,13 +154,11 @@ class Images(commands.Cog):
 
     @commands.command(name="impixelate", aliases=["imp"])
     @commands.cooldown(1, 3, commands.BucketType.user)
+    @delete_original()
     async def pixelate(self, ctx, url=None):
         """
         Image Manipulation: Pixelate
         """
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         if not url:
             url = str(ctx.author.avatar_url)
@@ -198,13 +190,11 @@ class Images(commands.Cog):
 
     @commands.command(name="imsepia", aliases=["ims"])
     @commands.cooldown(1, 3, commands.BucketType.user)
+    @delete_original()
     async def sepia(self, ctx, url=None):
         """
         Image Manipulation: Sepia
         """
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         if not url:
             url = str(ctx.author.avatar_url)
@@ -245,13 +235,11 @@ class Images(commands.Cog):
 
     @commands.command(name="imsnapchat", aliases=["imsc"])
     @commands.cooldown(1, 3, commands.BucketType.user)
+    @delete_original()
     async def snapchat(self, ctx, text: str, url=None):
         """
         Image Manipulation: Snapchat
         """
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         if not url:
             url = str(ctx.author.avatar_url)

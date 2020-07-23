@@ -1,9 +1,9 @@
 import re
 
-import discord
 from discord.ext import commands
 
 from util.data.guild_data import GuildData
+from util.decorators import delete_original
 
 
 class ServerManagement(commands.Cog):
@@ -14,11 +14,9 @@ class ServerManagement(commands.Cog):
     @commands.has_permissions(manage_guild=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.guild_only()
+    @delete_original()
     async def set_rules(self, ctx, *rules: str):
         """Set the rules for the server."""
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         rules_text = ""
         index = 1
@@ -32,15 +30,13 @@ class ServerManagement(commands.Cog):
     @commands.command(aliases=["listrules", "ruleslist"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.guild_only()
+    @delete_original()
     async def rules(self, ctx, edit_mode=False):
         """
         Get the rules for the server.
 
         Can be set using 'setrules'
         """
-
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
 
         result = GuildData(str(ctx.guild.id)).strings.fetch_by_name("server_rules")
         if result:
