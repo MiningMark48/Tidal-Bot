@@ -1,15 +1,11 @@
 import datetime
-import math
 from io import BytesIO
 
 import discord
+import matplotlib.pyplot as plt
+import numpy as np
 import requests
 from discord.ext import commands
-
-import numpy as np
-import matplotlib
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
 
 
 class Utility(commands.Cog):
