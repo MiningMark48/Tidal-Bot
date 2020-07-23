@@ -92,7 +92,7 @@ if __name__ == "__main__":
             Logger.info(f"[Cog] Loaded {extension}")
             count += 1
         except Exception as error:
-            Logger.fatal(f"{extension} cannot be loaded. [{error}]")
+            Logger.fatal(f"{extension} cannot be loaded. \n\t[{error}]")
     Logger.info(f"Loaded {count}/{len(extensions)} cogs")
 
 if do_run:
