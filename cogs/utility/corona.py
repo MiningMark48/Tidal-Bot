@@ -75,6 +75,8 @@ class Utility(commands.Cog):
         """
         Plot COVID-19 Data for a specific country
 
+        Note: This will likely require the use of quotes.
+
         Usage: plot "US"
         """
 
@@ -111,7 +113,7 @@ class Utility(commands.Cog):
                     ax.plot(t, data_r, label=f"{country_plot_name} Recovered", linestyle="-.")
 
             except KeyError:
-                await ctx.send("Invalid Country!")
+                await ctx.send("Invalid Country! You may need to use quotes. Example: `\"US\"`")
                 return
 
         ax.set(xlabel="Time", ylabel="Cases", title=f"COVID-19 Cases | {', '.join(c for c in countries)}")
