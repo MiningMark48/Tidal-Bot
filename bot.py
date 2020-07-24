@@ -33,7 +33,7 @@ do_run = config.do_run
 def prefix(bot, message):
     pfx = bot_key
     if message.guild:
-        pfx = GuildData(str(message.guild.id)).strings.fetch_by_name("prefix")
+        pfx = commands.when_mentioned_or(GuildData(str(message.guild.id)).strings.fetch_by_name("prefix"))(bot, message)
     return pfx if pfx else bot_key
 
 
