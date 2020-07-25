@@ -221,7 +221,7 @@ class Utility(commands.Cog):
                 await ctx.send(embed=embed)
 
     @commands.command()
-    # @delete_original()
+    @delete_original()
     async def ping(self, ctx):
         """Latency of the bot"""
         await ctx.send(f":ping_pong: Pong! {str(round(self.bot.latency * 1000, 0))[:2]}ms :signal_strength:")
