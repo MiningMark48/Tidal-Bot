@@ -79,6 +79,7 @@ class Fun(commands.Cog):
         await play()
 
     @commands.command(name="chucknorris", aliases=["chuck", "norris"])
+    @delete_original()
     async def chuck_norris(self, ctx):
         """Fetch a Chuck Norris Joke"""
         base_url = "http://api.icndb.com/jokes/random"
@@ -167,12 +168,9 @@ class Fun(commands.Cog):
                     await ctx.send("Nothing found!")
 
     @commands.command()
+    @delete_original()
     async def mock(self, ctx, *, text: typing.Optional[str]):
         """spOngEBoB MoCKifY soMe TeXT"""
-        try:
-            await ctx.message.delete()
-        except discord.HTTPException:
-            pass
         if not text:
             messages = await ctx.channel.history(limit=1).flatten()
             text = messages[0].content
