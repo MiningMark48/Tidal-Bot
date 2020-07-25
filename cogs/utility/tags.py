@@ -1,4 +1,5 @@
 from discord.ext import commands
+from discord.utils import escape_markdown
 from fuzzywuzzy import process as fwp
 
 from util.data.guild_data import GuildData
@@ -22,7 +23,7 @@ class Tags(commands.Cog):
 
         GuildData(str(ctx.guild.id)).tags.set(tag_name, message)
 
-        await ctx.send(f"Set tag `{tag_name}` to `{message}`.")
+        await ctx.send(f"Set tag `{tag_name}` to `{escape_markdown(message)}`.")
 
     @commands.command(name="deletetag", aliases=["deltag", "tagdelete"])
     @commands.cooldown(1, 5)
@@ -57,7 +58,7 @@ class Tags(commands.Cog):
         for t in sorted(guild_tags):
             value = t[2]
             value = value.replace("\n", "")
-            tags += f"[{t[1]}] {value[:100]}{'...' if len(value) > 100 else ''}\n"
+            tags += f"[{t[1]}] {escape_markdown(value[:100])}{'...' if len(value) > 100 else ''}\n"
 
         parts = [(tags[i:i + 750]) for i in range(0, len(tags), 750)]
         for part in parts:
