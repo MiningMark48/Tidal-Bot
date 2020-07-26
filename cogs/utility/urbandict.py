@@ -45,8 +45,7 @@ class Utility(commands.Cog):
 
                         page_info = f'\n\n**Page:** 1/{len(dict_pages)}'
                         w, m, ex = dict_pages[0]
-                        embed = discord.Embed(title=w, url=f"https://www.urbandictionary.com/define.php?term={w}",
-                                              color=0x1d2439)
+                        embed = discord.Embed(title=w, color=0x1d2439)
                         embed.description = f'{m[:1800]} {"..." if len(m) > 1800 else ""} ' \
                                             f'\n\n**Example:** {ex[:100]} {"..." if len(ex) > 100 else ""}' \
                                             f'{page_info if len(page_info) > 1 else ""}'
