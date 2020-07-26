@@ -1,3 +1,4 @@
+import discord
 import sqlalchemy.exc
 from discord.ext import commands
 
@@ -33,6 +34,15 @@ class ServerManagement(commands.Cog, name="Server Management"):
             data.delete(cmd.name)
 
         await ctx.send(f'**{"Enabled" if not value else "Disabled"}** the `{cmd.name}` command.')
+
+    # @commands.command(name="randomnick", aliases=["randnick"])
+    # # @commands.has_permissions(manage_nicknames=True)
+    # # @commands.cooldown(1, 10, commands.BucketType.user)
+    # @commands.guild_only()
+    # async def random_nick(self, ctx, user: discord.Member):
+    #     """Randomize a user's nickname"""
+    #
+    #     await user.edit(nick="NEW")
 
     @commands.command(aliases=["changeprefix"])
     @commands.has_permissions(manage_guild=True)
