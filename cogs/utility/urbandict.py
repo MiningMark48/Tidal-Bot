@@ -28,35 +28,28 @@ class Utility(commands.Cog):
             try:
                 # query = html.escape(query)
                 query = query.replace(" ", "+")
-                base_url = f"https://www.urbandictionary.com/define.php?term={query}"
+                base_url = "https://api.urbandictionary.com/v0/define"
+                payload = {'term': query}
 
                 async with aiohttp.ClientSession() as session:
-                    async with session.get(base_url) as r:
-                        content = await r.content.read()
+                    async with session.get(base_url, params=payload) as r:
+                        content = await r.json()
 
-                        soup = bs(content, 'html.parser')
-
-                        for br in soup.find_all("br"):
-                            br.replace_with("\n")
-
-                        div_content = soup.find_all(id="content")[0]
-
-                        def_panel_list = div_content.find_all("div", class_="def-panel")
+                        def_list = content['list']
                         dict_pages = []
-                        for index in range(0, len(def_panel_list)-1):
-                            def_panel = def_panel_list[index]
-                            def_header = def_panel.find_all("div", class_="def-header")[0]
-                            word = def_header.find_all("a", class_="word")[0]
-                            word_text = str(word.get_text()).capitalize()
-                            meaning = def_panel.find_all("div", class_="meaning")[0]
-                            meaning_text = meaning.get_text()
-                            dict_pages.append((word_text, meaning_text))
+                        for _def in def_list:
+                            word_text = _def['word']
+                            meaning_text = str(_def['definition']).replace("[", "").replace("]", "")
+                            example_text = str(_def['example']).replace("[", "").replace("]", "")
+                            dict_pages.append((word_text, meaning_text, example_text))
 
                         page_info = f'\n\n**Page:** 1/{len(dict_pages)}'
-                        w, m = dict_pages[0]
-                        embed = discord.Embed(title=w, url=str(r.url), color=0x1d2439)
+                        w, m, ex = dict_pages[0]
+                        embed = discord.Embed(title=w, url=f"https://www.urbandictionary.com/define.php?term={w}",
+                                              color=0x1d2439)
                         embed.description = f'{m[:1800]} {"..." if len(m) > 1800 else ""} ' \
-                                            f'{page_info if len(page_info)>1 else ""}'
+                                            f'\n\n**Example:** {ex[:100]} {"..." if len(ex) > 100 else ""}' \
+                                            f'{page_info if len(page_info) > 1 else ""}'
                         embed.set_footer(text="Fetched from Urban Dictionary")
 
                         msg = await ctx.send(embed=embed)
@@ -103,22 +96,23 @@ class Utility(commands.Cog):
                         p_index.update({mid: 0})
                         update = True
                     elif reaction_emoji == "⏩":
-                        p_index.update({mid: len(self.dict_pages.get(mid))-1})
+                        p_index.update({mid: len(self.dict_pages.get(mid)) - 1})
                         update = True
 
                     if update:
                         p_index.update({mid: max(min(p_index.get(mid), len(self.dict_pages.get(mid)) - 1), 0)})
                         self.page_index.update(p_index)
 
-                        page_info = f'\n\n**Page:** {self.page_index.get(mid)+1}/{len(self.dict_pages.get(mid))}'
+                        page_info = f'\n\n**Page:** {self.page_index.get(mid) + 1}/{len(self.dict_pages.get(mid))}'
 
                         e = self.def_embed.get(mid)
 
-                        w, m = self.dict_pages.get(mid)[self.page_index.get(mid)]
+                        w, m, ex = self.dict_pages.get(mid)[self.page_index.get(mid)]
 
                         e.title = w
                         e.description = f'{m[:1800]}{"..." if len(m) > 1800 else ""} ' \
-                                        f'{page_info if len(self.dict_pages.get(mid))>1 else ""}'
+                                        f'\n\n**Example:** {ex[:100]} {"..." if len(ex) > 100 else ""}' \
+                                        f'{page_info if len(self.dict_pages.get(mid)) > 1 else ""}'
 
                         await rmsg.edit(embed=e)
                         self.def_embed.update({mid: e})
