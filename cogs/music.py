@@ -991,6 +991,8 @@ class Music(commands.Cog):
         """Show all available YouTube playlists."""
 
         playlists_o = sorted([(_pl[1], _pl[2]) for _pl in list(UserData(str(ctx.guild.id)).playlists.fetch_all())])
+        playlists_o.insert(0, ("Name", "URL\n"))
+
         pl_names = [i[0] for i in playlists_o]
 
         max_chars = 1750
