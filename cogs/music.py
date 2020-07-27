@@ -990,10 +990,11 @@ class Music(commands.Cog):
     async def list_playlists(self, ctx):
         """Show all available YouTube playlists."""
 
-        playlists_o = sorted(list(UserData(str(ctx.guild.id)).playlists.fetch_all()))
+        playlists_o = sorted([(_pl[1], _pl[2]) for _pl in list(UserData(str(ctx.guild.id)).playlists.fetch_all())])
+        pl_names = [i[0] for i in playlists_o]
 
         max_chars = 1750
-        playlists = '\n'.join(f"{pl[1]} - {pl[2]}" for pl in playlists_o)
+        playlists = '\n'.join(f"{str(pl[0]).ljust(len(max(pl_names, key=len)) + 3, ' ')} {pl[1]}" for pl in playlists_o)
         playlist_parts = [(playlists[i:i + max_chars]) for i in range(0, len(playlists), max_chars)]
 
         for part in playlist_parts:
