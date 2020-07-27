@@ -874,18 +874,17 @@ class Music(commands.Cog):
             await ctx.message.delete()
 
         eq = eq.lower()
-        eq_cls = Equalizer.flat()
+        # eq_cls = Equalizer.flat()
         if eq in ["boost", "b"]:
             eq_cls = Equalizer.boost()
         elif eq in ["metal", "m"]:
             eq_cls = Equalizer.metal()
         elif eq in ["piano", "p"]:
             eq_cls = Equalizer.piano()
+        else:
+            return await ctx.send(f'`{eq}` is not a valid equalizer!\nTry Flat, Boost, Metal, Piano.')
 
         player = self.bot.wavelink.get_player(ctx.guild.id, cls=Player)
-
-        if eq.upper() not in player.equalizers:
-            return await ctx.send(f'`{eq}` is not a valid equalizer!\nTry Flat, Boost, Metal, Piano.')
 
         await player.set_eq(eq_cls)
         player.eq = eq.capitalize()
