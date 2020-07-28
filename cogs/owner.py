@@ -168,7 +168,7 @@ class Owner(commands.Cog):
         await guild.leave()
         await ctx.send(f'Left **{guild.name}** (*{guild.id}*).')
 
-    @commands.command(hidden=True)
+    @commands.command()
     @commands.is_owner()
     async def perf(self, ctx, *, command):
         """Checks the timing of a command, attempting to suppress HTTP and DB calls."""
