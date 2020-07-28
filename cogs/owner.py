@@ -1,6 +1,8 @@
+import asyncio
 import copy
 import io
 import textwrap
+import time
 import traceback
 import typing
 from contextlib import redirect_stdout
@@ -27,6 +29,51 @@ class GlobalChannel(commands.Converter):
                 if channel is None:
                     raise commands.BadArgument(f'Could not find a channel by ID {argument!r}.')
                 return channel
+
+
+class PerformanceMocker:
+    """A mock object that can also be used in await expressions."""
+
+    def __init__(self):
+        self.loop = asyncio.get_event_loop()
+
+    @staticmethod
+    def permissions_for(obj):
+        # Lie and say we don't have permissions to embed
+        # This makes it so pagination sessions just abruptly end on __init__
+        # Most checks based on permission have a bypass for the owner anyway
+        # So this lie will not affect the actual command invocation.
+        perms = discord.Permissions.all()
+        perms.administrator = False
+        perms.embed_links = False
+        perms.add_reactions = False
+        return perms
+
+    def __getattr__(self, attr):
+        return self
+
+    def __call__(self, *args, **kwargs):
+        return self
+
+    def __repr__(self):
+        return '<PerformanceMocker>'
+
+    def __await__(self):
+        future = self.loop.create_future()
+        future.set_result(self)
+        return future.__await__()
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, *args):
+        return self
+
+    def __len__(self):
+        return 0
+
+    def __bool__(self):
+        return False
 
 
 class Owner(commands.Cog):
@@ -120,6 +167,40 @@ class Owner(commands.Cog):
         guild = self.bot.get_guild(id)
         await guild.leave()
         await ctx.send(f'Left **{guild.name}** (*{guild.id}*).')
+
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def perf(self, ctx, *, command):
+        """Checks the timing of a command, attempting to suppress HTTP and DB calls."""
+
+        msg = copy.copy(ctx.message)
+        msg.content = ctx.prefix + command
+
+        new_ctx = await self.bot.get_context(msg, cls=type(ctx))
+        new_ctx._db = PerformanceMocker()
+
+        # Intercepts the Messageable interface a bit
+        new_ctx._state = PerformanceMocker()
+        new_ctx.channel = PerformanceMocker()
+
+        if new_ctx.command is None:
+            return await ctx.send('No command found')
+
+        start = time.perf_counter()
+        try:
+            await new_ctx.command.invoke(new_ctx)
+        except commands.CommandError:
+            end = time.perf_counter()
+            success = False
+            try:
+                await ctx.send(f'```py\n{traceback.format_exc()}\n```')
+            except discord.HTTPException:
+                pass
+        else:
+            end = time.perf_counter()
+            success = True
+
+        await ctx.send(f'Status: {"Success" if success else "Fail"}\nTime: {(end - start) * 1000:.2f}ms')
 
     # @commands.command(hidden=True, aliases=["reload"])
     # @commands.is_owner()
