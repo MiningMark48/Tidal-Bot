@@ -17,6 +17,7 @@ extensions = [
     "images.manip",
     "images.memelicense",
     "images.memes",
+    "images.placeholder",
     "info",
     "owner",
     "preferences.userprefs",
@@ -41,6 +42,7 @@ extensions = [
     "utility.utility",
     "utility.wikipedia"
 ]
+
 
 def get_extensions():
     return extensions

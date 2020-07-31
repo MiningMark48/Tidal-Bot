@@ -226,26 +226,6 @@ class Utility(commands.Cog):
         """Latency of the bot"""
         await ctx.send(f":ping_pong: Pong! {str(round(self.bot.latency * 1000, 0))[:2]}ms :signal_strength:")
 
-    @commands.command(name="placeholderimg", aliases=["placeholder"])
-    @delete_original()
-    async def placeholder_img(self, ctx, size: str, *, text="Placeholder"):
-        """
-        Generate a placeholder image
-
-        Usage:
-        placeholder 256
-        placeholder 512x256 Image
-        """
-
-        base_url = "https://via.placeholder.com/{}".format(size)
-        payload = {'text': text}
-        async with aiohttp.ClientSession() as session:
-            async with session.get(base_url, params=payload) as r:
-                content = await r.content.read()
-                buffer = BytesIO(content)
-                f = discord.File(buffer, filename=f'{text}.png')
-                await ctx.send(file=f)
-
     @commands.command(aliases=["purge", "nuke"])
     @commands.has_permissions(manage_messages=True)
     @commands.guild_only()
