@@ -122,11 +122,11 @@ class Info(commands.Cog):
         fig.savefig(final_buffer)
 
         final_buffer.seek(0)
-        file = discord.File(filename=f"chart.png", fp=final_buffer)
+        file = discord.File(filename="chart.png", fp=final_buffer)
 
-        embed = discord.Embed(title=f"COVID-19 Cases")
-        embed.set_image(url=f"attachment://chart.png")
-        embed.description = f"[Source](https://github.com/pomber/covid19)"
+        embed = discord.Embed(title="COVID-19 Cases")
+        embed.set_image(url="attachment://chart.png")
+        embed.description = "[Source](https://github.com/pomber/covid19)"
 
         await ctx.send(embed=embed, file=file)
 
