@@ -8,7 +8,7 @@ import requests
 from discord.ext import commands
 
 
-class Utility(commands.Cog):
+class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.index = 0
@@ -93,16 +93,16 @@ class Utility(commands.Cog):
 
                 if country_data:
 
-                    index = 0
+                    # index = 0
                     data_c = []
                     data_d = []
                     data_r = []
                     for t_ in range(0, len(t)):
-                        index_country = country_data[index]
+                        index_country = country_data[t_]
                         data_c.append(index_country['confirmed'])
                         data_d.append(index_country['deaths'])
                         data_r.append(index_country['recovered'])
-                        index += 1
+                        # index += 1
                     country_plot_name = country if has_two else ''
                     ax.plot(t, data_c, label=f"{country_plot_name} Confirmed")
                     ax.plot(t, data_d, label=f"{country_plot_name} Dead", linestyle="--")
@@ -132,4 +132,4 @@ class Utility(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Utility(bot))
+    bot.add_cog(Info(bot))
