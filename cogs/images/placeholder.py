@@ -1,18 +1,9 @@
-import asyncio
-import datetime
-import html
-import re
-import string
 import time
-import typing
-from functools import partial
 from io import BytesIO
-from unicodedata import name
 
 import aiohttp
 import discord
 import googletrans
-from bs4 import BeautifulSoup as bs
 from discord.ext import commands
 
 from util.decorators import delete_original
