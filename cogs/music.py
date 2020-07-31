@@ -949,7 +949,7 @@ class Music(commands.Cog):
             await ctx.send("Invalid playlist!")
             return
 
-        UserData(str(ctx.guild.id)).playlists.set(playlist_name, youtube_url)
+        UserData(str(ctx.author.id)).playlists.set(playlist_name, youtube_url)
 
         await ctx.send(f"**Saved** <{youtube_url}> as *{playlist_name}*.")
 
@@ -959,11 +959,11 @@ class Music(commands.Cog):
     async def remove_playlist(self, ctx, playlist_name: str):
         """Remove a saved YouTube playlist."""
 
-        if not UserData(str(ctx.guild.id)).playlists.fetch_by_name(playlist_name):
+        if not UserData(str(ctx.author.id)).playlists.fetch_by_name(playlist_name):
             await ctx.send("Playlist not found.")
             return
 
-        UserData(str(ctx.guild.id)).playlists.delete(playlist_name)
+        UserData(str(ctx.author.id)).playlists.delete(playlist_name)
 
         await ctx.send(f"**Removed** the playlist *{playlist_name}*.")
 
@@ -973,7 +973,7 @@ class Music(commands.Cog):
     async def play_playlist(self, ctx, playlist_name: str):
         """Play a previously saved YouTube playlist."""
 
-        playlist = UserData(str(ctx.guild.id)).playlists.fetch_by_name(playlist_name)
+        playlist = UserData(str(ctx.author.id)).playlists.fetch_by_name(playlist_name)
 
         if not playlist:
             await ctx.send("Playlist not found.")
@@ -990,7 +990,11 @@ class Music(commands.Cog):
     async def list_playlists(self, ctx):
         """Show all available YouTube playlists."""
 
-        playlists_o = sorted([(_pl[1], _pl[2]) for _pl in list(UserData(str(ctx.guild.id)).playlists.fetch_all())])
+        playlists_o = sorted([(_pl[1], _pl[2]) for _pl in list(UserData(str(ctx.author.id)).playlists.fetch_all())])
+
+        if len(playlists_o) == 0:
+            return await ctx.send("No playlists found!")
+
         playlists_o.insert(0, ("Name", "URL\n"))
 
         pl_names = [i[0] for i in playlists_o]
