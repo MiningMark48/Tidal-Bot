@@ -4,6 +4,7 @@ import socket
 import time
 import pysftp as sftp
 
+# pylint: disable=no-name-in-module
 from ssh2.session import Session
 
 # host = ''
