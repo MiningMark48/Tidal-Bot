@@ -142,3 +142,4 @@ lavalink/
 cmdimgs/
 !requirements.txt
 !commands.json
+!demo_config.json
