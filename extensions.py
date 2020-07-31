@@ -18,7 +18,11 @@ extensions = [
     "images.memelicense",
     "images.memes",
     "images.placeholder",
-    "info",
+    "info.dictionary",
+    "info.info",
+    "info.stock",
+    "info.urbandict",
+    "info.wikipedia",    
     "owner",
     "preferences.userprefs",
     "servmng.reactionroles",
@@ -28,7 +32,6 @@ extensions = [
     "utility.announce",
     "utility.colorgen",
     "utility.corona",
-    "utility.dictionary",
     "utility.lyrics",
     "utility.memesearch",
     "utility.poll",
@@ -36,11 +39,8 @@ extensions = [
     "utility.random",
     "utility.reddit",
     "utility.stega",
-    "utility.stock",
     "utility.tags",
-    "utility.urbandict",
-    "utility.utility",
-    "utility.wikipedia"
+    "utility.utility"
 ]
 
 

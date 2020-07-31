@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup as bs
 from discord.ext import commands
 
 
-class Utility(commands.Cog):
+class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -61,4 +61,4 @@ class Utility(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Utility(bot))
+    bot.add_cog(Info(bot))

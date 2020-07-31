@@ -1,1 +1,2 @@
-from decorators import *
+from .config import *
+from .decorators import *
