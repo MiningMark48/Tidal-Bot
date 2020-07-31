@@ -6,7 +6,7 @@ from util.data.guild_data import GuildData
 from util.decorators import delete_original
 
 
-class ServerManagement(commands.Cog):
+class ServerManagement(commands.Cog, name="Server Management"):
     def __init__(self, bot):
         self.bot = bot
 

@@ -3,7 +3,7 @@ from discord.ext import commands
 from util.data.guild_data import GuildData
 
 
-class ServerManagement(commands.Cog):
+class ServerManagement(commands.Cog, name="Server Management"):
     def __init__(self, bot):
         self.bot = bot
 
