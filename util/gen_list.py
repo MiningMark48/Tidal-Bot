@@ -35,6 +35,30 @@ class Generator:
             json.dump(cmds, file, indent=4)
             Logger.info(f"Commands list generated at {path} containing {len(cmds)} commands")
 
+    def gen_md_list(self):
+        path = "commands.md"
+        with open(path, 'w') as file:
+            cmds = self.fetch_list()
+
+            header = "# Commands\n" \
+                     "Commands Available: {0}\n" \
+                     "| Name    | Description | Category | Aliases |\n" \
+                     "|---------|-------------|----------|---------|"
+
+            header = header.format(len(cmds))
+
+            content = f"{header}\n"
+
+            for cmd in cmds:
+                cmd_name = str(cmd['name']).replace("|", "")
+                cmd_desc = str(cmd['action']).replace("|", "").replace("\n", " ")
+                cmd_cat = str(cmd['type']).replace("|", "")
+                cmd_alia = str(cmd['aliases']).replace("|", "") if cmd['aliases'] else "N/A"
+                content += f"| {cmd_name} | {cmd_desc} | {cmd_cat} | {cmd_alia} |\n"
+
+            file.write(content)
+            Logger.info(f"Commands MD list generated at {path} containing {len(cmds)} commands")
+
     def gen_img_list(self):
 
         def shorten_text(t: str, max_chars: int):
@@ -58,15 +82,16 @@ class Generator:
                 text_color = 0x000000
 
                 title_font_size = 70
-                title_font = ImageFont.truetype(f'./resources/fonts/arial.ttf', size=title_font_size)
+                title_font = ImageFont.truetype('./resources/fonts/arial.ttf', size=title_font_size)
                 title_text = "Commands"
 
                 subtitle_font_size = 65
-                subtitle_font = ImageFont.truetype(f'./resources/fonts/arial.ttf', size=subtitle_font_size)
+                subtitle_font = ImageFont.truetype('./resources/fonts/arial.ttf', size=subtitle_font_size)
 
                 norm_font_size = 50
-                norm_font = ImageFont.truetype(f'./resources/fonts/arial.ttf', size=norm_font_size)
+                norm_font = ImageFont.truetype('./resources/fonts/arial.ttf', size=norm_font_size)
 
+                # pylint: disable=unused-variable
                 w, h = im.size
 
                 # Title
@@ -92,4 +117,4 @@ class Generator:
 
                 i += 1
 
-        Logger.info(f"Commands list images generated.")
+        Logger.info("Commands list images generated.")

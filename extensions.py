@@ -23,7 +23,7 @@ extensions = [
     "info.info",
     "info.stock",
     "info.urbandict",
-    "info.wikipedia",    
+    "info.wikipedia",
     "owner",
     "preferences.userprefs",
     "servmng.reactionroles",
