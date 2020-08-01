@@ -18,7 +18,7 @@ class Utility(commands.Cog):
                 user_agent=data["user_agent"]
             )
 
-    # noinspection PyBroadException
+    # pylint: disable=method-hidden
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def reddit(self, ctx, subreddit="all"):
@@ -50,8 +50,8 @@ class Utility(commands.Cog):
                 embed.set_image(url=sr_rand.url)
 
             await ctx.send(embed=embed)
-        except Exception as e:
-            await ctx.send(f"An error has occurred! It's likely that subreddit does not exist or could not be loaded.`")
+        except Exception:
+            await ctx.send("An error has occurred! It's likely that subreddit does not exist or could not be loaded.`")
 
 
 def is_url_image(image_url):
