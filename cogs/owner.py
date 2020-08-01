@@ -12,6 +12,7 @@ from discord.ext import commands
 
 from util.checks import is_bot_owner
 from util.data.guild_data import GuildData
+from util.logger import Logger
 
 
 class GlobalChannel(commands.Converter):
@@ -37,6 +38,7 @@ class PerformanceMocker:
     def __init__(self):
         self.loop = asyncio.get_event_loop()
 
+    # pylint: disable=assigning-non-slot
     @staticmethod
     def permissions_for(obj):
         # Lie and say we don't have permissions to embed
@@ -97,6 +99,7 @@ class Owner(commands.Cog):
         """Change the bot's presence on the fly"""
         await self.bot.change_presence(activity=discord.Activity(name=presence, type=discord.ActivityType.playing))
         await ctx.send(f"Changed presence to `{presence}`")
+        Logger.info(f"{ctx.author} changed presence to {presence}")
 
     # noinspection PyBroadException
     @commands.command(aliases=["pyeval"])
@@ -147,6 +150,8 @@ class Owner(commands.Cog):
                 self._last_result = ret
                 await ctx.send(f'```py\n{value}{ret}\n```')
 
+        Logger.info(f"{ctx.author} evaluated Python")
+
     @commands.command()
     @commands.is_owner()
     async def getservers(self, ctx):
@@ -160,6 +165,8 @@ class Owner(commands.Cog):
         if not isinstance(ctx.channel, discord.DMChannel):
             await ctx.send('Check your DMs!')
 
+        Logger.info(f"{ctx.author} received list of servers")
+
     @commands.command()
     @commands.is_owner()
     async def leaveserver(self, ctx, id: int):
@@ -167,6 +174,8 @@ class Owner(commands.Cog):
         guild = self.bot.get_guild(id)
         await guild.leave()
         await ctx.send(f'Left **{guild.name}** (*{guild.id}*).')
+
+        Logger.info(f"{ctx.author} made bot leave {guild.name}:{guild.id}")
 
     @commands.command()
     @commands.is_owner()
@@ -202,6 +211,8 @@ class Owner(commands.Cog):
 
         await ctx.send(f'Status: {"Success" if success else "Fail"}\nTime: {(end - start) * 1000:.2f}ms')
 
+        Logger.info(f"{ctx.author} checked performance of {command}")
+
     # @commands.command(hidden=True, aliases=["reload"])
     # @commands.is_owner()
     # async def restartbot(self, ctx):
@@ -223,11 +234,16 @@ class Owner(commands.Cog):
             print(e)
             await ctx.send("Error reloading!")
 
+        Logger.info(f"{ctx.author} reloaded music")
+
     @commands.command()
     @commands.is_owner()
     async def shutdown(self, ctx):
         """Shut the bot down."""
         await ctx.send("Shutting down bot...")
+
+        Logger.info(f"{ctx.author} shutdown the bot")
+
         await self.bot.logout()
 
     @commands.command()
@@ -242,6 +258,8 @@ class Owner(commands.Cog):
         new_ctx = await self.bot.get_context(msg, cls=type(ctx))
         await self.bot.invoke(new_ctx)
 
+        Logger.info(f"{ctx.author} did sudo: {command} to {who}")
+
     @commands.command()
     @commands.is_owner()
     async def test(self, ctx):
@@ -251,6 +269,8 @@ class Owner(commands.Cog):
         data.tags.insert("test2", "This is a test!")
 
         await ctx.send(data.booleans.fetch_by_name("rum"))
+
+        Logger.info(f"{ctx.author} TEST COMMAND")
 
 
 def setup(bot):
