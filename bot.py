@@ -1,6 +1,3 @@
-import json
-import os.path as osp
-
 import discord
 from discord.ext import commands
 
@@ -33,24 +30,26 @@ do_run = config.do_run
 def prefix(bot, message):
     pfx = bot_key
     if message.guild:
-        pfx = commands.when_mentioned_or(GuildData(str(message.guild.id)).strings.fetch_by_name("prefix"))(bot, message)
+        pfx = commands.when_mentioned_or(GuildData(
+            str(message.guild.id)).strings.fetch_by_name("prefix"))(
+                bot, message)
     return pfx if pfx else bot_key
 
 
 # def_help = commands.DefaultHelpCommand(dm_help=None, dm_help_threshold=750)
 bot = commands.Bot(command_prefix=prefix, help_command=HelpCommand())
-# bot.description = "Tidal Bot is a bot for Discord written by MiningMark48 to serve the needs of The Tidal Waves."
 
 
 @bot.event
 async def on_ready():
     Logger.success(f"We have logged in as {bot.user}")
-    await bot.change_presence(activity=discord.Activity(name=f"Do {bot_key}help", type=discord.ActivityType.playing))
+    await bot.change_presence(activity=discord.Activity(
+        name=f"Do {bot_key}help", type=discord.ActivityType.playing))
 
     backup_databases()
 
-    # generator = GenList.Generator(bot)
-    # generator.gen_list()
+    generator = GenList.Generator(bot)
+    generator.gen_list()
     # generator.gen_img_list()
 
 
@@ -63,7 +62,8 @@ async def on_message(message):
     ctx = await bot.get_context(message)
     if ctx:
         if ctx.command and ctx.guild:
-            if len(GuildData(str(ctx.guild.id)).disabled_commands.fetch_all_by_name(ctx.command.name)) > 0:
+            if len(GuildData(str(ctx.guild.id)).disabled_commands
+                    .fetch_all_by_name(ctx.command.name)) > 0:
                 await ctx.send(f'`{ctx.command.name}` has been disabled.')
                 return
 

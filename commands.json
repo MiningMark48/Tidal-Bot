@@ -30,7 +30,7 @@
     {
         "name": "bitcoin",
         "aliases": "btc",
-        "type": "Utility",
+        "type": "Info",
         "usage": "--",
         "action": "Get info for Bitcoin (BTC)"
     },
@@ -93,14 +93,14 @@
     {
         "name": "coronaplot",
         "aliases": "covidplot, cplot",
-        "type": "Utility",
+        "type": "Info",
         "usage": "--",
         "action": "Plot COVID-19 Data for a specific country\n\nNote: This will likely require the use of quotes.\n\nUsage: plot \"US\""
     },
     {
         "name": "coronastats",
         "aliases": "corona, covid, cstats",
-        "type": "Utility",
+        "type": "Info",
         "usage": "--",
         "action": "Fetch COVID-19 Data for a specific country\n\nNote: You can specify up to 10 countries at once.\n\nUsage: stats \"US\" \"Canada\""
     },
@@ -128,7 +128,7 @@
     {
         "name": "dictionary",
         "aliases": "define",
-        "type": "Utility",
+        "type": "Info",
         "usage": "--",
         "action": "Define a word"
     },
@@ -152,6 +152,13 @@
         "type": "Utility",
         "usage": "--",
         "action": "Get a list of all emojis for the server"
+    },
+    {
+        "name": "eval",
+        "aliases": "pyeval",
+        "type": "Owner",
+        "usage": "--",
+        "action": "Evaluates code"
     },
     {
         "name": "exit12",
@@ -214,7 +221,7 @@
         "aliases": "",
         "type": "Owner",
         "usage": "--",
-        "action": "Get a a list of all servers the bot is currently connected to"
+        "action": "Get a list of all servers the bot is currently connected to"
     },
     {
         "name": "gist",
@@ -448,6 +455,13 @@
         "action": "*Rips speech*"
     },
     {
+        "name": "perf",
+        "aliases": "",
+        "type": "Owner",
+        "usage": "--",
+        "action": "Checks the timing of a command, attempting to suppress HTTP and DB calls."
+    },
+    {
         "name": "pika",
         "aliases": "pikasurprise, surprisedpika",
         "type": "Memes",
@@ -460,6 +474,13 @@
         "type": "Utility",
         "usage": "--",
         "action": "Latency of the bot"
+    },
+    {
+        "name": "placeholderimg",
+        "aliases": "placeholder",
+        "type": "Images",
+        "usage": "--",
+        "action": "Generate a placeholder image\n\nUsage:\nplaceholder 256\nplaceholder 512x256 Image"
     },
     {
         "name": "poll",
@@ -548,7 +569,7 @@
     {
         "name": "rules",
         "aliases": "listrules, ruleslist",
-        "type": "ServerManagement",
+        "type": "Server Management",
         "usage": "--",
         "action": "Get the rules for the server.\n\nCan be set using 'setrules'"
     },
@@ -590,7 +611,7 @@
     {
         "name": "setrules",
         "aliases": "rulesset",
-        "type": "ServerManagement",
+        "type": "Server Management",
         "usage": "--",
         "action": "Set the rules for the server."
     },
@@ -674,7 +695,7 @@
     {
         "name": "stock",
         "aliases": "stocks",
-        "type": "Utility",
+        "type": "Info",
         "usage": "--",
         "action": "Get Stock info for a specific Symbol"
     },
@@ -695,7 +716,7 @@
     {
         "name": "symbolsearch",
         "aliases": "lookupsymbol",
-        "type": "Utility",
+        "type": "Info",
         "usage": "--",
         "action": "Lookup a stock symbol"
     },
@@ -751,7 +772,7 @@
     {
         "name": "togglerum",
         "aliases": "togglemobileindicator, toggleismobile",
-        "type": "ServerManagement",
+        "type": "Server Management",
         "usage": "--",
         "action": "Toggle the mobile indicator reaction (RUM: R U Mobile?)"
     },
@@ -793,7 +814,7 @@
     {
         "name": "urban",
         "aliases": "urbandictionary, urbandict",
-        "type": "Utility",
+        "type": "Info",
         "usage": "--",
         "action": "Define a word from Urban Dictionary"
     },
@@ -821,7 +842,7 @@
     {
         "name": "wikipedia",
         "aliases": "wiki, wp",
-        "type": "Utility",
+        "type": "Info",
         "usage": "--",
         "action": "Search Wikipedia"
     },
