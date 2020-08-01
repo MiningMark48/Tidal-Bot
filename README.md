@@ -42,8 +42,8 @@ Although **not intended or supported yet**, do the following to run Tidal Bot yo
    - `python3.7 -m venv venv`.
 3. Install dependencies found in [requirements.txt](https://github.com/MiningMark48/Tidal-Bot/blob/master/requirements.txt)
    - `pip install -r requirements.txt`
-4. Create a *config.json*. 
-    - See [demo_config.json](https://github.com/MiningMark48/Tidal-Bot/blob/master/demo_config.json) for a demo config file.
+4. Create a *config.toml*. 
+    - See [demo_config.toml](https://github.com/MiningMark48/Tidal-Bot/blob/master/demo_config.toml) for a demo config file.
 5. Run `bot.py`.
 
 Report issues to the [issue tracker](https://github.com/MiningMark48/Tidal-Bot/issues).

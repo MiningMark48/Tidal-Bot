@@ -1,4 +1,4 @@
-import json
+import toml
 
 import discord
 import praw
@@ -10,8 +10,8 @@ from discord.ext import commands
 class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        with open("config.json", 'r') as file:
-            data = json.load(file)["reddit"]
+        with open("config.toml", 'r') as file:
+            data = toml.load(file)["reddit"]
             self.reddit = praw.Reddit(
                 client_id=data["client_id"],
                 client_secret=data["client_secret"],

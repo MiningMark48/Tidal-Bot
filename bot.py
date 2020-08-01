@@ -18,10 +18,11 @@ resources_path = "./resources/"
 Logger.info("Loading config...")
 config = BotConfig()
 config_data = config.data
-bot_token = config_data["bot_token"]
-bot_key = config_data["bot_key"]
-load_music = config_data["load_music"]
-bot_owners = config_data["bot_owners"]
+bot_data = config_data["bot"]
+bot_token = bot_data["token"]
+bot_key = bot_data["key"]
+bot_owners = bot_data["owners"]
+load_music = config_data["cogs"]["load_music"]
 
 extensions = get_extensions()
 

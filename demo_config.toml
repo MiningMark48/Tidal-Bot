@@ -1,0 +1,18 @@
+[bot]
+token = "token"
+key = ";"
+owners = [
+    12341234123412
+]
+
+[cogs]
+load_music = false
+
+[api_keys]
+tenor = "key"
+alphavantage = "key"
+
+[reddit]
+client_id = "id"
+client_secret = "secret"
+user_agent = "Tidal Bot by /u/miningmark48"

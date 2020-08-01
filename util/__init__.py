@@ -1,2 +1,2 @@
-from .config import *
-from .decorators import *
+from .config import BotConfig
+from .decorators import delete_original

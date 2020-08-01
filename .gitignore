@@ -133,6 +133,7 @@ dmypy.json
 
 # Project specific
 *.json 
+*.toml
 *.txt
 *.gz
 *.db
@@ -142,4 +143,4 @@ lavalink/
 cmdimgs/
 !requirements.txt
 !commands.json
-!demo_config.json
+!demo_config.toml
