@@ -70,6 +70,13 @@
         "action": "Fetch a Chuck Norris Joke"
     },
     {
+        "name": "clear",
+        "aliases": "",
+        "type": "Music",
+        "usage": "--",
+        "action": "Clear the queue without stopping the bot."
+    },
+    {
         "name": "coinflip",
         "aliases": "coin, flipcoin",
         "type": "Utility",
@@ -89,6 +96,20 @@
         "type": "Server Management",
         "usage": "--",
         "action": "Enable/Disable commands"
+    },
+    {
+        "name": "connect",
+        "aliases": "join",
+        "type": "Music",
+        "usage": "--",
+        "action": "Connect to voice."
+    },
+    {
+        "name": "controller_help",
+        "aliases": "controllerhelp, chelp, controlhelp",
+        "type": "Music",
+        "usage": "--",
+        "action": "Info on what each of the controller buttons mean"
     },
     {
         "name": "coronaplot",
@@ -315,6 +336,13 @@
         "action": "Image Manipulation: Snapchat"
     },
     {
+        "name": "info",
+        "aliases": "",
+        "type": "Music",
+        "usage": "--",
+        "action": "Retrieve various Node/Server/Player information."
+    },
+    {
         "name": "joinmessage",
         "aliases": "joinmsg",
         "type": "Server Management",
@@ -341,6 +369,13 @@
         "type": "Memes",
         "usage": "--",
         "action": "Linus selfies ftw."
+    },
+    {
+        "name": "listplaylists",
+        "aliases": "getplaylists, showplaylists, playlists",
+        "type": "Music",
+        "usage": "--",
+        "action": "Show all available YouTube playlists."
     },
     {
         "name": "lmgtfy",
@@ -427,6 +462,13 @@
         "action": "We don't do that here."
     },
     {
+        "name": "now_playing",
+        "aliases": "np, current, currentrack, controller",
+        "type": "Music",
+        "usage": "--",
+        "action": "Show the currently playing track and the music controller."
+    },
+    {
         "name": "npr",
         "aliases": "news",
         "type": "Utility",
@@ -446,6 +488,13 @@
         "type": "Memes",
         "usage": "--",
         "action": "PUSH IT SOMEWHERE ELSE!"
+    },
+    {
+        "name": "pause",
+        "aliases": "",
+        "type": "Music",
+        "usage": "--",
+        "action": "Pause the currently playing track."
     },
     {
         "name": "pelosirip",
@@ -483,6 +532,27 @@
         "action": "Generate a placeholder image\n\nUsage:\nplaceholder 256\nplaceholder 512x256 Image"
     },
     {
+        "name": "play",
+        "aliases": "sing",
+        "type": "Music",
+        "usage": "--",
+        "action": "Queue a track or playlist for playback.\n\nQuery can be a search entry for YouTube, or a direct link to \nSoundCloud, Bandcamp, Twitch, Mixer, Vimeo, or an HTTP source."
+    },
+    {
+        "name": "playnext",
+        "aliases": "bringfront",
+        "type": "Music",
+        "usage": "--",
+        "action": "Pick a track from the queue to play next."
+    },
+    {
+        "name": "playplaylist",
+        "aliases": "getplaylist",
+        "type": "Music",
+        "usage": "--",
+        "action": "Play a previously saved YouTube playlist."
+    },
+    {
         "name": "poll",
         "aliases": "",
         "type": "Utility",
@@ -518,6 +588,13 @@
         "action": "Generate a QR Code from a string of text"
     },
     {
+        "name": "queue",
+        "aliases": "q, que",
+        "type": "Music",
+        "usage": "--",
+        "action": "Retrieve a list of currently queued tracks."
+    },
+    {
         "name": "quickpoll",
         "aliases": "",
         "type": "Utility",
@@ -537,6 +614,13 @@
         "type": "Utility",
         "usage": "--",
         "action": "Commands that generate random data."
+    },
+    {
+        "name": "reactcontrol",
+        "aliases": "",
+        "type": "Music",
+        "usage": "--",
+        "action": "Dummy command for error handling in our player."
     },
     {
         "name": "reactor",
@@ -567,6 +651,41 @@
         "action": "Have the bot remind you about something\n\nNote: Time has a max of 120 minutes (2 hours).\nAlso, if the bot goes offline, the reminder is cleared."
     },
     {
+        "name": "remove",
+        "aliases": "rem",
+        "type": "Music",
+        "usage": "--",
+        "action": "Pick a track from the queue to remove."
+    },
+    {
+        "name": "removeplaylist",
+        "aliases": "remplaylist, delplaylist",
+        "type": "Music",
+        "usage": "--",
+        "action": "Remove a saved YouTube playlist."
+    },
+    {
+        "name": "repeat",
+        "aliases": "",
+        "type": "Music",
+        "usage": "--",
+        "action": "Repeat the currently playing track."
+    },
+    {
+        "name": "restart",
+        "aliases": "",
+        "type": "Music",
+        "usage": "--",
+        "action": "Restart the currently playing track."
+    },
+    {
+        "name": "resume",
+        "aliases": "",
+        "type": "Music",
+        "usage": "--",
+        "action": "Resume a currently paused track."
+    },
+    {
         "name": "rules",
         "aliases": "listrules, ruleslist",
         "type": "Server Management",
@@ -588,6 +707,13 @@
         "action": "Make the bot say something"
     },
     {
+        "name": "seek",
+        "aliases": "",
+        "type": "Music",
+        "usage": "--",
+        "action": "Seek to a time in the current track (in seconds)."
+    },
+    {
         "name": "selfinfo",
         "aliases": "meinfo, whome",
         "type": "Info",
@@ -600,6 +726,20 @@
         "type": "Info",
         "usage": "--",
         "action": "Get a link to invite the bot to your server."
+    },
+    {
+        "name": "seteq",
+        "aliases": "eq, equalizer, setequalizer",
+        "type": "Music",
+        "usage": "--",
+        "action": "Set the equalizer.\n\nTypes: flat (f) [default], boost (b), metal (m), piano (p)"
+    },
+    {
+        "name": "setplaylist",
+        "aliases": "addplaylist",
+        "type": "Music",
+        "usage": "--",
+        "action": "Save a link to a YouTube playlist."
     },
     {
         "name": "setprefix",
@@ -630,11 +770,25 @@
         "action": "O_O"
     },
     {
+        "name": "shuffle",
+        "aliases": "mix",
+        "type": "Music",
+        "usage": "--",
+        "action": "Shuffle the current queue."
+    },
+    {
         "name": "shutdown",
         "aliases": "",
         "type": "Owner",
         "usage": "--",
         "action": "Shut the bot down."
+    },
+    {
+        "name": "skip",
+        "aliases": "",
+        "type": "Music",
+        "usage": "--",
+        "action": "Skip the current track."
     },
     {
         "name": "slap",
@@ -698,6 +852,13 @@
         "type": "Info",
         "usage": "--",
         "action": "Get Stock info for a specific Symbol"
+    },
+    {
+        "name": "stop",
+        "aliases": "",
+        "type": "Music",
+        "usage": "--",
+        "action": "Stop the player, disconnect and clear the queue."
     },
     {
         "name": "sudo",
@@ -838,6 +999,27 @@
         "type": "Fun",
         "usage": "--",
         "action": "Guess a user in the server based on their avatar."
+    },
+    {
+        "name": "vol_down",
+        "aliases": "",
+        "type": "Music",
+        "usage": "--",
+        "action": "None"
+    },
+    {
+        "name": "vol_up",
+        "aliases": "",
+        "type": "Music",
+        "usage": "--",
+        "action": "None"
+    },
+    {
+        "name": "volume",
+        "aliases": "vol",
+        "type": "Music",
+        "usage": "--",
+        "action": "Change the player volume."
     },
     {
         "name": "whois",
