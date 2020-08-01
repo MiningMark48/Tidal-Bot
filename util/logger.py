@@ -1,3 +1,6 @@
+import datetime
+import os
+
 class Colors:
     reset = '\033[0m'
     bold = '\033[01m'
@@ -38,25 +41,46 @@ class Colors:
 class Logger:
 
     @staticmethod
-    def log(color: str, msg):
+    def log(type: str, color: str, msg):
+        # Print to console
         print(f"{color}{msg}{Colors.reset}")
+
+        # Write to file
+        current_time = datetime.datetime.now()
+
+        filename = f'logs/{current_time.strftime("%m%y")}.log'
+        if not os.path.exists(os.path.dirname(filename)):
+            try:
+                os.makedirs(os.path.dirname(filename))
+            except OSError:
+                raise
+
+        with open(filename, 'a') as file:
+            current_form = current_time.strftime("%m/%d/%y %r")
+            header = f"[{current_form}] [{str(type).upper()}]".ljust(35)
+
+            file.write(f"{header} {msg}\n")
 
     @staticmethod
     def alert(msg):
-        Logger.log(Colors.FG.yellow, msg)
+        Logger.log('alert', Colors.FG.yellow, msg)
 
     @staticmethod
     def info(msg):
-        Logger.log(Colors.FG.light_grey, msg)
+        Logger.log('info', Colors.FG.light_grey, msg)
 
     @staticmethod
     def fatal(msg):
-        Logger.log(Colors.FG.red, msg)
+        Logger.log('fatal', Colors.FG.red, msg)
 
     @staticmethod
     def success(msg):
-        Logger.log(Colors.FG.green, msg)
+        Logger.log('success', Colors.FG.green, msg)
 
     @staticmethod
     def warn(msg):
-        Logger.log(Colors.FG.purple, msg)
+        Logger.log('warn', Colors.FG.purple, msg)
+
+    @staticmethod
+    def breakline():
+        Logger.log('break', Colors.reset, '')

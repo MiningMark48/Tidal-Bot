@@ -10,6 +10,7 @@ from util.help_command import HelpCommand
 from util.logger import Logger
 from util.config import BotConfig
 
+Logger.breakline()
 Logger.alert("Starting...")
 
 resources_path = "./resources/"
@@ -76,8 +77,15 @@ async def on_message(message):
 
 
 @bot.event
+async def on_guild_join(guild):
+    Logger.info(f"Guild | Joined: {guild.id}")
+
+
+@bot.event
 async def on_guild_remove(guild):
     delete_database_guild(str(guild.id))
+
+    Logger.info(f"Guild | Left: {guild.id}")
 
 
 if __name__ == "__main__":
@@ -89,7 +97,7 @@ if __name__ == "__main__":
     for extension in extensions:
         try:
             bot.load_extension(f"cogs.{extension}")
-            Logger.info(f"[Cog] Loaded {extension}")
+            Logger.info(f"Cog | Loaded {extension}")
             count += 1
         except Exception as error:
             Logger.fatal(f"{extension} cannot be loaded. \n\t[{error}]")

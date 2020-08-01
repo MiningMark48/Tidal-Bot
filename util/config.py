@@ -19,13 +19,11 @@ class BotConfig:
         self.data = self.load_data()
         self.do_run = True
 
-        # print(self.get_api_key("tenor"))
-
     def load_data(self):
         if osp.isfile(self.config_path):
             with open(self.config_path, 'r') as file:
                 data = json.load(file)
-                Logger.success("Config loaded.")
+                Logger.info("Config loaded.")
                 return data
 
         else:
