@@ -161,7 +161,7 @@ class Info(commands.Cog):
         embed.add_field(name="Name", value=ctx.author.name)
         embed.add_field(name="ID", value=ctx.author.id)
         embed.add_field(name="Created", value=str(ctx.author.joined_at)[:-16])
-        embed.add_field(name="Nick", value="--" if ctx.author.nick == None else ctx.author.nick)
+        embed.add_field(name="Nick", value="--" if ctx.author.nick is None else ctx.author.nick)
         embed.add_field(name="Status", value=str(ctx.author.status).capitalize())
         embed.add_field(name="Mobile?", value="Yes" if ctx.author.is_on_mobile() else "No")
         embed.add_field(name="Activity", value=ctx.author.activity)
@@ -193,7 +193,7 @@ class Info(commands.Cog):
     #         except discord.HTTPException:
     #             await ctx.send("Error sending embeded message, please try again later")
 
-        await ctx.send("This command is a work-in-progress!")
+    #     await ctx.send("This command is a work-in-progress!")
 
     @commands.command(aliases=["steamuser", "steaminfo"])
     async def steam(self, ctx, user: str):
@@ -231,6 +231,12 @@ class Info(commands.Cog):
                     await ctx.send(embed=embed)
                 except discord.HTTPException:
                     await ctx.send("Error sending embeded message, please try again later")
+
+    @commands.command()
+    @delete_original()
+    async def trello(self, ctx):
+        """Get a link to the Tidal Bot Trello"""
+        await ctx.send(f"{ctx.author.mention}, Here you go!\nhttps://trello.com/b/U3TTk5Kc/tidal-bot")
 
     @commands.command(aliases=["userinfo"])
     @commands.guild_only()

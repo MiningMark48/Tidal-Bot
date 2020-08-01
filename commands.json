@@ -784,6 +784,13 @@
         "action": "Translate from a detected language to a specified language"
     },
     {
+        "name": "trello",
+        "aliases": "",
+        "type": "Info",
+        "usage": "--",
+        "action": "Get a link to the Tidal Bot Trello"
+    },
+    {
         "name": "trivia",
         "aliases": "",
         "type": "Fun",
