@@ -171,12 +171,15 @@ class Info(commands.Cog):
         except discord.HTTPException:
             await ctx.send("Error sending embeded message, please try again later")
 
-    @commands.command(hidden=True, aliases=["invite"])
-    async def serverinvite(self, ctx):
-        await ctx.author.send(
-            f'https://discordapp.com/oauth2/authorize?&client_id={self.bot.user.id}&scope=bot&permissions=8')
-        # await ctx.author.send(
-        #     f'https://discordapp.com/oauth2/authorize?&client_id={self.bot.user.id}&scope=bot&permissions=1043852400')
+    @commands.command(hidden=True, name="serverinvite", aliases=["invite"])
+    async def server_invite(self, ctx):
+        """Get a link to invite the bot to your server."""
+
+        perms = 8
+        # perms = 1043852400
+        invite = discord.utils.oauth_url(client_id=self.bot.user.id, permissions=discord.Permissions(permissions=perms))
+
+        await ctx.author.send(invite)
 
     @commands.command(aliases=["steamuser", "steaminfo"])
     async def steam(self, ctx, user: str):

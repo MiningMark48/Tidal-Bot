@@ -599,7 +599,7 @@
         "aliases": "invite",
         "type": "Info",
         "usage": "--",
-        "action": "None"
+        "action": "Get a link to invite the bot to your server."
     },
     {
         "name": "setprefix",
