@@ -178,23 +178,6 @@ class Info(commands.Cog):
         # await ctx.author.send(
         #     f'https://discordapp.com/oauth2/authorize?&client_id={self.bot.user.id}&scope=bot&permissions=1043852400')
 
-    # @commands.command(aliases=["twitchuser", "twitchinfo"])
-    # async def twitch(self, ctx, user: str):
-    #     """[WIP] Look up information about a user on Twitch"""
-    #     base_url = f"https://mixer.com/api/v1/channels/{user}"
-    #     with urllib.request.urlopen(base_url) as url:
-    #         data = json.loads(url.read().decode())
-    #         embed = discord.Embed(title=data["token"], color=ctx.message.author.top_role.color, url=f"https://mixer.com/{user}")
-    #         embed.add_field(name="Stream Title", value=data["name"], inline=False)
-    #         embed.set_thumbnail(url=data["user"]["avatarUrl"])
-    #         embed.set_footer(text=f"Mixer Information, requested by {ctx.author.name}")
-    #         try:
-    #             await ctx.send(embed=embed)
-    #         except discord.HTTPException:
-    #             await ctx.send("Error sending embeded message, please try again later")
-
-    #     await ctx.send("This command is a work-in-progress!")
-
     @commands.command(aliases=["steamuser", "steaminfo"])
     async def steam(self, ctx, user: str):
         """Look up information about a user on Mixer"""
