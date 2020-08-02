@@ -1,5 +1,5 @@
 # Commands
-Commands Available: 125
+Commands Available: 124
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -88,7 +88,6 @@ Commands Available: 125
 | say | Make the bot say something | Utility | N/A |
 | selfinfo | Get information about yourself | Info | meinfo, whome |
 | serverinvite | Get a link to invite the bot to your server. | Info | invite |
-| setprefix | Change the bot prefix for the server | Server Management | changeprefix |
 | setrules | Set the rules for the server. | Server Management | rulesset |
 | settag | Create a new bot tag. | Tags | edittag, newtag, addtag |
 | shocked | O_O | Memes | N/A |

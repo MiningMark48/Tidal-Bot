@@ -82,7 +82,7 @@ class ServerManagement(commands.Cog, name="Server Management"):
         if msg:
             await ctx.send(f'Current join message is `{msg}`.')
         else:
-            await ctx.send(f'No message currently set!')
+            await ctx.send('No message currently set!')
 
     @join_msg.command(name="clear")
     @commands.has_permissions(manage_guild=True)
@@ -93,7 +93,7 @@ class ServerManagement(commands.Cog, name="Server Management"):
         await ctx.message.delete()
 
         GuildData(str(ctx.guild.id)).strings.delete("join_message")
-        await ctx.send(f'Deleted join message.')
+        await ctx.send('Deleted join message.')
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
