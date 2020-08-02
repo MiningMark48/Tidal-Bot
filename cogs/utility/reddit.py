@@ -6,17 +6,21 @@ import prawcore
 import requests
 from discord.ext import commands
 
+from util.config import BotConfig
+
 
 class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        with open("config.toml", 'r') as file:
-            data = toml.load(file)["reddit"]
-            self.reddit = praw.Reddit(
-                client_id=data["client_id"],
-                client_secret=data["client_secret"],
-                user_agent=data["user_agent"]
-            )
+
+        config_data = BotConfig().load_data()
+        data = config_data["reddit"]
+
+        self.reddit = praw.Reddit(
+            client_id=data["client_id"],
+            client_secret=data["client_secret"],
+            user_agent=data["user_agent"]
+        )
 
     # pylint: disable=method-hidden
     @commands.command()
