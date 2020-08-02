@@ -56,6 +56,8 @@ class Generator:
                 cmd_alia = str(cmd['aliases']).replace("|", "") if cmd['aliases'] else "N/A"
                 content += f"| {cmd_name} | {cmd_desc} | {cmd_cat} | {cmd_alia} |\n"
 
+            content += "\nThis file was automatically generated."
+
             file.write(content)
             Logger.info(f"Commands MD list generated at {path} containing {len(cmds)} commands")
 

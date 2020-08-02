@@ -127,3 +127,5 @@ Commands Available: 125
 | wouldyourather | Would you rather...? | Fun | wyr, wouldrather |
 | xkcd | Get a random XKCD comic | Fun | N/A |
 | youtubestatus | Get the YouTube URL from someone's custom status.  Ex: John#0001 has the status `dQw4w9WgXcQ`. The command will return https://www.youtube.com/watch?v=dQw4w9WgXcQ. | Utility | ytstatus |
+
+This file was automatically generated.
