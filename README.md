@@ -41,14 +41,15 @@ If you encounter any issues while using the bot, please report them to the [issu
 
 ## Running
 Although **not intended or supported yet**, do the following to run Tidal Bot yourself:
-1. Ensure you have [Python](https://www.python.org/downloads/) 3.7 or higher installed.
+1. Ensure you have [Python](https://www.python.org/downloads/) 3.7 or higher installed
 2. Create a [virtual environment](https://docs.python-guide.org/dev/virtualenvs/)
-   - `python3.7 -m venv venv`.
+   - `python3.7 -m venv venv`
 3. Install dependencies found in [requirements.txt](https://github.com/MiningMark48/Tidal-Bot/blob/master/requirements.txt)
    - `pip install -r requirements.txt`
-4. Create a *config.toml*. 
+4. Create a *config.toml*
     - See [demo_config.toml](https://github.com/MiningMark48/Tidal-Bot/blob/master/demo_config.toml) for a demo config file.
-5. Run `bot.py`.
+5. Run `bot.py`
+    - `python bot.py` 
 
 Report issues to the [issue tracker](https://github.com/MiningMark48/Tidal-Bot/issues).
 
@@ -63,5 +64,15 @@ Tidal Bot uses the [MIT License](https://github.com/MiningMark48/Tidal-Bot/blob/
 
 ### Disclaimer
 Tidal Bot is not affiliated with [Discord](https://discord.com) or [discord.py](https://github.com/Rapptz/discord.py).
+
+---
+
+## Misc Info
+
+### Update Script
+The script found in the root directory, [updater.py](https://github.com/MiningMark48/Tidal-Bot/blob/master/updater.py), is used for updating the bot on a remote server. Using this script is not required for running the bot. Using this script yourself may require altercation as it is created with the current VPS structure in mind.
+
+### Contributions
+Special thanks to those that have contributed to the project.
 
 ---
