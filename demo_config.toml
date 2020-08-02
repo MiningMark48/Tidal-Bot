@@ -5,8 +5,18 @@ owners = [
     12341234123412
 ]
 
-[cogs]
-load_music = false
+[music]
+enabled = false
+whitelist_servers = [
+    12341234123412
+]
+    [music.nodes.node_name]
+        host = "127.0.0.1"
+        port = 2333
+        rest_url = "http://127.0.0.1:2333"
+        password = "pw"
+        identifier = "node_name"
+        region = "region_code"
 
 [api_keys]
 tenor = "key"

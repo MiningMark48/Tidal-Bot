@@ -14,6 +14,7 @@ from discord.ext import commands
 from wavelink import Equalizer
 
 from util.data.user_data import UserData
+from util.config import BotConfig
 
 """
 Myst Open License - Version 0.1.
@@ -290,22 +291,16 @@ class Music(commands.Cog):
     def __init__(self, bot: Union[commands.Bot, commands.AutoShardedBot]):
         self.bot = bot
 
+        self.config = BotConfig().load_data()
+        print(self.config)
+
         if not hasattr(bot, 'wavelink'):
             self.bot.wavelink = wavelink.Client(bot=bot)
 
         bot.loop.create_task(self.initiate_nodes())
 
     async def initiate_nodes(self):
-        nodes = {
-            'TidalWaveEast': {
-                'host': '127.0.0.1',
-                'port': 2333,
-                'rest_url': 'http://127.0.0.1:2333',
-                'password': "hvQe9As3VGGS",
-                'identifier': 'TidalWaveEast',
-                'region': 'us_east'
-            }
-        }
+        nodes = self.config["music"]["nodes"]
 
         for n in nodes.values():
             node = await self.bot.wavelink.initiate_node(host=n['host'],
@@ -405,6 +400,10 @@ class Music(commands.Cog):
         except discord.HTTPException:
             pass
 
+        if ctx.guild.id not in self.config["music"]["whitelist_servers"]:
+            await ctx.send("Server not whitelisted for music! Bot won't connect.")
+            return
+
         if not channel:
             try:
                 channel = ctx.author.voice.channel
@@ -443,6 +442,8 @@ class Music(commands.Cog):
         player = self.bot.wavelink.get_player(ctx.guild.id, cls=Player)
 
         if not player.is_connected:
+            if ctx.guild.id not in self.config["music"]["whitelist_servers"]:
+                return
             return await ctx.send('Bot is not connected to voice. Please join a voice channel to play music.')
 
         if not player.dj:

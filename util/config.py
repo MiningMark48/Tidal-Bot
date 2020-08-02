@@ -12,8 +12,9 @@ class BotConfig:
             'bot': {
                 'token': 'bot.token', 'key': '!', 'owners': []
             },
-            'cogs': {
-                'load_music': False
+            'music': {
+                'enabled': False,
+                'whitelist_servers': []
             },
             'api_keys': {
                 'api': 'key'
