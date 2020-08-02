@@ -26,7 +26,9 @@
  - Music (Requires local Lavalink server)
  - and more.
 
-For a list of all available commands, see [commands.md](https://github.com/MiningMark48/Tidal-Bot/blob/master/commands.md) or, for a JSON format, [commands.json](https://github.com/MiningMark48/Tidal-Bot/blob/master/commands.json).
+For a list of all available commands, see [commands.md](https://github.com/MiningMark48/Tidal-Bot/blob/master/commands.md).
+
+<!-- or, for a JSON format, [commands.json](https://github.com/MiningMark48/Tidal-Bot/blob/master/commands.json). -->
 
 If desired, extensions (or "cogs") can be enabled/disabled in the [extensions.py](https://github.com/MiningMark48/Tidal-Bot/blob/master/extensions.py) file.
 

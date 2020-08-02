@@ -51,7 +51,7 @@ async def on_ready():
     backup_databases()
 
     generator = GenList.Generator(bot)
-    generator.gen_list()
+    # generator.gen_list()
     generator.gen_md_list()
     # generator.gen_img_list()
 
