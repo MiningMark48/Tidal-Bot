@@ -22,7 +22,7 @@ bot_data = config_data["bot"]
 bot_token = bot_data["token"]
 bot_key = bot_data["key"]
 bot_owners = bot_data["owners"]
-load_music = config_data["cogs"]["load_music"]
+load_music = config_data["music"]["enabled"]
 
 extensions = get_extensions()
 
@@ -31,11 +31,12 @@ do_run = config.do_run
 
 def prefix(bot, message):
     pfx = bot_key
-    if message.guild:
-        pfx = commands.when_mentioned_or(GuildData(
-            str(message.guild.id)).strings.fetch_by_name("prefix"))(
-                bot, message)
-    return pfx if pfx else bot_key
+    # if message.guild:
+    #     pfx = commands.when_mentioned_or(GuildData(
+    #         str(message.guild.id)).strings.fetch_by_name("prefix"))(
+    #             bot, message)
+    # return pfx if pfx else bot_key
+    return pfx
 
 
 # def_help = commands.DefaultHelpCommand(dm_help=None, dm_help_threshold=750)
