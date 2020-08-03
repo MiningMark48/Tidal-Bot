@@ -3,15 +3,12 @@ import os.path as osp
 
 from discord.ext import commands
 
+from util.config import BotConfig
 
 def load_config():
-    config_path = "config.json"
-
-    if osp.isfile(config_path):
-        with open(config_path, 'r') as file:
-            data = json.load(file)
-            global bot_owners
-            bot_owners = data["bot_owners"]
+    data = BotConfig().load_data()
+    global bot_owners
+    bot_owners = data["bot"]["owners"]
 
 
 def is_bot_owner():
