@@ -44,15 +44,15 @@ class ServerManagement(commands.Cog, name="Server Management"):
     #
     #     await user.edit(nick="NEW")
 
-    # @commands.command(aliases=["changeprefix"])
-    # @commands.has_permissions(manage_guild=True)
-    # @commands.cooldown(1, 10, commands.BucketType.user)
-    # @commands.guild_only()
-    # async def setprefix(self, ctx, prefix: str):
-    #     """Change the bot prefix for the server"""
+    @commands.command(aliases=["changeprefix"])
+    @commands.has_permissions(manage_guild=True)
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.guild_only()
+    async def setprefix(self, ctx, prefix: str):
+        """Change the bot prefix for the server"""
 
-    #     GuildData(str(ctx.guild.id)).strings.set("prefix", prefix)
-    #     await ctx.send(f'Changed the server prefix to `{prefix}`.')
+        GuildData(str(ctx.guild.id)).strings.set("prefix", prefix)
+        await ctx.send(f'Changed the server prefix to `{prefix}`.')
 
     @commands.group(name="joinmessage", aliases=["joinmsg"])
     async def join_msg(self, ctx):

@@ -31,12 +31,11 @@ do_run = config.do_run
 
 def prefix(bot, message):
     pfx = bot_key
-    # if message.guild:
-    #     pfx = commands.when_mentioned_or(GuildData(
-    #         str(message.guild.id)).strings.fetch_by_name("prefix"))(
-    #             bot, message)
-    # return pfx if pfx else bot_key
-    return pfx
+    if message.guild:
+        data = GuildData(str(message.guild.id)).strings.fetch_by_name("prefix")
+        if data:
+            pfx = commands.when_mentioned_or(data)(bot, message)
+    return pfx if pfx else bot_key
 
 
 # def_help = commands.DefaultHelpCommand(dm_help=None, dm_help_threshold=750)
