@@ -10,6 +10,10 @@ from util.help_command import HelpCommand
 from util.logger import Logger
 from util.config import BotConfig
 
+import time
+
+start_time = time.time()
+
 Logger.breakline()
 Logger.alert("Starting...")
 
@@ -54,6 +58,8 @@ async def on_ready():
     # generator.gen_list()
     generator.gen_md_list()
     # generator.gen_img_list()
+
+    Logger.success("Bot started in {} seconds".format(str(time.time() - start_time)[:4]))
 
 
 @bot.event
