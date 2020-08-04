@@ -7,9 +7,7 @@ import pysftp as sftp
 # pylint: disable=no-name-in-module
 from ssh2.session import Session
 
-# host = ''
-# user = ''
-# password = ''
+start_time = time.time()
 
 with open('servinfo.json', 'r') as file:
     data = json.load(file)
@@ -91,3 +89,6 @@ def connect_and_start():
 upload_files()
 print("------")
 connect_and_start()
+print("------")
+print("Finished in {} seconds".format(str(time.time() - start_time)[:4]))
+print("------")
