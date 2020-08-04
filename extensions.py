@@ -30,6 +30,7 @@ extensions = [
     "servmng.rules",
     "servmng.rum",
     "servmng.servmng",
+    "servmng.temprole",
     "utility.announce",
     "utility.colorgen",
     "utility.lyrics",

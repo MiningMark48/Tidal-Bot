@@ -1,5 +1,5 @@
 # Commands
-Commands Available: 125
+Commands Available: 126
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -110,6 +110,7 @@ Commands Available: 125
 | tagsearch | Search for a tag. | Tags | searchtag |
 | tagvariables | Get the list of supported tag variables.  Tag variables are parts of a string that get replace by specific data. | Tags | tagvars, variables, vars |
 | tea | *Sips tea* | Memes | N/A |
+| temprole | Assign a user a temporary role.  Minutes Min: 1, Max: 60 | Server Management | N/A |
 | tenor | Returns a random GIF based on search term | Fun | gif |
 | test | TEST COMMAND | Owner | N/A |
 | togglerum | Toggle the mobile indicator reaction (RUM: R U Mobile?) | Server Management | togglemobileindicator, toggleismobile |
