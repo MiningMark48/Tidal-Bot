@@ -41,16 +41,19 @@ def upload_files():
 
     with sftp.Connection(host=host, username=user, password=password, cnopts=cnopts) as s:
         print("Established SFTP connection")
-        for dir in directories:
-            print(f"Uploading: {dir}")
-            remote_path = f'/home/mark/tidalbot_python/{dir}'
+        for d in directories:
+            print(f"Uploading: {d}")
+            remote_path = f'/home/mark/tidalbot_python/{d}'
             # local_path = 'testdir'
             with s.cd(remote_path):
-                put_r_portable(s, dir, remote_path, preserve_mtime=False)
-                for f in files:
-                    print(f"Uploading: {f}")
-                    s.put(f, f"/home/mark/tidalbot_python/{f}", preserve_mtime=False)
-                print(f"Upload complete: {dir}")
+                put_r_portable(s, d, remote_path, preserve_mtime=False)
+                print(f"Upload complete: {d}")
+        with s.cd(remote_path):
+            for f in files:
+                print(f"Uploading: {f}")
+                s.put(f, f"/home/mark/tidalbot_python/{f}", preserve_mtime=False)
+                print(f"Upload complete: {f}")
+
     print("All uploads complete")
     s.close()
     print("Closed SFTP connection")
