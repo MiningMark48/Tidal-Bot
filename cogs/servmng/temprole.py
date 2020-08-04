@@ -20,6 +20,8 @@ class ServerManagement(commands.Cog, name="Server Management"):
         Assign a user a temporary role.
 
         Minutes Min: 1, Max: 60
+
+        Note: If the bot goes offline/restarts, the role will not be cleared from the user.
         """
 
         minutes = max(1, min(minutes, 60))
