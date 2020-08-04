@@ -57,7 +57,7 @@ class Fun(commands.Cog):
             player_dead = None
             i = 0
             while not player_dead:
-                if i == len(players)*3:
+                if i == len(players) * 3:
                     player_dead = random.choice(players)
                     embed.description = f"{player_dead.mention} pulls the trigger, BAM! Dead."
                     await rmsg.edit(embed=embed)
@@ -79,7 +79,7 @@ class Fun(commands.Cog):
             # embed.description = f"Game ended.\n\n{player_dead.mention} died."
             # await rmsg.edit(embed=embed)
         else:
-            embed.description = f"Nobody joined the game :("
+            embed.description = "Nobody joined the game :("
             await rmsg.edit(embed=embed)
 
 

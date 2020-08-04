@@ -27,7 +27,7 @@ class Fun(commands.Cog):
 
         with Image.new("RGB", (950, 400), 0xffffff) as im:
             font_text_size = 30
-            font_text = ImageFont.truetype(f'./resources/fonts/arial.ttf', size=font_text_size)
+            font_text = ImageFont.truetype('./resources/fonts/arial.ttf', size=font_text_size)
             draw = ImageDraw.Draw(im)
 
             (x, y) = (10, 10)
@@ -96,7 +96,7 @@ class Fun(commands.Cog):
                 await guess_msg.delete()
 
                 time_taken = round(time.time() - start_time, 2)
-                wpm = round((max_words/time_taken)*60)
+                wpm = round((max_words / time_taken) * 60)
 
                 embed = discord.Embed(title="Speed Type: Results", color=0x112110)
                 embed.add_field(name="Faster Typer", value=guess_msg.author.mention, inline=False)
