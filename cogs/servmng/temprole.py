@@ -3,17 +3,18 @@ import discord
 
 import asyncio
 
-from util.data.guild_data import GuildData
+from util.decorators import delete_original
 
 
 class ServerManagement(commands.Cog, name="Server Management"):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="temprole")
+    @commands.command(name="temprole", aliases=["trole"])
     @commands.has_permissions(manage_guild=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.guild_only()
+    @delete_original()
     async def temp_role(self, ctx, user: discord.Member, role: str, minutes: int):
         """
         Assign a user a temporary role.
