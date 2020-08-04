@@ -264,12 +264,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def test(self, ctx):
         """TEST COMMAND"""
-        data = GuildData(str(ctx.guild.id))
-        data.booleans.insert("test2", True)
-        data.tags.insert("test2", "This is a test!")
-
-        await ctx.send(data.booleans.fetch_by_name("rum"))
-
+        await ctx.send("TEST COMMAND")
         Logger.info(f"{ctx.author} TEST COMMAND")
 
 
