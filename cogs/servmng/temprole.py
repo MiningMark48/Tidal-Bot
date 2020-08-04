@@ -11,7 +11,7 @@ class ServerManagement(commands.Cog, name="Server Management"):
         self.bot = bot
 
     @commands.command(name="temprole", aliases=["trole"])
-    @commands.has_permissions(manage_guild=True)
+    @commands.has_permissions(manage_roles=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.guild_only()
     @delete_original()
