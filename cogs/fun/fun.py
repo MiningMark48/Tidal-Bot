@@ -3,6 +3,7 @@ import random
 import typing
 
 import aiohttp
+import asyncio
 import discord
 from discord.ext import commands
 
@@ -16,7 +17,7 @@ class Fun(commands.Cog):
         self.bot = bot
         self.api_key_tenor = BotConfig().get_api_key('tenor')
 
-    @commands.command(name="blackjack", aliases=["21"])
+    @commands.command(name="blackjack", aliases=["21", "bj"])
     @delete_original()
     async def blackjack(self, ctx):
         """Play a (modified) game of blackjack, simplistic-ly."""
@@ -63,13 +64,27 @@ class Fun(commands.Cog):
                     await play()
                 elif msg_wf.content.lower() == "stay":
                     cards_player_sum = sum(cards_player)
-                    cards_dealer_sum = sum(cards_dealer)
-                    if cards_player_sum > cards_dealer_sum:
-                        embed.description = "Player wins!"
-                    elif cards_player_sum < cards_dealer_sum:
-                        embed.description = "Dealer wins."
-                    else:
-                        embed.description = "It's a push, you both win!"
+
+                    async def card_dealer_draw():  # Dealer keeps drawing until 17 or higher
+                        cards_dealer_sum = sum(cards_dealer)
+
+                        if cards_dealer_sum < 17:
+                            cards_dealer.append(random.choice(cards))
+                            embed.set_field_at(0, name="Dealer",
+                                               value=f"{'  '.join(str(c) for c in cards_dealer)} ({sum(cards_dealer)})")
+                            await msg.edit(embed=embed)
+
+                            await asyncio.sleep(1)
+                            await card_dealer_draw()
+                        else:
+                            if cards_player_sum > cards_dealer_sum or cards_dealer_sum > 21:
+                                embed.description = "Player wins!"
+                            elif cards_player_sum < cards_dealer_sum or cards_dealer_sum == 21:
+                                embed.description = "Dealer wins."
+                            else:
+                                embed.description = "It's a push, you both win!"
+
+                    await card_dealer_draw()
 
                     embed.set_field_at(0, name="Dealer",
                                        value=f"{'  '.join(str(c) for c in cards_dealer)} ({sum(cards_dealer)})")
@@ -148,7 +163,7 @@ class Fun(commands.Cog):
             await ctx.send("Error, missing API key. Report to bot owner.")
             return
 
-        base_url = f"https://api.tenor.com/v1/search"
+        base_url = "https://api.tenor.com/v1/search"
         payload = {"q": search, "key": api_key, "limit": 16}
 
         async with aiohttp.ClientSession() as session:

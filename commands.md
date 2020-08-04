@@ -7,7 +7,7 @@ Commands Available: 125
 | announceembed | Announce a message, embedded | Utility | announcementembed, annembed |
 | binary | [WIP] Encode/Decode to/from binary  Methods: Encode (e), Decode (d)  Note: This command is a work-in-progress, some errors may and will occur. | Utility | N/A |
 | bitcoin | Get info for Bitcoin (BTC) | Info | btc |
-| blackjack | Play a (modified) game of blackjack, simplistic-ly. | Fun | 21 |
+| blackjack | Play a (modified) game of blackjack, simplistic-ly. | Fun | 21, bj |
 | botdms | Control whether or not the bot will DM you with certain commands/functions.  Example: Disabling DMs will prevent bot from DMing reactor role gives/takes.  Usage: botdms False | Preferences | botdm |
 | botinfo | Miscellaneous bot information | Info | N/A |
 | changepresence | Change the bot's presence on the fly | Owner | N/A |
