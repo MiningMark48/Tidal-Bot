@@ -32,6 +32,7 @@ extensions = [
     "servmng.servmng",
     "servmng.temprole",
     "utility.announce",
+    "utility.autourlshort",
     "utility.colorgen",
     "utility.lyrics",
     "utility.memesearch",

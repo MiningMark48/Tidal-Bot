@@ -1,5 +1,5 @@
 # Commands
-Commands Available: 126
+Commands Available: 127
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -113,6 +113,7 @@ Commands Available: 126
 | temprole | Assign a user a temporary role.  Minutes Min: 1, Max: 60  Note: If the bot goes offline/restarts, the role will not be cleared from the user. | Server Management | trole |
 | tenor | Returns a random GIF based on search term | Fun | gif |
 | test | TEST COMMAND | Owner | N/A |
+| toggleaurls | Toggle the Auto URL Shorten  When enabled, the bot will automatically shorten any long urls. | Utility | toggleautourlshorten |
 | togglerum | Toggle the mobile indicator reaction (RUM: R U Mobile?) | Server Management | togglemobileindicator, toggleismobile |
 | translate | Translate from a detected language to a specified language | Utility | N/A |
 | trello | Get a link to the Tidal Bot Trello | Info | N/A |
