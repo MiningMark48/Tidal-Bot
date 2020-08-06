@@ -33,8 +33,10 @@ class Utility(commands.Cog):
 
                 new_message = f"**Sent by {message.author.mention}:**\n\n{message.content}\n\n*URLs were shortened automatically.*"
                 if len(url_list) > 0:
+                    send_message = False
                     for url in url_list:
                         if len(url[0]) > 100:
+                            send_message = True
                             async with aiohttp.ClientSession() as session:
                                 async with session.get(base_url.format(url[0])) as r:
                                     content = await r.text()
@@ -42,8 +44,9 @@ class Utility(commands.Cog):
 
                                     new_message = new_message.replace(url[0], shortened)
 
-                    await channel.send(new_message)
-                    await message.delete()
+                    if send_message:
+                        await channel.send(new_message)
+                        await message.delete()
 
     @commands.command(name="toggleaurls", aliases=["toggleautourlshorten"])
     @commands.cooldown(1, 5, commands.BucketType.user)
