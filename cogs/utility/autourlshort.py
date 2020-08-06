@@ -31,7 +31,7 @@ class Utility(commands.Cog):
                 url_list = re.findall(regex, message.content)
                 base_url = "https://tinyurl.com/api-create.php?url={}"
 
-                new_message = f"**{message.author.mention}:**\n\n{message.content}"
+                new_message = f"**Sent by {message.author.mention}:**\n\n{message.content}\n\n*URLs were shortened automatically.*"
                 if len(url_list) > 0:
                     for url in url_list:
                         if len(url[0]) > 100:
