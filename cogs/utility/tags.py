@@ -86,7 +86,7 @@ class Tags(commands.Cog):
         await ctx.send(f"```{results_txt}```")
 
     @commands.command()
-    @commands.cooldown(1, 3)
+    @commands.cooldown(1, 2)
     @commands.guild_only()
     async def tag(self, ctx, *, tag_name: str):
         """
