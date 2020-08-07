@@ -1,5 +1,5 @@
 # Commands
-Commands Available: 127
+Commands Available: 112
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -11,7 +11,6 @@ Commands Available: 127
 | botdms | Control whether or not the bot will DM you with certain commands/functions.  Example: Disabling DMs will prevent bot from DMing reactor role gives/takes.  Usage: botdms False | Preferences | botdm |
 | botinfo | Miscellaneous bot information | Info | N/A |
 | changepresence | Change the bot's presence on the fly | Owner | N/A |
-| chucknorris | Fetch a Chuck Norris Joke | Fun | chuck, norris |
 | coinflip | Flip a coin! | Utility | coin, flipcoin |
 | colorgen | Generate a random color or palette of colors  Squares amount: min=1, max=5 | Utility | gencolor, randcolor, palette |
 | commandblacklist | Enable/Disable commands | Server Management | togglecommand, blacklistcommand |
@@ -22,12 +21,9 @@ Commands Available: 127
 | diceroll | Roll a dice! | Utility | dice, rolldice |
 | dictionary | Define a word | Info | define |
 | draw25 | ...or draw 25 cards | Memes | N/A |
-| emojialternate | *clap* Hello *clap* World *clap*  Alternates words in a string with an emoji | Fun | emal |
 | emojilist | Get a list of all emojis for the server | Utility | emojis |
 | eval | Evaluates code | Owner | pyeval |
 | exit12 | Left, Exit 12. *Screech*  Note: This will likely require quotes. | Memes | N/A |
-| explodingmessage | Send a message that 'explodes' after 10 seconds. | Utility | explodemsg, msgboom |
-| fakeping | Create a fake ping image | Images | pingfake |
 | feedback | Gives feedback about the bot. This is a quick way to request features and submit issues. The bot will communicate with you via DM about the status of your request if possible and when able. | Bot | N/A |
 | feedbackdm | None | Bot | fbdm |
 | financialsupport | Financially support me plz | Memes | N/A |
@@ -40,13 +36,6 @@ Commands Available: 127
 | hastebin | Get the RAW text from a Hastebin | Utility | hastebinget, hasteget, hb |
 | help | Shows this message | None | N/A |
 | higherlower | Play a higher-lower number guessing game | Fun | hl |
-| imblur | Image Manipulation: Blur | Images | imb |
-| imcircle | Image Manipulation: Circle | Images | imc |
-| imflip180 | Image Manipulation: Flip 180 | Images | imf180 |
-| imgrayscale | Image Manipulation: Grayscale | Images | imgs |
-| impixelate | Image Manipulation: Pixelate | Images | imp |
-| imsepia | Image Manipulation: Sepia | Images | ims |
-| imsnapchat | Image Manipulation: Snapchat | Images | imsc |
 | joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg |
 | kkchum | Krusty Krab > Chum Bucket | Memes | N/A |
 | leaveserver | Make the bot leave a server | Owner | N/A |
@@ -55,24 +44,20 @@ Commands Available: 127
 | lyrics | Search for lyrics for a song | Utility | lyric, lyr |
 | magic8ball | The Magic 8 Ball says... | Fun | 8ball, magicball, magic8 |
 | matheval | Evaluate a mathematical expression | Utility | evalmath, calc, calculator |
-| memelicense | Create a meme license. | Memes | licensememe |
 | memesearch | Lookup a meme on Know Your Meme | Utility | knowyourmeme, kym, meme |
 | minesweeper | Create a minefield! | Fun | ms, mines |
-| mixer | Look up information about a user on Mixer | Info | mixeruser, mixerinfo |
 | mock | spOngEBoB MoCKifY soMe TeXT | Fun | N/A |
 | nobrain | Oh F***, I forgot to give you a brain. | Memes | N/A |
 | nocontext | Picks a random message from the channel, out-of-context.  Min: 10, Max: 10000 | Fun | ooc |
 | nothere | We don't do that here. | Memes | N/A |
-| npr | Get a list of recent NPR news articles | Utility | news |
 | pastebin | Get the RAW text from a Pastebin | Utility | pastebinget, pasteget, pb |
 | patrickpush | PUSH IT SOMEWHERE ELSE! | Memes | N/A |
 | pelosirip | *Rips speech* | Memes | pelrip |
 | perf | Checks the timing of a command, attempting to suppress HTTP and DB calls. | Owner | N/A |
 | pika | ! | Memes | pikasurprise, surprisedpika |
 | ping | Latency of the bot | Utility | N/A |
-| placeholderimg | Generate a placeholder image  Usage: placeholder 256 placeholder 512x256 Image | Images | placeholder |
 | poll | Interactively, create a poll for people to vote on  Usage: poll <Time (minutes)> <Question>  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | N/A |
-| pressbutton | Will you press the button? | Fun | willyoupressbutton, willyoupress, wyptb |
+| pressbutton | Will you press the button? | Fun | wyptb, pushbutton |
 | progress | See how far into the year we are. | Utility | progressbar |
 | prune | Bulk delete messages (up to 100) | Utility | purge, nuke |
 | qrcode | Generate a QR Code from a string of text | Utility | qrcodecreate, createqr, qr |

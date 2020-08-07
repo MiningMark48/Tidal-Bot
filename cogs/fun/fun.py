@@ -93,45 +93,6 @@ class Fun(commands.Cog):
 
         await play()
 
-    @commands.command(name="chucknorris", aliases=["chuck", "norris"])
-    @delete_original()
-    async def chuck_norris(self, ctx):
-        """Fetch a Chuck Norris Joke"""
-        base_url = "http://api.icndb.com/jokes/random"
-        payload = {"escape": "html"}
-        async with aiohttp.ClientSession() as session:
-            async with session.get(base_url, params=payload) as r:
-                content = await r.json()
-                joke = content["value"]
-                joke_text = joke["joke"]
-                categories = joke["categories"]
-
-                embed = discord.Embed(title="Chuck Norris")
-                embed.description = joke_text
-                embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Chuck_Norris_May_"
-                                        "2015.jpg/220px-Chuck_Norris_May_2015.jpg")
-                embed.set_footer(text="Fetched from The Internet Chuck Norris Database")
-
-                if categories:
-                    embed.add_field(name="Categories", value=" ,".join(str(c).capitalize() for c in categories), inline=False)
-
-                await ctx.send(embed=embed)
-
-    @commands.command(name="emojialternate", aliases=["emal"])
-    @delete_original()
-    async def emoji_alternate(self, ctx, msg: str, emoji: str):
-        """
-        *clap* Hello *clap* World *clap*
-
-        Alternates words in a string with an emoji
-        """
-
-        words = msg.split(" ")
-        final = f" {emoji} ".join(w for w in words)
-        final = f"{emoji} {final} {emoji}"
-
-        await ctx.send(final)
-
     @commands.command(name="magic8ball", aliases=["8ball", "magicball", "magic8"])
     async def magic_8_ball(self, ctx):
         """The Magic 8 Ball says..."""

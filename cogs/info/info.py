@@ -123,37 +123,6 @@ class Info(commands.Cog):
         except discord.HTTPException:
             await ctx.send("Error sending embeded message, please try again later")
 
-    @commands.command(aliases=["mixeruser", "mixerinfo"])
-    async def mixer(self, ctx, user: str):
-        """Look up information about a user on Mixer"""
-        base_url = f"https://mixer.com/api/v1/channels/{user}"
-        async with aiohttp.ClientSession() as session:
-            async with session.get(base_url) as r:
-                data = await r.json()
-        embed = discord.Embed(title=data["token"], color=ctx.message.author.top_role.color,
-                              url=f"https://mixer.com/{user}")
-        embed.add_field(name="Stream Title", value=data["name"], inline=False)
-        embed.add_field(name="Game", value=data["type"]["name"], inline=False)
-        embed.add_field(name="Is Online?", value="Yes" if data["online"] else "No")
-        embed.add_field(name="Is Partnered?", value="Yes" if data["partnered"] else "No")
-        embed.add_field(name="Audience", value=data["audience"])
-        embed.add_field(name="Member Since", value=data["createdAt"][:-14])
-        embed.add_field(name="Last Updated", value=data["updatedAt"][:-14])
-        embed.add_field(name="Level", value=data["user"]["level"])
-        embed.add_field(name="Sparks", value=data["user"]["sparks"])
-        embed.add_field(name="Followers", value=data["numFollowers"])
-        embed.add_field(name="Total Viewers", value=data["viewersTotal"])
-        embed.add_field(name="Current Viewers", value=data["viewersCurrent"])
-        embed.add_field(name="Is Interactive?", value="Yes" if data["interactive"] else "No")
-        embed.add_field(name="VODs Enabled?", value="Yes" if data["vodsEnabled"] else "No")
-
-        embed.set_thumbnail(url=data["user"]["avatarUrl"])
-        embed.set_footer(text=f"Mixer Information, requested by {ctx.author.name}")
-        try:
-            await ctx.send(embed=embed)
-        except discord.HTTPException:
-            await ctx.send("Error sending embeded message, please try again later")
-
     @commands.command(aliases=["meinfo", "whome"])
     async def selfinfo(self, ctx):
         """Get information about yourself"""
