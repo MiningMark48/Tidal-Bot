@@ -187,6 +187,12 @@ class Info(commands.Cog):
                 except discord.HTTPException:
                     await ctx.send("Error sending embeded message, please try again later")
 
+    @commands.command(name="tidalwave", aliases=["discord"])
+    @delete_original()
+    async def tidal_wave(self, ctx):
+        """Get a link to the Tidal Wave Discord"""
+        await ctx.send(f"{ctx.author.mention}, Here you go!\nhttps://discord.gg/SMCEXw5")
+
     @commands.command()
     @delete_original()
     async def trello(self, ctx):
