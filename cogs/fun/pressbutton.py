@@ -10,7 +10,7 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="pressbutton", aliases=["willyoupressbutton", "willyoupress", "wyptb"])
+    @commands.command(name="pressbutton", aliases=["wyptb", "pushbutton"])
     @delete_original()
     async def press_button(self, ctx):
         """
