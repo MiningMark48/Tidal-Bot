@@ -1,5 +1,5 @@
 # Commands
-Commands Available: 113
+Commands Available: 111
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -11,14 +11,12 @@ Commands Available: 113
 | botdms | Control whether or not the bot will DM you with certain commands/functions.  Example: Disabling DMs will prevent bot from DMing reactor role gives/takes.  Usage: botdms False | Preferences | botdm |
 | botinfo | Miscellaneous bot information | Info | N/A |
 | changepresence | Change the bot's presence on the fly | Owner | N/A |
-| coinflip | Flip a coin! | Utility | coin, flipcoin |
 | colorgen | Generate a random color or palette of colors  Squares amount: min=1, max=5 | Utility | gencolor, randcolor, palette |
 | commandblacklist | Enable/Disable commands | Server Management | togglecommand, blacklistcommand |
 | coronaplot | Plot COVID-19 Data for a specific country  Note: This will likely require the use of quotes.  Usage: plot "US" | Info | covidplot, cplot |
 | coronastats | Fetch COVID-19 Data for a specific country  Note: You can specify up to 10 countries at once.  Usage: stats "US" "Canada" | Info | corona, covid, cstats |
 | dashdefine | It defines who I am | Memes | N/A |
 | deletetag | Delete a bot tag. | Tags | deltag, tagdelete |
-| diceroll | Roll a dice! | Utility | dice, rolldice |
 | dictionary | Define a word | Info | define |
 | draw25 | ...or draw 25 cards | Memes | N/A |
 | emojilist | Get a list of all emojis for the server | Utility | emojis |
