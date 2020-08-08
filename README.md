@@ -21,7 +21,7 @@
  - Utility
  - Bot Management
  - Admin/Bot Owner
- - Music (Requires local Lavalink server)
+ - Music (Requires local [Lavalink](https://github.com/Frederikam/Lavalink) server)
  - and more.
 
 For a list of all available commands, see [commands.md](https://github.com/MiningMark48/Tidal-Bot/blob/master/commands.md).
