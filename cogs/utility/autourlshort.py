@@ -1,4 +1,5 @@
 from discord.ext import commands
+import discord
 
 import re
 import aiohttp
@@ -29,23 +30,25 @@ class Utility(commands.Cog):
                 regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|" \
                         r"(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
                 url_list = re.findall(regex, message.content)
-                base_url = "https://tinyurl.com/api-create.php?url={}"
+                # base_url = "https://tinyurl.com/api-create.php?url={}"
 
-                new_message = f"**Sent by {message.author.mention}:**\n\n{message.content}\n\n*URLs were shortened automatically.*"
+                new_message = message.content
                 if len(url_list) > 0:
                     send_message = False
                     for url in url_list:
-                        if len(url[0]) > 100:
+                        if len(url[0]) > 100:  # Max Length
                             send_message = True
-                            async with aiohttp.ClientSession() as session:
-                                async with session.get(base_url.format(url[0])) as r:
-                                    content = await r.text()
-                                    shortened = str(content)
-
-                                    new_message = new_message.replace(url[0], shortened)
+                            shortened = "[URL]({})".format(url[0])
+                            new_message = new_message.replace(url[0], shortened)
 
                     if send_message:
-                        await channel.send(new_message)
+                        embed = discord.Embed(color=0xdd4d28)
+                        embed.set_author(name=message.author, icon_url=message.author.avatar_url)
+                        embed.description = new_message
+                        embed.timestamp = message.created_at
+                        embed.set_footer(text="URLs were automatically shortened.")
+
+                        await channel.send(embed=embed)
                         await message.delete()
 
     @commands.command(name="toggleaurls", aliases=["toggleautourlshorten"])
