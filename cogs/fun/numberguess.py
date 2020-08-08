@@ -10,6 +10,8 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        self.new_game = []
+
     @commands.command(name="higherlower", aliases=["hl"])
     async def higher_lower(self, ctx, number=100):
         """
@@ -65,7 +67,28 @@ class Fun(commands.Cog):
                                     f"Your guesses: {guesses_list}"
                 await msg.edit(embed=embed)
                 break
+
             await msg.edit(embed=embed)
+
+        # self.new_game.append(msg.id)
+        # await msg.add_reaction("🔁")
+
+    # @commands.Cog.listener("on_raw_reaction_add")
+    # async def on_raw_reaction_add(self, payload):
+    #     guild = self.bot.get_guild(payload.guild_id)
+    #     channel = guild.get_channel(payload.channel_id)
+    #     rmsg = await channel.fetch_message(payload.message_id)
+
+    #     if rmsg.id in self.new_game:
+    #         reaction_emoji = str(payload.emoji)
+    #         user = self.bot.get_user(payload.user_id)
+    #         if reaction_emoji == '🔁':
+    #             if not user == self.bot.user:
+    #                 ctx = await self.bot.get_context(rmsg)
+    #                 cmd = self.bot.get_command("higherlower")
+    #                 self.new_game.remove(rmsg.id)
+    #                 await rmsg.clear_reactions()
+    #                 await ctx.invoke(cmd)
 
 
 def setup(bot):

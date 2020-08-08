@@ -12,6 +12,8 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        self.new_game = []
+
     @commands.command(name="userguess", aliases=["ug"])
     @commands.guild_only()
     @commands.cooldown(2, 5)
@@ -31,7 +33,7 @@ class Fun(commands.Cog):
         rand_user = random.choice(ctx.guild.members)
 
         embed = discord.Embed(title="User Guess", color=Color.blurple())
-        embed.description = f"Guess who the user is based on their avatar. You have **15** seconds."
+        embed.description = "Guess who the user is based on their avatar. You have **15** seconds."
         embed.set_image(url=rand_user.avatar_url_as(size=256))
         embed.set_footer(text="Guess their display name or nickname.")
         msg = await ctx.send(embed=embed)
@@ -64,6 +66,26 @@ class Fun(commands.Cog):
                                     f"The user was **{rand_user.display_name}**!"
                 await msg.edit(embed=embed)
                 break
+
+        self.new_game.append(msg.id)
+        await msg.add_reaction("🔁")
+
+    @commands.Cog.listener("on_raw_reaction_add")
+    async def on_raw_reaction_add(self, payload):
+        guild = self.bot.get_guild(payload.guild_id)
+        channel = guild.get_channel(payload.channel_id)
+        rmsg = await channel.fetch_message(payload.message_id)
+
+        if rmsg.id in self.new_game:
+            reaction_emoji = str(payload.emoji)
+            user = self.bot.get_user(payload.user_id)
+            if reaction_emoji == '🔁':
+                if not user == self.bot.user:
+                    ctx = await self.bot.get_context(rmsg)
+                    cmd = self.bot.get_command("userguess")
+                    self.new_game.remove(rmsg.id)
+                    await rmsg.clear_reactions()
+                    await ctx.invoke(cmd)
 
 
 def setup(bot):
