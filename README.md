@@ -1,7 +1,6 @@
 # Tidal-Bot
 
 ![MIT License](https://img.shields.io/github/license/MiningMark48/Tidal-Bot)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/w/MiningMark48/Tidal-Bot)
 ![Discord](https://img.shields.io/discord/138819614275665920?label=Discord&logo=Discord&style=social)
 [![Twitter](https://img.shields.io/twitter/follow/miningmark48?style=social)](https://twitter.com/miningmark48)
 
