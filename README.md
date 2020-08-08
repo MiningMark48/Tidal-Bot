@@ -18,7 +18,6 @@
  - Server Management
  - Fun
  - Memes
- - Image Generation & Manipulation
  - Information
  - Utility
  - Bot Management
