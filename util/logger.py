@@ -83,4 +83,4 @@ class Logger:
 
     @staticmethod
     def breakline():
-        Logger.log('break', Colors.reset, '')
+        Logger.log('lnbrk', Colors.reset, '')
