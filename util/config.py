@@ -21,6 +21,9 @@ class BotConfig:
             },
             'reddit': {
                 'client_id': 'id', 'client_secret': 'sec', 'user_agent': 'agent'
+            },
+            'misc': {
+                'feedback_channel': 12341234123412
             }
         }
 

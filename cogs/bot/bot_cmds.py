@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 
 from util.decorators import delete_original
+from util.config import BotConfig
 
 start_time = time.time()
 
@@ -11,6 +12,8 @@ start_time = time.time()
 class Bot(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+        self.config = BotConfig().load_data()
 
     @commands.command()
     @commands.cooldown(1, 30, commands.BucketType.user)
@@ -23,7 +26,7 @@ class Bot(commands.Cog):
         """
 
         embed = discord.Embed(title='Feedback', colour=0x6777EC)
-        channel = self.bot.get_channel(705639785238102036)  # TODO: Make config
+        channel = self.bot.get_channel(self.config["misc"]["feedback_channel"])
         if channel is None:
             return
 
@@ -41,7 +44,7 @@ class Bot(commands.Cog):
         # await msg.add_reaction("👍")
         # await msg.add_reaction("👎")
 
-        await ctx.send(f'Successfully sent feedback.')
+        await ctx.send('Successfully sent feedback.')
 
     # noinspection PyBroadException
     @commands.command(name="feedbackdm", aliases=["fbdm"])
