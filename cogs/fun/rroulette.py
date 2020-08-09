@@ -27,7 +27,7 @@ class Fun(commands.Cog):
         chance = max(2, min(chance, 10))
 
         timeout = 10
-        reaction_emoji = "🔫"
+        reaction_emoji = "\N{PISTOL}"
 
         embed = discord.Embed(title="Russian Roulette", color=0xfc2c03)
         embed.description = f"Starting lobby...\n\n" \
@@ -82,7 +82,7 @@ class Fun(commands.Cog):
             # await rmsg.edit(embed=embed)
 
             self.new_game.append(rmsg.id)
-            await rmsg.add_reaction("🔁")
+            await rmsg.add_reaction("\N{CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS}")
         else:
             embed.description = "Nobody joined the game :("
             await rmsg.edit(embed=embed)
@@ -96,7 +96,7 @@ class Fun(commands.Cog):
         if rmsg.id in self.new_game:
             reaction_emoji = str(payload.emoji)
             user = self.bot.get_user(payload.user_id)
-            if reaction_emoji == '🔁':
+            if reaction_emoji == '\N{CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS}':
                 if not user == self.bot.user:
                     ctx = await self.bot.get_context(rmsg)
                     cmd = self.bot.get_command("russianroulette")

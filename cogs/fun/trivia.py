@@ -22,7 +22,7 @@ class Fun(commands.Cog):
     async def trivia(self, ctx, time: typing.Optional[int] = 10, difficulty="random"):
         """
         Answer some trivia!
-        
+
         Usage: trivia [time (seconds)] [random|easy|medium|hard] 
         """
         time = max(0, min(time, 60))
@@ -52,10 +52,10 @@ class Fun(commands.Cog):
                 embed.add_field(name="Time", value=f'{time} seconds')
                 msg = await ctx.send(embed=embed)
 
-                await msg.add_reaction("🇦")
-                await msg.add_reaction("🇧")
-                await msg.add_reaction("🇨")
-                await msg.add_reaction("🇩")
+                await msg.add_reaction("\N{REGIONAL INDICATOR SYMBOL LETTER A}")
+                await msg.add_reaction("\N{REGIONAL INDICATOR SYMBOL LETTER B}")
+                await msg.add_reaction("\N{REGIONAL INDICATOR SYMBOL LETTER C}")
+                await msg.add_reaction("\N{REGIONAL INDICATOR SYMBOL LETTER D}")
 
                 self.trivia_messages.append(msg.id)
                 await asyncio.sleep(time)
@@ -83,8 +83,9 @@ class Fun(commands.Cog):
                         correct_message = 'but nobody got that correct!'
                     await ctx.send(f'{":white_check_mark: " if users_correct else ""}The correct answer was `{getChoice(answers_list, correct_answer)}) {html.unescape(correct_answer)}`, {correct_message}')
 
-                    await ctx.send('Click ❓ for a random trivia question.', delete_after=10)
-                    await msg.add_reaction('❓')
+                    emoji_question_mark = "\N{BLACK QUESTION MARK ORNAMENT}"
+                    await ctx.send(f'Click {emoji_question_mark} for a random trivia question.', delete_after=10)
+                    await msg.add_reaction(emoji_question_mark)
                     self.new_trivia.append(msg.id)
 
                 except discord.errors.NotFound:
@@ -106,7 +107,7 @@ class Fun(commands.Cog):
         if rmsg.id in self.new_trivia:
             reaction_emoji = str(payload.emoji)
             user = self.bot.get_user(payload.user_id)
-            if reaction_emoji == '❓':
+            if reaction_emoji == "\N{BLACK QUESTION MARK ORNAMENT}":
                 if not user == self.bot.user:
                     ctx = await self.bot.get_context(rmsg)
                     cmd = self.bot.get_command("trivia")

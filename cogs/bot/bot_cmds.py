@@ -37,9 +37,9 @@ class Bot(commands.Cog):
         embed.add_field(name='Channel', value=f'{ctx.channel}\n{ctx.channel.id}', inline=False)
         embed.set_footer(text=f'Author ID: {ctx.author.id}')
 
-        msg = await channel.send(embed=embed)
-        await msg.add_reaction("👍")
-        await msg.add_reaction("👎")
+        await channel.send(embed=embed)
+        # await msg.add_reaction("👍")
+        # await msg.add_reaction("👎")
 
         await ctx.send(f'Successfully sent feedback.')
 

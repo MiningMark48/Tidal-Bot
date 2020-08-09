@@ -46,7 +46,7 @@ class Fun(commands.Cog):
                 await msg.add_reaction("🇧")
 
                 self.new_game.append(msg.id)
-                await msg.add_reaction("🔁")
+                await msg.add_reaction("\N{CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS}")
 
     @commands.Cog.listener("on_raw_reaction_add")
     async def on_raw_reaction_add(self, payload):
@@ -57,12 +57,12 @@ class Fun(commands.Cog):
         if rmsg.id in self.new_game:
             reaction_emoji = str(payload.emoji)
             user = self.bot.get_user(payload.user_id)
-            if reaction_emoji == '🔁':
+            if reaction_emoji == '\N{CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS}':
                 if not user == self.bot.user:
                     ctx = await self.bot.get_context(rmsg)
                     cmd = self.bot.get_command("wouldyourather")
                     self.new_game.remove(rmsg.id)
-                    await rmsg.clear_reaction("🔁")
+                    await rmsg.clear_reaction("\N{CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS}")
                     await ctx.invoke(cmd)
 
 
