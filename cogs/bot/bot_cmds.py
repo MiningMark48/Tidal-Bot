@@ -16,7 +16,7 @@ class Bot(commands.Cog):
         self.config = BotConfig().load_data()
 
     @commands.command()
-    @commands.cooldown(1, 30, commands.BucketType.user)
+    @commands.cooldown(1, 15, commands.BucketType.user)
     @delete_original()
     async def feedback(self, ctx, *, content: str):
         """
