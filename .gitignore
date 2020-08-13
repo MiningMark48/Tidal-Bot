@@ -141,6 +141,7 @@ dmypy.json
 ffmpeg.exe
 lavalink/
 cmdimgs/
+updater.py
 !requirements.txt
 !commands.json
 !demo_config.toml
