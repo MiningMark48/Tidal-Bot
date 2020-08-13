@@ -67,9 +67,6 @@ Tidal Bot is not affiliated with [Discord](https://discord.com) or [discord.py](
 
 ## Misc Info
 
-### Update Script
-The script found in the root directory, [updater.py](https://github.com/MiningMark48/Tidal-Bot/blob/master/updater.py), is used for updating the bot on a remote server. Using this script is not required for running the bot. Using this script yourself may require altercation as it is created with the current VPS structure in mind.
-
 ### Contributions
 Special thanks to those that have contributed to the project.
 
