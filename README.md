@@ -1,7 +1,7 @@
 # Tidal-Bot
 
 ![MIT License](https://img.shields.io/github/license/MiningMark48/Tidal-Bot)
-![Discord](https://img.shields.io/discord/138819614275665920?label=Discord&logo=Discord&style=social)
+[![Discord](https://img.shields.io/discord/138819614275665920?label=Discord&logo=Discord&style=social)](https://discord.gg/SMCEXw5)
 [![Twitter](https://img.shields.io/twitter/follow/miningmark48?style=social)](https://twitter.com/miningmark48)
 
 <!-- [![Tidal Wave](https://discord.com/api/guilds/138819614275665920/embed.png)](https://discord.gg/SMCEXw5) -->
@@ -34,7 +34,7 @@ If desired, extensions (or "cogs") can be enabled/disabled in the [extensions.py
 
 ## Issues
 
-If you encounter any issues while using the bot, please report them to the [issue tracker](https://github.com/MiningMark48/Tidal-Bot/issues) or by using the *feedback* command: `!feedback <issue>`.
+If you encounter any issues or have feedback while using the bot, please report them to the [issue tracker](https://github.com/MiningMark48/Tidal-Bot/issues) or by using the *feedback* command: `!feedback <query>`. The feedback command will report your query to a channel in the [Tidal Wave Discord](https://discord.gg/SMCEXw5).
 
 
 ## Running
@@ -61,7 +61,9 @@ Report issues to the [issue tracker](https://github.com/MiningMark48/Tidal-Bot/i
 Tidal Bot uses the [MIT License](https://github.com/MiningMark48/Tidal-Bot/blob/master/LICENSE). 
 
 ### Disclaimer
-Tidal Bot is not affiliated with [Discord](https://discord.com) or [discord.py](https://github.com/Rapptz/discord.py).
+Tidal Bot is not affiliated with [Discord](https://discord.com) or [discord.py](https://github.com/Rapptz/discord.py). 
+
+Although severity is unlikely, I, MiningMark48, am not responsible for what may occur if you decide to run this bot yourself or if the bot is added to your server.
 
 ---
 
