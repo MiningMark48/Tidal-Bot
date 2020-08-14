@@ -28,6 +28,7 @@ class Fun(commands.Cog):
 
         emoji_hit = "\N{WHITE DOWN POINTING BACKHAND INDEX}"  # Hand Pointing Down Emoji
         emoji_stay = "\N{RAISED HAND WITH FINGERS SPLAYED}"  # Hand Splayed Emoji
+        emoji_clap = "\N{CLAPPING HANDS SIGN}"  # Clapping Hands Emoji
 
         cards = list(range(1, 11))
         cards_dealer = random.sample(cards, 2)
@@ -44,7 +45,7 @@ class Fun(commands.Cog):
         async def play():
             cards_player_sum = sum(cards_player)
             if cards_player_sum == 21:  # Blackjack
-                embed.description = "Blackjack! You win!"
+                embed.description = f"Blackjack! You win! {emoji_clap}"
                 embed.set_field_at(0, name="Dealer",
                                    value=f"{'  '.join(str(c) for c in cards_dealer)} ({sum(cards_dealer)})")
                 await msg.edit(embed=embed)
@@ -87,7 +88,7 @@ class Fun(commands.Cog):
                             await card_dealer_draw()
                         else:
                             if cards_player_sum > cards_dealer_sum or cards_dealer_sum > 21:
-                                embed.description = "Player wins!"
+                                embed.description = f"Player wins! {emoji_clap}"
                             elif cards_player_sum < cards_dealer_sum or cards_dealer_sum == 21:
                                 embed.description = "Dealer wins."
                             else:
