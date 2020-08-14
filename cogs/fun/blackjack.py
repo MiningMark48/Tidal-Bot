@@ -23,8 +23,11 @@ class Fun(commands.Cog):
     async def blackjack(self, ctx):
         """Play a (modified) game of blackjack, simplistic-ly."""
 
-        def check(m):
-            return m.author.id == ctx.author.id
+        def check(m, u):
+            return u.id == ctx.author.id
+
+        emoji_hit = "\N{WHITE DOWN POINTING BACKHAND INDEX}"  # Hand Pointing Down Emoji
+        emoji_stay = "\N{RAISED HAND WITH FINGERS SPLAYED}"  # Hand Splayed Emoji
 
         cards = list(range(1, 11))
         cards_dealer = random.sample(cards, 2)
@@ -45,25 +48,30 @@ class Fun(commands.Cog):
                 embed.set_field_at(0, name="Dealer",
                                    value=f"{'  '.join(str(c) for c in cards_dealer)} ({sum(cards_dealer)})")
                 await msg.edit(embed=embed)
+                await msg.clear_reactions()
             elif sum(cards_player) > 21:  # Bust
                 embed.description = "Bust, dealer wins."
                 embed.set_field_at(0, name="Dealer",
                                    value=f"{'  '.join(str(c) for c in cards_dealer)} ({sum(cards_dealer)})")
                 await msg.edit(embed=embed)
+                await msg.clear_reactions()
             else:  # Hit/Stay
-                embed.description = "Hit or stay?"
+                embed.description = f"Hit {emoji_hit} or stay {emoji_stay}?"
                 await msg.edit(embed=embed)
-                msg_wf = await self.bot.wait_for('message', check=check, timeout=15)
+                await msg.add_reaction(emoji_hit)
+                await msg.add_reaction(emoji_stay)
 
-                if msg_wf.content.lower() == "hit":
+                wf_react, wf_user = await self.bot.wait_for('reaction_add', check=check, timeout=15)
+                wf_react = str(wf_react.emoji)
+
+                if wf_react == emoji_hit:
                     cards_player.append(random.choice(cards))
                     embed.set_field_at(1, name="Player",
                                        value=f"{'  '.join(str(c) for c in cards_player)} ({sum(cards_player)})")
                     await msg.edit(embed=embed)
-                    if isinstance(ctx.channel, discord.TextChannel):
-                        await msg_wf.delete()
+                    await msg.remove_reaction(emoji_hit, wf_user)
                     await play()
-                elif msg_wf.content.lower() == "stay":
+                elif wf_react == emoji_stay:
                     cards_player_sum = sum(cards_player)
 
                     async def card_dealer_draw():  # Dealer keeps drawing until 17 or higher
@@ -90,7 +98,10 @@ class Fun(commands.Cog):
                     embed.set_field_at(0, name="Dealer",
                                        value=f"{'  '.join(str(c) for c in cards_dealer)} ({sum(cards_dealer)})")
                     await msg.edit(embed=embed)
-                    await msg_wf.delete()
+                    await msg.clear_reactions()
+
+                else:
+                    await play()
 
         await play()
 
