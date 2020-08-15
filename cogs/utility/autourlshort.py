@@ -14,6 +14,8 @@ class Utility(commands.Cog):
     @commands.Cog.listener("on_message")
     async def on_message(self, message):
 
+        emoji_link = "\N{LINK SYMBOL}"
+
         if not message.guild:
             return
 
@@ -40,8 +42,16 @@ class Utility(commands.Cog):
                             send_message = True
                             shortened = "[URL]({})".format(url[0])
                             new_message = new_message.replace(url[0], shortened)
+                            await message.add_reaction(emoji_link)
 
-                    if send_message:
+                    try:
+                        wf_react, _ = await self.bot.wait_for('reaction_add', check=(lambda m, u: u.id == message.author.id), timeout=10)
+                        wf_react = str(wf_react.emoji)
+                    except Exception:
+                        await message.clear_reaction(emoji_link)
+                        return
+
+                    if send_message and wf_react == emoji_link:
                         embed = discord.Embed(color=0xdd4d28)
                         embed.set_author(name=message.author, icon_url=message.author.avatar_url)
                         embed.description = new_message
@@ -56,9 +66,9 @@ class Utility(commands.Cog):
     @commands.guild_only()
     async def toggle_aurls(self, ctx):
         """
-        Toggle the Auto URL Shorten
+        Toggle the Semi-Auto URL Shorten
 
-        When enabled, the bot will automatically shorten any long urls.
+        When enabled, the bot will semi-automatically shorten any long urls.
         """
         result = UserData(str(ctx.guild.id)).booleans.toggle_boolean("aurls_enabled")
         await ctx.send(f'**{"Enabled" if result else "Disabled"}** auto url shortening.')
