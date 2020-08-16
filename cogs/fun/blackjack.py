@@ -30,7 +30,8 @@ class Fun(commands.Cog):
         emoji_stay = "\N{RAISED HAND WITH FINGERS SPLAYED}"  # Hand Splayed Emoji
         emoji_clap = "\N{CLAPPING HANDS SIGN}"  # Clapping Hands Emoji
 
-        cards = list(range(1, 11))
+        # cards = list(range(1, 11))
+        cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
         cards_dealer = random.sample(cards, 2)
         cards_player = random.sample(cards, 2)
 
