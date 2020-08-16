@@ -97,7 +97,7 @@ Commands Available: 111
 | tenor | Returns a random GIF based on search term | Fun | gif |
 | test | TEST COMMAND | Owner | N/A |
 | tidalwave | Get a link to the Tidal Wave Discord | Info | discord |
-| toggleaurls | Toggle the Auto URL Shorten  When enabled, the bot will automatically shorten any long urls. | Utility | toggleautourlshorten |
+| toggleaurls | Toggle the Semi-Auto URL Shorten  When enabled, the bot will semi-automatically shorten any long urls. | Utility | toggleautourlshorten |
 | togglerum | Toggle the mobile indicator reaction (RUM: R U Mobile?) | Server Management | togglemobileindicator, toggleismobile |
 | translate | Translate from a detected language to a specified language | Utility | N/A |
 | trello | Get a link to the Tidal Bot Trello | Info | N/A |
