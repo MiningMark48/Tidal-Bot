@@ -53,6 +53,9 @@ Report issues to the [issue tracker](https://github.com/MiningMark48/Tidal-Bot/i
 
 **Note:** As previously mentioned, running the bot yourself is not *fully* supported. This means you may encounter issues. If you report issues to the tracker regarding you running it yourself, please make that known.
 
+### Data
+Data is managed using SQLAlchemy with the creation of databases. These databases are stored in the `/data` directory. All databases are backed up upon running the bot into the `/backups` directory with zip files for each day.
+
 ---
 
 ## Legal
