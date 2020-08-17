@@ -1,5 +1,4 @@
 extensions = [
-    "background.command_logger",
     "bot.bot_cmds",
     "errors",
     "fun.blackjack",
