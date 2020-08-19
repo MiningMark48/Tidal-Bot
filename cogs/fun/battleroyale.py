@@ -18,7 +18,7 @@ class Fun(commands.Cog):
         self.bot = bot
 
     @commands.command(name="battleroyale", aliases=["br"])
-    @commands.cooldown(1, 10)
+    @commands.cooldown(1, 10, commands.BucketType.guild)
     @delete_original()
     async def battle_royale(self, ctx, delay=3, skip=False):
         """
