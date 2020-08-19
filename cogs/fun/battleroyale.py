@@ -1,16 +1,11 @@
-import json
 import random
-import typing
 from collections import defaultdict
 
-import aiohttp
 import asyncio
 import discord
 from discord.ext import commands
 
-from util.config import BotConfig
 from util.decorators import delete_original
-from util.spongemock import mockify
 
 
 class Fun(commands.Cog):
@@ -56,7 +51,7 @@ class Fun(commands.Cog):
 
             remaining = ', '.join(x.name for x in users)
             if not skip:
-                embed.description = f"{prompt.format(f'**{killer.name}**', f'**{user.name}**')}\n\n\nRemaining Users (**{len(users)}**):\n\n{remaining}"
+                embed.description = f"{prompt.format(f'**{killer.name}**', f'**{user.name}**')}\n\n\nRemaining Users (**{len(users)}**):\n\n{remaining}"[:1900]
                 await msg.edit(embed=embed)
 
                 await asyncio.sleep(delay)
@@ -69,7 +64,7 @@ class Fun(commands.Cog):
             places_text += f"{index} - {u.name} - {user_kills[u]} kills\n"
             index += 1
 
-        embed.description = f"**{users[0].name}** is the winner!\n\n**Places:**\n{places_text}"
+        embed.description = f"**{users[0].name}** is the winner!\n\n**Places:**\n{places_text}"[:1900]
         await msg.edit(embed=embed)
 
     @staticmethod
