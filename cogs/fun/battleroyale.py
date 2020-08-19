@@ -20,7 +20,7 @@ class Fun(commands.Cog):
     @commands.command(name="battleroyale", aliases=["br"])
     @commands.cooldown(1, 10, commands.BucketType.guild)
     @delete_original()
-    async def battle_royale(self, ctx, delay=3, skip=False):
+    async def battle_royale(self, ctx, delay=3, ignore_bots=True, skip=False):
         """
         Battle Royale of Everyone in the Server!
 
@@ -34,6 +34,8 @@ class Fun(commands.Cog):
         prompts = self.get_prompts()
 
         users = list(ctx.guild.members)
+        if ignore_bots:
+            users = list(filter(lambda u: not u.bot, users))
 
         user_kills = defaultdict(int)
         places = []
