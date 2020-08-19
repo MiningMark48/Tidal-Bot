@@ -31,7 +31,7 @@ class Fun(commands.Cog):
 
         delay = max(2, min(10, delay))
 
-        prompts = ["{} killed {} with an axe!", "{} slaughtered {} with their looks.", "{} murdered {}.", "{} beat {} to death with a rainbow trout."]
+        prompts = self.get_prompts()
 
         users = list(ctx.guild.members)
 
@@ -69,6 +69,20 @@ class Fun(commands.Cog):
 
         embed.description = f"**{users[0].name}** is the winner!\n\n**Places:**\n{places_text}"
         await msg.edit(embed=embed)
+
+    @staticmethod
+    def get_prompts():
+        prompts = [
+            "{} killed {} with an axe!",
+            "{} slaughtered {} with their looks.",
+            "{} murdered {}.",
+            "{} beat {} to death with a rainbow trout.",
+            "{} sucked the life out of {}.",
+            "{} ran over {} with a taco truck.",
+            "{} drove {} to the point of insanity."
+        ]
+
+        return prompts
 
 
 def setup(bot):
