@@ -1,10 +1,11 @@
 # Commands
-Commands Available: 111
+Commands Available: 112
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
 | announce | Announce a message | Utility | announcement |
 | announceembed | Announce a message, embedded | Utility | announcementembed, annembed |
+| battleroyale | Battle Royale of Everyone in the Server!  Delay - Min: 2, Max: 10 Skip will skip to results | Fun | br |
 | binary | [WIP] Encode/Decode to/from binary  Methods: Encode (e), Decode (d)  Note: This command is a work-in-progress, some errors may and will occur. | Utility | N/A |
 | bitcoin | Get info for Bitcoin (BTC) | Info | btc |
 | blackjack | Play a (modified) game of blackjack, simplistic-ly. | Fun | 21, bj |

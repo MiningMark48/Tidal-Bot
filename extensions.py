@@ -1,6 +1,7 @@
 extensions = [
     "bot.bot_cmds",
     "errors",
+    "fun.battleroyale",
     "fun.blackjack",
     "fun.fun",
     "fun.minesweeper",
