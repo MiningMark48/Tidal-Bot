@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 import util.gen_list as GenList
-from extensions import get_extensions
+from util.extensions import get_extensions
 from util.data.data_backup import backup_databases
 from util.data.data_delete import delete_database_guild
 from util.data.guild_data import GuildData
