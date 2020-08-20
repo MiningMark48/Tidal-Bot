@@ -12,6 +12,8 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        self.new_game = []
+
     @commands.command(name="battleroyale", aliases=["br"])
     @commands.cooldown(1, 10, commands.BucketType.guild)
     @delete_original()
@@ -67,6 +69,9 @@ class Fun(commands.Cog):
         embed.description = f"**{users[0].name}** is the winner!\n\n**Places:**\n{places_text}"[:1900]
         await msg.edit(embed=embed)
 
+        self.new_game.append(msg.id)
+        await msg.add_reaction("\N{CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS}")
+
     @staticmethod
     def get_prompts():
         prompts = [
@@ -81,6 +86,22 @@ class Fun(commands.Cog):
 
         return prompts
 
+    @commands.Cog.listener("on_raw_reaction_add")
+    async def on_raw_reaction_add(self, payload):
+        guild = self.bot.get_guild(payload.guild_id)
+        channel = guild.get_channel(payload.channel_id)
+        rmsg = await channel.fetch_message(payload.message_id)
+
+        if rmsg.id in self.new_game:
+            reaction_emoji = str(payload.emoji)
+            user = self.bot.get_user(payload.user_id)
+            if reaction_emoji == '\N{CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS}':
+                if not user == self.bot.user:
+                    ctx = await self.bot.get_context(rmsg)
+                    cmd = self.bot.get_command("battleroyale")
+                    self.new_game.remove(rmsg.id)
+                    await rmsg.clear_reactions()
+                    await ctx.invoke(cmd)
 
 def setup(bot):
     bot.add_cog(Fun(bot))
