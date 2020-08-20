@@ -19,7 +19,7 @@ class Utility(commands.Cog):
         if not message.guild:
             return
 
-        if not UserData(str(message.guild.id)).booleans.fetch_by_name("aurls_enabled"):
+        if not UserData(str(message.author.id)).booleans.fetch_by_name("aurls_enabled"):
             return
 
         if message.author == self.bot.user:
