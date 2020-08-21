@@ -26,7 +26,7 @@ Copyright (c) 2019 EvieePy(MysterialPy)
  https://gist.github.com/EvieePy/bfe0332ad7bff98691f51686ded083ea.
 """
 """
-The following code was based on the obtained code at 
+The following code was based on the obtained code at
 https://github.com/PythonistaGuild/Wavelink/blob/master/examples/advanced/advanced.py
 and has been modified to better suit our needs.
 """
@@ -410,7 +410,7 @@ class Music(commands.Cog):
             except AttributeError:
                 try:
                     channel = next(filter(lambda vc: vc.name == "the-office-voice", ctx.guild.voice_channels))
-                except AttributeError or StopIteration:
+                except (AttributeError, StopIteration):
                     raise discord.DiscordException('No channel to join. '
                                                    'Please either specify a valid channel or join one.')
 
@@ -429,7 +429,7 @@ class Music(commands.Cog):
         """
         Queue a track or playlist for playback.
 
-        Query can be a search entry for YouTube, or a direct link to 
+        Query can be a search entry for YouTube, or a direct link to
         SoundCloud, Bandcamp, Twitch, Mixer, Vimeo, or an HTTP source.
         """
         await ctx.trigger_typing()
@@ -867,7 +867,7 @@ class Music(commands.Cog):
     async def set_eq(self, ctx, *, eq: str):
         """
         Set the equalizer.
-        
+
         Types: flat (f) [default], boost (b), metal (m), piano (p)
         """
 
