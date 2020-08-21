@@ -72,20 +72,6 @@ class Fun(commands.Cog):
         self.new_game.append(msg.id)
         await msg.add_reaction("\N{CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS}")
 
-    @staticmethod
-    def get_prompts():
-        prompts = [
-            "{} killed {} with an axe!",
-            "{} slaughtered {} with their looks.",
-            "{} murdered {}.",
-            "{} beat {} to death with a rainbow trout.",
-            "{} sucked the life out of {}.",
-            "{} ran over {} with a taco truck.",
-            "{} drove {} to the point of insanity."
-        ]
-
-        return prompts
-
     @commands.Cog.listener("on_raw_reaction_add")
     async def on_raw_reaction_add(self, payload):
         guild = self.bot.get_guild(payload.guild_id)
@@ -102,6 +88,22 @@ class Fun(commands.Cog):
                     self.new_game.remove(rmsg.id)
                     await rmsg.clear_reactions()
                     await ctx.invoke(cmd)
+
+    @staticmethod
+    def get_prompts():
+        prompts = [
+            "{1} was killed by {0}.",
+            "{0} killed {1} with an axe!",
+            "{0} slaughtered {1} with their looks.",
+            "{0} murdered {1}.",
+            "{0} beat {1} to death with a rainbow trout.",
+            "{0} sucked the life out of {1}.",
+            "{0} ran over {1} with a taco truck.",
+            "{0} drove {1} to the point of insanity.",
+            "{0} ran {1} over with a truck."
+        ]
+
+        return prompts
 
 def setup(bot):
     bot.add_cog(Fun(bot))
