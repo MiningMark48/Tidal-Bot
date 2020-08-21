@@ -1,5 +1,5 @@
 # Commands
-Commands Available: 112
+Commands Available: 113
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -32,6 +32,7 @@ Commands Available: 112
 | gist | Get the RAW text from a Gist | Utility | gistget |
 | github | Look up information about a user on Github | Info | githubuser, githubinfo |
 | guildinfo | Get information about the server | Info | serverinfo, servinfo |
+| hangman | Play a game of Hangman | Fun | N/A |
 | hastebin | Get the RAW text from a Hastebin | Utility | hastebinget, hasteget, hb |
 | help | Shows this message | None | N/A |
 | higherlower | Play a higher-lower number guessing game | Fun | hl |

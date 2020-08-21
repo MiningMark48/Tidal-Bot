@@ -5,7 +5,8 @@ bot = [
 fun = [ 
     "battleroyale", 
     "blackjack", 
-    "fun", 
+    "fun",
+    "hangman",
     "minesweeper", 
     "numberguess", 
     "pressbutton", 
