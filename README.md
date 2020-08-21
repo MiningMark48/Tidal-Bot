@@ -39,21 +39,24 @@ If you encounter any issues or have feedback while using the bot, please report 
 
 ## Running
 Although **not intended or supported yet**, do the following to run Tidal Bot yourself:
+
 1. Ensure you have [Python](https://www.python.org/downloads/) 3.7 or higher installed
 2. Create a [virtual environment](https://docs.python-guide.org/dev/virtualenvs/)
    - `python3.7 -m venv venv`
-3. Install dependencies found in [requirements.txt](https://github.com/MiningMark48/Tidal-Bot/blob/master/requirements.txt)
+3. Activate the virtual environment
+   - Windows: `.\env\Scripts\activate`
+4. Install dependencies found in [requirements.txt](https://github.com/MiningMark48/Tidal-Bot/blob/master/requirements.txt)
    - `pip install -r requirements.txt`
-4. Create a *config.toml*
-    - See [demo_config.toml](https://github.com/MiningMark48/Tidal-Bot/blob/master/demo_config.toml) for a demo config file.
-5. Run `bot.py`
-    - `python bot.py` 
+5. Create a *config.toml*
+   - See [demo_config.toml](https://github.com/MiningMark48/Tidal-Bot/blob/master/demo_config.toml) for a demo config file.
+6. Run *<span>bot.py</span>*
+   - `python bot.py` 
 
 Report issues to the [issue tracker](https://github.com/MiningMark48/Tidal-Bot/issues).
 
 **Note:** As previously mentioned, running the bot yourself is not *fully* supported. This means you may encounter issues. If you report issues to the tracker regarding you running it yourself, please make that known.
 
-### Data
+### Data Storage
 Data is managed using [SQLAlchemy](https://www.sqlalchemy.org/) with the creation of databases. These databases are stored in the `/data` directory. All databases are backed up upon running the bot into the `/backups` directory with zip files for each day.
 
 ---
@@ -74,5 +77,12 @@ Although severity is unlikely, I, MiningMark48, am not responsible for what may 
 
 ### Contributions
 Special thanks to those that have contributed to the project.
+
+- Zetor777
+- kaosjr
+
+### Links
+- [Tidal Wave Discord](https://discord.gg/SMCEXw5)
+- [Trello](https://trello.com/b/U3TTk5Kc/tidal-bot)
 
 ---
