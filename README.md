@@ -78,8 +78,8 @@ Although severity is unlikely, I, MiningMark48, am not responsible for what may 
 ### Contributions
 Special thanks to those that have contributed to the project.
 
-- Zetor777
-- kaosjr
+- [Zetor777](https://twitter.com/Zetor777)
+- [kaosjr](https://twitter.com/daKaosjr)
 
 ### Links
 - [Tidal Wave Discord](https://discord.gg/SMCEXw5)
