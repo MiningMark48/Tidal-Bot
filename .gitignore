@@ -143,7 +143,6 @@ lavalink/
 cmdimgs/
 updater.py
 !requirements.txt
-!words.txt
 !commands.json
 !demo_config.toml
 !extensions.toml

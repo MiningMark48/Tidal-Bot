@@ -25,12 +25,14 @@ class Fun(commands.Cog):
         def find(s, ch):
             return [i for i, ltr in enumerate(s) if ltr == ch]
 
-        with open("resources/words.txt", "r") as file:
-            words_list = sorted(file.read().split("\n"))
+        base_url = 'https://rand-word.vercel.app/api/randword'
+
+        async with aiohttp.ClientSession() as session:
+            async with session.get(base_url) as r:
+                data = await r.json()
+                rand_word = data['word']
 
         embed = discord.Embed(title="Hangman", color=0x654321)
-
-        rand_word = random.choice(words_list)
 
         blanks_list = list('-' * len(rand_word))
         word_blanks = f"**Word:**\n\n{' '.join(x for x in blanks_list)}"
@@ -104,6 +106,7 @@ class Fun(commands.Cog):
     #                 self.new_game.remove(rmsg.id)
     #                 await rmsg.clear_reactions()
     #                 await ctx.invoke(cmd)
+
 
 def setup(bot):
     bot.add_cog(Fun(bot))
