@@ -1,6 +1,6 @@
 humanize==0.5.1
 prawcore==1.3.0
-praw==7.0.0
+praw==7.1.0
 pysftp==0.2.9
 pytz==2019.2
 wavelink==0.3.4

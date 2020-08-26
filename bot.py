@@ -112,6 +112,6 @@ if __name__ == "__main__":
     Logger.info(f"Loaded {count}/{len(extensions)} cogs")
 
 if do_run:
-    bot.run(bot_token)
+    bot.run(str(bot_token))
 else:
     Logger.fatal("Startup aborted.")

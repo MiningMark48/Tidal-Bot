@@ -29,6 +29,7 @@ images = [
 # Info: Information Commands
 info = [ 
     "corona", 
+    "curseforge",
     "dictionary", 
     "info", 
     "stock", 
