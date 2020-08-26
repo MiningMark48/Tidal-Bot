@@ -22,12 +22,13 @@
  - Bot Management
  - Admin/Bot Owner
  - Music (Requires local [Lavalink](https://github.com/Frederikam/Lavalink) server)
- - Quoting
-   - Add a webhook named *tb-quote* and react with 📌 (pushpin)
- - "R U Mobile?" - Mobile message detection
-   - Use the *rum* command to enable
- - (Semi) Auto URL Shorten
-   - Use the *toggleaurls* command to enable
+ - Background Features:
+   - Quoting
+     - Add a webhook named *tb-quote* and react with 📌 (pushpin)
+   - "R U Mobile?" - Mobile message detection
+     - Use the *rum* command to enable
+   - (Semi) Auto URL Shorten
+     - Use the *toggleaurls* command to enable
  - and more!
 
 For a list of all available commands, see [commands.md](https://github.com/MiningMark48/Tidal-Bot/blob/master/commands.md).
@@ -36,7 +37,7 @@ For a list of all available commands, see [commands.md](https://github.com/Minin
 
 If desired, extensions (or "cogs") can be enabled/disabled in the [extensions.toml](https://github.com/MiningMark48/Tidal-Bot/blob/master/extensions.toml) file.
 
----
+----------
 
 ## Issues
 
@@ -65,7 +66,21 @@ Report issues to the [issue tracker](https://github.com/MiningMark48/Tidal-Bot/i
 ### Data Storage
 Data is managed using [SQLAlchemy](https://www.sqlalchemy.org/) with the creation of databases. These databases are stored in the `/data` directory. All databases are backed up upon running the bot into the `/backups` directory with zip files for each day.
 
----
+-------------
+
+## Miscellaneous Info
+
+### Contributions
+Special thanks to the following people all others who have contributed to the project.
+- [Zetor777](https://twitter.com/Zetor777)
+- [kaosjr](https://twitter.com/daKaosjr)
+
+### Links
+Here are some potentially relevant links.
+- [Tidal Wave Discord](https://discord.gg/SMCEXw5) 
+- [Tidal Bot Trello](https://trello.com/b/U3TTk5Kc/tidal-bot)
+
+----------
 
 ## Legal
 
@@ -77,18 +92,4 @@ Tidal Bot is not affiliated with [Discord](https://discord.com) or [discord.py](
 
 Although severity is unlikely, I, MiningMark48, am not responsible for what may occur if you decide to run this bot yourself or if the bot is added to your server.
 
----
-
-## Misc Info
-
-### Contributions
-Special thanks to those that have contributed to the project.
-
-- [Zetor777](https://twitter.com/Zetor777)
-- [kaosjr](https://twitter.com/daKaosjr)
-
-### Links
-- [Tidal Wave Discord](https://discord.gg/SMCEXw5)
-- [Trello](https://trello.com/b/U3TTk5Kc/tidal-bot)
-
----
+----------
