@@ -287,7 +287,6 @@ class Utility(commands.Cog):
             await ctx.send("Current uptime: " + text)
 
     @commands.command(name="urlshorten", aliases=["tinyurl"])
-    @commands.guild_only()
     async def url_shortnen(self, ctx, url: str):
         """Shorten a URL"""
 
