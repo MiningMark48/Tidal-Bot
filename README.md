@@ -26,6 +26,8 @@
    - Add a webhook named *tb-quote* and react with 📌 (pushpin)
  - "R U Mobile?" - Mobile message detection
    - Use the *rum* command to enable
+ - (Semi) Auto URL Shorten
+   - Use the *toggleaurls* command to enable
  - and more!
 
 For a list of all available commands, see [commands.md](https://github.com/MiningMark48/Tidal-Bot/blob/master/commands.md).
