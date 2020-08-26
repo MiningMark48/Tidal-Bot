@@ -117,7 +117,7 @@ class Utility(commands.Cog):
 
         await ctx.send(url)
 
-    @commands.command(name="matheval", aliases=["evalmath", "calc", "calculator"])
+    @commands.command(name="matheval", aliases=["evalmath", "calc", "calculator", "math"])
     @commands.cooldown(5, 3)
     async def math_eval(self, ctx, *, expression: str):
         """Evaluate a mathematical expression"""
