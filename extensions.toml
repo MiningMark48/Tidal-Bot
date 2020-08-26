@@ -1,7 +1,9 @@
+# Bot : Related to bot management and development.
 bot = [
     "bot_cmds"
 ]
 
+# Fun : Entertainment and enjoyment commands.
 fun = [ 
     "battleroyale", 
     "blackjack", 
@@ -19,10 +21,12 @@ fun = [
     "xkcd"
 ]
 
+# Images: Image Generation and Modification
 images = [ 
     "memes"
 ]
 
+# Info: Information Commands
 info = [ 
     "corona", 
     "dictionary", 
@@ -32,10 +36,12 @@ info = [
     "wikipedia"
 ]
 
+# Preferences: Preference Management
 preferences = [ 
     "userprefs"
 ]
 
+# ServMng: Server Management commands
 servmng = [ 
     "reactionroles", 
     "rules", 
@@ -44,6 +50,7 @@ servmng = [
     "temprole"
 ]
 
+# Utility: Utility-based commands
 utility = [ 
     "announce", 
     "autourlshort", 
@@ -59,6 +66,7 @@ utility = [
     "utility"
 ]
 
+# None: Misc commands not found in a module/cog.
 none = [ 
     "errors", 
     "owner"
