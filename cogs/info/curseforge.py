@@ -9,7 +9,7 @@ class Info(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=['cf', 'curse'])
-    @commands.cooldown(1, 3.5)
+    @commands.cooldown(2, 30)
     async def curseforge(self, ctx, *, username: str):
         """
         Get Curseforge Project Stats
