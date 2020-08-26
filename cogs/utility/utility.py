@@ -280,7 +280,7 @@ class Utility(commands.Cog):
         text = f'{text_days}, {text_hours}, {text_minutes}, and {text_seconds}'
 
         embed = discord.Embed(title="Uptime", color=ctx.message.author.top_role.color)
-        embed.add_field(name="--", value=text)
+        embed.description = text
         try:
             await ctx.send(embed=embed)
         except discord.HTTPException:
