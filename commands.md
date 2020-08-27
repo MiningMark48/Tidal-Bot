@@ -28,7 +28,7 @@ Commands Available: 118
 | feedback | Gives feedback about the bot. This is a quick way to request features and submit issues. The bot will communicate with you via DM about the status of your request if possible and when able. | Bot | N/A |
 | feedbackdm | None | Bot | fbdm |
 | financialsupport | Financially support me plz | Memes | N/A |
-| flexboat | I sawed this boat in half!  Note: This will likely require quotes. | Memes | flextapeboat, philswiftboat, flexonboat, flexsealboat |
+| flexboat | I sawed this boat in half!  Note: This will likely require quotes. | Memes | philswiftboat |
 | flextape | Flex on!  Note: This will likely require quotes. | Memes | philswift, flexon, flexseal |
 | getservers | Get a list of all servers the bot is currently connected to | Owner | N/A |
 | gist | Get the RAW text from a Gist | Utility | gistget |
