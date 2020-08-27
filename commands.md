@@ -1,5 +1,5 @@
 # Commands
-Commands Available: 116
+Commands Available: 117
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -51,6 +51,7 @@ Commands Available: 116
 | nobrain | Oh F***, I forgot to give you a brain. | Memes | N/A |
 | nocontext | Picks a random message from the channel, out-of-context.  Min: 10, Max: 10000 | Fun | ooc |
 | nothere | We don't do that here. | Memes | N/A |
+| nsfw | Get a random NSFW Gif via search query | Fun | porn |
 | pastebin | Get the RAW text from a Pastebin | Utility | pastebinget, pasteget, pb |
 | patrickpush | PUSH IT SOMEWHERE ELSE! | Memes | N/A |
 | pelosirip | *Rips speech* | Memes | pelrip |
@@ -89,7 +90,7 @@ Commands Available: 116
 | stega | Encode and decode an image using Steganography  Note: Issues may occur. | Utility | N/A |
 | stock | Get Stock info for a specific Symbol | Info | stocks |
 | strawpoll | Create a Strawpoll | Utility | sp |
-| strawpollresults | Get the results from a Strawpoll | Utility | spresults |
+| strawpollresults | Get the results from a Strawpoll | Utility | spresults, spr |
 | sudo | Run a command as another user, optionally in another channel. | Owner | N/A |
 | sudoku | Generate a Sudoku puzzle auto-magically  Note: Sudoku difficulty is harder the lower the number. | Fun | N/A |
 | symbolsearch | Lookup a stock symbol | Info | lookupsymbol |

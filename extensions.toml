@@ -15,6 +15,7 @@ fun = [
     "hangman",
     "minesweeper", 
     "numberguess", 
+    "nsfw",
     "pressbutton", 
     "rroulette", 
     "speedtype", 
