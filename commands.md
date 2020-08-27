@@ -1,5 +1,5 @@
 # Commands
-Commands Available: 114
+Commands Available: 116
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -44,7 +44,7 @@ Commands Available: 114
 | lmgtfy | When people can't Google, Google for them | Utility | lmg, google |
 | lyrics | Search for lyrics for a song | Utility | lyric, lyr |
 | magic8ball | The Magic 8 Ball says... | Fun | 8ball, magicball, magic8 |
-| matheval | Evaluate a mathematical expression | Utility | evalmath, calc, calculator |
+| matheval | Evaluate a mathematical expression | Utility | evalmath, calc, calculator, math |
 | memesearch | Lookup a meme on Know Your Meme | Utility | knowyourmeme, kym, meme |
 | minesweeper | Create a minefield! | Fun | ms, mines |
 | mock | spOngEBoB MoCKifY soMe TeXT | Fun | N/A |
@@ -88,6 +88,8 @@ Commands Available: 114
 | steam | Look up information about a user on Mixer | Info | steamuser, steaminfo |
 | stega | Encode and decode an image using Steganography  Note: Issues may occur. | Utility | N/A |
 | stock | Get Stock info for a specific Symbol | Info | stocks |
+| strawpoll | Create a Strawpoll | Utility | sp |
+| strawpollresults | Get the results from a Strawpoll | Utility | spresults |
 | sudo | Run a command as another user, optionally in another channel. | Owner | N/A |
 | sudoku | Generate a Sudoku puzzle auto-magically  Note: Sudoku difficulty is harder the lower the number. | Fun | N/A |
 | symbolsearch | Lookup a stock symbol | Info | lookupsymbol |

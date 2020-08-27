@@ -1,8 +1,12 @@
 import asyncio
+import aiohttp
+from dateutil import parser as dt_parser
 from collections import defaultdict
 
 import discord
 from discord.ext import commands
+
+from util.decorators import delete_original
 
 
 class Utility(commands.Cog):
@@ -17,7 +21,7 @@ class Utility(commands.Cog):
     async def poll(self, ctx, time: int, *, question: str):
         """
         Interactively, create a poll for people to vote on
-        
+
         Usage: poll <Time (minutes)> <Question>
 
         Note:
@@ -33,7 +37,8 @@ class Utility(commands.Cog):
         def check(m):
             return m.author == ctx.author and m.channel == ctx.channel and len(m.content) <= 100
 
-        embed = discord.Embed(title=question, color=ctx.message.author.top_role.color)
+        embed = discord.Embed(
+            title=question, color=ctx.message.author.top_role.color)
         embed.set_footer(text=f"Created by {ctx.author.name}")
 
         # Messages that are deleted after poll creation
@@ -60,9 +65,11 @@ class Utility(commands.Cog):
             pass
 
         for keycap, content in choices:
-            embed.add_field(name="⠀", value=f'{keycap} {content}', inline=True if len(choices) > 5 else False)
+            embed.add_field(name="⠀", value=f'{keycap} {content}', inline=True if len(
+                choices) > 5 else False)
         embed.add_field(name="Time",
-                        value=("∞" if time < 0 or time > 120 else f'{time} minute{"s" if time > 1 else ""}'),
+                        value=("∞" if time < 0 or time >
+                               120 else f'{time} minute{"s" if time > 1 else ""}'),
                         inline=False)
 
         msg = await ctx.send(embed=embed)
@@ -87,7 +94,8 @@ class Utility(commands.Cog):
                         c[v] += 1
                         total += 1
 
-                embed_results = discord.Embed(title=f'Results: "{question}"', color=ctx.message.author.top_role.color)
+                embed_results = discord.Embed(
+                    title=f'Results: "{question}"', color=ctx.message.author.top_role.color)
                 for key, content in choices:
                     embed_results.add_field(name=f"{key} {content}", value=get_result_msg(c[key], total),
                                             inline=True if len(choices) > 5 else False)
@@ -122,13 +130,16 @@ class Utility(commands.Cog):
         # question = questions_and_choices[0]
         choices = [(to_emoji(e), v) for e, v in enumerate(choices)]
 
-        embed = discord.Embed(title=question, color=ctx.message.author.top_role.color)
+        embed = discord.Embed(
+            title=question, color=ctx.message.author.top_role.color)
         embed.set_footer(text=f"Created by {ctx.author.name}")
 
         for key, content in choices:
-            embed.add_field(name="⠀", value=f'{key} {content}', inline=True if len(choices) > 5 else False)
+            embed.add_field(name="⠀", value=f'{key} {content}', inline=True if len(
+                choices) > 5 else False)
         embed.add_field(name="Time",
-                        value=("∞" if time < 0 or time > 120 else f'{time} minute{"s" if time > 1 else ""}'),
+                        value=("∞" if time < 0 or time >
+                               120 else f'{time} minute{"s" if time > 1 else ""}'),
                         inline=False)
 
         msg = await ctx.send(embed=embed)
@@ -151,7 +162,8 @@ class Utility(commands.Cog):
                         c[v] += 1
                         total += 1
 
-                embed_results = discord.Embed(title=f'Results: "{question}"', color=ctx.message.author.top_role.color)
+                embed_results = discord.Embed(
+                    title=f'Results: "{question}"', color=ctx.message.author.top_role.color)
                 for key, content in choices:
                     embed_results.add_field(name=f"{key} {content}", value=get_result_msg(c[key], total),
                                             inline=True if len(choices) > 5 else False)
@@ -202,6 +214,74 @@ class Utility(commands.Cog):
                         await reac.remove(user)
         except discord.errors.NotFound:
             pass
+
+    @commands.command(aliases=["sp"])
+    @commands.guild_only()
+    @commands.cooldown(1, 30)
+    @delete_original()
+    async def strawpoll(self, ctx, question: str, *choices: str):
+        """
+        Create a Strawpoll
+        """
+
+        choices = list(choices)  # Choices tuple to list
+
+        # Create poll JSON
+        poll_data = {
+            "poll": {
+                "title": question,
+                "answers": choices,
+                "priv": True,
+                "co": False,
+                "ma": False
+            }
+        }
+
+        # Post to Strawpoll.com API
+        base_url = "https://strawpoll.com/api/poll"
+        async with aiohttp.ClientSession() as session:
+            async with session.post(base_url, json=poll_data) as r:
+                data = await r.json()
+                if data['success'] == 1:
+                    poll_link = f"https://strawpoll.com/{data['content_id']}"
+                    await ctx.send("{}, here you go!\n{}".format(ctx.author.mention, poll_link))
+                else:
+                    await ctx.send("An error has occurred. Please try again later.")
+
+    @commands.command(name="strawpollresults", aliases=["spresults", "spr"])
+    @commands.guild_only()
+    @commands.cooldown(1, 5)
+    @delete_original()
+    async def strawpoll_results(self, ctx, poll_id: str):
+        """
+        Get the results from a Strawpoll
+        """
+
+        # Post to Strawpoll.com API
+        base_url = f"https://strawpoll.com/api/poll/{poll_id}"
+        async with aiohttp.ClientSession() as session:
+            async with session.get(base_url) as r:
+                data = await r.json()
+                if data['success'] == 1:
+                    poll_link = f"https://strawpoll.com/{poll_id}"
+                    poll_content = data['content']
+                    poll_data = poll_content['poll']
+
+                    embed = discord.Embed(
+                        title=f"Strawpoll: {poll_data['title']}", url=poll_link, color=0x3eb991)
+
+                    answers = poll_data['poll_answers']
+                    for answer in answers:
+                        embed.add_field(name=answer['answer'], value=get_result_msg(
+                            answer['votes'], poll_data['total_votes']), inline=True if len(answers) > 5 else False)
+
+                    embed.timestamp = dt_parser.parse(poll_content['created_at'])
+                    embed.set_footer(text=f"ID: {poll_id}")
+
+                    await ctx.send(embed=embed)
+
+                else:
+                    await ctx.send("Invalid ID!")
 
 
 def get_result_msg(amt, total):
