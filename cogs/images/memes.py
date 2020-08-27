@@ -181,7 +181,7 @@ class Memes(commands.Cog):
             file = discord.File(filename="finan_support.png", fp=final_buffer)
             await ctx.send(content=self.get_message(ctx), file=file)
 
-    @commands.command(name="flexboat", aliases=["flextapeboat", "philswiftboat", "flexonboat", "flexsealboat"])
+    @commands.command(name="flexboat", aliases=["philswiftboat"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def flex_boat(self, ctx, text1: str, text2: str):
         """
