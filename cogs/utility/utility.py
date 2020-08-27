@@ -57,6 +57,29 @@ class Utility(commands.Cog):
         else:
             await ctx.send("INVALID METHOD")
 
+    @commands.command()
+    async def countdown(self, ctx, month: int, day: int, year: typing.Optional[int]):
+        """
+        Get the time remaining to a specific date
+
+        Optional: Year (defaults to current year)
+        """
+
+        try:
+            today = datetime.date.today()
+
+            if not year:
+                year = today.year
+
+            fut_date = datetime.date(year, month, day)
+            days = (fut_date - today).days
+
+            fut_date_form = str(fut_date.strftime("%B %e, %Y")).replace("  ", " ")
+            
+            await ctx.send(f"There are **{days} days** until **{fut_date_form}**")
+        except ValueError:
+            await ctx.send("Error! Invalid date!")
+
     @commands.command(aliases=["emojis"])
     @commands.guild_only()
     async def emojilist(self, ctx):
