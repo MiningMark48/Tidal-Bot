@@ -233,7 +233,8 @@ class Utility(commands.Cog):
                 "answers": choices,
                 "priv": True,
                 "co": False,
-                "ma": False
+                "ma": False,
+                "vpn": True
             }
         }
 
