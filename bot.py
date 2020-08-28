@@ -19,19 +19,23 @@ Logger.alert("Starting...")
 
 resources_path = "./resources/"
 
-Logger.info("Loading config...")
-config = BotConfig()
-config_data = config.data
-bot_data = config_data["bot"]
-bot_token = bot_data["token"]
-bot_key = bot_data["key"]
-bot_owners = bot_data["owners"]
-load_music = config_data["music"]["enabled"]
+try:
+    Logger.info("Loading config...")
+    config = BotConfig()
+    config_data = config.data
+    bot_data = config_data["bot"]
+    bot_token = bot_data["token"]
+    bot_key = bot_data["key"]
+    bot_owners = bot_data["owners"]
+    load_music = config_data["music"]["enabled"]
+    create_commands_list = config_data["misc"]["create_commands_list"]
+
+    do_run = config.do_run
+except KeyError as e:
+    Logger.fatal(f"Config error.\n\tKey Not Loaded: {e}")
+    do_run = False
 
 extensions = get_extensions()
-
-do_run = config.do_run
-
 
 def prefix(bot, message):
     pfx = bot_key
@@ -54,10 +58,11 @@ async def on_ready():
 
     backup_databases()
 
-    generator = GenList.Generator(bot)
-    # generator.gen_list()
-    generator.gen_md_list()
-    # generator.gen_img_list()
+    if create_commands_list:
+        generator = GenList.Generator(bot)
+        generator.gen_md_list()
+        # generator.gen_list()        
+        # generator.gen_img_list()
 
     Logger.success("Bot started in {} seconds".format(str(time.time() - start_time)[:4]))
 

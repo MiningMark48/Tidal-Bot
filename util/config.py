@@ -23,7 +23,8 @@ class BotConfig:
                 'client_id': 'id', 'client_secret': 'sec', 'user_agent': 'agent'
             },
             'misc': {
-                'feedback_channel': 12341234123412
+                'feedback_channel': 12341234123412,
+                'create_commands_list': True
             }
         }
 

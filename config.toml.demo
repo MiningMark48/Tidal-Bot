@@ -29,3 +29,4 @@ user_agent = "Tidal Bot by /u/miningmark48"
 
 [misc]
 feedback_channel = 12341234123412
+create_commands_list = true
