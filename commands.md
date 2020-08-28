@@ -1,5 +1,5 @@
 # Commands
-Commands Available: 118
+Commands Available: 119
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -22,6 +22,7 @@ Commands Available: 118
 | deletetag | Delete a bot tag. | Tags | deltag, tagdelete |
 | dictionary | Define a word | Info | define |
 | draw25 | ...or draw 25 cards | Memes | N/A |
+| duckbang | Search a website using DuckDuckGo's Bangs  List of Bangs: https://duckduckgo.com/bang | Utility | bang, db |
 | emojilist | Get a list of all emojis for the server | Utility | emojis |
 | eval | Evaluates code | Owner | pyeval |
 | exit12 | Left, Exit 12. *Screech*  Note: This will likely require quotes. | Memes | N/A |

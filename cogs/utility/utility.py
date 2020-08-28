@@ -5,6 +5,7 @@ import re
 import string
 import time
 import typing
+import json
 from functools import partial
 from io import BytesIO
 from unicodedata import name
@@ -79,6 +80,26 @@ class Utility(commands.Cog):
             await ctx.send(f"There are **{days} days** until **{fut_date_form}**")
         except ValueError:
             await ctx.send("Error! Invalid date!")
+
+    @commands.command(name="duckbang", aliases=["bang", "db"])
+    async def duck_bang(self, ctx, bang: str, *, query: str):
+        """
+        Search a website using DuckDuckGo's Bangs
+
+        List of Bangs: https://duckduckgo.com/bang
+        """
+
+        base_url = "https://api.duckduckgo.com/?q=!{}%20{}&format=json&no_redirect=1".format(bang, query.replace(' ', '%20'))
+
+        async with aiohttp.ClientSession() as session:
+            async with session.get(base_url) as r:
+                data = json.loads(await r.read())
+                redirect_url = data["Redirect"]
+
+                if redirect_url:
+                    await ctx.send(f"{ctx.author.mention}, Here you go!\n{redirect_url}")
+                else:
+                    await ctx.send("Invalid Bang! \nSee <https://duckduckgo.com/bang> for a list of supported Bangs.")
 
     @commands.command(aliases=["emojis"])
     @commands.guild_only()
