@@ -34,7 +34,7 @@ class BotConfig:
         if osp.isfile(self.config_path):
             with open(self.config_path, 'r') as file:
                 data = toml.load(file)
-                Logger.info("Config loaded.")
+                # Logger.info("Config loaded.")
                 return data
 
         else:
