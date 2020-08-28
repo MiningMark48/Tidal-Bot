@@ -47,7 +47,7 @@ If you encounter any issues or have feedback while using the bot, please report 
 ## Running
 Although **not intended or supported yet**, do the following to run Tidal Bot yourself:
 
-1. Ensure you have [Python](https://www.python.org/downloads/) 3.7 or higher installed
+1. Ensure you have [Python 3.7](https://www.python.org/downloads/) or higher installed
 2. Create a [virtual environment](https://docs.python-guide.org/dev/virtualenvs/)
    - `python3.7 -m venv venv`
 3. Activate the virtual environment
@@ -55,7 +55,7 @@ Although **not intended or supported yet**, do the following to run Tidal Bot yo
 4. Install dependencies found in [requirements.txt](https://github.com/MiningMark48/Tidal-Bot/blob/master/requirements.txt)
    - `pip install -r requirements.txt`
 5. Create a *config.toml*
-   - See [demo_config.toml](https://github.com/MiningMark48/Tidal-Bot/blob/master/demo_config.toml) for a demo config file.
+   - See [demo_config.toml](https://github.com/MiningMark48/Tidal-Bot/blob/master/demo_config.toml) for a demo config file
 6. Run *<span>bot.py</span>*
    - `python bot.py` 
 
