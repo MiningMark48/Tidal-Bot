@@ -82,6 +82,8 @@ class Utility(commands.Cog):
             await ctx.send("Error! Invalid date!")
 
     @commands.command(name="duckbang", aliases=["bang", "db"])
+    @commands.cooldown(1, 3)
+    @delete_original()
     async def duck_bang(self, ctx, bang: str, *, query: str):
         """
         Search a website using DuckDuckGo's Bangs
