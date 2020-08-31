@@ -1,0 +1,317 @@
+import asyncio
+import datetime
+import re
+import typing
+import itertools
+import humanize
+from typing import Union, Optional
+
+import wavelink
+import discord
+from discord.ext import commands
+
+from util.config import BotConfig
+from util.decorators import delete_original
+
+
+RURL = re.compile(r'https?:\/\/(?:www\.)?.+')
+
+class MusicEmbed:
+    def __init__(self, content: str, user: discord.member=None):
+        self.embed = discord.Embed(title="Music", color=0x9bddba)
+        self.embed.description = content
+        if user:
+            self.embed.set_footer(text=f"{user.name}")
+
+    def get(self):
+        return self.embed
+
+class MusicController:
+    def __init__(self, bot, guild_id):
+        self.bot = bot
+        self.guild_id = guild_id
+        self.channel = None
+
+        self.next = asyncio.Event()
+        self.queue = asyncio.Queue()
+
+        self.volume = 40
+        self.now_playing = None
+
+        self.bot.loop.create_task(self.controller_loop())
+
+    async def controller_loop(self):
+        await self.bot.wait_until_ready()
+
+        player = self.bot.wavelink.get_player(self.guild_id)
+        await player.set_volume(self.volume)
+
+        while True:
+            if self.now_playing:
+                await self.now_playing.delete()
+
+            self.next.clear()
+
+            song = await self.queue.get()
+            await player.play(song)
+            self.now_playing = await self.channel.send(embed=MusicEmbed(f"**Now playing:**\n`{song}`").get())
+
+            await self.next.wait()
+
+class Music(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        self.controllers = {}
+
+        self.config = BotConfig().load_data()
+
+        if not hasattr(bot, 'wavelink'):
+            self.bot.wavelink = wavelink.Client(bot=self.bot)
+
+        self.bot.loop.create_task(self.start_nodes())
+
+    async def start_nodes(self):
+        await self.bot.wait_until_ready()
+
+        nodes = self.config["music"]["nodes"]
+
+        for n in nodes.values():
+            node = await self.bot.wavelink.initiate_node(host=n['host'],
+                                                         port=n['port'],
+                                                         rest_uri=n['rest_url'],
+                                                         password=n['password'],
+                                                         identifier=n['identifier'],
+                                                         region=n['region'],
+                                                         secure=False)
+            node.set_hook(self.on_event_hook)
+    
+    async def on_event_hook(self, event):
+        """Node callback"""
+        if isinstance(event, (wavelink.TrackEnd, wavelink.TrackException)):
+            controller = self.get_controller(event.player)
+            controller.next.set()
+
+    def get_controller(self, value: Union[commands.Context, wavelink.Player]):
+        if isinstance(value, commands.Context):
+            gid = value.guild.id
+        else:
+            gid = value.guild_id
+
+        try:
+            controller = self.controllers[gid]
+        except KeyError:
+            controller = MusicController(self.bot, gid)
+            self.controllers[gid] = controller
+
+        return controller
+
+    async def cog_check(self, ctx):
+        """Local check"""
+        if not ctx.guild:
+            raise commands.NoPrivateMessage
+        return True
+
+    async def cog_command_error(self, ctx, error):
+        """Local error handler"""
+        if isinstance(error, commands.NoPrivateMessage):
+            try:
+                return await ctx.send("This command can't be used in a DM!")
+            except discord.HTTPException:
+                pass
+
+    @commands.command()
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
+    async def connect(self, ctx, *, channel: discord.VoiceChannel=None):
+        """Connect to a voice channel"""
+        if not channel:
+            try:
+                channel = ctx.author.voice.channel
+            except AttributeError:
+                raise discord.DiscordException("Can't join. Please specify a channel or join one!")
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+        await ctx.send(embed=MusicEmbed(f"Connecting to **`{channel.name}`**...", ctx.author).get(), delete_after=15)
+        await player.connect(channel.id)
+
+        controller = self.get_controller(ctx)
+        controller.channel = ctx.channel
+
+    @commands.command()
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
+    async def play(self, ctx, *, query: str):
+        """Search for a song and add it to the queue"""
+        if not RURL.match(query):
+            query = f"ytsearch:{query}"
+        
+        tracks = await self.bot.wavelink.get_tracks(query)
+
+        if not tracks:
+            return await ctx.send(embed=MusicEmbed(f"Could not find any songs!`**", ctx.author).get(), delete_after=15)
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+        if not player.is_connected:
+            await ctx.invoke(self.connect)
+        
+        track = tracks[0]
+        
+        controller = self.get_controller(ctx)
+        await controller.queue.put(track)
+        await ctx.send(embed=MusicEmbed(f"Added `{str(track)}` to the queue", ctx.author).get(), delete_after=15)
+
+    @commands.command()
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
+    async def pause(self, ctx):
+        """Pause the player"""
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+        if not player.is_playing:
+            return await ctx.send(embed=MusicEmbed("I am not playing anything!", ctx.author).get(), delete_after=15)
+
+        await ctx.send(embed=MusicEmbed("Pausing the song!", ctx.author).get(), delete_after=15)
+        await player.set_pause(True)
+
+    @commands.command()
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
+    async def resume(self, ctx):
+        """Resume the player"""
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+        if not player.paused:
+            return await ctx.send(embed=MusicEmbed("I am not paused!", ctx.author).get(), delete_after=15)
+
+        await ctx.send(embed=MusicEmbed("Resuming the player!", ctx.author).get(), delete_after=15)
+        await player.set_pause(False)
+
+    @commands.command()
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
+    async def skip(self, ctx):
+        """Skip the currently playing song."""
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+        if not player.is_playing:
+            return await ctx.send(embed=MusicEmbed("I am not playing anything!", ctx.author).get(), delete_after=15)
+
+        await ctx.send(embed=MusicEmbed("Skipping the song!", ctx.author).get(), delete_after=15)
+        await player.stop()
+
+    @commands.command()
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
+    async def volume(self, ctx, *, vol: int):
+        """Set the player volume"""
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+        controller = self.get_controller(ctx)
+
+        vol = max(min(vol, 1000), 0)
+        controller.volume = vol
+
+        await ctx.send(embed=MusicEmbed(f"Setting the plater volume to `{vol}`", ctx.author).get(), delete_after=15)
+        await player.set_volume(vol)
+
+    @commands.command(name="nowplaying", aliases=["np"])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
+    async def now_playing(self, ctx):
+        """Get the currently playing song"""
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+        if not player.current:
+            return await ctx.send(embed=MusicEmbed("I am not playing anything!", ctx.author).get(), delete_after=15)
+
+        controller = self.get_controller(ctx)
+        await controller.now_playing.delete()
+
+        controller.now_playing = await ctx.send(embed=MusicEmbed(f"**Now playing:**\n`{player.current}`").get())
+
+    @commands.command(aliases=["q"])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
+    async def queue(self, ctx):
+        """Get the current player queue"""
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+        controller = self.get_controller(ctx)
+
+        if not player.current or not controller.queue._queue:
+            return await ctx.send(embed=MusicEmbed("There are no songs in the queue!", ctx.author).get(), delete_after=15)
+
+        upcoming = list(itertools.islice(controller.queue._queue, 0, 5))
+
+        fmt = '\n'.join(f'** - `{str(song)}`**\n---' for song in upcoming)
+        # embed = discord.Embed(title=f'Upcoming - Next {len(upcoming)}', description=fmt)
+        embed = MusicEmbed(f"**Queue**\n{fmt}", ctx.author).get()
+
+        await ctx.send(embed=embed, delete_after=15)
+
+    @commands.command()
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
+    async def stop(self, ctx):
+        """Stop and disconnect the player and controller"""
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+
+        try:
+            del self.controllers[ctx.guild.id]
+        except KeyError:
+            await player.disconnect()
+            return await ctx.send(embed=MusicEmbed("There was no controller to stop", ctx.author).get(), delete_after=15)
+
+        await player.disconnect()
+        await ctx.send(embed=MusicEmbed("Disconnected player and killed controller.", ctx.author).get(), delete_after=15)
+
+    @commands.command(name='playnext', aliases=['bringfront'])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
+    async def play_next(self, ctx, *, title: str):
+        """Pick a track from the queue to play next."""
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+
+        if not player.is_connected:
+            return await ctx.send(embed=MusicEmbed("I am not connected to voice!", ctx.author).get(), delete_after=15)
+
+        queue = self.get_controller(ctx).queue._queue
+        if not player.current or not queue:
+            return await ctx.send(embed=MusicEmbed("There are no songs in the queue!", ctx.author).get(), delete_after=15)
+
+        for track in queue:
+            if title.lower() in track.title.lower():
+                queue.remove(track)
+                queue.appendleft(track)
+                return await ctx.send(embed=MusicEmbed(f"Playing `{track.title}` next.", ctx.author).get(), delete_after=15)
+
+    @commands.command(name="musicinfo", hidden=True)
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
+    async def music_info(self, ctx):
+        """Retrieve various Node/Server/Player information."""
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+        node = player.node
+
+        used = humanize.naturalsize(node.stats.memory_used)
+        total = humanize.naturalsize(node.stats.memory_allocated)
+        free = humanize.naturalsize(node.stats.memory_free)
+        cpu = node.stats.cpu_cores
+
+        fmt = f'**WaveLink:** `{wavelink.__version__}`\n\n' \
+              f'Connected to `{len(self.bot.wavelink.nodes)}` nodes.\n' \
+              f'Best available Node `{self.bot.wavelink.get_best_node().__repr__()}`\n' \
+              f'`{len(self.bot.wavelink.players)}` players are distributed on nodes.\n' \
+              f'`{node.stats.players}` players are distributed on server.\n' \
+              f'`{node.stats.playing_players}` players are playing on server.\n\n' \
+              f'Server Memory: `{used}/{total}` | `({free} free)`\n' \
+              f'Server CPU: `{cpu}`\n\n' \
+              f'Server Uptime: `{datetime.timedelta(milliseconds=node.stats.uptime)}`'
+        await ctx.send(fmt)
+
+
+def setup(bot):
+    bot.add_cog(Music(bot))
