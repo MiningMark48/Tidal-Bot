@@ -4,20 +4,25 @@ import re
 import typing
 import itertools
 import humanize
+import random
+import copy
 from typing import Union, Optional
 
 import wavelink
+from wavelink import Equalizer
 import discord
 from discord.ext import commands
 
+from util.data.user_data import UserData
 from util.config import BotConfig
 from util.decorators import delete_original
 
 
 RURL = re.compile(r'https?:\/\/(?:www\.)?.+')
 
+
 class MusicEmbed:
-    def __init__(self, content: str, user: discord.member=None):
+    def __init__(self, content: str, user: discord.member = None):
         self.embed = discord.Embed(title="Music", color=0x9bddba)
         self.embed.description = content
         if user:
@@ -25,6 +30,7 @@ class MusicEmbed:
 
     def get(self):
         return self.embed
+
 
 class MusicController:
     def __init__(self, bot, guild_id):
@@ -58,6 +64,7 @@ class MusicController:
 
             await self.next.wait()
 
+
 class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -84,7 +91,7 @@ class Music(commands.Cog):
                                                          region=n['region'],
                                                          secure=False)
             node.set_hook(self.on_event_hook)
-    
+
     async def on_event_hook(self, event):
         """Node callback"""
         if isinstance(event, (wavelink.TrackEnd, wavelink.TrackException)):
@@ -122,13 +129,19 @@ class Music(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 2, commands.BucketType.user)
     @delete_original()
-    async def connect(self, ctx, *, channel: discord.VoiceChannel=None):
+    async def connect(self, ctx, *, channel: discord.VoiceChannel = None):
         """Connect to a voice channel"""
+
+        if ctx.guild.id not in self.config["music"]["whitelist_servers"]:
+            await ctx.send(embed=MusicEmbed("Server not whitelisted for music! Bot won't connect.", ctx.author).get(), delete_after=15)
+            return
+
         if not channel:
             try:
                 channel = ctx.author.voice.channel
             except AttributeError:
-                raise discord.DiscordException("Can't join. Please specify a channel or join one!")
+                raise discord.DiscordException(
+                    "Can't join. Please specify a channel or join one!")
 
         player = self.bot.wavelink.get_player(ctx.guild.id)
         await ctx.send(embed=MusicEmbed(f"Connecting to **`{channel.name}`**...", ctx.author).get(), delete_after=15)
@@ -142,9 +155,13 @@ class Music(commands.Cog):
     @delete_original()
     async def play(self, ctx, *, query: str):
         """Search for a song and add it to the queue"""
+
+        query = query.strip('<>')
+        query = query.partition('&list=')[0]
+
         if not RURL.match(query):
             query = f"ytsearch:{query}"
-        
+
         tracks = await self.bot.wavelink.get_tracks(query)
 
         if not tracks:
@@ -153,12 +170,23 @@ class Music(commands.Cog):
         player = self.bot.wavelink.get_player(ctx.guild.id)
         if not player.is_connected:
             await ctx.invoke(self.connect)
-        
-        track = tracks[0]
-        
+
         controller = self.get_controller(ctx)
-        await controller.queue.put(track)
-        await ctx.send(embed=MusicEmbed(f"Added `{str(track)}` to the queue", ctx.author).get(), delete_after=15)
+        if isinstance(tracks, wavelink.TrackPlaylist):
+            for t in tracks.tracks:
+                await controller.queue.put(t)
+
+            await ctx.send(embed=MusicEmbed(f'Added the playlist `{tracks.data["playlistInfo"]["name"]}`'
+                                            f' with `{len(tracks.tracks)}` tracks to the queue.', ctx.author).get(), delete_after=15)
+        else:
+            track = tracks[0]
+            await ctx.send(embed=MusicEmbed(f"Added `{str(track)}` to the queue", ctx.author).get(), delete_after=15)
+            await controller.queue.put(track)
+
+        # track = tracks[0]
+        # controller = self.get_controller(ctx)
+        # await controller.queue.put(track)
+        # await ctx.send(embed=MusicEmbed(f"Added `{str(track)}` to the queue", ctx.author).get(), delete_after=15)
 
     @commands.command()
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -239,13 +267,13 @@ class Music(commands.Cog):
         controller = self.get_controller(ctx)
 
         if not player.current or not controller.queue._queue:
-            return await ctx.send(embed=MusicEmbed("There are no songs in the queue!", ctx.author).get(), delete_after=15)
+            return await ctx.send(embed=MusicEmbed("There are no songs in the queue!").get(), delete_after=15)
 
         upcoming = list(itertools.islice(controller.queue._queue, 0, 5))
 
-        fmt = '\n'.join(f'** - `{str(song)}`**\n---' for song in upcoming)
+        fmt = '\n'.join(f'** `▶ {str(song)}`**\n' for song in upcoming)
         # embed = discord.Embed(title=f'Upcoming - Next {len(upcoming)}', description=fmt)
-        embed = MusicEmbed(f"**Queue**\n{fmt}", ctx.author).get()
+        embed = MusicEmbed(f"**Queue**\n{fmt}").get()
 
         await ctx.send(embed=embed, delete_after=15)
 
@@ -286,6 +314,213 @@ class Music(commands.Cog):
                 queue.remove(track)
                 queue.appendleft(track)
                 return await ctx.send(embed=MusicEmbed(f"Playing `{track.title}` next.", ctx.author).get(), delete_after=15)
+
+    @commands.command(aliases=['rem'])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
+    async def remove(self, ctx, *, title: str):
+        """Pick a track from the queue to remove."""
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+
+        if not player.is_connected:
+            return await ctx.send(embed=MusicEmbed("I am not connected to voice!", ctx.author).get(), delete_after=15)
+
+        queue = self.get_controller(ctx).queue._queue
+        if not queue:
+            return await ctx.send(embed=MusicEmbed("There are no songs in the queue!", ctx.author).get(), delete_after=15)
+
+        for track in queue:
+            if title.lower() in track.title.lower():
+                queue.remove(track)
+                return await ctx.send(embed=MusicEmbed(f"Removed `{track.title}` from the queue.", ctx.author).get(), delete_after=15)
+
+    @commands.command()
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
+    async def clear(self, ctx):
+        """Clear the queue"""
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+
+        if not player.is_connected:
+            return await ctx.send(embed=MusicEmbed("I am not connected to voice!", ctx.author).get(), delete_after=15)
+
+        queue = self.get_controller(ctx).queue._queue
+        if not queue:
+            return await ctx.send(embed=MusicEmbed("There are no songs in the queue!", ctx.author).get(), delete_after=15)
+
+        queue.clear()
+        await ctx.send(embed=MusicEmbed("Cleared the queue.", ctx.author).get(), delete_after=15)
+
+    @commands.command()
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
+    async def shuffle(self, ctx):
+        """Shuffle the queue"""
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+
+        if not player.is_connected:
+            return await ctx.send(embed=MusicEmbed("I am not connected to voice!", ctx.author).get(), delete_after=15)
+
+        queue = self.get_controller(ctx).queue._queue
+        if not queue:
+            return await ctx.send(embed=MusicEmbed("There are no songs in the queue!", ctx.author).get(), delete_after=15)
+
+        random.shuffle(queue)
+        await ctx.send(embed=MusicEmbed("Shuffled the queue.", ctx.author).get(), delete_after=15)
+
+    @commands.command()
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
+    async def repeat(self, ctx):
+        """Repeat a song"""
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+
+        if not player.is_connected:
+            return await ctx.send(embed=MusicEmbed("I am not connected to voice!", ctx.author).get(), delete_after=15)
+
+        queue = self.get_controller(ctx).queue._queue
+        if not queue:
+            await queue.put(player.current)
+        else:
+            queue.appendleft(player.current)
+
+        await ctx.send(embed=MusicEmbed("Repeated the song.", ctx.author).get(), delete_after=15)
+
+    @commands.command()
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    @delete_original()
+    async def restart(self, ctx):
+        """Restart a song"""
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+
+        if not player.is_connected:
+            return await ctx.send(embed=MusicEmbed("I am not connected to voice!", ctx.author).get(), delete_after=15)
+
+        queue = self.get_controller(ctx).queue._queue
+        if not queue:
+            await queue.put(player.current)
+        else:
+            queue.appendleft(player.current)
+        await player.stop()
+
+        await ctx.send(embed=MusicEmbed("Restarted the song.", ctx.author).get(), delete_after=15)
+
+    @commands.command()
+    @commands.cooldown(5, 10, commands.BucketType.user)
+    @delete_original()
+    async def seek(self, ctx, time: int):
+        """Seek to a time in the current track (in seconds)."""
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+
+        if not player.is_connected:
+            return await ctx.send(embed=MusicEmbed("I am not connected to voice!", ctx.author).get(), delete_after=15)
+
+        await player.seek(time * 1000)
+        await ctx.send(embed=MusicEmbed(f"Seeking to `{time}` seconds.", ctx.author).get(), delete_after=15)
+
+    # @commands.command(name='seteq', aliases=['eq', 'equalizer', 'setequalizer'])
+    # @commands.cooldown(5, 10, commands.BucketType.user)
+    # @delete_original()
+    # async def set_eq(self, ctx, *, eq: str):
+    #     """
+    #     Set the equalizer.
+
+    #     Types: flat (f) [default], boost (b), metal (m), piano (p)
+    #     """
+
+    #     eq = eq.lower()
+    #     # eq_cls = Equalizer.flat()
+    #     if eq in ["boost", "b"]:
+    #         eq_cls = Equalizer.boost()
+    #     elif eq in ["metal", "m"]:
+    #         eq_cls = Equalizer.metal()
+    #     elif eq in ["piano", "p"]:
+    #         eq_cls = Equalizer.piano()
+    #     else:
+    #         return await ctx.send(f'`{eq}` is not a valid equalizer!\nTry Flat, Boost, Metal, Piano.')
+
+    #     player = self.bot.wavelink.get_player(ctx.guild.id)
+
+    #     await player.set_eq(eq_cls)
+    #     player.eq = eq.capitalize()
+    #     await ctx.send(embed=MusicEmbed(f"The equalizer was set to `{eq.capitalize()}`", ctx.author).get(), delete_after=15)
+
+    @commands.command(name="setplaylist", aliases=["addplaylist"])
+    @commands.cooldown(1, 2)
+    @delete_original()
+    async def set_playlist(self, ctx, playlist_name: str, *, youtube_url: str):
+        """Save a link to a YouTube playlist."""
+
+        if not youtube_url.startswith("https://www.youtube.com/playlist?list="):
+            await ctx.send("Invalid playlist!")
+            return
+
+        UserData(str(ctx.author.id)).playlists.set(playlist_name, youtube_url)
+
+        await ctx.send(embed=MusicEmbed(f"**Saved** <{youtube_url}> as *{playlist_name}*.", ctx.author).get(), delete_after=15)
+
+    @commands.command(name="removeplaylist", aliases=["remplaylist", "delplaylist"])
+    @commands.cooldown(1, 2)
+    @delete_original()
+    async def remove_playlist(self, ctx, playlist_name: str):
+        """Remove a saved YouTube playlist."""
+
+        if not UserData(str(ctx.author.id)).playlists.fetch_by_name(playlist_name):
+            await ctx.send("Playlist not found.")
+            return
+
+        UserData(str(ctx.author.id)).playlists.delete(playlist_name)
+
+        await ctx.send(embed=MusicEmbed(f"**Removed** the playlist *{playlist_name}*.", ctx.author).get(), delete_after=15)
+
+    @commands.command(name="playplaylist", aliases=["getplaylist"])
+    @commands.cooldown(1, 5)
+    @delete_original()
+    async def play_playlist(self, ctx, playlist_name: str):
+        """Play a previously saved YouTube playlist."""
+
+        playlist = UserData(
+            str(ctx.author.id)).playlists.fetch_by_name(playlist_name)
+
+        if not playlist:
+            return await ctx.send(embed=MusicEmbed("Playlist not found.", ctx.author).get(), delete_after=15)
+
+        msg = copy.copy(ctx.message)
+        msg.content = f"{ctx.prefix}play {playlist}"
+        new_ctx = await self.bot.get_context(msg, cls=type(ctx))
+        await self.bot.invoke(new_ctx)
+
+    @commands.command(name="listplaylists", aliases=["getplaylists", "showplaylists", "playlists"])
+    @commands.cooldown(1, 10)
+    @delete_original()
+    async def list_playlists(self, ctx):
+        """Show all available YouTube playlists."""
+
+        playlists_o = sorted([(_pl[1], _pl[2]) for _pl in list(
+            UserData(str(ctx.author.id)).playlists.fetch_all())])
+
+        if len(playlists_o) == 0:
+            return await ctx.send(embed=MusicEmbed("No playlists found!", ctx.author).get(), delete_after=15)
+
+        playlists_o.insert(0, ("Name", "URL\n"))
+
+        pl_names = [i[0] for i in playlists_o]
+
+        max_chars = 1750
+        playlists = '\n'.join(
+            f"{str(pl[0]).ljust(len(max(pl_names, key=len)) + 3, ' ')} {pl[1]}" for pl in playlists_o)
+        playlist_parts = [(playlists[i:i + max_chars])
+                          for i in range(0, len(playlists), max_chars)]
+
+        for part in playlist_parts:
+            await ctx.send(f"```{part}```")
+            # await ctx.send(embed=MusicEmbed(f"```{part}```", ctx.author).get(), delete_after=15)
 
     @commands.command(name="musicinfo", hidden=True)
     @commands.cooldown(1, 2, commands.BucketType.user)
