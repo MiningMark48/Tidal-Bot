@@ -23,7 +23,7 @@ RURL = re.compile(r'https?:\/\/(?:www\.)?.+')
 
 class MusicEmbed:
     def __init__(self, content: str, user: discord.member = None):
-        self.embed = discord.Embed(title="Music", color=0x9bddba)
+        self.embed = discord.Embed(title="Music", color=0x6fc3f3)
         self.embed.description = content
         if user:
             self.embed.set_footer(text=f"{user.name}")
@@ -60,7 +60,8 @@ class MusicController:
 
             song = await self.queue.get()
             await player.play(song)
-            self.now_playing = await self.channel.send(embed=MusicEmbed(f"**Now playing:**\n`{song}`").get())
+            # self.now_playing = await self.channel.send(embed=MusicEmbed(f"**Now playing:**\n`{song}`").get())
+            self.now_playing = await self.channel.send(embed=MusicEmbed(f"**Now playing:**\n`[{get_duration(song)}]\t{song}`").get())
 
             await self.next.wait()
 
@@ -133,8 +134,7 @@ class Music(commands.Cog):
         """Connect to a voice channel"""
 
         if ctx.guild.id not in self.config["music"]["whitelist_servers"]:
-            await ctx.send(embed=MusicEmbed("Server not whitelisted for music! Bot won't connect.", ctx.author).get(), delete_after=15)
-            return
+            return await ctx.send(embed=MusicEmbed("Server not whitelisted for music! Bot won't connect.", ctx.author).get(), delete_after=15)
 
         if not channel:
             try:
@@ -165,7 +165,7 @@ class Music(commands.Cog):
         tracks = await self.bot.wavelink.get_tracks(query)
 
         if not tracks:
-            return await ctx.send(embed=MusicEmbed(f"Could not find any songs!`**", ctx.author).get(), delete_after=15)
+            return await ctx.send(embed=MusicEmbed(f"**Could not find any songs!`**", ctx.author).get(), delete_after=15)
 
         player = self.bot.wavelink.get_player(ctx.guild.id)
         if not player.is_connected:
@@ -255,7 +255,8 @@ class Music(commands.Cog):
         controller = self.get_controller(ctx)
         await controller.now_playing.delete()
 
-        controller.now_playing = await ctx.send(embed=MusicEmbed(f"**Now playing:**\n`{player.current}`").get())
+        current_track = player.current
+        controller.now_playing = await ctx.send(embed=MusicEmbed(f"**Now playing:**\n`[{get_duration(current_track)}]\t{current_track}`").get())
 
     @commands.command(aliases=["q"])
     @commands.cooldown(1, 2, commands.BucketType.user)
@@ -269,11 +270,16 @@ class Music(commands.Cog):
         if not player.current or not controller.queue._queue:
             return await ctx.send(embed=MusicEmbed("There are no songs in the queue!").get(), delete_after=15)
 
-        upcoming = list(itertools.islice(controller.queue._queue, 0, 5))
+        queue = controller.queue._queue
+        upcoming = list(itertools.islice(queue, 0, 5))
 
-        fmt = '\n'.join(f'** `▶ {str(song)}`**\n' for song in upcoming)
-        # embed = discord.Embed(title=f'Upcoming - Next {len(upcoming)}', description=fmt)
-        embed = MusicEmbed(f"**Queue**\n{fmt}").get()
+        total_time = 0
+        for track in queue:
+            total_time += track.length
+
+        header = f'**Current Queue** ({len(queue)}) [{str(datetime.timedelta(milliseconds=int(total_time)))}]'
+        fmt = '\n'.join(f'** `▶ [{get_duration(song)}] {str(song)}`**\n' for song in upcoming)        
+        embed = MusicEmbed(f"{header}\n{fmt}").get()
 
         await ctx.send(embed=embed, delete_after=15)
 
@@ -547,6 +553,11 @@ class Music(commands.Cog):
               f'Server Uptime: `{datetime.timedelta(milliseconds=node.stats.uptime)}`'
         await ctx.send(fmt)
 
+
+def get_duration(track):
+    duration = "\N{LARGE RED CIRCLE}" if track.is_stream else str(
+        datetime.timedelta(milliseconds=int(track.length)))
+    return duration
 
 def setup(bot):
     bot.add_cog(Music(bot))
