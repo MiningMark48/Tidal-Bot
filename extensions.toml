@@ -1,3 +1,6 @@
+# This file is for enabling/disabling bot extensions
+#   See config.toml for controlling music
+
 # Background : Functions that run in background
 background = [
     "quotes"

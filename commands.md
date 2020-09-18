@@ -1,5 +1,5 @@
 # Commands
-Commands Available: 140
+Commands Available: 119
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -12,10 +12,8 @@ Commands Available: 140
 | botdms | Control whether or not the bot will DM you with certain commands/functions.  Example: Disabling DMs will prevent bot from DMing reactor role gives/takes.  Usage: botdms False | Preferences | botdm |
 | botinfo | Miscellaneous bot information | Info | N/A |
 | changepresence | Change the bot's presence on the fly | Owner | N/A |
-| clear | Clear the queue | Music | N/A |
 | colorgen | Generate a random color or palette of colors  Squares amount: min=1, max=5 | Utility | gencolor, randcolor, palette |
 | commandblacklist | Enable/Disable commands | Server Management | togglecommand, blacklistcommand |
-| connect | Connect to a voice channel | Music | N/A |
 | coronaplot | Plot COVID-19 Data for a specific country  Note: This will likely require the use of quotes.  Usage: plot "US" | Info | covidplot, cplot |
 | coronastats | Fetch COVID-19 Data for a specific country  Note: You can specify up to 10 countries at once.  Usage: stats "US" "Canada" | Info | corona, covid, cstats |
 | countdown | Get the time remaining to a specific date  Optional: Year (defaults to current year) | Utility | N/A |
@@ -45,7 +43,6 @@ Commands Available: 140
 | kkchum | Krusty Krab > Chum Bucket | Memes | N/A |
 | leaveserver | Make the bot leave a server | Owner | N/A |
 | linus | Linus selfies ftw. | Memes | N/A |
-| listplaylists | Show all available YouTube playlists. | Music | getplaylists, showplaylists, playlists |
 | lmgtfy | When people can't Google, Google for them | Utility | lmg, google |
 | lyrics | Search for lyrics for a song | Utility | lyric, lyr |
 | magic8ball | The Magic 8 Ball says... | Fun | 8ball, magicball, magic8 |
@@ -53,28 +50,21 @@ Commands Available: 140
 | memesearch | Lookup a meme on Know Your Meme | Utility | knowyourmeme, kym, meme |
 | minesweeper | Create a minefield! | Fun | ms, mines |
 | mock | spOngEBoB MoCKifY soMe TeXT | Fun | N/A |
-| musicinfo | Retrieve various Node/Server/Player information. | Music | N/A |
 | nobrain | Oh F***, I forgot to give you a brain. | Memes | N/A |
 | nocontext | Picks a random message from the channel, out-of-context.  Min: 10, Max: 10000 | Fun | ooc |
 | nothere | We don't do that here. | Memes | N/A |
-| nowplaying | Get the currently playing song | Music | np |
 | nsfw | Get a random NSFW Gif via search query | Fun | porn |
 | pastebin | Get the RAW text from a Pastebin | Utility | pastebinget, pasteget, pb |
 | patrickpush | PUSH IT SOMEWHERE ELSE! | Memes | N/A |
-| pause | Pause the player | Music | N/A |
 | pelosirip | *Rips speech* | Memes | pelrip |
 | perf | Checks the timing of a command, attempting to suppress HTTP and DB calls. | Owner | N/A |
 | pika | ! | Memes | pikasurprise, surprisedpika |
 | ping | Latency of the bot | Utility | N/A |
-| play | Search for a song and add it to the queue | Music | N/A |
-| playnext | Pick a track from the queue to play next. | Music | bringfront |
-| playplaylist | Play a previously saved YouTube playlist. | Music | getplaylist |
 | poll | Interactively, create a poll for people to vote on  Usage: poll <Time (minutes)> <Question>  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | N/A |
 | pressbutton | Will you press the button? | Fun | wyptb, pushbutton |
 | progress | See how far into the year we are. | Utility | progressbar |
 | prune | Bulk delete messages (up to 100) | Utility | purge, nuke |
 | qrcode | Generate a QR Code from a string of text | Utility | qrcodecreate, createqr, qr |
-| queue | Get the current player queue | Music | q |
 | quickpoll | Quickly, create a poll for people to vote on  Usage: quickpoll <Time (minutes)> "<Question>" "<Option 1>" "<Option 2>" ...  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | N/A |
 | quickpolldef | Quickly, create a poll for people to vote on using default choices  Usage: quickpoll <Time (minutes)> "<Question>" "<Default Choice>"  Default Choices: yesno (Yes/No), truefalse (True/False), scale15 (1/2/3/4/5), abcd (A/B/C/D)  Note: If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | qpd |
 | random | Commands that generate random data. | Utility | rand |
@@ -82,25 +72,16 @@ Commands Available: 140
 | reddit | Fetch a random post from a subreddit.  When a subreddit isn't specified, the 'all' page is used. | Utility | N/A |
 | reloadmusic | Reload the music module | Owner | N/A |
 | remind | Have the bot remind you about something  Note: Time has a max of 120 minutes (2 hours). Also, if the bot goes offline, the reminder is cleared. | Utility | reminder, remindme |
-| remove | Pick a track from the queue to remove. | Music | rem |
-| removeplaylist | Remove a saved YouTube playlist. | Music | remplaylist, delplaylist |
-| repeat | Repeat a song | Music | N/A |
-| restart | Restart a song | Music | N/A |
-| resume | Resume the player | Music | N/A |
 | rules | Get the rules for the server.  Can be set using 'setrules' | Server Management | listrules, ruleslist |
 | russianroulette | Russian Roulette  Chance to die: Min of 2, max of 10, default of 6 | Fun | rr, rroulette |
 | say | Make the bot say something | Utility | N/A |
-| seek | Seek to a time in the current track (in seconds). | Music | N/A |
 | selfinfo | Get information about yourself | Info | meinfo, whome |
 | serverinvite | Get a link to invite the bot to your server. | Info | invite |
-| setplaylist | Save a link to a YouTube playlist. | Music | addplaylist |
 | setprefix | Change the bot prefix for the server | Server Management | changeprefix |
 | setrules | Set the rules for the server. | Server Management | rulesset |
 | settag | Create a new bot tag. | Tags | edittag, newtag, addtag |
 | shocked | O_O | Memes | N/A |
-| shuffle | Shuffle the queue | Music | N/A |
 | shutdown | Shut the bot down. | Owner | N/A |
-| skip | Skip the currently playing song. | Music | N/A |
 | slap | Slap someone with a fish | Fun | N/A |
 | speedtype | See who can type the fastest!  Words Min 1, Max 50  Accuracy Ratio is 0-1.0 with 0.25 being 25%, etc. | Fun | N/A |
 | spongebreathe | *Breathe in* Shit. | Memes | N/A |
@@ -110,7 +91,6 @@ Commands Available: 140
 | steam | Look up information about a user on Mixer | Info | steamuser, steaminfo |
 | stega | Encode and decode an image using Steganography  Note: Issues may occur. | Utility | N/A |
 | stock | Get Stock info for a specific Symbol | Info | stocks |
-| stop | Stop and disconnect the player and controller | Music | N/A |
 | strawpoll | Create a Strawpoll | Utility | sp |
 | strawpollresults | Get the results from a Strawpoll | Utility | spresults, spr |
 | sudo | Run a command as another user, optionally in another channel. | Owner | N/A |
@@ -136,7 +116,6 @@ Commands Available: 140
 | urban | Define a word from Urban Dictionary | Info | urbandictionary, urbandict |
 | urlshorten | Shorten a URL | Utility | tinyurl |
 | userguess | Guess a user in the server based on their avatar. | Fun | ug |
-| volume | Set the player volume | Music | N/A |
 | whois | Get information about another user | Info | userinfo |
 | wikipedia | Search Wikipedia | Info | wiki, wp |
 | wouldyourather | Would you rather...? | Fun | wyr, wouldrather |
