@@ -253,7 +253,8 @@ class Music(commands.Cog):
             return await ctx.send(embed=MusicEmbed("I am not playing anything!", ctx.author).get(), delete_after=15)
 
         controller = self.get_controller(ctx)
-        await controller.now_playing.delete()
+        if controller.now_playing:
+            await controller.now_playing.delete()
 
         current_track = player.current
         controller.now_playing = await ctx.send(embed=MusicEmbed(f"**Now playing:**\n`[{get_duration(current_track)}]\t{current_track}`").get())
@@ -270,8 +271,9 @@ class Music(commands.Cog):
         if not player.current or not controller.queue._queue:
             return await ctx.send(embed=MusicEmbed("There are no songs in the queue!").get(), delete_after=15)
 
+        slice_size = 5
         queue = controller.queue._queue
-        upcoming = list(itertools.islice(queue, 0, 5))
+        upcoming = list(itertools.islice(queue, 0, slice_size))
 
         total_time = 0
         for track in queue:
@@ -280,6 +282,8 @@ class Music(commands.Cog):
         header = f'**Current Queue** ({len(queue)}) [{str(datetime.timedelta(milliseconds=int(total_time)))}]'
         fmt = '\n'.join(f'** `▶ [{get_duration(song)}] {str(song)}`**\n' for song in upcoming)        
         embed = MusicEmbed(f"{header}\n{fmt}").get()
+        if len(queue) > slice_size:
+            embed.set_footer(text=f"Plus {str(len(queue) - slice_size)} more.")
 
         await ctx.send(embed=embed, delete_after=15)
 
@@ -390,7 +394,7 @@ class Music(commands.Cog):
 
         queue = self.get_controller(ctx).queue._queue
         if not queue:
-            await queue.put(player.current)
+            queue.append(player.current)
         else:
             queue.appendleft(player.current)
 
@@ -409,7 +413,7 @@ class Music(commands.Cog):
 
         queue = self.get_controller(ctx).queue._queue
         if not queue:
-            await queue.put(player.current)
+            queue.append(player.current)
         else:
             queue.appendleft(player.current)
         await player.stop()
