@@ -1,3 +1,5 @@
+import random
+import datetime as dt
 from datetime import datetime
 
 import aiohttp
@@ -198,6 +200,25 @@ class Info(commands.Cog):
     async def trello(self, ctx):
         """Get a link to the Tidal Bot Trello"""
         await ctx.send(f"{ctx.author.mention}, Here you go!\nhttps://trello.com/b/U3TTk5Kc/tidal-bot")
+
+    @commands.command()
+    @delete_original()
+    async def vote(self, ctx):
+        """Get out and vote!"""
+        embed = discord.Embed(title="Vote!", color=random.choice([0xa61232, 0x1a4376]))
+        embed.add_field(name="Am I Registered?", value="[Click Here](https://www.vote.org/am-i-registered-to-vote/)")
+        embed.add_field(name="Register", value="[Click Here](https://www.vote.org/register-to-vote/)")
+
+        today = dt.date.today()
+        year = today.year
+        fut_date = dt.date(year, 11, 3)
+        days = (fut_date - today).days
+        # fut_date_form = str(fut_date.strftime("%B %e, %Y")).replace("  ", " ")
+        embed.add_field(name="Days Left Until Election Day", value=f"{days} day{'' if days == 1 else 's'}", inline=False)
+
+        embed.set_footer(text="Not Affiliated with Vote.org")
+
+        await ctx.send(embed=embed)
 
     @commands.command(aliases=["userinfo"])
     @commands.guild_only()
