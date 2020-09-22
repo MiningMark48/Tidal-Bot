@@ -26,8 +26,10 @@ class Fun(commands.Cog):
         def check(m, u):
             return u.id == ctx.author.id
 
-        emoji_hit = "\N{WHITE DOWN POINTING BACKHAND INDEX}"  # Hand Pointing Down Emoji
-        emoji_stay = "\N{RAISED HAND WITH FINGERS SPLAYED}"  # Hand Splayed Emoji
+        # Hand Pointing Down Emoji
+        emoji_hit = "\N{WHITE DOWN POINTING BACKHAND INDEX}"
+        # Hand Splayed Emoji
+        emoji_stay = "\N{RAISED HAND WITH FINGERS SPLAYED}"
         emoji_clap = "\N{CLAPPING HANDS SIGN}"  # Clapping Hands Emoji
 
         # cards = list(range(1, 11))
