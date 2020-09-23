@@ -1,12 +1,11 @@
 # Commands
-Commands Available: 120
+**Commands Available:** 116
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
 | announce | Announce a message | Utility | announcement |
 | announceembed | Announce a message, embedded | Utility | announcementembed, annembed |
 | battleroyale | Battle Royale of Everyone in the Server!  Delay - Min: 2, Max: 10 Skip will skip to results | Fun | br |
-| binary | [WIP] Encode/Decode to/from binary  Methods: Encode (e), Decode (d)  Note: This command is a work-in-progress, some errors may and will occur. | Utility | N/A |
 | bitcoin | Get info for Bitcoin (BTC) | Info | btc |
 | blackjack | Play a (modified) game of blackjack, simplistic-ly. | Fun | 21, bj |
 | botdms | Control whether or not the bot will DM you with certain commands/functions.  Example: Disabling DMs will prevent bot from DMing reactor role gives/takes.  Usage: botdms False | Preferences | botdm |
@@ -76,7 +75,6 @@ Commands Available: 120
 | russianroulette | Russian Roulette  Chance to die: Min of 2, max of 10, default of 6 | Fun | rr, rroulette |
 | say | Make the bot say something | Utility | N/A |
 | selfinfo | Get information about yourself | Info | meinfo, whome |
-| serverinvite | Get a link to invite the bot to your server. | Info | invite |
 | setprefix | Change the bot prefix for the server | Server Management | changeprefix |
 | setrules | Set the rules for the server. | Server Management | rulesset |
 | settag | Create a new bot tag. | Tags | edittag, newtag, addtag |
@@ -89,7 +87,6 @@ Commands Available: 120
 | spongeout | 'Ight, Imma head out | Memes | N/A |
 | stats | Stats about the bot | Utility | botstats |
 | steam | Look up information about a user on Mixer | Info | steamuser, steaminfo |
-| stega | Encode and decode an image using Steganography  Note: Issues may occur. | Utility | N/A |
 | stock | Get Stock info for a specific Symbol | Info | stocks |
 | strawpoll | Create a Strawpoll | Utility | sp |
 | strawpollresults | Get the results from a Strawpoll | Utility | spresults, spr |
@@ -121,6 +118,7 @@ Commands Available: 120
 | wikipedia | Search Wikipedia | Info | wiki, wp |
 | wouldyourather | Would you rather...? | Fun | wyr, wouldrather |
 | xkcd | Get a random XKCD comic | Fun | N/A |
-| youtubestatus | Get the YouTube URL from someone's custom status.  Ex: John#0001 has the status `dQw4w9WgXcQ`. The command will return https://www.youtube.com/watch?v=dQw4w9WgXcQ. | Utility | ytstatus |
+
+*Plus 4 hidden.*
 
 This file was automatically generated.
