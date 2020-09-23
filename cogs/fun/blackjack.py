@@ -43,6 +43,7 @@ class Fun(commands.Cog):
         embed.add_field(name="Player",
                         value=f"{'  '.join(str(c) for c in cards_player)} ({sum(cards_player)})")
 
+        await ctx.send("**Note:** Reactions may be a little slow to respond at the moment.", delete_after=10)
         msg = await ctx.send(embed=embed)
 
         async def play():
