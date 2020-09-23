@@ -260,7 +260,7 @@ class Owner(commands.Cog):
 
         Logger.info(f"{ctx.author} did sudo: {command} to {who}")
 
-    @commands.command()
+    @commands.command(hidden=True)
     @commands.is_owner()
     async def test(self, ctx):
         """TEST COMMAND"""

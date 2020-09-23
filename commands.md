@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 116
+**Commands Available:** 115
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -100,7 +100,6 @@
 | tea | *Sips tea* | Memes | N/A |
 | temprole | Assign a user a temporary role.  Minutes Min: 1, Max: 60  Note: If the bot goes offline/restarts, the role will not be cleared from the user. | Server Management | trole |
 | tenor | Returns a random GIF based on search term | Fun | gif |
-| test | TEST COMMAND | Owner | N/A |
 | tidalwave | Get a link to the Tidal Wave Discord | Info | discord |
 | toggleaurls | Toggle the Semi-Auto URL Shorten  When enabled, the bot will semi-automatically shorten any long urls. | Utility | toggleautourlshorten |
 | togglerum | Toggle the mobile indicator reaction (RUM: R U Mobile?) | Server Management | togglemobileindicator, toggleismobile |
@@ -119,6 +118,6 @@
 | wouldyourather | Would you rather...? | Fun | wyr, wouldrather |
 | xkcd | Get a random XKCD comic | Fun | N/A |
 
-*Plus 4 hidden.*
+*Plus 5 hidden.*
 
 This file was automatically generated.
