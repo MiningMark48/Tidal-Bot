@@ -37,6 +37,7 @@ except KeyError as e:
 
 extensions = get_extensions()
 
+
 def prefix(bot, message):
     pfx = bot_key
     if message.guild:
@@ -47,7 +48,14 @@ def prefix(bot, message):
 
 
 # def_help = commands.DefaultHelpCommand(dm_help=None, dm_help_threshold=750)
-bot = commands.Bot(command_prefix=prefix, help_command=HelpCommand())
+intents = discord.Intents.default()
+intents.guilds = True
+intents.members = True
+intents.messages = True
+intents.reactions = True
+
+bot = commands.Bot(command_prefix=prefix,
+                   help_command=HelpCommand(), intents=intents)
 
 
 @bot.event
@@ -61,10 +69,11 @@ async def on_ready():
     if create_commands_list:
         generator = GenList.Generator(bot)
         generator.gen_md_list()
-        # generator.gen_list()        
+        # generator.gen_list()
         # generator.gen_img_list()
 
-    Logger.success("Bot started in {} seconds".format(str(time.time() - start_time)[:4]))
+    Logger.success("Bot started in {} seconds".format(
+        str(time.time() - start_time)[:4]))
 
 
 @bot.event
