@@ -80,7 +80,7 @@ class Tags(commands.Cog):
             return
 
         results_txt = f"Tag Search Results ({tag_name})\n\n"
-        for (res, ratio) in search_results:
+        for (res, _) in search_results:
             results_txt += f"{res}\n"
 
         await ctx.send(f"```{results_txt}```")
@@ -110,7 +110,7 @@ class Tags(commands.Cog):
             search_results = self.handle_search(ctx, tag_name)[:3]
 
             results_txt = ""
-            for (res, ratio) in search_results:
+            for (res, _) in search_results:
                 results_txt += f"{res}\n"
 
             await ctx.send(f"Couldn't find that tag. Did you mean one of the following?\n```\n{results_txt}\n```")
