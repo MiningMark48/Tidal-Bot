@@ -58,6 +58,8 @@ class MusicController:
 
             self.next.clear()
 
+            print(len(self.queue._queue))   
+
             song = await self.queue.get()
             await player.play(song)
             # self.now_playing = await self.channel.send(embed=MusicEmbed(f"**Now playing:**\n`{song}`").get())

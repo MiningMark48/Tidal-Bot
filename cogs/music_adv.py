@@ -104,7 +104,7 @@ class Player(wavelink.Player):
     async def player_loop(self):
         await self.bot.wait_until_ready()
 
-        await self.set_eq(Equalizer.flat())
+        # await self.set_eq(Equalizer.flat())
         # We can do any pre loop prep here...
         await self.set_volume(self.volume)
 
@@ -159,7 +159,7 @@ class Player(wavelink.Player):
         embed.add_field(name='Requested By', value=track.requester.mention)
         embed.add_field(name='Current DJ', value=self.dj.mention)
         embed.add_field(name='Volume', value=f'**{self.volume}%**')
-        embed.add_field(name='EQ', value=self.eq)
+        # embed.add_field(name='EQ', value=self.eq)
         # embed.add_field(name='Queue Length', value=str(len(self.entries)))
 
         if len(self.entries) > 0:
@@ -292,7 +292,6 @@ class Music(commands.Cog):
         self.bot = bot
 
         self.config = BotConfig().load_data()
-        print(self.config)
 
         if not hasattr(bot, 'wavelink'):
             self.bot.wavelink = wavelink.Client(bot=bot)
@@ -862,35 +861,35 @@ class Music(commands.Cog):
         await player.set_volume(vol)
         player.update = True
 
-    @commands.command(name='seteq', aliases=['eq', 'equalizer', 'setequalizer'])
-    @commands.guild_only()
-    async def set_eq(self, ctx, *, eq: str):
-        """
-        Set the equalizer.
+    # @commands.command(name='seteq', aliases=['eq', 'equalizer', 'setequalizer'])
+    # @commands.guild_only()
+    # async def set_eq(self, ctx, *, eq: str):
+    #     """
+    #     Set the equalizer.
 
-        Types: flat (f) [default], boost (b), metal (m), piano (p)
-        """
+    #     Types: flat (f) [default], boost (b), metal (m), piano (p)
+    #     """
 
-        if isinstance(ctx.channel, discord.TextChannel):
-            await ctx.message.delete()
+    #     if isinstance(ctx.channel, discord.TextChannel):
+    #         await ctx.message.delete()
 
-        eq = eq.lower()
-        # eq_cls = Equalizer.flat()
-        if eq in ["boost", "b"]:
-            eq_cls = Equalizer.boost()
-        elif eq in ["metal", "m"]:
-            eq_cls = Equalizer.metal()
-        elif eq in ["piano", "p"]:
-            eq_cls = Equalizer.piano()
-        else:
-            return await ctx.send(f'`{eq}` is not a valid equalizer!\nTry Flat, Boost, Metal, Piano.')
+    #     eq = eq.lower()
+    #     # eq_cls = Equalizer.flat()
+    #     if eq in ["boost", "b"]:
+    #         eq_cls = Equalizer.boost()
+    #     elif eq in ["metal", "m"]:
+    #         eq_cls = Equalizer.metal()
+    #     elif eq in ["piano", "p"]:
+    #         eq_cls = Equalizer.piano()
+    #     else:
+    #         return await ctx.send(f'`{eq}` is not a valid equalizer!\nTry Flat, Boost, Metal, Piano.')
 
-        player = self.bot.wavelink.get_player(ctx.guild.id, cls=Player)
+    #     player = self.bot.wavelink.get_player(ctx.guild.id, cls=Player)
 
-        await player.set_eq(eq_cls)
-        player.eq = eq.capitalize()
-        await ctx.send(f'The equalizer was set to `{eq.capitalize()}`', delete_after=15)
-        player.update = True
+    #     await player.set_eq(eq_cls)
+    #     player.eq = eq.capitalize()
+    #     await ctx.send(f'The equalizer was set to `{eq.capitalize()}`', delete_after=15)
+    #     player.update = True
 
     @commands.command(aliases=["controllerhelp", "chelp", "controlhelp"])
     async def controller_help(self, ctx):

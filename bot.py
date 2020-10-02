@@ -113,7 +113,7 @@ async def on_guild_remove(guild):
 if __name__ == "__main__":
 
     if load_music:
-        extensions.append("music")
+        extensions.append("music_adv")
 
     count = 0
     for extension in extensions:
