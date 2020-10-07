@@ -42,8 +42,8 @@ class Memes(commands.Cog):
                 y_text = y
                 for line in text[base_pos.index(entry)]:
                     if centered:
-                        w, h = im.size
-                        tw, th = text_draw.textsize(str(line), font)
+                        w, _ = im.size
+                        tw, _ = text_draw.textsize(str(line), font)
                         self.draw_text(text_draw, line, (((w-tw)/2), y_text), font, font_color, outlined)
                     else:
                         self.draw_text(text_draw, line, (x, y_text), font, font_color, outlined)
@@ -66,7 +66,7 @@ class Memes(commands.Cog):
             font = ImageFont.truetype('./resources/fonts/arial.ttf', size=font_size)
             draw = ImageDraw.Draw(im_o)
 
-            w, h = im.size
+            w, _ = im.size
             tw, th = draw.textsize(text, font)
             shape_h = 35 * scale
             shape = ((0, height), (w, height+shape_h))
@@ -92,6 +92,33 @@ class Memes(commands.Cog):
     @staticmethod
     def get_message(ctx):
         return f'{ctx.author.mention}, here you go!'
+
+    @commands.command(name="alwayshasbeen", aliases=["ahb"])
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def always_has_been(self, ctx, text1: str, text2: str, text3: str="Always has been..."):
+        """
+        *Always has been.*
+
+        Note: This will likely require quotes.
+        """
+        await self.try_delete(ctx)
+        chars_per_line = 15
+        lines = 3
+
+        max_chars = chars_per_line * lines
+        if len(text1) > max_chars or len(text2) > max_chars or len(text3) > max_chars:
+            return await ctx.send(f'Too many characters! Must be less than `{max_chars}`.')
+
+        async with ctx.typing():
+            wrapper = textwrap.TextWrapper(width=chars_per_line)
+            lines1 = wrapper.wrap(text=text1)
+            lines2 = wrapper.wrap(text=text2)
+            lines3 = wrapper.wrap(text=text3)
+            fn = partial(self.processing_drawtext_multi, [lines1, lines2, lines3], "alwayshasbeen.png",
+                         [(155, 240), (360, 160), (720, 40)], 42, 0xffffff, outlined=True)
+            final_buffer = await self.bot.loop.run_in_executor(None, fn)
+            file = discord.File(filename="alwayshasbeen.png", fp=final_buffer)
+            await ctx.send(content=self.get_message(ctx), file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)

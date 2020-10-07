@@ -1,8 +1,9 @@
 # Commands
-**Commands Available:** 115
+**Commands Available:** 116
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
+| alwayshasbeen | *Always has been.*  Note: This will likely require quotes. | Memes | ahb |
 | announce | Announce a message | Utility | announcement |
 | announceembed | Announce a message, embedded | Utility | announcementembed, annembed |
 | battleroyale | Battle Royale of Everyone in the Server!  Delay - Min: 2, Max: 10 Skip will skip to results | Fun | br |
