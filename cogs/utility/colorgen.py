@@ -45,7 +45,7 @@ class Utility(commands.Cog):
         final_buffer.seek(0)
         return final_buffer
 
-    @commands.command(name="colorgen", aliases=["gencolor", "randcolor", "palette"])
+    @commands.command(name="colorgen", aliases=["gencolor", "randcolor"])
     @commands.cooldown(3, 5, commands.BucketType.user)
     async def color_gen(self, ctx, squares=1):
         """

@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 115
+**Commands Available:** 116
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -11,7 +11,7 @@
 | botdms | Control whether or not the bot will DM you with certain commands/functions.  Example: Disabling DMs will prevent bot from DMing reactor role gives/takes.  Usage: botdms False | Preferences | botdm |
 | botinfo | Miscellaneous bot information | Info | N/A |
 | changepresence | Change the bot's presence on the fly | Owner | N/A |
-| colorgen | Generate a random color or palette of colors  Squares amount: min=1, max=5 | Utility | gencolor, randcolor, palette |
+| colorgen | Generate a random color or palette of colors  Squares amount: min=1, max=5 | Utility | gencolor, randcolor |
 | commandblacklist | Enable/Disable commands | Server Management | togglecommand, blacklistcommand |
 | coronaplot | Plot COVID-19 Data for a specific country  Note: This will likely require the use of quotes.  Usage: plot "US" | Info | covidplot, cplot |
 | coronastats | Fetch COVID-19 Data for a specific country  Note: You can specify up to 10 countries at once.  Usage: stats "US" "Canada" | Info | corona, covid, cstats |
@@ -53,6 +53,7 @@
 | nocontext | Picks a random message from the channel, out-of-context.  Min: 10, Max: 10000 | Fun | ooc |
 | nothere | We don't do that here. | Memes | N/A |
 | nsfw | Get a random NSFW Gif via search query | Fun | porn |
+| palette | Get a random color palette from an image. | Utility | colpal |
 | pastebin | Get the RAW text from a Pastebin | Utility | pastebinget, pasteget, pb |
 | patrickpush | PUSH IT SOMEWHERE ELSE! | Memes | N/A |
 | pelosirip | *Rips speech* | Memes | pelrip |
