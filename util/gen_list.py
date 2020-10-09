@@ -1,7 +1,4 @@
-import calendar
-import datetime
 import json
-from io import BytesIO
 
 from PIL import ImageFont, ImageDraw, Image
 
@@ -9,11 +6,26 @@ from util.logger import Logger
 
 
 class Generator:
+    """
+    Generator class for saving all commands to a list.
+    """
+
     def __init__(self, bot):
+        """
+        :param bot: Discord Bot client
+        """
+
         self.bot = bot
         self.commands = self.bot.commands
 
     def fetch_list(self):
+        """
+        Compiles bot commands into a single list containing:
+        name, aliases, type, usage, action, and hidden status
+
+        :return: list
+        """
+
         cmds_list = []
         for cmd in self.commands:
             cmd_o = {
@@ -30,6 +42,12 @@ class Generator:
         # return sorted(cmds_list, key=lambda i: (i['type'], i['name'], i['aliases'], i['action'], i['usage']))
 
     def gen_list(self):
+        """
+        Generates a list of all commands to a JSON file (`commands.json`)
+
+        Useful for a data representation of commands for manipulation.
+        """
+
         path = "commands.json"
         with open(path, 'w') as file:
             cmds = self.fetch_list()
@@ -38,6 +56,12 @@ class Generator:
                 f"Commands list generated at {path} containing {len(cmds)} commands")
 
     def gen_md_list(self):
+        """
+        Generates a list of all commands to a markdown file (`commands.md`)
+
+        Useful for a visual representation of commands.
+        """
+
         path = "commands.md"
         with open(path, 'w') as file:
             all_cmds = self.fetch_list()
@@ -68,6 +92,11 @@ class Generator:
                 f"Commands MD list generated at {path} containing {len(cmds)} commands")
 
     def gen_img_list(self):
+        """
+        Generates a set of images to list all commands.
+
+        Generates to `cmdimgs/commands_#.png`
+        """
 
         def shorten_text(t: str, max_chars: int):
             if len(t) > max_chars:

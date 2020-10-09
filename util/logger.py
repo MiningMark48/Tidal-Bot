@@ -1,7 +1,12 @@
 import datetime
 import os
 
+
 class Colors:
+    """
+    Colors used for logging to console.
+    """
+
     reset = '\033[0m'
     bold = '\033[01m'
     disable = '\033[02m'
@@ -11,6 +16,10 @@ class Colors:
     invisible = '\033[08m'
 
     class FG:
+        """
+        Foreground colors
+        """
+
         black = '\033[30m'
         red = '\033[31m'
         green = '\033[32m'
@@ -28,6 +37,10 @@ class Colors:
         light_cyan = '\033[96m'
 
     class BG:
+        """
+        Background colors
+        """
+
         black = '\033[40m'
         red = '\033[41m'
         green = '\033[42m'
@@ -41,7 +54,15 @@ class Colors:
 class Logger:
 
     @staticmethod
-    def log(type: str, color: str, msg):
+    def log(typ: str, color: str, msg):
+        """
+        Logs a message to console and saves to a log file.
+
+        :param typ: Beginning log tag, in brackets
+        :param color: Color of log text
+        :param msg:  Message to log to console
+        """
+
         # Print to console
         print(f"{color}{msg}{Colors.reset}")
 
@@ -57,30 +78,64 @@ class Logger:
 
         with open(filename, 'a') as file:
             current_form = current_time.strftime("%m/%d/%y %r")
-            header = f"[{current_form}] [{str(type).upper()}]".ljust(35)
+            header = f"[{current_form}] [{str(typ).upper()}]".ljust(35)
 
             file.write(f"{header} {msg}\n")
 
     @staticmethod
     def alert(msg):
+        """
+        Logs a message to console (Yellow FG)
+
+        :param msg: Message to log to console
+        """
+
         Logger.log('alert', Colors.FG.yellow, msg)
 
     @staticmethod
     def info(msg):
+        """
+        Logs a message to console (Light Grey FG)
+
+        :param msg: Message to log to console
+        """
+
         Logger.log('info', Colors.FG.light_grey, msg)
 
     @staticmethod
     def fatal(msg):
+        """
+        Logs a message to console (RED FG)
+
+        :param msg: Message to log to console
+        """
+
         Logger.log('fatal', Colors.FG.red, msg)
 
     @staticmethod
     def success(msg):
+        """
+        Logs a message to console (Green FG)
+
+        :param msg: Message to log to console
+        """
+
         Logger.log('success', Colors.FG.green, msg)
 
     @staticmethod
     def warn(msg):
+        """
+        Logs a message to console (Purple FG)
+
+        :param msg: Message to log to console
+        """
+
         Logger.log('warn', Colors.FG.purple, msg)
 
     @staticmethod
     def breakline():
+        """
+        Empty log message, acts as a break line.
+        """
+        
         Logger.log('lnbrk', Colors.reset, '')

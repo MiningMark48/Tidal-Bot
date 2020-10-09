@@ -1,9 +1,7 @@
-import json
-import os.path as osp
-
 from discord.ext import commands
 
 from util.config import BotConfig
+
 
 def load_config():
     data = BotConfig().load_data()

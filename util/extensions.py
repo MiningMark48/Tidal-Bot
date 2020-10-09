@@ -1,7 +1,14 @@
 import os.path as osp
 import toml
 
+
 def get_extensions():
+    """
+    Gets extensions from the `extensions.toml`
+    to be loaded into the bot
+
+    :return: list
+    """
     extensions_path = "extensions.toml"
     exts = []
 
