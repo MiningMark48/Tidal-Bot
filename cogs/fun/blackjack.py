@@ -1,15 +1,10 @@
-import json
-import random
-import typing
-
-import aiohttp
 import asyncio
+import random
+
 import discord
 from discord.ext import commands
 
-from util.config import BotConfig
 from util.decorators import delete_original
-from util.spongemock import mockify
 
 
 class Fun(commands.Cog):
