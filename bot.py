@@ -1,16 +1,16 @@
+import time
+
 import discord
 from discord.ext import commands
 
 import util.gen_list as GenList
-from util.extensions import get_extensions
+from util.config import BotConfig
 from util.data.data_backup import backup_databases
 from util.data.data_delete import delete_database_guild
 from util.data.guild_data import GuildData
+from util.extensions import get_extensions
 from util.help_command import HelpCommand
 from util.logger import Logger
-from util.config import BotConfig
-
-import time
 
 start_time = time.time()
 
@@ -115,11 +115,13 @@ if __name__ == "__main__":
     if load_music:
         extensions.append("music_adv")
 
+    # print_progress_bar(0, len(extensions), prefix='Progress:', suffix='Complete', length=50)
     count = 0
     for extension in extensions:
         try:
             bot.load_extension(f"cogs.{extension}")
             Logger.info(f"Cog | Loaded {extension}")
+            # print_progress_bar(count + 1, len(extensions), prefix='Progress:', suffix='Complete', length=50)
             count += 1
         except Exception as error:
             Logger.fatal(f"{extension} cannot be loaded. \n\t[{error}]")

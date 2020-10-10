@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 117
+**Commands Available:** 116
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -8,7 +8,6 @@
 | announceembed | Announce a message, embedded | Utility | announcementembed, annembed |
 | battleroyale | Battle Royale of Everyone in the Server!  Delay - Min: 2, Max: 10 Skip will skip to results | Fun | br |
 | bitcoin | Get info for Bitcoin (BTC) | Info | btc |
-| blackjack | Play a (modified) game of blackjack, simplistic-ly. | Fun | 21, bj |
 | botdms | Control whether or not the bot will DM you with certain commands/functions.  Example: Disabling DMs will prevent bot from DMing reactor role gives/takes.  Usage: botdms False | Preferences | botdm |
 | botinfo | Miscellaneous bot information | Info | N/A |
 | changepresence | Change the bot's presence on the fly | Owner | N/A |
