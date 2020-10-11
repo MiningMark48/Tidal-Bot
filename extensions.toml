@@ -39,7 +39,8 @@ info = [
     "curseforge",
     "dictionary", 
     "info", 
-    "stock", 
+    "stock",
+    "trackergg",
     "urbandict", 
     "wikipedia"
 ]
@@ -71,7 +72,7 @@ utility = [
     "random", 
     "reddit", 
     "stega", 
-    "tags", 
+    "tags",
     "utility"
 ]
 
