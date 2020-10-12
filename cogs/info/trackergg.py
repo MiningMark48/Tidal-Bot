@@ -7,7 +7,7 @@ from discord.ext import commands
 from util import BotConfig
 
 
-class Utility(commands.Cog):
+class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.api_key = BotConfig().get_api_key('trackergg')
@@ -90,4 +90,4 @@ class Utility(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Utility(bot))
+    bot.add_cog(Info(bot))
