@@ -53,6 +53,30 @@ class Colors:
 
 class Logger:
 
+    # @staticmethod
+    # def setup_logging():
+    #     current_time = datetime.datetime.now()
+    #     filename = f'logs/{current_time.strftime("%m%y")}_test.log'
+    #     LOG_FORMAT = "%(asctime)s [%(thread)d] %(levelname)s - %(name)s - %(message)s"
+    #     CONSOLE_LOG_FORMAT = "%(levelname)s - %(name)s - %(message)s "
+    #
+    #     logging.basicConfig(filename=filename,
+    #                         filemode='w',
+    #                         format=LOG_FORMAT,
+    #                         level=logging.DEBUG)
+    #
+    #     logger = Logger.get_logger()
+    #     console = logging.StreamHandler()
+    #     console.setFormatter(logging.Formatter(CONSOLE_LOG_FORMAT))
+    #
+    #     logger.addHandler(console)
+    #
+    #     logger.info("Logging set up")
+    #
+    # @staticmethod
+    # def get_logger():
+    #     return logging.getLogger("tidalbot")
+
     @staticmethod
     def log(typ: str, color: str, msg):
         """
