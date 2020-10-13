@@ -81,6 +81,13 @@ class Utility(commands.Cog):
         except ValueError:
             await ctx.send("Error! Invalid date!")
 
+    @commands.command(name="createinvite", hidden=True)
+    async def create_invite(self, ctx, bot_id: int, perms_int: int):
+        """Create a server invite for a bot given perms int and bot id."""
+
+        url = f"https://discord.com/oauth2/authorize?client_id={bot_id}&scope=bot&permissions={perms_int}"
+        await ctx.send(f"{ctx.author.mention}, here you go!\n{url}")
+
     @commands.command(name="duckbang", aliases=["bang", "db"])
     @commands.cooldown(1, 3)
     @delete_original()
