@@ -1,3 +1,5 @@
+import copy
+
 from discord.ext import commands
 
 from util.data.guild_data import GuildData
@@ -15,7 +17,14 @@ class ServerManagement(commands.Cog, name="Server Management"):
 
         Note: This feature is experimental and susceptible to faults.
         """
-        pass
+
+        if ctx.invoked_subcommand is None:
+            await ctx.send(f"Invalid subcommand! ")
+
+            msg = copy.copy(ctx.message)
+            msg.content = f"{ctx.prefix}help {ctx.command}"
+            new_ctx = await self.bot.get_context(msg, cls=type(ctx))
+            await self.bot.invoke(new_ctx)
 
     @reactor.command(name="add")
     @commands.has_permissions(manage_guild=True)
