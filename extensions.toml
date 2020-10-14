@@ -73,6 +73,7 @@ utility = [
     "reddit", 
     "stega", 
     "tags",
+    "threads",
     "utility"
 ]
 
