@@ -11,6 +11,8 @@ class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        self.threads_cat_name = "Threads"
+
     @commands.group(aliases=["threads"])
     async def thread(self, ctx):
         """
@@ -34,9 +36,9 @@ class Utility(commands.Cog):
         Start a thread based on the last sent message or a message ID.
         """
 
-        cat_thread = discord.utils.get(ctx.guild.categories, name="Threads")
+        cat_thread = discord.utils.get(ctx.guild.categories, name=self.threads_cat_name)
         if cat_thread is None:
-            cat_thread = await ctx.guild.create_category(name="Threads")
+            cat_thread = await ctx.guild.create_category(name=self.threads_cat_name)
 
         if msg_id:
             try:
@@ -45,8 +47,8 @@ class Utility(commands.Cog):
                 return await ctx.send("Channel not found!")
         else:
             try:
-                msgs = await ctx.channel.history(limit=2).flatten()
-                thread_msg = msgs[1]
+                msgs = await ctx.channel.history(limit=1).flatten()
+                thread_msg = msgs[0]
             except IndexError:
                 thread_msg = ctx.message
 
@@ -78,7 +80,7 @@ class Utility(commands.Cog):
             await ctx.channel.delete(reason="End Thread")
 
         if ctx.channel.category:
-            if not ctx.channel.category.name == "Threads":
+            if not ctx.channel.category.name == self.threads_cat_name:
                 return await ctx.send("This is not a thread!")
 
         can_delete = False
@@ -91,6 +93,40 @@ class Utility(commands.Cog):
                 topic = ctx.channel.topic.replace("Author: ", "")
                 if topic == str(ctx.author.id):
                     await delete()
+                    return
+                else:
+                    return await ctx.send("Unable to find author id!")
+            else:
+                return await ctx.send("Unable to find author id!")
+
+        await ctx.send("You don't have permission!")
+
+    @thread.command(aliases=["edit"])
+    @delete_original()
+    async def rename(self, ctx, name: str):
+        """
+        Rename a thread.
+        """
+
+        async def rename():
+            # await ctx.channel.delete(reason="End Thread")
+            await ctx.channel.edit(name=f"thread-{name}")
+            pass
+
+        if ctx.channel.category:
+            if not ctx.channel.category.name == self.threads_cat_name:
+                return await ctx.send("This is not a thread!")
+
+        can_delete = False
+        if ctx.channel.permissions_for(ctx.author).manage_channels:
+            await rename()
+            return
+
+        if not can_delete:
+            if ctx.channel.topic:
+                topic = ctx.channel.topic.replace("Author: ", "")
+                if topic == str(ctx.author.id):
+                    await rename()
                     return
                 else:
                     return await ctx.send("Unable to find author id!")
