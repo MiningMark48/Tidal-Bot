@@ -1,10 +1,9 @@
+import copy
 import random
-import string
 
 import discord
-from faker import Faker
-
 from discord.ext import commands
+from faker import Faker
 
 
 class Utility(commands.Cog):
@@ -14,7 +13,14 @@ class Utility(commands.Cog):
     @commands.group(aliases=["rand"])
     async def random(self, ctx):
         """Commands that generate random data."""
-        pass
+
+        if ctx.invoked_subcommand is None:
+            await ctx.send(f"Invalid subcommand! ")
+
+            msg = copy.copy(ctx.message)
+            msg.content = f"{ctx.prefix}help {ctx.command}"
+            new_ctx = await self.bot.get_context(msg, cls=type(ctx))
+            await self.bot.invoke(new_ctx)
 
     @random.command(name="card", aliases=["cards"])
     async def rand_card(self, ctx, amt=1):

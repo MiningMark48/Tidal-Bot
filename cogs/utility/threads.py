@@ -1,3 +1,4 @@
+import copy
 import typing
 
 import discord
@@ -17,8 +18,14 @@ class Utility(commands.Cog):
 
         Note: This is experimental, use with caution!
         """
+
         if ctx.invoked_subcommand is None:
-            await ctx.send(f"Invalid subcommand!")
+            await ctx.send(f"Invalid subcommand! ")
+
+            msg = copy.copy(ctx.message)
+            msg.content = f"{ctx.prefix}help {ctx.command}"
+            new_ctx = await self.bot.get_context(msg, cls=type(ctx))
+            await self.bot.invoke(new_ctx)
 
     @thread.command(aliases=["begin"])
     @delete_original()
