@@ -114,6 +114,7 @@ class Utility(commands.Cog):
         async def rename():
             # await ctx.channel.delete(reason="End Thread")
             await ctx.channel.edit(name=f"thread-{name}")
+            await ctx.send(f"Renamed thread channel to `thread-{name}`.", delete_after=10)
             pass
 
         if ctx.channel.category:
