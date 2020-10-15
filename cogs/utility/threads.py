@@ -30,6 +30,7 @@ class Utility(commands.Cog):
             await self.bot.invoke(new_ctx)
 
     @thread.command(aliases=["begin"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
     @delete_original()
     async def start(self, ctx, msg_id: typing.Optional[str]):
         """
@@ -70,6 +71,7 @@ class Utility(commands.Cog):
         await ctx.send(embed=embed)
 
     @thread.command(aliases=["stop"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
     @delete_original()
     async def end(self, ctx):
         """
@@ -102,6 +104,7 @@ class Utility(commands.Cog):
         await ctx.send("You don't have permission!")
 
     @thread.command(aliases=["edit"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
     @delete_original()
     async def rename(self, ctx, name: str):
         """
