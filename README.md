@@ -1,4 +1,4 @@
-# Tidal-Bot
+![Tidal Bot](.README_images/banner.png)
 
 ![MIT License](https://img.shields.io/github/license/MiningMark48/Tidal-Bot)
 [![Discord](https://img.shields.io/discord/138819614275665920?label=Discord&logo=Discord&style=social)](https://discord.gg/SMCEXw5)
