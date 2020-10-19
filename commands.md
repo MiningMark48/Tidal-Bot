@@ -121,6 +121,6 @@
 | wouldyourather | Would you rather...? | Fun | wyr, wouldrather |
 | xkcd | Get a random XKCD comic | Fun | N/A |
 
-*Plus 6 hidden.*
+*Plus 7 hidden.*
 
 This file was automatically generated.

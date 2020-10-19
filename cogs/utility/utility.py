@@ -282,6 +282,23 @@ class Utility(commands.Cog):
         except discord.HTTPException:
             await ctx.send("Error sending embeded message, please try again later")
 
+    @commands.command(hidden=True)
+    @delete_original()
+    async def tally(self, ctx, tally_amt: int, *, tally_name: str):
+        """Create a simple tally"""
+
+        tally_amt = max(0, min(20, tally_amt))
+
+        embed = discord.Embed(title=f"Tally: {tally_name}")
+        embed.description = "Click on the reactions below to tally."
+
+        tallies = [to_emoji(e) for e in range(0, tally_amt)]
+
+        msg = await ctx.send(embed=embed)
+
+        for tally in tallies:
+            await msg.add_reaction(tally)
+
     # noinspection PyBroadException
     @commands.command()
     @delete_original()
@@ -369,6 +386,11 @@ class Utility(commands.Cog):
         activity = re.sub(r"<.+>", "", activity)
         activity = activity.replace(" ", "")
         await ctx.send(f"{base_url}{activity}")
+
+
+def to_emoji(c):
+    base = 0x1f1e6
+    return chr(base + c)
 
 
 def setup(bot):
