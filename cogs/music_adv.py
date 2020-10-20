@@ -11,10 +11,9 @@ import discord
 import humanize
 import wavelink
 from discord.ext import commands
-from wavelink import Equalizer
 
-from util.data.user_data import UserData
 from util.config import BotConfig
+from util.data.user_data import UserData
 
 """
 Myst Open License - Version 0.1.
@@ -1005,6 +1004,34 @@ class Music(commands.Cog):
 
         for part in playlist_parts:
             await ctx.send(f"```{part}```")
+
+    @commands.Cog.listener("on_voice_state_update")
+    async def on_voice_state_update(self, member, before, after):
+        """
+        Method to DC bot from voice if no members in channel
+        """
+
+        if member == self.bot.user:
+            return
+
+        # On disconnect
+        if not before.channel == after.channel and before.channel is not None:
+            # Check if bot is in channel user DCedd from (prevent DC if just switching channels)
+            if self.bot.user in before.channel.members:
+                # Get all members (non-bots) in VC
+                chan_mems = list(filter(lambda m: not m.bot, before.channel.members))
+                # If nobody in channel
+                if len(chan_mems) <= 0:
+                    player = self.bot.wavelink.get_player(before.channel.guild.id, cls=Player)
+
+                    # if connected, clear queue and stop
+                    if player.is_connected:
+                        # noinspection PyProtectedMember
+                        player.queue._queue.clear()
+                        player.dj = None
+                        await player.stop()
+                        await player.disconnect()
+                        await player.destroy_controller()
 
 
 def setup(bot):
