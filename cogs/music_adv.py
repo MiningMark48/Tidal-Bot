@@ -63,6 +63,7 @@ class Player(wavelink.Player):
         self.update = False
         self.updating = False
         self.inactive = False
+        self.loop_queue = False
 
         self.controls = {'⏯': 'rp',
                          '⏹': 'stop',
@@ -121,6 +122,9 @@ class Player(wavelink.Player):
 
             await self.play(song)
 
+            if self.loop_queue:
+                await self.queue.put(song)
+
             # Invoke our controller if we aren't already...
             if not self.update:
                 await self.invoke_controller()
@@ -158,6 +162,7 @@ class Player(wavelink.Player):
         embed.add_field(name='Requested By', value=track.requester.mention)
         embed.add_field(name='Current DJ', value=self.dj.mention)
         embed.add_field(name='Volume', value=f'**{self.volume}%**')
+        embed.add_field(name='Loop Queue', value='Enabled' if self.loop_queue else 'Disabled')
         # embed.add_field(name='EQ', value=self.eq)
         # embed.add_field(name='Queue Length', value=str(len(self.entries)))
 
@@ -201,7 +206,7 @@ class Player(wavelink.Player):
 
         This handles the reaction buttons and it's controls.
         """
-        self.bot.loop.create_task(self.add_reactions())
+        # self.bot.loop.create_task(self.add_reactions())
 
         def check(r, u):
             if not self.controller_message:
@@ -430,9 +435,9 @@ class Music(commands.Cog):
         Query can be a search entry for YouTube, or a direct link to
         SoundCloud, Bandcamp, Twitch, Mixer, Vimeo, or an HTTP source.
         """
+        await self.delete_original(ctx)
         await ctx.trigger_typing()
 
-        await ctx.invoke(self.connect_)
         query = query.strip('<>')
         # query, sep, tail = query.partition('&list=')
         query = query.partition('&list=')[0]
@@ -440,9 +445,10 @@ class Music(commands.Cog):
         player = self.bot.wavelink.get_player(ctx.guild.id, cls=Player)
 
         if not player.is_connected:
+            await ctx.invoke(self.connect_)
             if ctx.guild.id not in self.config["music"]["whitelist_servers"]:
                 return
-            return await ctx.send('Bot is not connected to voice. Please join a voice channel to play music.')
+            # return await ctx.send('Bot is not connected to voice. Please join a voice channel to play music.')
 
         if not player.dj:
             player.dj = ctx.author
@@ -467,6 +473,22 @@ class Music(commands.Cog):
 
         if player.controller_message and player.is_playing:
             await player.invoke_controller()
+
+    @commands.command(name='loopqueue', aliases=['loop'])
+    @commands.cooldown(2, 15, commands.BucketType.user)
+    @commands.guild_only()
+    async def loop_queue(self, ctx):
+        """Toggle the queue to play on a loop."""
+        await self.delete_original(ctx)
+        player = self.bot.wavelink.get_player(ctx.guild.id, cls=Player)
+        if not player:
+            return
+
+        if not player.is_connected:
+            return
+
+        player.loop_queue = not player.loop_queue
+        await ctx.send(f"**Queue Loop:** {'Enabled' if player.loop_queue else 'Disabled'}", delete_after=10)
 
     @commands.command(name='now_playing', aliases=['np', 'current', 'currentrack', 'controller'])
     @commands.cooldown(2, 15, commands.BucketType.user)

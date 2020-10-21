@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 140
+**Commands Available:** 141
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -49,6 +49,7 @@
 | linus | Linus selfies ftw. | Memes | N/A |
 | listplaylists | Show all available YouTube playlists. | Music | getplaylists, showplaylists, playlists |
 | lmgtfy | When people can't Google, Google for them | Utility | lmg, google |
+| loopqueue | Toggle the queue to play on a loop. | Music | loop |
 | lyrics | Search for lyrics for a song | Utility | lyric, lyr |
 | magic8ball | The Magic 8 Ball says... | Fun | 8ball, magicball, magic8 |
 | matheval | Evaluate a mathematical expression | Utility | evalmath, calc, calculator, math |
