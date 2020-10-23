@@ -136,12 +136,12 @@ class ServerManagement(commands.Cog, name="Server Management"):
                     dm_user = UserData(str(user.id)).booleans.fetch_by_name("dm_enabled")
                     if add_mode:
                         await user.add_roles(role, reason=f"Reacted: {re_msg_id}")
-                        if dm_user or dm_user == None:
+                        if dm_user or dm_user is None:
                             await user.send(f"**Role Added**\n*{role.name}* added in *{guild.name}*"
                                             f" by reacting.")
                     else:
                         await user.remove_roles(role, reason=f"Un-Reacted: {re_msg_id}")
-                        if dm_user or dm_user == None:
+                        if dm_user or dm_user is None:
                             await user.send(f"**Role Removed**\n*{role.name}* removed in *{guild.name}*.")
 
     @commands.Cog.listener("on_raw_message_delete")
