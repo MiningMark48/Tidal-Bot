@@ -44,7 +44,7 @@ class Bot(commands.Cog):
         # await msg.add_reaction("👍")
         # await msg.add_reaction("👎")
 
-        await ctx.send('Successfully sent feedback.')
+        await ctx.send(f'**Successfully sent feedback.**\n> {content}')
 
     # noinspection PyBroadException
     @commands.command(name="feedbackdm", aliases=["fbdm"])
