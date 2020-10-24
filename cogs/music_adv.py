@@ -490,6 +490,8 @@ class Music(commands.Cog):
         player.loop_queue = not player.loop_queue
         await ctx.send(f"**Queue Loop:** {'Enabled' if player.loop_queue else 'Disabled'}", delete_after=10)
 
+        player.update = True
+
     @commands.command(name='now_playing', aliases=['np', 'current', 'currentrack', 'controller'])
     @commands.cooldown(2, 15, commands.BucketType.user)
     @commands.guild_only()
