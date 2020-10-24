@@ -681,6 +681,7 @@ class Music(commands.Cog):
         player = self.bot.wavelink.get_player(ctx.guild.id, cls=Player)
         player.queue._queue.clear()
         player.dj = None
+        player.loop_queue = False
         await player.stop()
         await player.disconnect()
         await player.destroy_controller()
