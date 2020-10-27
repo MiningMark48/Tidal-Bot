@@ -80,5 +80,6 @@ utility = [
 # None: Misc commands not found in a module/cog.
 none = [ 
     "errors", 
-    "owner"
+    "owner",
+    "support"
 ]
