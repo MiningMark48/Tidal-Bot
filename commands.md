@@ -11,8 +11,8 @@
 | bitcoin | Get info for Bitcoin (BTC) | Info | btc |
 | botdms | Control whether or not the bot will DM you with certain commands/functions.  Example: Disabling DMs will prevent bot from DMing reactor role gives/takes.  Usage: botdms False | Preferences | botdm |
 | botinfo | Miscellaneous bot information | Info | N/A |
-| buymeacoffee | Help support development by buying me a coffee - err - fry | Owner | coffee |
-| cashapp | Help support development via CashApp | Owner | N/A |
+| buymeacoffee | Help support development by buying me a coffee - err - fry | Support | coffee |
+| cashapp | Help support development via CashApp | Support | N/A |
 | changepresence | Change the bot's presence on the fly | Owner | N/A |
 | colorgen | Generate a random color or palette of colors  Squares amount: min=1, max=5 | Utility | gencolor, randcolor |
 | commandblacklist | Enable/Disable commands | Server Management | togglecommand, blacklistcommand |
