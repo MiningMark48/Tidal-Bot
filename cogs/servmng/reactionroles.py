@@ -114,7 +114,7 @@ class ServerManagement(commands.Cog, name="Server Management"):
 
         guild = self.bot.get_guild(payload.guild_id)
         channel = guild.get_channel(payload.channel_id)
-        user = guild.get_member(payload.user_id)
+        user = await guild.fetch_member(payload.user_id)
         rmsg = await channel.fetch_message(payload.message_id)
 
         if user == self.bot.user:
