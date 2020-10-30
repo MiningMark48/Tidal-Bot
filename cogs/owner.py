@@ -14,6 +14,7 @@ from util.checks import is_bot_owner
 from util.data.guild_data import GuildData
 from util.logger import Logger
 from util.extensions import get_extensions
+from util.data.data_backup import backup_databases
 
 
 class GlobalChannel(commands.Converter):
@@ -93,6 +94,15 @@ class Owner(commands.Cog):
 
         # remove `foo`
         return content.strip('` \n')
+
+    @commands.command(name="createbackup")
+    @commands.is_owner()
+    async def create_backup(self, ctx):
+        """Create a backup of bot data"""
+
+        await ctx.send("Creating backup...")
+        backup_databases()
+        await ctx.send("Backup created")
 
     @commands.command()
     @commands.is_owner()

@@ -147,3 +147,4 @@ updater.py
 !commands.json
 !demo_config.toml
 !extensions.toml
+!demo_b2.toml

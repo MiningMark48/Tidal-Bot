@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 121
+**Commands Available:** 122
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -19,6 +19,7 @@
 | coronaplot | Plot COVID-19 Data for a specific country  Note: This will likely require the use of quotes.  Usage: plot "US" | Info | covidplot, cplot |
 | coronastats | Fetch COVID-19 Data for a specific country  Note: You can specify up to 10 countries at once.  Usage: stats "US" "Canada" | Info | corona, covid, cstats |
 | countdown | Get the time remaining to a specific date  Optional: Year (defaults to current year) | Utility | N/A |
+| createbackup | Create a backup of bot data | Owner | N/A |
 | curseforge | Get Curseforge Project Stats | Info | cf, curse |
 | dashdefine | It defines who I am | Memes | N/A |
 | deletetag | Delete a bot tag. | Tags | deltag, tagdelete |
