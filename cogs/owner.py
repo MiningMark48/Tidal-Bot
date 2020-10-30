@@ -13,6 +13,7 @@ from discord.ext import commands
 from util.checks import is_bot_owner
 from util.data.guild_data import GuildData
 from util.logger import Logger
+from util.extensions import get_extensions
 
 
 class GlobalChannel(commands.Converter):
@@ -221,9 +222,26 @@ class Owner(commands.Cog):
     #     await self.bot.logout()
     #     self.bot.run(self.bot.bot_token)
 
+    @commands.command(name="reloadall")
+    @commands.is_owner()
+    async def reload_all(self, ctx):
+        """Reload all cogs"""
+        await ctx.send("Reload beginning...")
+
+        for extension in get_extensions():
+            try:
+                self.bot.reload_extension(f"cogs.{extension}")
+                Logger.info(f"Reloaded {extension}")
+            except Exception as e:
+                Logger.fatal(f"Error reloading : \n\t{e}")
+                await ctx.send(f"Error reloading : `{e}`")
+
+        await ctx.send("Reloaded all cogs.")
+        Logger.info(f"{ctx.author} reloaded all cogs")
+
     # noinspection PyBroadException
     @commands.command(name="reloadmusic")
-    @is_bot_owner()
+    @commands.is_owner()
     async def reload_music(self, ctx):
         """Reload the music module"""
         await ctx.send("Reloading music...")
