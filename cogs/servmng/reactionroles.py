@@ -113,15 +113,13 @@ class ServerManagement(commands.Cog, name="Server Management"):
     async def reaction_handle(self, payload, add_mode: bool):
 
         guild = self.bot.get_guild(payload.guild_id)
-        channel = guild.get_channel(payload.channel_id)
         user = await guild.fetch_member(payload.user_id)
-        rmsg = await channel.fetch_message(payload.message_id)
 
         if user == self.bot.user:
             return
 
         reactors = GuildData(str(guild.id)).reactors.fetch_all()
-        reactors_filtered = filter(lambda r: rmsg.id == r[1], reactors)
+        reactors_filtered = filter(lambda r: payload.message_id == r[1], reactors)
         list_reactors = list(reactors_filtered)
 
         if len(list_reactors) > 0:
