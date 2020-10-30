@@ -113,7 +113,7 @@ class ServerManagement(commands.Cog, name="Server Management"):
     async def reaction_handle(self, payload, add_mode: bool):
 
         guild = self.bot.get_guild(payload.guild_id)
-        user = await guild.fetch_member(payload.user_id)
+        user = payload.member if payload.member else await guild.fetch_member(payload.user_id)
 
         if user == self.bot.user:
             return
