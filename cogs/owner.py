@@ -234,8 +234,13 @@ class Owner(commands.Cog):
 
     @commands.command(name="reloadall")
     @commands.is_owner()
-    async def reload_all(self, ctx):
+    async def reload_all(self, ctx, create_backup=False):
         """Reload all cogs"""
+
+        if create_backup:
+            cmd = self.bot.get_command("createbackup")
+            await ctx.invoke(cmd)
+
         await ctx.send("Reload beginning...")
 
         for extension in get_extensions():
