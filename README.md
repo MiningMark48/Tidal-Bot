@@ -66,6 +66,8 @@ Report issues to the [issue tracker](https://github.com/MiningMark48/Tidal-Bot/i
 ### Data Storage
 Data is managed using [SQLAlchemy](https://www.sqlalchemy.org/) with the creation of databases. These databases are stored in the `/data` directory. All databases are backed up upon running the bot into the `/backups` directory with zip files for each day.
 
+If a *b2.toml* file is supplied, backups will be automatically uploaded to a remote [Backblaze B2 Cloud Server](https://www.backblaze.com/b2/cloud-storage.html). Upload will be skipped if file is missing.
+
 -------------
 
 ## Miscellaneous Info

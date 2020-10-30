@@ -1,0 +1,7 @@
+[AppKey]
+id = "ID_GOES_HERE"
+key = "KEY_GOES_HERE"
+
+[bucket]
+name = "bot"
+backup_folder_name = "backups"

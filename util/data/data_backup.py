@@ -6,6 +6,7 @@ from os import path
 from os.path import isfile, join
 
 from util.logger import Logger
+from util.data.b2 import b2_backup
 
 data_path = "data/"
 backups_folder_name = "backups"
@@ -29,6 +30,8 @@ def backup_databases(always_run=True):
         backup_file(zip, f"{data_path}{file}")
 
     Logger.info(f"Backed up {len(only_files)} files to {backups_folder_name}/{subfolder_name}/{zip_name}")
+
+    b2_backup(loczip, zip_name, subfolder_name)
 
 
 def get_subfolder_name():
