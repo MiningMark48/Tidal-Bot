@@ -266,8 +266,13 @@ class Owner(commands.Cog):
 
     @commands.command()
     @commands.is_owner()
-    async def shutdown(self, ctx):
+    async def shutdown(self, ctx, create_backup=False):
         """Shut the bot down."""
+
+        if create_backup:
+            cmd = self.bot.get_command("createbackup")
+            await ctx.invoke(cmd)
+
         await ctx.send("Shutting down bot...")
 
         Logger.info(f"{ctx.author} shutdown the bot")
