@@ -243,7 +243,7 @@ class Utility(commands.Cog):
         """
         Have the bot remind you about something
 
-        Note: Time has a max of 120 minutes (2 hours).
+        Note: Time has a max of 240 minutes (4 hours).
         Also, if the bot goes offline, the reminder is cleared.
         """
         try:
@@ -251,7 +251,7 @@ class Utility(commands.Cog):
         except discord.HTTPException:
             pass
 
-        time = max(min(time, 120), 0)
+        time = max(min(time, 240), 0)
         await ctx.send(f'Ok, I will remind you `{msg}` in **{time}** minutes.', delete_after=10)
 
         await asyncio.sleep(time * 60)
