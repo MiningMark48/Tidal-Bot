@@ -222,13 +222,25 @@ class Owner(commands.Cog):
 
         Logger.info(f"{ctx.author} checked performance of {command}")
 
-    # @commands.command(hidden=True, aliases=["reload"])
-    # @commands.is_owner()
-    # async def restartbot(self, ctx):
-    #     await ctx.send("Restarting bot...")
-    #     print(f'Restarting bot...')
-    #     await self.bot.logout()
-    #     self.bot.run(self.bot.bot_token)
+    @commands.command()
+    @commands.is_owner()
+    async def reload(self, ctx, cog: str, create_backup=False):
+        """Reload a specific cog"""
+
+        if create_backup:
+            cmd = self.bot.get_command("createbackup")
+            await ctx.invoke(cmd)
+
+        await ctx.send(f"Reload of `{cog}` beginning...")
+
+        try:
+            self.bot.reload_extension(f"cogs.{cog}")
+        except Exception as e:
+            Logger.fatal(f"Error reloading : \n\t{e}")
+            await ctx.send(f"Error reloading : `{e}`")
+        else:
+            Logger.info(f"{ctx.author} reloaded {cog}")
+            await ctx.send(f"Reloaded `{cog}`.")
 
     @commands.command(name="reloadall")
     @commands.is_owner()

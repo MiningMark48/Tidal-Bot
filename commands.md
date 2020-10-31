@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 122
+**Commands Available:** 123
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -74,6 +74,7 @@
 | random | Commands that generate random data. | Utility | rand |
 | reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles |
 | reddit | Fetch a random post from a subreddit.  When a subreddit isn't specified, the 'all' page is used. | Utility | N/A |
+| reload | Reload a specific cog | Owner | N/A |
 | reloadall | Reload all cogs | Owner | N/A |
 | reloadmusic | Reload the music module | Owner | N/A |
 | remind | Have the bot remind you about something  Note: Time has a max of 240 minutes (4 hours). Also, if the bot goes offline, the reminder is cleared. | Utility | reminder, remindme |
