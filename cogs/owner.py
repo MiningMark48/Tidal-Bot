@@ -284,6 +284,23 @@ class Owner(commands.Cog):
     async def shutdown(self, ctx, create_backup=False):
         """Shut the bot down."""
 
+        def check(m):
+            return m.author == ctx.author and m.channel == ctx.channel
+
+        async def abort():
+            return await ctx.send("Bot shutdown aborted.")
+
+        await ctx.send("**Are you sure you wish to initiate bot shutdown?**\n\tType *yes* to confirm.")
+
+        try:
+            entry = await self.bot.wait_for('message', check=check, timeout=10)
+        except asyncio.TimeoutError:
+            return await abort()
+
+        cleaned = entry.clean_content.lower()
+        if not cleaned.startswith("yes") or not cleaned.startswith("y"):
+            return await abort()
+
         if create_backup:
             cmd = self.bot.get_command("createbackup")
             await ctx.invoke(cmd)
