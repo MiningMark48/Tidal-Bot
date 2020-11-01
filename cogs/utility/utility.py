@@ -381,8 +381,6 @@ class Utility(commands.Cog):
         Optional: Year (defaults to current year)
         """
 
-        weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-
         try:
             today = datetime.date.today()
 
@@ -390,7 +388,7 @@ class Utility(commands.Cog):
                 year = today.year
 
             fut_date = datetime.date(year, month, day)
-            dotw = weekdays[fut_date.weekday()]
+            dotw = fut_date.strftime('%A')
 
             fut_date_form = str(fut_date.strftime("%B %e, %Y")).replace("  ", " ")
 
