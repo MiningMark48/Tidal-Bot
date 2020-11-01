@@ -76,7 +76,7 @@ class Utility(commands.Cog):
             days = (fut_date - today).days
 
             fut_date_form = str(fut_date.strftime("%B %e, %Y")).replace("  ", " ")
-            
+
             await ctx.send(f"There are **{days} days** until **{fut_date_form}**")
         except ValueError:
             await ctx.send("Error! Invalid date!")
@@ -372,6 +372,31 @@ class Utility(commands.Cog):
                 embed.add_field(name="Shortened", value=shortened, inline=False)
                 embed.set_footer(text="Shortened with TinyURL")
                 await ctx.send(embed=embed)
+
+    @commands.command(name="whatday", aliases=["dayoftheweek", "dotw"])
+    async def what_day(self, ctx, month: int, day: int, year: typing.Optional[int]):
+        """
+        Find out what day of the week a date falls on
+
+        Optional: Year (defaults to current year)
+        """
+
+        weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+        try:
+            today = datetime.date.today()
+
+            if not year:
+                year = today.year
+
+            fut_date = datetime.date(year, month, day)
+            dotw = weekdays[fut_date.weekday()]
+
+            fut_date_form = str(fut_date.strftime("%B %e, %Y")).replace("  ", " ")
+
+            await ctx.send(f"**{fut_date_form}** is a **{dotw}**.")
+        except ValueError:
+            await ctx.send("Error! Invalid date!")
 
     @commands.command(name="youtubestatus", aliases=["ytstatus"], hidden=True)
     async def youtube_status(self, ctx, user: discord.Member):

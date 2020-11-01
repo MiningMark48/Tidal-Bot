@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 123
+**Commands Available:** 124
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -121,6 +121,7 @@
 | urlshorten | Shorten a URL | Utility | tinyurl |
 | userguess | Guess a user in the server based on their avatar. | Fun | ug |
 | vote | Get out and vote! | Info | N/A |
+| whatday | Find out what day of the week a date falls on  Optional: Year (defaults to current year) | Utility | dayoftheweek, dotw |
 | whois | Get information about another user | Info | userinfo |
 | wikipedia | Search Wikipedia | Info | wiki, wp |
 | wouldyourather | Would you rather...? | Fun | wyr, wouldrather |
