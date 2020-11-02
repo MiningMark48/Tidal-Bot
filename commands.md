@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 124
+**Commands Available:** 126
 | Name    | Description | Category | Aliases |
 |---------|-------------|----------|---------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard |
@@ -47,6 +47,7 @@
 | leaveserver | Make the bot leave a server | Owner | N/A |
 | linus | Linus selfies ftw. | Memes | N/A |
 | lmgtfy | When people can't Google, Google for them | Utility | lmg, google |
+| load | Load a cog | Owner | N/A |
 | lyrics | Search for lyrics for a song | Utility | lyric, lyr |
 | magic8ball | The Magic 8 Ball says... | Fun | 8ball, magicball, magic8 |
 | matheval | Evaluate a mathematical expression | Utility | evalmath, calc, calculator, math |
@@ -116,6 +117,7 @@
 | trivia | Answer some trivia!  Usage: trivia [time (seconds)] [randomeasymediumhard]  | Fun | N/A |
 | twobuttons | Two buttons! *queue sweating*  Note: This will likely require quotes.         | Memes | N/A |
 | unicodeeval | [WIP] Evalutate a Unicode character or an emoji | Utility | emojieval, evalemoji, evalunicode, uce |
+| unload | Unload a cog | Owner | N/A |
 | uptime | See how long the bot has been running | Utility | N/A |
 | urban | Define a word from Urban Dictionary | Info | urbandictionary, urbandict |
 | urlshorten | Shorten a URL | Utility | tinyurl |

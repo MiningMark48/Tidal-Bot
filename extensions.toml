@@ -45,6 +45,12 @@ info = [
     "wikipedia"
 ]
 
+# Owner: Bot Owner-only commands
+owner = [
+    "modules",
+    "owner"
+]
+
 # Preferences: Preference Management
 preferences = [ 
     "userprefs"
