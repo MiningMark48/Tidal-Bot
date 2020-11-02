@@ -1,6 +1,7 @@
 import json
 
 from PIL import ImageFont, ImageDraw, Image
+from discord.ext import commands
 
 from util.logger import Logger
 
@@ -33,7 +34,7 @@ class Generator:
                 "aliases": ", ".join(cmd.aliases),
                 "type": str(cmd.cog_name),
                 "usage": "--",
-                "action": str(cmd.help),
+                "action": f"{'(Group) ' if isinstance(cmd, commands.Group) else ''}{cmd.help}",
                 "hidden": cmd.hidden
             }
             cmds_list.append(cmd_o)
