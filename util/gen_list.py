@@ -86,8 +86,8 @@ class Generator:
                     "|", "").replace("\n", " ")
                 cmd_cat = str(cmd['type']).replace("|", "")
                 cmd_alia = str(cmd['aliases']).replace(
-                    "|", "") if cmd['aliases'] else "N/A"
-                cmd_sub = str(cmd['subcommands'].replace("|", "") if cmd['subcommands'] else 'N/A')
+                    "|", "") if cmd['aliases'] else "--"
+                cmd_sub = str(cmd['subcommands'].replace("|", "") if cmd['subcommands'] else '--')
                 content += f"| {cmd_name} | {cmd_desc} | {cmd_cat} | {cmd_alia} | {cmd_sub} |\n"
 
             content += f"\n*Plus {(len(all_cmds) - len(cmds))} hidden.*\n\nThis file was automatically generated."
