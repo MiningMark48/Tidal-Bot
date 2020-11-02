@@ -34,9 +34,15 @@ class Owner(commands.Cog):
 
         try:
             self.bot.reload_extension(f"cogs.{cog}")
-        except Exception as e:
-            Logger.fatal(f"Error reloading : \n\t{e}")
-            await ctx.send(f"Error reloading : `{e}`")
+        except commands.ExtensionError:
+            try:
+                self.bot.load_extension(f"cogs.{cog}")
+            except commands.ExtensionError as e:
+                Logger.fatal(f"Error reloading : \n\t{e}")
+                await ctx.send(f"Error reloading : `{e}`")
+            else:
+                await ctx.send(f"**{cog}** loaded.")
+                Logger.info(f"{cog} loaded.")
         else:
             Logger.info(f"{ctx.author} reloaded {cog}")
             await ctx.send(f"Reloaded `{cog}`.")
@@ -56,9 +62,15 @@ class Owner(commands.Cog):
             try:
                 self.bot.reload_extension(f"cogs.{extension}")
                 Logger.info(f"Reloaded {extension}")
-            except Exception as e:
-                Logger.fatal(f"Error reloading : \n\t{e}")
-                await ctx.send(f"Error reloading : `{e}`")
+            except commands.ExtensionError:
+                try:
+                    self.bot.load_extension(f"cogs.{extension}")
+                except commands.ExtensionError as e:
+                    Logger.fatal(f"Error reloading : \n\t{e}")
+                    await ctx.send(f"Error reloading : `{e}`")
+                else:
+                    await ctx.send(f"**{extension}** loaded.")
+                    Logger.info(f"{extension} loaded.")
 
         await ctx.send("Reloaded all cogs.")
         Logger.info(f"{ctx.author} reloaded all cogs")
@@ -72,7 +84,7 @@ class Owner(commands.Cog):
         try:
             self.bot.reload_extension("cogs.music")
             await ctx.send("Music reloaded.")
-        except Exception as e:
+        except commands.ExtensionError as e:
             print(e)
             await ctx.send("Error reloading!")
 

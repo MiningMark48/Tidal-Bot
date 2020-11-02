@@ -11,7 +11,6 @@ import discord
 from discord.ext import commands
 
 from util.data.data_backup import backup_databases
-from util.extensions import get_extensions
 from util.logger import Logger
 
 
