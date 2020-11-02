@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 126
+**Commands Available:** 125
 | Name    | Description | Category | Aliases | Subcommands |
 |---------|-------------|----------|---------|-------------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard | -- |
@@ -42,7 +42,7 @@
 | hastebin | Get the RAW text from a Hastebin | Utility | hastebinget, hasteget, hb | -- |
 | help | Shows this message | None | -- | -- |
 | higherlower | Play a higher-lower number guessing game | Fun | hl | -- |
-| joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg | get, clear, set |
+| joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg | set, get, clear |
 | kkchum | Krusty Krab > Chum Bucket | Memes | -- | -- |
 | leaveserver | Make the bot leave a server | Owner | -- | -- |
 | linus | Linus selfies ftw. | Memes | -- | -- |
@@ -57,7 +57,6 @@
 | nobrain | Oh F***, I forgot to give you a brain. | Memes | -- | -- |
 | nocontext | Picks a random message from the channel, out-of-context.  Min: 10, Max: 10000 | Fun | ooc | -- |
 | nothere | We don't do that here. | Memes | -- | -- |
-| nsfw | Get a random NSFW Gif via search query | Fun | porn | -- |
 | palette | Get a random color palette from an image.  If 'Top' is true, command will grab the most used colors instead of random. | Utility | colpal | -- |
 | pastebin | Get the RAW text from a Pastebin | Utility | pastebinget, pasteget, pb | -- |
 | patrickpush | PUSH IT SOMEWHERE ELSE! | Memes | -- | -- |
@@ -72,8 +71,8 @@
 | qrcode | Generate a QR Code from a string of text | Utility | qrcodecreate, createqr, qr | -- |
 | quickpoll | Quickly, create a poll for people to vote on  Usage: quickpoll <Time (minutes)> "<Question>" "<Option 1>" "<Option 2>" ...  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | -- | -- |
 | quickpolldef | Quickly, create a poll for people to vote on using default choices  Usage: quickpoll <Time (minutes)> "<Question>" "<Default Choice>"  Default Choices: yesno (Yes/No), truefalse (True/False), scale15 (1/2/3/4/5), abcd (A/B/C/D)  Note: If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | qpd | -- |
-| random | Commands that generate random data. | Utility | rand | person, card, number, coin, choice, text, dice |
-| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | delete, add, get, clearall |
+| random | Commands that generate random data. | Utility | rand | person, dice, card, coin, number, choice, text |
+| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | get, clearall, add, delete |
 | reddit | Fetch a random post from a subreddit.  When a subreddit isn't specified, the 'all' page is used. | Utility | -- | -- |
 | reload | Reload a specific cog | Owner | -- | -- |
 | reloadall | Reload all cogs | Owner | -- | -- |
@@ -129,6 +128,6 @@
 | wouldyourather | Would you rather...? | Fun | wyr, wouldrather | -- |
 | xkcd | Get a random XKCD comic | Fun | -- | -- |
 
-*Plus 7 hidden.*
+*Plus 8 hidden.*
 
 This file was automatically generated.
