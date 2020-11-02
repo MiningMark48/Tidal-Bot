@@ -29,13 +29,16 @@ class Generator:
 
         cmds_list = []
         for cmd in self.commands:
+            subcommands = ', '.join(c.name for c in cmd.walk_commands()) if isinstance(cmd, commands.Group) else None
+
             cmd_o = {
                 "name": str(cmd.name),
                 "aliases": ", ".join(cmd.aliases),
                 "type": str(cmd.cog_name),
                 "usage": "--",
-                "action": f"{'(Group) ' if isinstance(cmd, commands.Group) else ''}{cmd.help}",
-                "hidden": cmd.hidden
+                "action": str(cmd.help),
+                "hidden": cmd.hidden,
+                "subcommands": subcommands
             }
             cmds_list.append(cmd_o)
 
@@ -71,8 +74,8 @@ class Generator:
 
             header = "# Commands\n" \
                      "**Commands Available:** {0}\n" \
-                     "| Name    | Description | Category | Aliases |\n" \
-                     "|---------|-------------|----------|---------|"
+                     "| Name    | Description | Category | Aliases | Subcommands |\n" \
+                     "|---------|-------------|----------|---------|-------------|"
 
             header = header.format(len(cmds))
 
@@ -84,7 +87,8 @@ class Generator:
                 cmd_cat = str(cmd['type']).replace("|", "")
                 cmd_alia = str(cmd['aliases']).replace(
                     "|", "") if cmd['aliases'] else "N/A"
-                content += f"| {cmd_name} | {cmd_desc} | {cmd_cat} | {cmd_alia} |\n"
+                cmd_sub = str(cmd['subcommands'].replace("|", "") if cmd['subcommands'] else 'N/A')
+                content += f"| {cmd_name} | {cmd_desc} | {cmd_cat} | {cmd_alia} | {cmd_sub} |\n"
 
             content += f"\n*Plus {(len(all_cmds) - len(cmds))} hidden.*\n\nThis file was automatically generated."
 
