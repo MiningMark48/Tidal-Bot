@@ -1,8 +1,6 @@
-import aiohttp
-import asyncio
 import random
 
-import discord
+import aiohttp
 from discord.ext import commands
 
 from util.decorators import delete_original
@@ -14,7 +12,7 @@ class Fun(commands.Cog):
         self.trivia_messages = []
         self.new_trivia = []
 
-    @commands.command(aliases=['porn'])
+    @commands.command(aliases=['porn'], hidden=True)
     @commands.is_nsfw()
     @delete_original()
     async def nsfw(self, ctx, *, query: str):
