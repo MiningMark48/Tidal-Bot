@@ -7,6 +7,7 @@ from os.path import isfile, join
 
 from util.logger import Logger
 from util.data.b2 import b2_backup
+from util.config import BotConfig
 
 data_path = "data/"
 backups_folder_name = "backups"
@@ -31,7 +32,15 @@ def backup_databases(always_run=True):
 
     Logger.info(f"Backed up {len(only_files)} files to {backups_folder_name}/{subfolder_name}/{zip_name}")
 
-    b2_backup(loczip, zip_name, subfolder_name)
+    try:
+        do_b2 = BotConfig().data["misc"]["b2_backups"]
+    except KeyError:
+        Logger.info("B2 Backups disabled, skipping...")
+    else:
+        if do_b2:
+            b2_backup(loczip, zip_name, subfolder_name)
+        else:
+            Logger.info("B2 Backups disabled, skipping...")
 
 
 def get_subfolder_name():
