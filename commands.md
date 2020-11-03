@@ -71,8 +71,8 @@
 | qrcode | Generate a QR Code from a string of text | Utility | qrcodecreate, createqr, qr | -- |
 | quickpoll | Quickly, create a poll for people to vote on  Usage: quickpoll <Time (minutes)> "<Question>" "<Option 1>" "<Option 2>" ...  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | -- | -- |
 | quickpolldef | Quickly, create a poll for people to vote on using default choices  Usage: quickpoll <Time (minutes)> "<Question>" "<Default Choice>"  Default Choices: yesno (Yes/No), truefalse (True/False), scale15 (1/2/3/4/5), abcd (A/B/C/D)  Note: If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | qpd | -- |
-| random | Commands that generate random data. | Utility | rand | person, dice, card, coin, number, choice, text |
-| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | get, clearall, add, delete |
+| random | Commands that generate random data. | Utility | rand | card, number, person, coin, text, choice, dice |
+| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | add, get, delete, clearall |
 | reddit | Fetch a random post from a subreddit.  When a subreddit isn't specified, the 'all' page is used. | Utility | -- | -- |
 | reload | Reload a specific cog | Owner | -- | -- |
 | reloadall | Reload all cogs | Owner | -- | -- |
