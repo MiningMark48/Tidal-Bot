@@ -18,7 +18,7 @@ class Utility(commands.Cog):
         # Load if not already loaded
         if self.options is None:
             self.options = self.get_options(self.bot.commands, desc_search=False)
-            print(len(self.options), self.options)
+            # print(len(self.options), self.options)
 
         search_results = self.handle_search(query)
 
