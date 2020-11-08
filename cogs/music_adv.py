@@ -935,9 +935,9 @@ class Music(commands.Cog):
                '🔽 - Volume Down'
         await ctx.send(data, delete_after=15)
 
-    @commands.command()
+    @commands.command(name="musicinfo")
     @commands.guild_only()
-    async def info(self, ctx):
+    async def music_info(self, ctx):
         """Retrieve various Node/Server/Player information."""
         try:
             await ctx.message.delete()
