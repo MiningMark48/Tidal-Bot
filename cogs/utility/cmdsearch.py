@@ -30,8 +30,8 @@ class Utility(commands.Cog):
         for (res, rat) in search_results:
             if rat == 100:
                 res = f"[ {res} ]"
-            # results_txt += f"{res}\n"
-            results_txt += f"{res} ({rat})\n"
+            results_txt += f"{res}\n"
+            # results_txt += f"{res} ({rat})\n"
 
         await ctx.send(f"```{results_txt}```")
 
