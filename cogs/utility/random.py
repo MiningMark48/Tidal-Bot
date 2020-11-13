@@ -1,7 +1,6 @@
 import copy
 import random
 
-import discord
 from discord.ext import commands
 from faker import Faker
 
@@ -69,7 +68,7 @@ class Utility(commands.Cog):
     async def rand_dice(self, ctx, amt=1):
         """Roll a dice!"""
         if 0 < amt <= 25:
-            roll = ', '.join(str(random.randint(1, 6)) for x in range(amt))
+            roll = ', '.join(str(random.randint(1, 6)) for _ in range(amt))
             await ctx.send(f':game_die: You rolled a die and got... **{roll}**! :game_die:')
         else:
             await ctx.send('Amount must be between **0** and **25**!')
@@ -78,7 +77,7 @@ class Utility(commands.Cog):
     async def rand_num(self, ctx, min: int, max: int, amt=1):
         """Get a random number between two values"""
         if 0 < amt <= 25:
-            roll = ', '.join(str(random.randint(min, max)) for x in range(amt))
+            roll = ', '.join(str(random.randint(min, max)) for _ in range(amt))
             await ctx.send(f'Your random number{"s are" if amt > 1 else " is"}... **{roll}**!')
         else:
             await ctx.send('Amount must be between **0** and **25**!')
