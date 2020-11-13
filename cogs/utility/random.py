@@ -83,42 +83,6 @@ class Utility(commands.Cog):
         else:
             await ctx.send('Amount must be between **0** and **25**!')
 
-    @random.command(name="person")
-    async def rand_person(self, ctx):
-        """Generate a fake person profile"""
-        fake = Faker("en_US")
-
-        profile = fake.profile(fields=None, sex=None)
-
-        name = profile["name"]
-        address = profile["address"]
-        sex = "Male" if profile["sex"] == "M" else "Female"
-        birthday = profile["birthdate"]
-        # phone = fake.phone_number()
-        ssn = profile["ssn"]
-        email = profile["mail"]
-        website = random.choice(profile["website"])
-        username = profile["username"]
-        company = profile["company"]
-        job = profile["job"]
-        license_plate = fake.license_plate()
-
-        embed = discord.Embed(title=name)
-        embed.add_field(name="Address", value=address, inline=False)
-        embed.add_field(name="Sex", value=sex)
-        embed.add_field(name="Birthday", value=birthday)
-        # embed.add_field(name="Phone", value=phone)
-        embed.add_field(name="SSN", value=ssn)
-        embed.add_field(name="Email", value=email)
-        embed.add_field(name="Website", value=website)
-        embed.add_field(name="Username", value=username)
-        embed.add_field(name="Company", value=company)
-        embed.add_field(name="Job", value=job)
-        embed.add_field(name="License Plate", value=license_plate)
-
-        embed.set_footer(text="Disclaimer: The profile generated is random data.")
-        await ctx.send(embed=embed)
-
     @random.command(name="text", aliases=["lorem", "loremipsum"])
     async def rand_text(self, ctx, max_chars=500):
         """Generate random text."""
