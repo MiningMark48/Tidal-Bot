@@ -14,6 +14,7 @@ class GuildData:
 
         self.booleans = self.Booleans(meta, self.conn)
         self.disabled_commands = self.DisabledCommands(meta, self.conn)
+        self.economy = self.Economy(meta, self.conn)
         self.reactors = self.Reactors(meta, self.conn)
         self.strings = self.Strings(meta, self.conn)
         self.tags = self.Tags(meta, self.conn)
@@ -59,6 +60,22 @@ class GuildData:
 
         def insert(self, name: str):
             self.insert_([{'name': name}])
+
+    class Economy(TableHelper):
+        def __init__(self, meta, conn):
+            self.conn = conn
+
+            self.economy = Table(
+                'economy', meta,
+                Column('id', Integer, primary_key=True),
+                Column('name', String, unique=True),
+                Column('value', Integer)
+            )
+
+            super().__init__(self.economy, self.conn)
+
+        def insert(self, name: str, value: str):
+            self.insert_([{'name': name, 'value': value}])
 
     class Reactors(TableHelper):
         def __init__(self, meta, conn):
