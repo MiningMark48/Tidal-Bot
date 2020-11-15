@@ -19,6 +19,8 @@ Logger.alert("Starting...")
 
 resources_path = "./resources/"
 
+bot_token = None
+load_music = None
 try:
     Logger.info("Loading config...")
     config = BotConfig()
