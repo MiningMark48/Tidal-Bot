@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 127
+**Commands Available:** 125
 | Name    | Description | Category | Aliases | Subcommands |
 |---------|-------------|----------|---------|-------------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard | -- |
@@ -21,7 +21,6 @@
 | coronastats | Fetch COVID-19 Data for a specific country  Note: You can specify up to 10 countries at once.  Usage: stats "US" "Canada" | Info | corona, covid, cstats | -- |
 | countdown | Get the time remaining to a specific date  Optional: Year (defaults to current year) | Utility | -- | -- |
 | createbackup | Create a backup of bot data | Owner | -- | -- |
-| currency | Admin commands for manipulating currency | Economy | -- | get, remove, add, set |
 | curseforge | Get Curseforge Project Stats | Info | cf, curse | -- |
 | dashdefine | It defines who I am | Memes | -- | -- |
 | deletetag | Delete a bot tag. | Tags | deltag, tagdelete | -- |
@@ -36,7 +35,6 @@
 | financialsupport | Financially support me plz | Memes | -- | -- |
 | flexboat | I sawed this boat in half!  Note: This will likely require quotes. | Memes | philswiftboat | -- |
 | flextape | Flex on!  Note: This will likely require quotes. | Memes | philswift, flexon, flexseal | -- |
-| gamble | Economy: Gamble | Economy | -- | coinflip |
 | getservers | Get a list of all servers the bot is currently connected to | Owner | -- | -- |
 | gist | Get the RAW text from a Gist | Utility | gistget | -- |
 | github | Look up information about a user on Github | Info | githubuser, githubinfo | -- |
@@ -45,7 +43,7 @@
 | hastebin | Get the RAW text from a Hastebin | Utility | hastebinget, hasteget, hb | -- |
 | help | Shows this message | None | -- | -- |
 | higherlower | Play a higher-lower number guessing game | Fun | hl | -- |
-| joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg | set, clear, get |
+| joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg | get, clear, set |
 | kkchum | Krusty Krab > Chum Bucket | Memes | -- | -- |
 | leaveserver | Make the bot leave a server | Owner | -- | -- |
 | linus | Linus selfies ftw. | Memes | -- | -- |
@@ -74,8 +72,8 @@
 | qrcode | Generate a QR Code from a string of text | Utility | qrcodecreate, createqr, qr | -- |
 | quickpoll | Quickly, create a poll for people to vote on  Usage: quickpoll <Time (minutes)> "<Question>" "<Option 1>" "<Option 2>" ...  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | -- | -- |
 | quickpolldef | Quickly, create a poll for people to vote on using default choices  Usage: quickpoll <Time (minutes)> "<Question>" "<Default Choice>"  Default Choices: yesno (Yes/No), truefalse (True/False), scale15 (1/2/3/4/5), abcd (A/B/C/D)  Note: If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | qpd | -- |
-| random | Commands that generate random data. | Utility | rand | card, number, coin, choice, dice, text |
-| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | delete, add, get, clearall |
+| random | Commands that generate random data. | Utility | rand | card, text, number, coin, choice, dice |
+| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | add, delete, get, clearall |
 | reddit | Fetch a random post from a subreddit.  When a subreddit isn't specified, the 'all' page is used. | Utility | -- | -- |
 | reload | Reload a specific cog | Owner | -- | -- |
 | reloadall | Reload all cogs | Owner | -- | -- |
@@ -110,7 +108,7 @@
 | tea | *Sips tea* | Memes | -- | -- |
 | temprole | Assign a user a temporary role.  Minutes Min: 1, Max: 60  Note: If the bot goes offline/restarts, the role will not be cleared from the user. | Server Management | trole | -- |
 | tenor | Returns a random GIF based on search term | Fun | gif | -- |
-| thread | Channel Threads, until added officially by Discord  Note: This is experimental, use with caution! | Utility | threads | start, rename, end |
+| thread | Channel Threads, until added officially by Discord  Note: This is experimental, use with caution! | Utility | threads | end, start, rename |
 | tidalwave | Get a link to the Tidal Wave Discord | Info | discord | -- |
 | toggleaurls | Toggle the Semi-Auto URL Shorten  When enabled, the bot will semi-automatically shorten any long urls. | Utility | toggleautourlshorten | -- |
 | togglerum | Toggle the mobile indicator reaction (RUM: R U Mobile?) | Server Management | togglemobileindicator, toggleismobile | -- |
