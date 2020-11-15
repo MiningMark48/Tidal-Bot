@@ -21,11 +21,7 @@ whitelist_servers = [
 [api_keys]
 tenor = "key"
 alphavantage = "key"
-
-[reddit]
-client_id = "id"
-client_secret = "secret"
-user_agent = "Tidal Bot by /u/miningmark48"
+trackergg = "key"
 
 [misc]
 feedback_channel = 12341234123412
