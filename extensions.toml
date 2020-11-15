@@ -10,11 +10,11 @@ bot = [
     "bot_cmds"
 ]
 
-# Economy : Economy related commands
-economy = [
-    "economy", # This is required for all others in this cog and must be first in the list.
-    "gamble"
-]
+# Economy [Backburner] : Economy related commands
+#economy = [
+#    "economy", # This is required for all others in this cog and must be first in the list.
+#    "gamble"
+#]
 
 # Fun : Entertainment and enjoyment commands.
 fun = [ 
