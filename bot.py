@@ -55,6 +55,7 @@ intents.guilds = True
 intents.members = True
 intents.messages = True
 intents.reactions = True
+intents.presences = True
 
 bot = commands.Bot(command_prefix=prefix,
                    help_command=HelpCommand(), intents=intents)
