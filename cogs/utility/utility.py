@@ -5,7 +5,6 @@ import re
 import string
 import time
 import typing
-import json
 from functools import partial
 from io import BytesIO
 from unicodedata import name
@@ -13,7 +12,6 @@ from unicodedata import name
 import aiohttp
 import discord
 import googletrans
-from bs4 import BeautifulSoup as bs
 from discord.ext import commands
 
 from util.decorators import delete_original
@@ -87,28 +85,6 @@ class Utility(commands.Cog):
 
         url = f"https://discord.com/oauth2/authorize?client_id={bot_id}&scope=bot&permissions={perms_int}"
         await ctx.send(f"{ctx.author.mention}, here you go!\n{url}")
-
-    @commands.command(name="duckbang", aliases=["bang", "db"])
-    @commands.cooldown(1, 3)
-    @delete_original()
-    async def duck_bang(self, ctx, bang: str, *, query: str):
-        """
-        Search a website using DuckDuckGo's Bangs
-
-        List of Bangs: https://duckduckgo.com/bang
-        """
-
-        base_url = "https://api.duckduckgo.com/?q=!{}%20{}&format=json&no_redirect=1".format(bang, query.replace(' ', '%20'))
-
-        async with aiohttp.ClientSession() as session:
-            async with session.get(base_url) as r:
-                data = json.loads(await r.read())
-                redirect_url = data["Redirect"]
-
-                if redirect_url:
-                    await ctx.send(f"{ctx.author.mention}, Here you go!\n{redirect_url}")
-                else:
-                    await ctx.send("Invalid Bang! \nSee <https://duckduckgo.com/bang> for a list of supported Bangs.")
 
     @commands.command(aliases=["emojis"])
     @commands.guild_only()
