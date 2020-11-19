@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 120
+**Commands Available:** 119
 | Name    | Description | Category | Aliases | Subcommands |
 |---------|-------------|----------|---------|-------------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard | -- |
@@ -43,7 +43,7 @@
 | hastebin | Get the RAW text from a Hastebin | Utility | hastebinget, hasteget, hb | -- |
 | help | Shows this message | None | -- | -- |
 | higherlower | Play a higher-lower number guessing game | Fun | hl | -- |
-| joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg | get, set, clear |
+| joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg | clear, set, get |
 | kkchum | Krusty Krab > Chum Bucket | Memes | -- | -- |
 | leaveserver | Make the bot leave a server | Owner | -- | -- |
 | linus | Linus selfies ftw. | Memes | -- | -- |
@@ -69,7 +69,7 @@
 | prune | Bulk delete messages (up to 100) | Utility | purge, nuke | -- |
 | quickpoll | Quickly, create a poll for people to vote on  Usage: quickpoll <Time (minutes)> "<Question>" "<Option 1>" "<Option 2>" ...  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | -- | -- |
 | quickpolldef | Quickly, create a poll for people to vote on using default choices  Usage: quickpoll <Time (minutes)> "<Question>" "<Default Choice>"  Default Choices: yesno (Yes/No), truefalse (True/False), scale15 (1/2/3/4/5), abcd (A/B/C/D)  Note: If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | qpd | -- |
-| random | Commands that generate random data. | Utility | rand | choice, coin, dice, text, card, number |
+| random | Commands that generate random data. | Utility | rand | number, coin, choice, dice, text, card |
 | reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | delete, add, get, clearall |
 | reload | Reload a specific cog | Owner | -- | -- |
 | reloadall | Reload all cogs | Owner | -- | -- |
@@ -89,7 +89,6 @@
 | spongebreathe | *Breathe in* Shit. | Memes | -- | -- |
 | spongemock | spOngEBoB MoCKifY soMe TeXT | Memes | -- | -- |
 | spongeout | 'Ight, Imma head out | Memes | -- | -- |
-| stats | Stats about the bot | Utility | botstats | -- |
 | steam | Look up information about a user on Mixer | Info | steamuser, steaminfo | -- |
 | stock | Get Stock info for a specific Symbol | Info | stocks | -- |
 | strawpoll | Create a Strawpoll | Utility | sp | -- |
@@ -104,7 +103,7 @@
 | tea | *Sips tea* | Memes | -- | -- |
 | temprole | Assign a user a temporary role.  Minutes Min: 1, Max: 60  Note: If the bot goes offline/restarts, the role will not be cleared from the user. | Server Management | trole | -- |
 | tenor | Returns a random GIF based on search term | Fun | gif | -- |
-| thread | Channel Threads, until added officially by Discord  Note: This is experimental, use with caution! | Utility | threads | end, start, rename |
+| thread | Channel Threads, until added officially by Discord  Note: This is experimental, use with caution! | Utility | threads | start, rename, end |
 | tidalwave | Get a link to the Tidal Wave Discord | Info | discord | -- |
 | toggleaurls | Toggle the Semi-Auto URL Shorten  When enabled, the bot will semi-automatically shorten any long urls. | Utility | toggleautourlshorten | -- |
 | togglerum | Toggle the mobile indicator reaction (RUM: R U Mobile?) | Server Management | togglemobileindicator, toggleismobile | -- |

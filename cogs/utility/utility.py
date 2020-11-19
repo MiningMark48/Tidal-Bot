@@ -222,18 +222,6 @@ class Utility(commands.Cog):
         await ctx.message.delete()
         await ctx.send(msg)
 
-    @commands.command(aliases=["botstats"])
-    async def stats(self, ctx):
-        """Stats about the bot"""
-        embed = discord.Embed(title="Bot Stats", color=ctx.message.author.top_role.color)
-        embed.add_field(name="Latency", value=f"{str(round(self.bot.latency * 1000, 0))[:2]}ms")
-        embed.add_field(name="Connected Servers", value=str(len(self.bot.guilds)))
-        embed.add_field(name="Users", value=str(len(self.bot.users)))
-        try:
-            await ctx.send(embed=embed)
-        except discord.HTTPException:
-            await ctx.send("Error sending embeded message, please try again later")
-
     @commands.command(hidden=True)
     @delete_original()
     async def tally(self, ctx, tally_amt: int, *, tally_name: str):
