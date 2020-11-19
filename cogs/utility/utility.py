@@ -134,18 +134,6 @@ class Utility(commands.Cog):
 
                 await ctx.send(embed=embed)
 
-    @commands.command(aliases=["lmg", "google"])
-    async def lmgtfy(self, ctx, *, query: str):
-        """When people can't Google, Google for them"""
-
-        query = query.translate(str.maketrans('', '', string.punctuation))
-        query = html.escape(query)
-        query = query.replace(" ", "%20")
-
-        url = f"<https://lmgtfy.com/?q={query}>"
-
-        await ctx.send(url)
-
     @commands.command(name="matheval", aliases=["evalmath", "calc", "calculator", "math"])
     @commands.cooldown(5, 3)
     async def math_eval(self, ctx, *, expression: str):
