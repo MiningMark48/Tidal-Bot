@@ -134,6 +134,27 @@ class Utility(commands.Cog):
 
                 await ctx.send(embed=embed)
 
+    # @commands.command(name="longmessage", aliases=["longmsg", "msgtxt"])
+    # async def long_message(self, ctx, message_id: str):
+    #     """Get the text from a long message (txt file)"""
+    #     await ctx.message.delete()
+    #
+    #     channel_id = ctx.channel.id
+    #     base_url = f"https://cdn.discordapp.com/attachments/{channel_id}/{message_id}/message.txt"
+    #     async with aiohttp.ClientSession() as session:
+    #         async with session.get(base_url) as r:
+    #             data = await r.text()
+    #             char_len = 1500
+    #             txt = f'```{({data[:char_len]}) if len(data) > char_len else data}``` '
+    #
+    #             max_chars = 1750
+    #             txt_parts = [(txt[i:i + max_chars]) for i in range(0, len(txt), max_chars)]
+    #
+    #             for part in txt_parts:
+    #                 await ctx.author.send(f"```{part}```")
+    #             if not isinstance(ctx.channel, discord.DMChannel):
+    #                 await ctx.send(f"{ctx.author.mention}, message sent!")
+
     @commands.command(name="matheval", aliases=["evalmath", "calc", "calculator", "math"])
     @commands.cooldown(5, 3)
     async def math_eval(self, ctx, *, expression: str):
