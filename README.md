@@ -80,7 +80,7 @@ Special thanks to the following people all others who have contributed to the pr
 ### Links
 Here are some potentially relevant links.
 - [Tidal Wave Discord](https://discord.gg/SMCEXw5) 
-- [Tidal Bot Trello](https://trello.com/b/U3TTk5Kc/tidal-bot)
+- [Tidal Bot ClickUp](https://share.clickup.com/b/h/4-12633923-2/c9aa38f4ceedf1c) (Previously Trello)
 
 ----------
 
