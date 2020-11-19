@@ -82,6 +82,13 @@ class Info(commands.Cog):
         except discord.HTTPException:
             await ctx.send("Error sending embeded message, please try again later")
 
+    @commands.command(name="clickup", aliases=["trello"])
+    @delete_original()
+    async def click_up(self, ctx):
+        """Get a link to the Tidal Bot ClickUp"""
+        await ctx.send(f"{ctx.author.mention}, Here you go!\n"
+                       f"<https://share.clickup.com/b/h/4-12633923-2/c9aa38f4ceedf1c>")
+
     @commands.command(aliases=["githubuser", "githubinfo"])
     async def github(self, ctx, user: str):
         """Look up information about a user on Github"""
@@ -194,12 +201,6 @@ class Info(commands.Cog):
     async def tidal_wave(self, ctx):
         """Get a link to the Tidal Wave Discord"""
         await ctx.send(f"{ctx.author.mention}, Here you go!\nhttps://discord.gg/SMCEXw5")
-
-    @commands.command()
-    @delete_original()
-    async def trello(self, ctx):
-        """Get a link to the Tidal Bot Trello"""
-        await ctx.send(f"{ctx.author.mention}, Here you go!\nhttps://trello.com/b/U3TTk5Kc/tidal-bot")
 
     @commands.command(aliases=["userinfo"])
     @commands.guild_only()
