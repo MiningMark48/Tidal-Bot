@@ -1,6 +1,10 @@
-import discord
 import random
 from discord.ext import commands
+import random
+
+from discord.ext import commands
+
+
 # import cogs.checks as cks
 
 class Fun(commands.Cog):

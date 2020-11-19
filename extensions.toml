@@ -21,7 +21,6 @@ fun = [
     "battleroyale",
     "fun",
     "hangman",
-    "minesweeper", 
     "numberguess", 
     "nsfw",
     "pressbutton", 
