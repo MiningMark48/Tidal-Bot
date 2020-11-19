@@ -73,7 +73,7 @@ If a [*b2.toml*](https://github.com/MiningMark48/Tidal-Bot/blob/master/demo_b2.t
 ## Miscellaneous Info
 
 ### Contributions
-Special thanks to the following people all others who have contributed to the project.
+Special thanks to the following people and all others who have contributed to the project.
 - [Zetor777](https://twitter.com/Zetor777)
 - [kaosjr](https://twitter.com/daKaosjr)
 
