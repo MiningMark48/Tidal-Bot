@@ -161,7 +161,7 @@ class Info(commands.Cog):
 
     @commands.command(aliases=["steamuser", "steaminfo"])
     async def steam(self, ctx, user: str):
-        """Look up information about a user on Mixer"""
+        """Look up information about a user on Steam"""
         base_url = f"https://playerdb.co/api/player/steam/{user}"
         async with aiohttp.ClientSession() as session:
             async with session.get(base_url) as r:

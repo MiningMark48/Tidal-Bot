@@ -69,8 +69,8 @@
 | prune | Bulk delete messages (up to 100) | Utility | purge, nuke | -- |
 | quickpoll | Quickly, create a poll for people to vote on  Usage: quickpoll <Time (minutes)> "<Question>" "<Option 1>" "<Option 2>" ...  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | -- | -- |
 | quickpolldef | Quickly, create a poll for people to vote on using default choices  Usage: quickpoll <Time (minutes)> "<Question>" "<Default Choice>"  Default Choices: yesno (Yes/No), truefalse (True/False), scale15 (1/2/3/4/5), abcd (A/B/C/D)  Note: If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | qpd | -- |
-| random | Commands that generate random data. | Utility | rand | dice, text, card, number, coin, choice |
-| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | add, get, clearall, delete |
+| random | Commands that generate random data. | Utility | rand | number, coin, choice, dice, text, card |
+| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | delete, add, get, clearall |
 | reload | Reload a specific cog | Owner | -- | -- |
 | reloadall | Reload all cogs | Owner | -- | -- |
 | reloadmusic | Reload the music module | Owner | -- | -- |
@@ -89,7 +89,7 @@
 | spongebreathe | *Breathe in* Shit. | Memes | -- | -- |
 | spongemock | spOngEBoB MoCKifY soMe TeXT | Memes | -- | -- |
 | spongeout | 'Ight, Imma head out | Memes | -- | -- |
-| steam | Look up information about a user on Mixer | Info | steamuser, steaminfo | -- |
+| steam | Look up information about a user on Steam | Info | steamuser, steaminfo | -- |
 | stock | Get Stock info for a specific Symbol | Info | stocks | -- |
 | strawpoll | Create a Strawpoll | Utility | sp | -- |
 | strawpollresults | Get the results from a Strawpoll | Utility | spresults, spr | -- |
