@@ -190,18 +190,6 @@ class Utility(commands.Cog):
         msg = await ctx.send(f'Pruned `{amt}` messages.')
         await msg.delete(delay=3)
 
-    @commands.command(aliases=["qrcodecreate", "createqr", "qr"])
-    async def qrcode(self, ctx, *, text: str):
-        """Generate a QR Code from a string of text"""
-        base_url = f"http://api.qrserver.com/v1/create-qr-code/"
-        payload = {'size': '200x200', 'margin': '10', 'bgcolor': 'ffffff', 'color': '000000', 'data': text}
-        async with aiohttp.ClientSession() as session:
-            async with session.get(base_url, params=payload) as r:
-                content = await r.content.read()
-                buffer = BytesIO(content)
-                f = discord.File(buffer, filename=f'{text}.png')
-                await ctx.send(file=f)
-
     @commands.command(aliases=["reminder", "remindme"])
     async def remind(self, ctx, time: int, dm: typing.Optional[bool] = False, *, msg: str):
         """
