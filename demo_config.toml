@@ -1,29 +1,29 @@
 [bot]
-token = "token"
-key = ";"
-owners = [
+token = "token"                                 # The token linked to a Discord app bot account
+key = ";"                                       # The key that is placed at the beginning of every command to trigger it
+owners = [                                      # List of user IDs that have access to owner-only commands
     12341234123412
 ]
 
 [music]
-enabled = false
-whitelist_servers = [
+enabled = false                                 # Music bot enabled? (Requires Lavalink)
+whitelist_servers = [                           # List of server IDs allowed to use music
     12341234123412
 ]
-    [music.nodes.node_name]
-        host = "127.0.0.1"
-        port = 2333
-        rest_url = "http://127.0.0.1:2333"
-        password = "pw"
-        identifier = "node_name"
-        region = "region_code"
+    [music.nodes.node_name]                     # Must be "music.nodes.<node_name>" where <node_name> is your node's name
+        host = "127.0.0.1"                      # Lavalink node host ip
+        port = 2333                             # Lavalink node port
+        rest_url = "http://127.0.0.1:2333"      # Lavalink node rest url
+        password = "pw"                         # Lavalink node password
+        identifier = "node_name"                # Lavalink node name
+        region = "region_code"                  # Lavalink node region code
 
 [api_keys]
-tenor = "key"
-alphavantage = "key"
-trackergg = "key"
+tenor = "key"                                   # API Key for Tenor (Required for Tenor random GIFs)
+alphavantage = "key"                            # API Key for AlphaVantage (Required for stock info)
+trackergg = "key"                               # API Key for TrackerGG (Required for TrackerGG commands, i.e. Apex)
 
 [misc]
-feedback_channel = 12341234123412
-create_commands_list = true
-b2_backups = false
+feedback_channel = 12341234123412               # Channel ID feedback is sent to via Feedback command
+create_commands_list = true                     # Should a commands list be generated on bot run?
+b2_backups = false                              # Should data backups to Backblaze B2 be made? (Requires b2.toml setup)

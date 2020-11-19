@@ -1,7 +1,7 @@
 [AppKey]
-id = "ID_GOES_HERE"
-key = "KEY_GOES_HERE"
+id = "ID_GOES_HERE"                 # ID for B2
+key = "KEY_GOES_HERE"               # API key for B2
 
 [bucket]
-name = "bot"
-backup_folder_name = "backups"
+name = "bot"                        # B2 Bucket Name
+backup_folder_name = "backups"      # Name of folder for backups to be stored in
