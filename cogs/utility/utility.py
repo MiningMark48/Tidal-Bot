@@ -313,29 +313,6 @@ class Utility(commands.Cog):
                 embed.set_footer(text="Shortened with TinyURL")
                 await ctx.send(embed=embed)
 
-    @commands.command(name="whatday", aliases=["dayoftheweek", "dotw"])
-    async def what_day(self, ctx, month: int, day: int, year: typing.Optional[int]):
-        """
-        Find out what day of the week a date falls on
-
-        Optional: Year (defaults to current year)
-        """
-
-        try:
-            today = datetime.date.today()
-
-            if not year:
-                year = today.year
-
-            fut_date = datetime.date(year, month, day)
-            dotw = fut_date.strftime('%A')
-
-            fut_date_form = str(fut_date.strftime("%B %e, %Y")).replace("  ", " ")
-
-            await ctx.send(f"**{fut_date_form}** is a **{dotw}**.")
-        except ValueError:
-            await ctx.send("Error! Invalid date!")
-
     @commands.command(name="youtubestatus", aliases=["ytstatus"], hidden=True)
     async def youtube_status(self, ctx, user: discord.Member):
         """

@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 119
+**Commands Available:** 118
 | Name    | Description | Category | Aliases | Subcommands |
 |---------|-------------|----------|---------|-------------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard | -- |
@@ -43,7 +43,7 @@
 | hastebin | Get the RAW text from a Hastebin | Utility | hastebinget, hasteget, hb | -- |
 | help | Shows this message | None | -- | -- |
 | higherlower | Play a higher-lower number guessing game | Fun | hl | -- |
-| joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg | clear, set, get |
+| joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg | set, get, clear |
 | kkchum | Krusty Krab > Chum Bucket | Memes | -- | -- |
 | leaveserver | Make the bot leave a server | Owner | -- | -- |
 | linus | Linus selfies ftw. | Memes | -- | -- |
@@ -69,8 +69,8 @@
 | prune | Bulk delete messages (up to 100) | Utility | purge, nuke | -- |
 | quickpoll | Quickly, create a poll for people to vote on  Usage: quickpoll <Time (minutes)> "<Question>" "<Option 1>" "<Option 2>" ...  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | -- | -- |
 | quickpolldef | Quickly, create a poll for people to vote on using default choices  Usage: quickpoll <Time (minutes)> "<Question>" "<Default Choice>"  Default Choices: yesno (Yes/No), truefalse (True/False), scale15 (1/2/3/4/5), abcd (A/B/C/D)  Note: If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | qpd | -- |
-| random | Commands that generate random data. | Utility | rand | number, coin, choice, dice, text, card |
-| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | delete, add, get, clearall |
+| random | Commands that generate random data. | Utility | rand | dice, text, card, number, coin, choice |
+| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | add, get, clearall, delete |
 | reload | Reload a specific cog | Owner | -- | -- |
 | reloadall | Reload all cogs | Owner | -- | -- |
 | reloadmusic | Reload the music module | Owner | -- | -- |
@@ -116,7 +116,6 @@
 | urban | Define a word from Urban Dictionary | Info | urbandictionary, urbandict | -- |
 | urlshorten | Shorten a URL | Utility | tinyurl | -- |
 | userguess | Guess a user in the server based on their avatar. | Fun | ug | -- |
-| whatday | Find out what day of the week a date falls on  Optional: Year (defaults to current year) | Utility | dayoftheweek, dotw | -- |
 | whois | Get information about another user | Info | userinfo | -- |
 | wikipedia | Search Wikipedia | Info | wiki, wp | -- |
 | wouldyourather | Would you rather...? | Fun | wyr, wouldrather | -- |
