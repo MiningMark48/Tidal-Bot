@@ -62,7 +62,8 @@ preferences = [
 ]
 
 # ServMng: Server Management commands
-servmng = [ 
+servmng = [
+    "defrole",
     "reactionroles", 
     "rules", 
     "rum", 
