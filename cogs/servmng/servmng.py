@@ -1,4 +1,5 @@
-import discord
+import copy
+
 import sqlalchemy.exc
 from discord.ext import commands
 
@@ -57,7 +58,14 @@ class ServerManagement(commands.Cog, name="Server Management"):
     @commands.group(name="joinmessage", aliases=["joinmsg"])
     async def join_msg(self, ctx):
         """Join message is a message to be sent to a user when they join the server."""
-        pass
+
+        if ctx.invoked_subcommand is None:
+            await ctx.send(f"Invalid subcommand! ")
+
+            msg = copy.copy(ctx.message)
+            msg.content = f"{ctx.prefix}help {ctx.command}"
+            new_ctx = await self.bot.get_context(msg, cls=type(ctx))
+            await self.bot.invoke(new_ctx)
 
     @join_msg.command(name="set")
     @commands.has_permissions(manage_guild=True)

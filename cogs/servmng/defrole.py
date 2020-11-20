@@ -1,3 +1,5 @@
+import copy
+
 from discord.ext import commands
 
 from util.data.guild_data import GuildData
@@ -13,7 +15,14 @@ class ServerManagement(commands.Cog, name="Server Management"):
         Default role is a role to be added to a user when they join the server.
         Only one role can be set.
         """
-        pass
+
+        if ctx.invoked_subcommand is None:
+            await ctx.send(f"Invalid subcommand! ")
+
+            msg = copy.copy(ctx.message)
+            msg.content = f"{ctx.prefix}help {ctx.command}"
+            new_ctx = await self.bot.get_context(msg, cls=type(ctx))
+            await self.bot.invoke(new_ctx)
 
     @def_role.command(name="set")
     @commands.has_permissions(manage_guild=True)
