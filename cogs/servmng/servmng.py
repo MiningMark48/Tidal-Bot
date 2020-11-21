@@ -105,9 +105,15 @@ class ServerManagement(commands.Cog, name="Server Management"):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        msg = GuildData(str(member.guild.id)).strings.fetch_by_name("join_message")
+        guild_data = GuildData(str(member.guild.id)).strings
+        msg = guild_data.fetch_by_name("join_message")
+        rules = guild_data.fetch_by_name("server_rules")
+
         if msg:
             await member.send(f'{msg}')
+
+            if rules:
+                await member.send(f'**Server Rules:**\n```\n{rules}\n```')
 
 
 def setup(bot):
