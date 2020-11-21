@@ -19,12 +19,10 @@ class BotConfig:
             'api_keys': {
                 'api': 'key'
             },
-            'reddit': {
-                'client_id': 'id', 'client_secret': 'sec', 'user_agent': 'agent'
-            },
             'misc': {
                 'feedback_channel': 12341234123412,
-                'create_commands_list': True
+                'create_commands_list': True,
+                'b2_backups': False
             }
         }
 
