@@ -1,5 +1,6 @@
 import copy
 
+import discord
 from discord.ext import commands
 
 from util.data.guild_data import GuildData
@@ -9,6 +10,8 @@ from util.data.user_data import UserData
 class ServerManagement(commands.Cog, name="Server Management"):
     def __init__(self, bot):
         self.bot = bot
+
+        self.reaction_embed = discord.Embed(title="Reaction Role", color=0x1DB3DF)
 
     @commands.group(name="reactor", aliases=["reactionroles"])
     async def reactor(self, ctx):
@@ -132,15 +135,18 @@ class ServerManagement(commands.Cog, name="Server Management"):
                 if reaction_emoji == re_emoji:
                     role = guild.get_role(re_role_id)
                     dm_user = UserData(str(user.id)).booleans.fetch_by_name("dm_enabled")
+                    self.reaction_embed.set_thumbnail(url=guild.icon_url)
+
                     if add_mode:
                         await user.add_roles(role, reason=f"Reacted: {re_msg_id}")
                         if dm_user or dm_user is None:
-                            await user.send(f"**Role Added**\n*{role.name}* added in *{guild.name}*"
-                                            f" by reacting.")
+                            self.reaction_embed.description = f"**Added** role `{role.name}` in `{guild.name}`."
+                            await user.send(embed=self.reaction_embed)
                     else:
                         await user.remove_roles(role, reason=f"Un-Reacted: {re_msg_id}")
                         if dm_user or dm_user is None:
-                            await user.send(f"**Role Removed**\n*{role.name}* removed in *{guild.name}*.")
+                            self.reaction_embed.description = f"**Removed** role `{role.name}` in `{guild.name}`."
+                            await user.send(embed=self.reaction_embed)
 
     @commands.Cog.listener("on_raw_message_delete")
     async def on_raw_message_delete(self, payload):
