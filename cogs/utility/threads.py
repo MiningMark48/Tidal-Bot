@@ -12,31 +12,9 @@ class Utility(commands.Cog):
         self.bot = bot
 
         self.threads_cat_name = "Threads"
+        self.thread_emoji = "\N{Spool of Thread}"
 
-    @commands.group(aliases=["threads"])
-    async def thread(self, ctx):
-        """
-        Channel Threads, until added officially by Discord
-
-        Note: This is experimental, use with caution!
-        """
-
-        if ctx.invoked_subcommand is None:
-            await ctx.send(f"Invalid subcommand! ")
-
-            msg = copy.copy(ctx.message)
-            msg.content = f"{ctx.prefix}help {ctx.command}"
-            new_ctx = await self.bot.get_context(msg, cls=type(ctx))
-            await self.bot.invoke(new_ctx)
-
-    @thread.command(aliases=["begin"])
-    @commands.cooldown(1, 10, commands.BucketType.user)
-    @delete_original()
-    async def start(self, ctx, msg_id: typing.Optional[str]):
-        """
-        Start a thread based on the last sent message or a message ID.
-        """
-
+    async def thread_start(self, ctx, msg_id: typing.Optional[str]):
         cat_thread = discord.utils.get(ctx.guild.categories, name=self.threads_cat_name)
         if cat_thread is None:
             cat_thread = await ctx.guild.create_category(name=self.threads_cat_name)
@@ -69,6 +47,34 @@ class Utility(commands.Cog):
         embed.title = "Thread Created"
         embed.description = f"{thread_channel.mention}\n\n{embed.description}"
         await ctx.send(embed=embed)
+
+    @commands.group(aliases=["threads"])
+    async def thread(self, ctx):
+        """
+        Channel Threads, until added officially by Discord
+
+        (Threads can also be started by reacting with the thread emoji)
+
+        Note: This is experimental, use with caution!
+        """
+
+        if ctx.invoked_subcommand is None:
+            await ctx.send(f"Invalid subcommand! ")
+
+            msg = copy.copy(ctx.message)
+            msg.content = f"{ctx.prefix}help {ctx.command}"
+            new_ctx = await self.bot.get_context(msg, cls=type(ctx))
+            await self.bot.invoke(new_ctx)
+
+    @thread.command(aliases=["begin"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @delete_original()
+    async def start(self, ctx, msg_id: typing.Optional[str]):
+        """
+        Start a thread based on the last sent message or a message ID.
+        """
+
+        await self.thread_start(ctx, msg_id)
 
     @thread.command(aliases=["stop"])
     @commands.cooldown(1, 10, commands.BucketType.user)
@@ -138,6 +144,23 @@ class Utility(commands.Cog):
                 return await ctx.send("Unable to find author id!")
 
         await ctx.send("You don't have permission!")
+
+    @commands.Cog.listener("on_raw_reaction_add")
+    async def on_raw_reaction_add(self, payload):
+        reaction_emoji = str(payload.emoji)
+        user = payload.member
+        guild = user.guild
+        channel = guild.get_channel(payload.channel_id)
+        msg = await channel.fetch_message(payload.message_id)
+
+        if user == self.bot.user or isinstance(channel, discord.DMChannel):
+            return
+
+        if reaction_emoji == self.thread_emoji:
+            ctx = await self.bot.get_context(msg, cls=commands.Context)
+            await self.thread_start(ctx, payload.message_id)
+
+            await msg.remove_reaction(self.thread_emoji, user)
 
 
 def setup(bot):
