@@ -491,6 +491,32 @@ class Memes(commands.Cog):
             file = discord.File(filename="spongeout.png", fp=final_buffer)
             await ctx.send(content=self.get_message(ctx), file=file)
 
+    @commands.command(name="spongepickle")
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def sponge_pickle(self, ctx, text1: str, text2: str):
+        """
+        I've come for your pickle.
+
+        Note: This will likely require quotes.
+        """
+        await self.try_delete(ctx)
+        chars_per_line = 10
+        lines = 2
+
+        max_chars = chars_per_line * lines
+        if len(text1) > max_chars or len(text2) > max_chars:
+            return await ctx.send(f'Too many characters! Must be less than `{max_chars}`.')
+
+        async with ctx.typing():
+            wrapper = textwrap.TextWrapper(width=chars_per_line)
+            lines1 = wrapper.wrap(text=text1.upper())
+            lines2 = wrapper.wrap(text=text2.upper())
+            fn = partial(self.processing_drawtext_multi, [lines1, lines2], "spongepickle.png",
+                         [(200, 320), (400, 30)], 54, 0xffffff, font_name="impact", outlined=True)
+            final_buffer = await self.bot.loop.run_in_executor(None, fn)
+            file = discord.File(filename="flex_boat.png", fp=final_buffer)
+            await ctx.send(content=self.get_message(ctx), file=file)
+
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def tea(self, ctx, text1: str, text2="But that's none of my business"):
