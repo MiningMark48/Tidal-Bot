@@ -76,11 +76,14 @@ class Utility(commands.Cog):
 
     @tasks.loop(seconds=15)
     async def dispatcher(self):
-        for tweet in queued_tweets:
-            webhook = queued_tweets[tweet]
-            await webhook.send(embed=tweet, username=f"Twitter",
-                               avatar_url="https://f000.backblazeb2.com/file/miningmark48-files/Twitter_Logo_Blue.png")
-        queued_tweets.clear()
+        try:
+            for tweet in queued_tweets:
+                webhook = queued_tweets[tweet]
+                await webhook.send(embed=tweet, username=f"Twitter",
+                                   avatar_url="https://f000.backblazeb2.com/file/miningmark48-files/Twitter_Logo_Blue.png")
+            queued_tweets.clear()
+        except discord.errors.NotFound:
+            return
 
     @dispatcher.before_loop
     async def before_dispatcher(self):
