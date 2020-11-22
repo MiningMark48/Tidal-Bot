@@ -86,7 +86,7 @@ utility = [
     "stega", 
     "tags",
     "threads",
-    "twitter",
+#    "twitter",
     "utility"
 ]
 
