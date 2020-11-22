@@ -18,6 +18,7 @@ class GuildData:
         self.reactors = self.Reactors(meta, self.conn)
         self.strings = self.Strings(meta, self.conn)
         self.tags = self.Tags(meta, self.conn)
+        self.twitter_follows = self.TwitterFollows(meta, self.conn)
 
         meta.create_all(engine)
 
@@ -141,3 +142,28 @@ class GuildData:
 
         def insert(self, name: str, value: str):
             self.insert_([{'name': name, 'value': value}])
+
+    class TwitterFollows(TableHelper):
+        def __init__(self, meta, conn):
+            self.conn = conn
+
+            self.twitter_follows = Table(
+                'twitter_follows', meta,
+                Column('id', Integer, primary_key=True),
+                Column('name', String, unique=True),
+                Column('value', String)
+            )
+
+            super().__init__(self.twitter_follows, self.conn)
+
+        def delete(self, name: str):
+            val = self.fetch_by_name(name, 1)
+            if val is not None:
+                rep = self.table.delete().where(self.table.columns.name == name)
+                self.conn.execute(rep)
+                return True
+            else:
+                return False
+
+        def insert(self, name: str, channel_id: str):
+            self.insert_([{'name': name, 'value': channel_id}])
