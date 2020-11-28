@@ -18,6 +18,7 @@ class GuildData:
         self.reactors = self.Reactors(meta, self.conn)
         self.strings = self.Strings(meta, self.conn)
         self.tags = self.Tags(meta, self.conn)
+        self.custom_commands = self.CustomCommands(meta, self.conn)
         # self.twitter_follows = self.TwitterFollows(meta, self.conn)
 
         meta.create_all(engine)
@@ -139,6 +140,22 @@ class GuildData:
             )
 
             super().__init__(self.tags, self.conn)
+
+        def insert(self, name: str, value: str):
+            self.insert_([{'name': name, 'value': value}])
+
+    class CustomCommands(TableHelper):
+        def __init__(self, meta, conn):
+            self.conn = conn
+
+            self.custom_commands = Table(
+                'custom_commands', meta,
+                Column('id', Integer, primary_key=True),
+                Column('name', String, unique=True),
+                Column('value', String)
+            )
+
+            super().__init__(self.custom_commands, self.conn)
 
         def insert(self, name: str, value: str):
             self.insert_([{'name': name, 'value': value}])

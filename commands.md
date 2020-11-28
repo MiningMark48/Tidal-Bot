@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 120
+**Commands Available:** 121
 | Name    | Description | Category | Aliases | Subcommands |
 |---------|-------------|----------|---------|-------------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard | -- |
@@ -23,8 +23,9 @@
 | countdown | Get the time remaining to a specific date  Optional: Year (defaults to current year) | Utility | -- | -- |
 | createbackup | Create a backup of bot data | Owner | -- | -- |
 | curseforge | Get Curseforge Project Stats | Info | cf, curse | -- |
+| customcommand | Manage custom commands for the server. | Utility | customcmd | delete, list, set |
 | dashdefine | It defines who I am | Memes | -- | -- |
-| defrole | Default role is a role to be added to a user when they join the server. Only one role can be set. | Server Management | defaultrole | clear, set, get |
+| defrole | Default role is a role to be added to a user when they join the server. Only one role can be set. | Server Management | defaultrole | set, get, clear |
 | deletetag | Delete a bot tag. | Tags | deltag, tagdelete | -- |
 | dictionary | Define a word | Info | define | -- |
 | draw25 | ...or draw 25 cards | Memes | -- | -- |
@@ -44,7 +45,7 @@
 | hastebin | Get the RAW text from a Hastebin | Utility | hastebinget, hasteget, hb | -- |
 | help | Shows this message | None | -- | -- |
 | higherlower | Play a higher-lower number guessing game | Fun | hl | -- |
-| joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg | set, clear, get |
+| joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg | set, get, clear |
 | kkchum | Krusty Krab > Chum Bucket | Memes | -- | -- |
 | leaveserver | Make the bot leave a server | Owner | -- | -- |
 | linus | Linus selfies ftw. | Memes | -- | -- |
@@ -70,8 +71,8 @@
 | prune | Bulk delete messages (up to 100) | Utility | purge, nuke | -- |
 | quickpoll | Quickly, create a poll for people to vote on  Usage: quickpoll <Time (minutes)> "<Question>" "<Option 1>" "<Option 2>" ...  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | -- | -- |
 | quickpolldef | Quickly, create a poll for people to vote on using default choices  Usage: quickpoll <Time (minutes)> "<Question>" "<Default Choice>"  Default Choices: yesno (Yes/No), truefalse (True/False), scale15 (1/2/3/4/5), abcd (A/B/C/D)  Note: If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | qpd | -- |
-| random | Commands that generate random data. | Utility | rand | card, number, coin, choice, dice, text |
-| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | get, clearall, add, delete |
+| random | Commands that generate random data. | Utility | rand | choice, dice, text, card, coin, number |
+| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | add, clearall, delete, get |
 | reload | Reload a specific cog | Owner | -- | -- |
 | reloadall | Reload all cogs | Owner | -- | -- |
 | reloadmusic | Reload the music module | Owner | -- | -- |
