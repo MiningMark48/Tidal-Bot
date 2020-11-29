@@ -87,59 +87,18 @@ class Utility(commands.Cog):
             part = part.replace("```", "")
             await ctx.send(f"```{part}```")
 
-    # @commands.command(name="tagvariables", aliases=["tagvars", "variables", "vars"])
-    # @commands.cooldown(1, 3)
-    # @commands.guild_only()
-    # async def tag_variables(self, ctx):
-    #     """
-    #     Get the list of supported tag variables.
-    #
-    #     Tag variables are parts of a string that get replace by specific data.
-    #     """
-    #
-    #     variables = self.get_variables(ctx)
-    #
-    #     vs = f"Tag Variables\n\n"
-    #     for v in sorted(variables):
-    #         vs += f"[{v}] Ex: {variables[str(v)]}\n"
-    #
-    #     parts = [(vs[i:i + 750]) for i in range(0, len(vs), 750)]
-    #     for part in parts:
-    #         await ctx.send(f"```{part}```")
-    #
-    # @staticmethod
-    # def get_variables(ctx):
-    #     variables = {
-    #         "author": ctx.author.display_name,
-    #         "author_id": ctx.author.id,
-    #         "channel": ctx.channel.name,
-    #         "command_key": ctx.prefix,
-    #         "server_id": ctx.guild.id,
-    #         "server_name": ctx.guild.name
-    #     }
-    #
-    #     return variables
-    #
-    # def handle_variables(self, message, ctx):
-    #     variables = self.get_variables(ctx)
-    #
-    #     def to_key(v_):
-    #         return f"${{{v_}}}"
-    #
-    #     for v in variables:
-    #         message = message.replace(to_key(v), str(variables[v]))
-    #
-    #     return message
-    #
-    # @staticmethod
-    # def handle_search(ctx, tag_name):
-    #     options = []
-    #     for tag in GuildData(str(ctx.guild.id)).tags.fetch_all():
-    #         options.append(tag[1])
-    #
-    #     search_results = fwp.extract(tag_name, options)
-    #
-    #     return search_results
+    @custom_commands.command(name="variablehelp", aliases=["varhelp", "variables"], hidden=True)
+    @commands.cooldown(3, 2)
+    @commands.guild_only()
+    async def variable_help(self, ctx):
+        """
+        Get help for how to use custom command variables.
+        """
+
+        # TODO: Write documentation and unhide when complete
+
+        url = "TODO"
+        await ctx.send(f"{ctx.author.mention}, for help, go here: <{url}>")
 
     @commands.Cog.listener("on_message")
     async def on_message(self, payload):
@@ -154,8 +113,34 @@ class Utility(commands.Cog):
                     cmd = str(payload.content).replace(ctx.prefix * 2, "").split(" ")[0]
                     cstm_cmd = GuildData(str(ctx.guild.id)).custom_commands.fetch_by_name(cmd)
                     if cstm_cmd:
-                        await ctx.send(cstm_cmd)
-                        print(cstm_cmd)
+                        parsed_command = self.parse_variables(ctx, cstm_cmd)
+                        await ctx.send(parsed_command)
+                        print(cmd, parsed_command)
+
+    def parse_variables(self, ctx, command: str):
+
+        def to_key(v_):
+            return f"${{{v_}}}"
+
+        variables = self.get_variables(ctx)
+        print(variables)
+        for var in variables:
+            command = command.replace(to_key(var), str(variables[var]))
+
+        return command
+
+    @staticmethod
+    def get_variables(ctx):
+        variables = {
+            "author": ctx.author.display_name,
+            "author_id": ctx.author.id,
+            "channel": ctx.channel.name,
+            "command_key": ctx.prefix,
+            "server_id": ctx.guild.id,
+            "server_name": ctx.guild.name
+        }
+
+        return variables
 
 
 def setup(bot):
