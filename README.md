@@ -51,7 +51,7 @@ Although **not intended or supported yet**, do the following to run Tidal Bot yo
 2. Create a [virtual environment](https://docs.python-guide.org/dev/virtualenvs/)
    - `python3.7 -m venv venv`
 3. Activate the virtual environment
-   - Windows: `.\venv\Scripts\activate`
+   - Windows: `.\venv\Scripts\activate` or `activate venv`
 4. Install dependencies found in [requirements.txt](https://github.com/MiningMark48/Tidal-Bot/blob/master/requirements.txt)
    - `pip install -r requirements.txt`
 5. Create a *config.toml*
