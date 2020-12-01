@@ -1,7 +1,6 @@
 import copy
 import random
 import re
-from ast import literal_eval
 
 from discord.ext import commands
 from discord.utils import escape_markdown
