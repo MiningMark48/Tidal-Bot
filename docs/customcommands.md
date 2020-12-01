@@ -29,6 +29,12 @@ Custom commands are used as a way for server managers to add commands that can b
 `!customcommand list`
 
 
+#### Search for a command
+`!customcommand search <name>`
+
+**name** The name of the custom command to search for.
+
+
 ### Variables
 *Variables* are strings of text that are automatically replaced when a command is ran.
 

@@ -91,7 +91,7 @@ class Utility(commands.Cog):
             await ctx.send(f"```{part}```")
 
     @custom_commands.command(name="help", aliases=["cmdhelp", "varhelp"])
-    @commands.cooldown(3, 2)
+    @commands.cooldown(1, 5)
     @commands.guild_only()
     async def custom_help(self, ctx):
         """
@@ -100,6 +100,26 @@ class Utility(commands.Cog):
 
         url = "https://github.com/MiningMark48/Tidal-Bot/blob/master/docs/customcommands.md"
         await ctx.send(f"{ctx.author.mention}, for help, go here: <{url}>")
+
+    @custom_commands.command(name="search", aliases=["searchcmd"])
+    @commands.cooldown(1, 2)
+    @commands.guild_only()
+    async def custom_search(self, ctx, *, cmd_name: str):
+        """
+        Search for a custom command.
+        """
+
+        search_results = self.handle_search(ctx, cmd_name)
+
+        if len(search_results) <= 0:
+            await ctx.send("No search results found!")
+            return
+
+        results_txt = f"Custom Command Search Results ({cmd_name})\n\n"
+        for (res, _) in search_results:
+            results_txt += f"{res}\n"
+
+        await ctx.send(f"```{results_txt}```")
 
     @commands.Cog.listener("on_message")
     async def on_message(self, payload):
@@ -189,6 +209,16 @@ class Utility(commands.Cog):
     #     #     command = r.sub(rand_item, command, 1)
     #
     #     return command
+
+    @staticmethod
+    def handle_search(ctx, cmd_name):
+        options = []
+        for tag in GuildData(str(ctx.guild.id)).custom_commands.fetch_all():
+            options.append(tag[1])
+
+        search_results = fwp.extract(cmd_name, options)
+
+        return search_results
 
 
 def setup(bot):
