@@ -1,6 +1,7 @@
 import copy
 import random
 import re
+from ast import literal_eval
 
 from discord.ext import commands
 from discord.utils import escape_markdown
@@ -132,8 +133,11 @@ class Utility(commands.Cog):
         try:
             command = self.parse_random_num(command)
             command = self.parse_random_list(command)
+
         except Exception as e:
             command = f"ERROR | {e}"
+
+        # command = self.parse_embed(command)
 
         return command
 
@@ -171,6 +175,22 @@ class Utility(commands.Cog):
             command = r.sub(rand_item, command, 1)
 
         return command
+
+    # @staticmethod
+    # def parse_embed(command):
+    #     pattern = r"\${(embed:)(\S*[\w])}"
+    #     r = re.compile(pattern)
+    #
+    #     _, s = r.findall(command)[0]
+    #     kwargs = dict((k, literal_eval(v)) for k, v in (pair.split('=') for pair in s.split(',')))
+    #
+    #     print(kwargs)
+    #
+    #     # for _, rand_list in r.findall(command):
+    #     #     rand_item = random.choice(rand_list.split("|")).replace("_", " ")
+    #     #     command = r.sub(rand_item, command, 1)
+    #
+    #     return command
 
 
 def setup(bot):
