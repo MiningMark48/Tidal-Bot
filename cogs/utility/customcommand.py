@@ -1,4 +1,6 @@
 import copy
+import random
+import re
 
 from discord.ext import commands
 from discord.utils import escape_markdown
@@ -123,9 +125,15 @@ class Utility(commands.Cog):
             return f"${{{v_}}}"
 
         variables = self.get_variables(ctx)
-        print(variables)
+        # print(variables)
         for var in variables:
             command = command.replace(to_key(var), str(variables[var]))
+
+        try:
+            command = self.parse_random_num(command)
+            command = self.parse_random_list(command)
+        except Exception as e:
+            command = f"ERROR | {e}"
 
         return command
 
@@ -141,6 +149,28 @@ class Utility(commands.Cog):
         }
 
         return variables
+
+    @staticmethod
+    def parse_random_num(command):
+        pattern = r"\${(rand:)(\S*[0-9])\-(\S*[0-9])}"
+        r = re.compile(pattern)
+
+        for _, _min, _max in r.findall(command):
+            rand_num = str(random.randint(int(_min), int(_max)))
+            command = r.sub(rand_num, command, 1)
+
+        return command
+
+    @staticmethod
+    def parse_random_list(command):
+        pattern = r"\${(randlist:)(\S*[\w])}"
+        r = re.compile(pattern)
+
+        for _, rand_list in r.findall(command):
+            rand_item = random.choice(rand_list.split("|")).replace("_", " ")
+            command = r.sub(rand_item, command, 1)
+
+        return command
 
 
 def setup(bot):
