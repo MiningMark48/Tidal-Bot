@@ -90,17 +90,15 @@ class Utility(commands.Cog):
             part = part.replace("```", "")
             await ctx.send(f"```{part}```")
 
-    @custom_commands.command(name="variablehelp", aliases=["varhelp", "variables"], hidden=True)
+    @custom_commands.command(name="help", aliases=["cmdhelp", "varhelp"])
     @commands.cooldown(3, 2)
     @commands.guild_only()
-    async def variable_help(self, ctx):
+    async def custom_help(self, ctx):
         """
-        Get help for how to use custom command variables.
+        Get help for how to use custom commands.
         """
 
-        # TODO: Write documentation and unhide when complete
-
-        url = "TODO"
+        url = "https://github.com/MiningMark48/Tidal-Bot/blob/master/docs/customcommands.md"
         await ctx.send(f"{ctx.author.mention}, for help, go here: <{url}>")
 
     @commands.Cog.listener("on_message")
