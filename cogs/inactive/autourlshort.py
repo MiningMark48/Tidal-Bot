@@ -1,8 +1,7 @@
-from discord.ext import commands
-import discord
-
 import re
-import aiohttp
+
+import discord
+from discord.ext import commands
 
 from util.data.user_data import UserData
 

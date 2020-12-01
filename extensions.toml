@@ -73,8 +73,7 @@ servmng = [
 
 # Utility: Utility-based commands
 utility = [ 
-    "announce", 
-    "autourlshort",
+    "announce",
     "cmdsearch",
     "colorgen",
     "customcommand",
