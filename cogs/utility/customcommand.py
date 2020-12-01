@@ -17,7 +17,6 @@ class Utility(commands.Cog):
     @commands.group(name="customcommand", aliases=["customcmd"])
     @commands.cooldown(1, 2)
     @commands.guild_only()
-    @commands.has_permissions(manage_guild=True)
     async def custom_commands(self, ctx):
         """
         Manage custom commands for the server.
@@ -33,7 +32,6 @@ class Utility(commands.Cog):
 
     @custom_commands.command(name="set", aliases=["add"])
     @commands.cooldown(1, 2)
-    @commands.guild_only()
     @commands.has_permissions(manage_guild=True)
     async def custom_set(self, ctx, cmd_name: str, *, cmd: str):
         """
@@ -49,7 +47,6 @@ class Utility(commands.Cog):
 
     @custom_commands.command(name="delete", aliases=["remove"])
     @commands.cooldown(1, 2)
-    @commands.guild_only()
     @commands.has_permissions(manage_guild=True)
     async def custom_delete(self, ctx, cmd_name: str):
         """
@@ -66,8 +63,6 @@ class Utility(commands.Cog):
 
     @custom_commands.command(name="list", aliases=["cmds"])
     @commands.cooldown(1, 2)
-    @commands.guild_only()
-    @commands.has_permissions(manage_guild=True)
     async def custom_list(self, ctx):
         """
         List all custom commands.
@@ -92,7 +87,6 @@ class Utility(commands.Cog):
 
     @custom_commands.command(name="help", aliases=["cmdhelp", "varhelp"])
     @commands.cooldown(1, 5)
-    @commands.guild_only()
     async def custom_help(self, ctx):
         """
         Get help for how to use custom commands.
@@ -103,7 +97,6 @@ class Utility(commands.Cog):
 
     @custom_commands.command(name="search", aliases=["searchcmd"])
     @commands.cooldown(1, 2)
-    @commands.guild_only()
     async def custom_search(self, ctx, *, cmd_name: str):
         """
         Search for a custom command.
