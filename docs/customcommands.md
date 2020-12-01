@@ -4,6 +4,8 @@
 
 Custom commands are used as a way for server managers to add commands that can be triggered by other users that have a custom response.
 
+The command prefix for custom commands is a twice iterated normal prefix. This means that if your server prefix is `!`, then your custom command prefix is `!!`.
+
 ### Set Up
 
 #### Adding a custom command
