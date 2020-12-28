@@ -128,7 +128,7 @@ class Utility(commands.Cog):
                     if cstm_cmd:
                         parsed_command = self.parse_variables(ctx, cstm_cmd)
                         await ctx.send(parsed_command)
-                        print(cmd, parsed_command)
+                        # print(cmd, parsed_command)
 
     def parse_variables(self, ctx, command: str):
 
