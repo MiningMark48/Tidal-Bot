@@ -63,3 +63,9 @@ Advanced variables take in parameters that responds with a dynamic output.
 | randlist | Random item from list | ${randlist:yes\|no\|maybe} | yes |
 
 
+### Examples
+| Command Name | Command | Text Example |
+|--------------|---------|--------------|
+| hello | customcommand set hello Hello, World!   | Hello, World! |
+| chan | customcommand set chan You are speaking in ${channel}. | You are speaking in #general. |
+| dice | customcommand set dice Dice Roll: ${rand:1-6} | Dice Roll: 3
