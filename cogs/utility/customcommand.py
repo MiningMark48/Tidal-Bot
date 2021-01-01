@@ -91,7 +91,7 @@ class Utility(commands.Cog):
         Get help for how to use custom commands.
         """
 
-        url = "https://github.com/MiningMark48/Tidal-Bot/blob/master/docs/customcommands.md"
+        url = "https://github.com/MiningMark48/Tidal-Bot/wiki/Custom-Commands"
         await ctx.send(f"{ctx.author.mention}, for help, go here: <{url}>")
 
     @custom_commands.command(name="search", aliases=["searchcmd"])
