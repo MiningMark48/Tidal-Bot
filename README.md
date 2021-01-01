@@ -21,7 +21,7 @@
  - Utility
  - Bot Management
  - Admin/Bot Owner
- - [Custom Commands](https://github.com/MiningMark48/Tidal-Bot/blob/master/docs/customcommands.md)
+ - [Custom Commands](https://github.com/MiningMark48/Tidal-Bot/wiki/Custom-Commands)
  - Music (Requires local [Lavalink](https://github.com/Frederikam/Lavalink) server)
  - Background Features:
    - Quoting
