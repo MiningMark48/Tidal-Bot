@@ -12,6 +12,7 @@ from discord.ext import commands
 
 from util.data.data_backup import backup_databases
 from util.logger import Logger
+from util.menus.confirmation import ConfirmMenu
 
 
 class GlobalChannel(commands.Converter):
@@ -226,21 +227,12 @@ class Owner(commands.Cog):
     async def shutdown(self, ctx, create_backup=False):
         """Shut the bot down."""
 
-        def check(m):
-            return m.author == ctx.author and m.channel == ctx.channel
-
         async def abort():
             return await ctx.send("Bot shutdown aborted.")
 
-        await ctx.send("**Are you sure you wish to initiate bot shutdown?**\n\tType *yes* to confirm.")
+        confirm = await ConfirmMenu('**Are you sure you wish to initiate bot shutdown?**').prompt(ctx)
 
-        try:
-            entry = await self.bot.wait_for('message', check=check, timeout=10)
-        except asyncio.TimeoutError:
-            return await abort()
-
-        cleaned = entry.clean_content.lower()
-        if not cleaned.startswith("yes") or not cleaned.startswith("y"):
+        if not confirm:
             return await abort()
 
         if create_backup:
