@@ -5,6 +5,7 @@ from datetime import datetime
 import aiohttp
 import discord
 from discord.ext import commands
+from discord import Color
 
 from util.decorators import delete_original
 
@@ -69,7 +70,7 @@ class Info(commands.Cog):
     @commands.command()
     async def botinfo(self, ctx):
         """Miscellaneous bot information"""
-        embed = discord.Embed(title="Bot Info", color=ctx.message.author.top_role.color)
+        embed = discord.Embed(title="Bot Info", color=Color.dark_theme())
         embed.add_field(name="Name", value=self.bot.user.name)
         embed.add_field(name="ID", value=self.bot.user.id)
         embed.add_field(name="Author", value="MiningMark48")
@@ -96,7 +97,7 @@ class Info(commands.Cog):
         async with aiohttp.ClientSession() as session:
             async with session.get(base_url) as r:
                 data = await r.json()
-        embed = discord.Embed(title=data["login"], color=ctx.message.author.top_role.color, url=data["html_url"])
+        embed = discord.Embed(title=data["login"], color=Color.dark_theme(), url=data["html_url"])
         embed.add_field(name="Name", value=data["name"])
         embed.add_field(name="Company", value=data["company"])
         embed.add_field(name="Location", value=data["location"])
@@ -115,7 +116,7 @@ class Info(commands.Cog):
     @commands.command(aliases=["serverinfo", "servinfo"])
     async def guildinfo(self, ctx):
         """Get information about the server"""
-        embed = discord.Embed(title="Guild Info", color=ctx.message.author.top_role.color)
+        embed = discord.Embed(title="Guild Info", color=Color.dark_theme())
         embed.add_field(name="Name", value=ctx.guild.name)
         embed.add_field(name="ID", value=ctx.guild.id)
         embed.add_field(name="Owner", value=ctx.guild.owner.name)
@@ -135,7 +136,7 @@ class Info(commands.Cog):
     @commands.command(aliases=["meinfo", "whome"])
     async def selfinfo(self, ctx):
         """Get information about yourself"""
-        embed = discord.Embed(title="Self Info", color=ctx.message.author.top_role.color)
+        embed = discord.Embed(title="Self Info", color=Color.dark_theme())
         embed.add_field(name="Name", value=ctx.author.name)
         embed.add_field(name="ID", value=ctx.author.id)
         embed.add_field(name="Created", value=str(ctx.author.joined_at)[:-16])
@@ -177,7 +178,7 @@ class Info(commands.Cog):
 
                 # date = datetime.fromtimestamp(meta_data["timecreated"] / 1e3)
 
-                embed = discord.Embed(title=player_data["username"], color=ctx.message.author.top_role.color,
+                embed = discord.Embed(title=player_data["username"], color=Color.dark_theme(),
                                       url=f"https://steamcommunity.com/id/{user}")
 
                 embed.add_field(name="Username", value=player_data["username"])
@@ -206,7 +207,7 @@ class Info(commands.Cog):
     @commands.guild_only()
     async def whois(self, ctx, user: discord.User):
         """Get information about another user"""
-        embed = discord.Embed(title="User Info", color=ctx.message.author.top_role.color)
+        embed = discord.Embed(title="User Info", color=Color.dark_theme())
         embed.add_field(name="Name", value=user.name)
         embed.add_field(name="ID", value=user.id)
         embed.add_field(name="Created", value=str(user.created_at)[:-16])

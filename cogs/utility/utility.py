@@ -13,6 +13,7 @@ import aiohttp
 import discord
 import googletrans
 from discord.ext import commands
+from discord import Color
 
 from util.decorators import delete_original
 
@@ -310,7 +311,7 @@ class Utility(commands.Cog):
         text_seconds = f'{seconds} second{"" if seconds == 1 else "s"}'
         text = f'{text_days}, {text_hours}, {text_minutes}, and {text_seconds}'
 
-        embed = discord.Embed(title="Uptime", color=ctx.message.author.top_role.color)
+        embed = discord.Embed(title="Uptime", color=Color.dark_theme())
         embed.description = text
         try:
             await ctx.send(embed=embed)
