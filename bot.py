@@ -1,4 +1,5 @@
 import time
+from tqdm import tqdm
 
 import discord
 from discord.ext import commands
@@ -11,6 +12,7 @@ from util.data.guild_data import GuildData
 from util.extensions import get_extensions
 from util.help_command import HelpCommand
 from util.logger import Logger
+
 
 start_time = time.time()
 
@@ -120,10 +122,12 @@ if __name__ == "__main__":
 
     # print_progress_bar(0, len(extensions), prefix='Progress:', suffix='Complete', length=50)
     count = 0
-    for extension in extensions:
+    pbar = tqdm(extensions)
+    for extension in pbar:
         try:
             bot.load_extension(f"cogs.{extension}")
-            Logger.info(f"Cog | Loaded {extension}")
+            # Logger.info(f"Cog | Loaded {extension}")
+            pbar.set_description(f"Cog | {extension}")
             # print_progress_bar(count + 1, len(extensions), prefix='Progress:', suffix='Complete', length=50)
             count += 1
         except Exception as error:
