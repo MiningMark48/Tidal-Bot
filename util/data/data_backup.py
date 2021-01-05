@@ -4,6 +4,7 @@ from datetime import datetime as dt
 from os import listdir
 from os import path
 from os.path import isfile, join
+from tqdm import tqdm
 
 from util.logger import Logger
 from util.data.b2 import b2_backup
@@ -27,8 +28,10 @@ def backup_databases(always_run=True):
     zip = zipfile.ZipFile(loczip, "w", zipfile.ZIP_DEFLATED)
 
     only_files = [f for f in listdir(data_path) if isfile(join(data_path, f))]
-    for file in only_files:
-        backup_file(zip, f"{data_path}{file}")
+    pbar = tqdm(only_files)
+    for f in pbar:
+        backup_file(zip, f"{data_path}{f}")
+        pbar.set_description(f"File Backup | {f}")
 
     Logger.info(f"Backed up {len(only_files)} files to {backups_folder_name}/{subfolder_name}/{zip_name}")
 

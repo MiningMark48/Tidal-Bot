@@ -23,9 +23,9 @@
 | countdown | Get the time remaining to a specific date  Optional: Year (defaults to current year) | Utility | -- | -- |
 | createbackup | Create a backup of bot data | Owner | -- | -- |
 | curseforge | Get Curseforge Project Stats | Info | cf, curse | -- |
-| customcommand | Manage custom commands for the server. | Utility | customcmd | set, help, delete, search, list |
+| customcommand | Manage custom commands for the server. | Utility | customcmd | list, delete, help, search, set |
 | dashdefine | It defines who I am | Memes | -- | -- |
-| defrole | Default role is a role to be added to a user when they join the server. Only one role can be set. | Server Management | defaultrole | set, clear, get |
+| defrole | Default role is a role to be added to a user when they join the server. Only one role can be set. | Server Management | defaultrole | set, get, clear |
 | deletetag | Delete a bot tag. | Tags | deltag, tagdelete | -- |
 | dictionary | Define a word | Info | define | -- |
 | draw25 | ...or draw 25 cards | Memes | -- | -- |
@@ -71,7 +71,7 @@
 | prune | Bulk delete messages (up to 100) | Utility | purge, nuke | -- |
 | quickpoll | Quickly, create a poll for people to vote on  Usage: quickpoll <Time (minutes)> "<Question>" "<Option 1>" "<Option 2>" ...  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | -- | -- |
 | quickpolldef | Quickly, create a poll for people to vote on using default choices  Usage: quickpoll <Time (minutes)> "<Question>" "<Default Choice>"  Default Choices: yesno (Yes/No), truefalse (True/False), scale15 (1/2/3/4/5), abcd (A/B/C/D)  Note: If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | qpd | -- |
-| random | Commands that generate random data. | Utility | rand | choice, dice, text, number, card, coin |
+| random | Commands that generate random data. | Utility | rand | coin, choice, dice, text, card, number |
 | reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | add, get, clearall, delete |
 | reload | Reload a specific cog | Owner | -- | -- |
 | reloadall | Reload all cogs | Owner | -- | -- |
@@ -106,7 +106,7 @@
 | tea | *Sips tea* | Memes | -- | -- |
 | temprole | Assign a user a temporary role.  Minutes Min: 1, Max: 60  Note: If the bot goes offline/restarts, the role will not be cleared from the user. | Server Management | trole | -- |
 | tenor | Returns a random GIF based on search term | Fun | gif | -- |
-| thread | Channel Threads, until added officially by Discord  (Threads can also be started by reacting with the thread emoji)  Note: This is experimental, use with caution! | Utility | threads | start, rename, end |
+| thread | Channel Threads, until added officially by Discord  (Threads can also be started by reacting with the thread emoji)  Note: This is experimental, use with caution! | Utility | threads | end, rename, start |
 | tidalwave | Get a link to the Tidal Wave Discord | Info | discord | -- |
 | togglerum | Toggle the mobile indicator reaction (RUM: R U Mobile?) | Server Management | togglemobileindicator, toggleismobile | -- |
 | translate | Translate from a detected language to a specified language | Utility | -- | -- |
