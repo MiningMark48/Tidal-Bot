@@ -1,6 +1,6 @@
 import os.path as osp
 import toml
-from b2sdk.v1 import *
+from b2sdk.v1 import B2Api, InMemoryAccountInfo
 
 from util.logger import Logger
 
