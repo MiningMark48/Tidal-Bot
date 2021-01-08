@@ -1,1 +1,0 @@
-from .confirmation import ConfirmMenu

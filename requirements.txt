@@ -14,7 +14,6 @@ cloudscraper==1.2.46
 cryptography==3.2.1
 cycler==0.10.0
 discord==1.0.1
-discord-ext-menus==1.0.0a27+g6f2b873
 discord.py==1.6.0
 Faker==4.1.1
 flake8==3.8.3
