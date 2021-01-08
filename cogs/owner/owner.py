@@ -232,7 +232,7 @@ class Owner(commands.Cog):
         async def abort():
             return await ctx.send("Bot shutdown aborted.")
 
-        await ctx.send("**Are you sure you wish to initiate bot shutdown?**\n\tType *yes* to confirm.")
+        await ctx.reply("**Are you sure you wish to initiate bot shutdown?**\n\tType *yes* to confirm.")
 
         try:
             entry = await self.bot.wait_for('message', check=check, timeout=10)
