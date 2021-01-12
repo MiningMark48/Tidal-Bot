@@ -5,6 +5,7 @@ from io import BytesIO
 import discord
 from PIL import Image, ImageDraw, ImageFont
 from discord.ext import commands
+from discord import Color
 
 from util.decorators import delete_original
 
@@ -64,9 +65,10 @@ class Utility(commands.Cog):
             final_buffer.seek(0)
             file = discord.File(filename=f"progressbar_{year}.png", fp=final_buffer)
 
-            embed = discord.Embed(title="Year Progress", color=0xb9ae92)
-            if isinstance(ctx.channel, discord.TextChannel):
-                embed.__setattr__("color", ctx.message.author.top_role.color)
+            embed = discord.Embed(title="Year Progress", color=Color.dark_theme())
+            # embed = discord.Embed(title="Year Progress", color=0xb9ae92)
+            # if isinstance(ctx.channel, discord.TextChannel):
+            #     embed.__setattr__("color", ctx.message.author.top_role.color)
             embed.set_image(url=f"attachment://progressbar_{year}.png")
             embed.timestamp = ctx.message.created_at
 
