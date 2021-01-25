@@ -9,19 +9,19 @@ class Support(commands.Cog):
     async def buy_me_a_coffee(self, ctx):
         """Help support development by buying me a coffee - err - fry"""
         link = "https://www.buymeacoffee.com/miningmark48"
-        await ctx.send(f"{ctx.author.mention}, {link}")
+        await ctx.reply(link)
 
     @commands.command(name="cashapp")
     async def cash_app(self, ctx):
         """Help support development via CashApp"""
         link = "https://cash.app/$MiningMark48"
-        await ctx.send(f"{ctx.author.mention}, {link}")
+        await ctx.reply(link)
 
     # @commands.command(hidden=True)
     # async def patreon(self, ctx):
     #     """Help support development via Patreon"""
     #     link = "N/A"
-    #     await ctx.send(f"{ctx.author.mention}, {link}")
+    #     await ctx.reply(link)
 
 
 def setup(bot):
