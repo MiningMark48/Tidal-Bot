@@ -1,6 +1,7 @@
 import aiohttp
 import discord
 from discord.ext import commands
+from discord import Color
 
 from util.config import BotConfig
 
@@ -34,7 +35,7 @@ class Info(commands.Cog):
                         date = next(iter(time_series))
                         latest = time_series[date]
 
-                        embed = discord.Embed(title=f"Crypto | BTC", color=0xf7931b)
+                        embed = discord.Embed(title=f"Crypto | BTC", color=Color.dark_theme())
                         embed.timestamp = ctx.message.created_at
                         embed.set_footer(text="Via AlphaVantage")
                         embed.add_field(name="Date", value=date, inline=False)
@@ -73,7 +74,7 @@ class Info(commands.Cog):
                         date = next(iter(time_series))
                         latest = time_series[date]
 
-                        embed = discord.Embed(title=f"Stock | {symbol.upper()}", color=0x0087ba)
+                        embed = discord.Embed(title=f"Stock | {symbol.upper()}", color=Color.dark_theme())
                         embed.timestamp = ctx.message.created_at
                         embed.set_footer(text="Via AlphaVantage")
                         embed.add_field(name="Date", value=date, inline=False)
@@ -112,7 +113,7 @@ class Info(commands.Cog):
 
                         best = matches[0]
 
-                        embed = discord.Embed(title=f"'{query}' | Best Match Symbol", color=0x86d9f3)
+                        embed = discord.Embed(title=f"'{query}' | Best Match Symbol", color=Color.dark_theme())
                         embed.timestamp = ctx.message.created_at
                         embed.set_footer(text="Via AlphaVantage")
                         embed.add_field(name="Symbol", value=best['1. symbol'])
