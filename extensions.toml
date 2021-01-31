@@ -40,6 +40,7 @@ images = [
 
 # Info: Information Commands
 info = [ 
+    "celebbday",
     "corona", 
     "curseforge",
     "dictionary", 
