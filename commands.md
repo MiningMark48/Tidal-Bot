@@ -8,7 +8,6 @@
 | announceembed | Announce a message, embedded | Utility | announcementembed, annembed | -- |
 | apexlegends | Apex Legends Tracker: Gets stats for an Apex Legends account  Platforms: PC, PS, XBOX | Info | apex | -- |
 | battleroyale | Battle Royale of Everyone in the Server!  Delay - Min: 2, Max: 10 Skip will skip to results | Fun | br | -- |
-| bitcoin | Get info for Bitcoin (BTC) | Info | btc | -- |
 | botdms | Control whether or not the bot will DM you with certain commands/functions.  Example: Disabling DMs will prevent bot from DMing reactor role gives/takes.  Usage: botdms False | Preferences | botdm | -- |
 | botinfo | Miscellaneous bot information | Info | -- | -- |
 | buymeacoffee | Help support development by buying me a coffee - err - fry | Support | coffee | -- |
@@ -23,10 +22,11 @@
 | coronastats | Fetch COVID-19 Data for a specific country  Note: You can specify up to 10 countries at once.  Usage: stats "US" "Canada" | Info | corona, covid, cstats | -- |
 | countdown | Get the time remaining to a specific date  Optional: Year (defaults to current year) | Utility | -- | -- |
 | createbackup | Create a backup of bot data | Owner | -- | -- |
+| crypto | Commands that relate to Cryptocurrency reports | Info | cryptocurrency | bitcoin, dogecoin, search |
 | curseforge | Get Curseforge Project Stats | Info | cf, curse | -- |
-| customcommand | Manage custom commands for the server. | Utility | customcmd | set, list, delete, help, search |
+| customcommand | Manage custom commands for the server. | Utility | customcmd | search, list, set, delete, help |
 | dashdefine | It defines who I am | Memes | -- | -- |
-| defrole | Default role is a role to be added to a user when they join the server. Only one role can be set. | Server Management | defaultrole | get, clear, set |
+| defrole | Default role is a role to be added to a user when they join the server. Only one role can be set. | Server Management | defaultrole | clear, set, get |
 | deletetag | Delete a bot tag. | Tags | deltag, tagdelete | -- |
 | dictionary | Define a word | Info | define | -- |
 | draw25 | ...or draw 25 cards | Memes | -- | -- |
@@ -43,11 +43,11 @@
 | github | Look up information about a user on Github | Info | githubuser, githubinfo | -- |
 | guildinfo | Get information about the server | Info | serverinfo, servinfo | -- |
 | hangman | Play a game of Hangman | Fun | -- | -- |
-| hash | Commands that related to hashing strings to MD5 | Utility | hashing | create, check |
+| hash | Commands that related to hashing strings to MD5 | Utility | hashing | check, create |
 | hastebin | Get the RAW text from a Hastebin | Utility | hastebinget, hasteget, hb | -- |
 | help | Shows this message | None | -- | -- |
 | higherlower | Play a higher-lower number guessing game | Fun | hl | -- |
-| joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg | set, get, clear |
+| joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg | get, clear, set |
 | kkchum | Krusty Krab > Chum Bucket | Memes | -- | -- |
 | leaveserver | Make the bot leave a server | Owner | -- | -- |
 | linus | Linus selfies ftw. | Memes | -- | -- |
@@ -73,8 +73,8 @@
 | prune | Bulk delete messages (up to 100) | Utility | purge, nuke | -- |
 | quickpoll | Quickly, create a poll for people to vote on  Usage: quickpoll <Time (minutes)> "<Question>" "<Option 1>" "<Option 2>" ...  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | -- | -- |
 | quickpolldef | Quickly, create a poll for people to vote on using default choices  Usage: quickpoll <Time (minutes)> "<Question>" "<Default Choice>"  Default Choices: yesno (Yes/No), truefalse (True/False), scale15 (1/2/3/4/5), abcd (A/B/C/D)  Note: If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | qpd | -- |
-| random | Commands that generate random data. | Utility | rand | dice, text, card, number, coin, choice |
-| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | add, delete, get, clearall |
+| random | Commands that generate random data. | Utility | rand | choice, dice, text, number, card, coin |
+| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | delete, clearall, add, get |
 | reload | Reload a specific cog | Owner | -- | -- |
 | reloadall | Reload all cogs | Owner | -- | -- |
 | reloadmusic | Reload the music module | Owner | -- | -- |
