@@ -12,103 +12,12 @@ class Info(commands.Cog):
         self.bot = bot
         self.api_key = BotConfig().get_api_key('alphavantage')
 
-    @commands.group(aliases=["cryptocurrency"])
+    @commands.command(aliases=['cryptocurrency'])
     @commands.cooldown(1, 3)
-    async def crypto(self, ctx):
-        """Commands that relate to Cryptocurrency reports"""
-
-        if ctx.invoked_subcommand is None:
-            await ctx.send(f"Invalid subcommand! ")
-
-            msg = copy.copy(ctx.message)
-            msg.content = f"{ctx.prefix}help {ctx.command}"
-            new_ctx = await self.bot.get_context(msg, cls=type(ctx))
-            await self.bot.invoke(new_ctx)
-
-    @crypto.command(aliases=['btc'])
-    async def bitcoin(self, ctx):
+    async def crypto(self, ctx, symbol: str):
         """
-        Get info for Bitcoin (BTC)
-        """
-
-        async with ctx.typing():
-            try:
-                base_url = "https://www.alphavantage.co/query"
-                payload = {"function": "DIGITAL_CURRENCY_DAILY", "symbol": "BTC", "market": "USD",
-                           "apikey": self.api_key}
-
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(base_url, params=payload) as r:
-                        data = await r.json()
-
-                        if 'Error Message' in data:
-                            await ctx.send("Invalid symbol!")
-                            return
-
-                        time_series = data['Time Series (Digital Currency Daily)']
-                        date = next(iter(time_series))
-                        latest = time_series[date]
-
-                        embed = discord.Embed(title=f"Crypto | BTC", color=Color.dark_theme())
-                        embed.timestamp = ctx.message.created_at
-                        embed.set_footer(text="Via AlphaVantage")
-                        embed.add_field(name="Date", value=date, inline=False)
-                        embed.add_field(name="Open", value="${}".format(latest['1a. open (USD)'][:-6]))
-                        embed.add_field(name="Close", value="${}".format(latest['4a. close (USD)'][:-6]))
-                        embed.add_field(name="High", value="${}".format(latest['2a. high (USD)'][:-6]))
-                        embed.add_field(name="Low", value="${}".format(latest['3a. low (USD)'][:-6]))
-
-                        await ctx.send(embed=embed)
-
-            except IndexError:
-                await ctx.send("No search results found!")
-            except Exception as e:
-                await ctx.send(f"An error occurred!\n`{e}`")
-
-    @crypto.command(aliases=['doge'])
-    async def dogecoin(self, ctx):
-        """
-        Get info for Dogecoin (DOGE)
-        """
-
-        async with ctx.typing():
-            try:
-                base_url = "https://www.alphavantage.co/query"
-                payload = {"function": "DIGITAL_CURRENCY_DAILY", "symbol": "DOGE", "market": "USD",
-                           "apikey": self.api_key}
-
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(base_url, params=payload) as r:
-                        data = await r.json()
-
-                        if 'Error Message' in data:
-                            await ctx.send("Invalid symbol!")
-                            return
-
-                        time_series = data['Time Series (Digital Currency Daily)']
-                        date = next(iter(time_series))
-                        latest = time_series[date]
-
-                        embed = discord.Embed(title=f"Crypto | DOGE", color=Color.dark_theme())
-                        embed.timestamp = ctx.message.created_at
-                        embed.set_footer(text="Via AlphaVantage")
-                        embed.add_field(name="Date", value=date, inline=False)
-                        embed.add_field(name="Open", value="${}".format(latest['1a. open (USD)'][:-6]))
-                        embed.add_field(name="Close", value="${}".format(latest['4a. close (USD)'][:-6]))
-                        embed.add_field(name="High", value="${}".format(latest['2a. high (USD)'][:-6]))
-                        embed.add_field(name="Low", value="${}".format(latest['3a. low (USD)'][:-6]))
-
-                        await ctx.send(embed=embed)
-
-            except IndexError:
-                await ctx.send("No search results found!")
-            except Exception as e:
-                await ctx.send(f"An error occurred!\n`{e}`")
-
-    @crypto.command(aliases=['find'])
-    async def search(self, ctx, symbol: str):
-        """
-        Get info for a Cryptocurrency via symbol search
+        Get info for a Cryptocurrency by symbol
+        i.e. BTC (Bitcoin), DOGE (Dogecoin), XLM (Stellar Lumens)
         """
 
         async with ctx.typing():
