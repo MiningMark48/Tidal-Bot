@@ -1,18 +1,40 @@
-![Tidal Bot](.README_images/banner.png)
+<h1 align="center">
+    <a href="https://github.com/miningmark48/tidal-bot"><img src=".README_images/banner.png" height="150" alt="Tidal Bot Banner"></a>
+</h1>
 
-![MIT License](https://img.shields.io/github/license/MiningMark48/Tidal-Bot)
-[![Github](https://img.shields.io/github/followers/MiningMark48?style=social)](https://github.com/MiningMark48)
-[![Discord](https://img.shields.io/discord/138819614275665920?label=Discord&logo=Discord&style=social)](https://discord.gg/SMCEXw5)
-[![Twitter](https://img.shields.io/twitter/follow/miningmark48?style=social)](https://twitter.com/miningmark48)
+<h3 align="center">
+Tidal Bot is a personal bot for <a href="https://discord.com/">Discord</a> written in Python using <a href="https://github.com/Rapptz/discord.py">discord.py</a> that serves the needs of the <a href="https://discord.gg/SMCEXw5">Tidal Waves</a>. Currently, Tidal Bot is private and added to select servers. I hope to change this in the near future.
 
-<!-- [![Tidal Wave](https://discord.com/api/guilds/138819614275665920/embed.png)](https://discord.gg/SMCEXw5) -->
+<br><br>
 
+For Tidal Bot's predecessor written in Java, see <a href="https://github.com/MiningMark48/Tidal-Bot-Java">Tidal-Bot-Java</a>.
+</h3>
+<br>
 
- Tidal Bot is a personal bot for [Discord](https://discord.com) written in Python using [discord.py](https://github.com/Rapptz/discord.py) that serves the needs of the [Tidal Waves](https://discord.gg/SMCEXw5). Currently, Tidal Bot is private and added to select servers. I hope to change this in the near future.
- 
- For Tidal Bot's predecessor written in Java, see [Tidal-Bot-Java](https://github.com/MiningMark48/Tidal-Bot-Java).
+<p align="center">
+    <img src="https://img.shields.io/github/license/MiningMark48/Tidal-Bot" alt="MIT License">
+    <a href="https://github.com/MiningMark48">
+    <img src="https://img.shields.io/github/followers/MiningMark48?style=social" alt="GitHub Followers">
+    <a href="https://discord.gg/SMCEXw5">
+    <img src="https://img.shields.io/discord/138819614275665920?label=Discord&logo=Discord&style=social" alt="Discord">
+	<a href="https://twitter.com/miningmark48">
+	<img src="https://img.shields.io/twitter/follow/miningmark48?style=social" alt="Twitter">
+</p>
 
- ## Features
+---
+
+<h4 align="center">
+  <a href="#Features">Features</a> •
+  <a href="#Issues">Issues</a> •
+  <a href="#Running">Running</a> •
+  <a href="#Miscellaneous-Info">Miscellaneous Info</a> •
+  <a href="#Legal">Legal</a>
+</h4>
+
+---
+<br>
+
+## Features
 
  Tidal Bot has an ever-expanding list of features that include:
  - Server Management
@@ -79,7 +101,7 @@ For a list of all available commands, see [commands.md](https://github.com/Minin
 
 If desired, extensions (or "cogs") can be enabled/disabled in the [extensions.toml](https://github.com/MiningMark48/Tidal-Bot/blob/master/extensions.toml) file.
 
-----------
+---
 
 ## Issues
 
@@ -89,7 +111,7 @@ If you encounter any issues or have feedback while using the bot, please report 
 ## Running
 Although **not yet intended or supported**, go [here](https://github.com/MiningMark48/Tidal-Bot/wiki/Running-Tidal-Bot) to learn how to run Tidal Bot yourself.
 
--------------
+---
 
 ## Miscellaneous Info
 
@@ -103,7 +125,7 @@ Here are some potentially relevant links.
 - [Tidal Wave Discord](https://discord.gg/SMCEXw5) 
 - [Tidal Bot ClickUp](https://share.clickup.com/b/h/4-12633923-2/c9aa38f4ceedf1c)
 
-----------
+---
 
 ## Legal
 
@@ -115,4 +137,4 @@ Tidal Bot is not affiliated with [Discord](https://discord.com) or [discord.py](
 
 Although severity is unlikely, I, MiningMark48, am not responsible for what may occur if you decide to run this bot yourself or if the bot is added to your server.
 
-----------
+---
