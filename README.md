@@ -4,11 +4,12 @@
 
 <h3 align="center">
 Tidal Bot is a personal bot for <a href="https://discord.com/">Discord</a> written in Python using <a href="https://github.com/Rapptz/discord.py">discord.py</a> that serves the needs of the <a href="https://discord.gg/SMCEXw5">Tidal Waves</a>. Currently, Tidal Bot is private and added to select servers. I hope to change this in the near future.
-
-<br><br>
-
-For Tidal Bot's predecessor written in Java, see <a href="https://github.com/MiningMark48/Tidal-Bot-Java">Tidal-Bot-Java</a>.
 </h3>
+<br>
+
+<h4 align="center">
+For Tidal Bot's predecessor written in Java, see <a href="https://github.com/MiningMark48/Tidal-Bot-Java">Tidal-Bot-Java</a>.
+</h4>
 <br>
 
 <p align="center">
