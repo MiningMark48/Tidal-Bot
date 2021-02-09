@@ -16,10 +16,13 @@ For Tidal Bot's predecessor written in Java, see <a href="https://github.com/Min
     <img src="https://img.shields.io/github/license/MiningMark48/Tidal-Bot" alt="MIT License">
     <a href="https://github.com/MiningMark48">
     <img src="https://img.shields.io/github/followers/MiningMark48?style=social" alt="GitHub Followers">
+	</a>
     <a href="https://discord.gg/SMCEXw5">
     <img src="https://img.shields.io/discord/138819614275665920?label=Discord&logo=Discord&style=social" alt="Discord">
+	</a>
 	<a href="https://twitter.com/miningmark48">
 	<img src="https://img.shields.io/twitter/follow/miningmark48?style=social" alt="Twitter">
+	</a>
 </p>
 
 ---
