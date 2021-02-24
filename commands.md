@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 122
+**Commands Available:** 123
 | Name    | Description | Category | Aliases | Subcommands |
 |---------|-------------|----------|---------|-------------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard | -- |
@@ -24,9 +24,9 @@
 | createbackup | Create a backup of bot data | Owner | -- | -- |
 | crypto | Get info for a Cryptocurrency by symbol i.e. BTC (Bitcoin), DOGE (Dogecoin), XLM (Stellar Lumens) | Info | cryptocurrency | -- |
 | curseforge | Get Curseforge Project Stats | Info | cf, curse | -- |
-| customcommand | Manage custom commands for the server. | Utility | customcmd | set, help, delete, search, list |
+| customcommand | Manage custom commands for the server. | Utility | customcmd | search, list, set, help, delete |
 | dashdefine | It defines who I am | Memes | -- | -- |
-| defrole | Default role is a role to be added to a user when they join the server. Only one role can be set. | Server Management | defaultrole | set, get, clear |
+| defrole | Default role is a role to be added to a user when they join the server. Only one role can be set. | Server Management | defaultrole | set, clear, get |
 | deletetag | Delete a bot tag. | Tags | deltag, tagdelete | -- |
 | dictionary | Define a word | Info | define | -- |
 | draw25 | ...or draw 25 cards | Memes | -- | -- |
@@ -73,8 +73,8 @@
 | prune | Bulk delete messages (up to 100) | Utility | purge, nuke | -- |
 | quickpoll | Quickly, create a poll for people to vote on  Usage: quickpoll <Time (minutes)> "<Question>" "<Option 1>" "<Option 2>" ...  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | -- | -- |
 | quickpolldef | Quickly, create a poll for people to vote on using default choices  Usage: quickpoll <Time (minutes)> "<Question>" "<Default Choice>"  Default Choices: yesno (Yes/No), truefalse (True/False), scale15 (1/2/3/4/5), abcd (A/B/C/D)  Note: If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | qpd | -- |
-| random | Commands that generate random data. | Utility | rand | card, number, coin, choice, dice, text |
-| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | get, clearall, add, delete |
+| random | Commands that generate random data. | Utility | rand | card, text, number, coin, choice, dice |
+| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | get, clearall, delete, add |
 | reload | Reload a specific cog | Owner | -- | -- |
 | reloadall | Reload all cogs | Owner | -- | -- |
 | reloadmusic | Reload the music module | Owner | -- | -- |
@@ -90,6 +90,7 @@
 | shutdown | Shut the bot down. | Owner | -- | -- |
 | slap | Slap someone with a fish | Fun | -- | -- |
 | speedtype | See who can type the fastest!  Words Min 1, Max 50  Accuracy Ratio is 0-1.0 with 0.25 being 25%, etc. | Fun | -- | -- |
+| spoiler | Start a thread based on the last sent message or a message ID. | Utility | spoil, blackbar, hide | -- |
 | spongebreathe | *Breathe in* Shit. | Memes | -- | -- |
 | spongemock | spOngEBoB MoCKifY soMe TeXT | Memes | -- | -- |
 | spongeout | 'Ight, Imma head out | Memes | -- | -- |
@@ -108,7 +109,7 @@
 | tea | *Sips tea* | Memes | -- | -- |
 | temprole | Assign a user a temporary role.  Minutes Min: 1, Max: 60  Note: If the bot goes offline/restarts, the role will not be cleared from the user. | Server Management | trole | -- |
 | tenor | Returns a random GIF based on search term | Fun | gif | -- |
-| thread | Channel Threads, until added officially by Discord  (Threads can also be started by reacting with the thread emoji)  Note: This is experimental, use with caution! | Utility | threads | end, start, rename |
+| thread | Channel Threads, until added officially by Discord  (Threads can also be started by reacting with the thread emoji)  Note: This is experimental, use with caution! | Utility | threads | end, rename, start |
 | tidalwave | Get a link to the Tidal Wave Discord | Info | discord | -- |
 | togglerum | Toggle the mobile indicator reaction (RUM: R U Mobile?) | Server Management | togglemobileindicator, toggleismobile | -- |
 | translate | Translate from a detected language to a specified language | Utility | -- | -- |
