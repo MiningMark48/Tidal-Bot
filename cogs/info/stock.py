@@ -23,13 +23,23 @@ class Info(commands.Cog):
         decimal_amt = max(2, min(7, decimal_amt))
 
         async with ctx.typing():
+
+            
+
             try:
                 base_url = "https://www.alphavantage.co/query"
-                payload = {"function": "DIGITAL_CURRENCY_DAILY", "symbol": symbol, "market": "USD",
+                payload_main = {"function": "DIGITAL_CURRENCY_DAILY", "symbol": symbol, "market": "USD",
                            "apikey": self.api_key}
+                payload_exchange = {"function": "CURRENCY_EXCHANGE_RATE", "from_currency": symbol, "to_currency": "USD",
+                            "apikey": self.api_key}
+
+                embed = discord.Embed(title=f"Crypto | {symbol.upper()}", color=Color.dark_theme())
+                embed.timestamp = ctx.message.created_at
+                embed.set_footer(text="Via AlphaVantage")
+                embed.description = "**Note:** All values are in USD."
 
                 async with aiohttp.ClientSession() as session:
-                    async with session.get(base_url, params=payload) as r:
+                    async with session.get(base_url, params=payload_main) as r:
                         data = await r.json()
 
                         if 'Error Message' in data:
@@ -40,9 +50,6 @@ class Info(commands.Cog):
                         date = next(iter(time_series))
                         latest = time_series[date]
 
-                        embed = discord.Embed(title=f"Crypto | {symbol.upper()}", color=Color.dark_theme())
-                        embed.timestamp = ctx.message.created_at
-                        embed.set_footer(text="Via AlphaVantage")
                         embed.add_field(name="Date", value=date, inline=False)
 
                         decimal_trim = (8 - decimal_amt) * -1
@@ -51,7 +58,20 @@ class Info(commands.Cog):
                         embed.add_field(name="High", value="${}".format(latest['2a. high (USD)'][:decimal_trim]))
                         embed.add_field(name="Low", value="${}".format(latest['3a. low (USD)'][:decimal_trim]))
 
-                        await ctx.send(embed=embed)
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(base_url, params=payload_exchange) as r:
+                        data = await r.json()
+
+                        if 'Error Message' in data:
+                            await ctx.send("Invalid symbol!")
+                            return
+
+                        rate_data = data['Realtime Currency Exchange Rate']
+
+                        decimal_trim = (8 - decimal_amt) * -1
+                        embed.add_field(name="Current Exchange", value="${}".format(rate_data['5. Exchange Rate'][:decimal_trim]), inline=False)
+
+                await ctx.send(embed=embed)
 
             except IndexError:
                 await ctx.send("No search results found!")
