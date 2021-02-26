@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 123
+**Commands Available:** 122
 | Name    | Description | Category | Aliases | Subcommands |
 |---------|-------------|----------|---------|-------------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard | -- |
@@ -24,9 +24,9 @@
 | createbackup | Create a backup of bot data | Owner | -- | -- |
 | crypto | Get info for a Cryptocurrency by symbol i.e. BTC (Bitcoin), DOGE (Dogecoin), XLM (Stellar Lumens) | Info | cryptocurrency | -- |
 | curseforge | Get Curseforge Project Stats | Info | cf, curse | -- |
-| customcommand | Manage custom commands for the server. | Utility | customcmd | search, list, set, help, delete |
+| customcommand | Manage custom commands for the server. | Utility | customcmd | list, set, delete, help, search |
 | dashdefine | It defines who I am | Memes | -- | -- |
-| defrole | Default role is a role to be added to a user when they join the server. Only one role can be set. | Server Management | defaultrole | set, clear, get |
+| defrole | Default role is a role to be added to a user when they join the server. Only one role can be set. | Server Management | defaultrole | clear, set, get |
 | deletetag | Delete a bot tag. | Tags | deltag, tagdelete | -- |
 | dictionary | Define a word | Info | define | -- |
 | draw25 | ...or draw 25 cards | Memes | -- | -- |
@@ -43,11 +43,11 @@
 | github | Look up information about a user on Github | Info | githubuser, githubinfo | -- |
 | guildinfo | Get information about the server | Info | serverinfo, servinfo | -- |
 | hangman | Play a game of Hangman | Fun | -- | -- |
-| hash | Commands that related to hashing strings to MD5 | Utility | hashing | create, check |
+| hash | Commands that related to hashing strings to MD5 | Utility | hashing | check, create |
 | hastebin | Get the RAW text from a Hastebin | Utility | hastebinget, hasteget, hb | -- |
 | help | Shows this message | None | -- | -- |
 | higherlower | Play a higher-lower number guessing game | Fun | hl | -- |
-| joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg | clear, set, get |
+| joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg | set, get, clear |
 | kkchum | Krusty Krab > Chum Bucket | Memes | -- | -- |
 | leaveserver | Make the bot leave a server | Owner | -- | -- |
 | linus | Linus selfies ftw. | Memes | -- | -- |
@@ -73,8 +73,8 @@
 | prune | Bulk delete messages (up to 100) | Utility | purge, nuke | -- |
 | quickpoll | Quickly, create a poll for people to vote on  Usage: quickpoll <Time (minutes)> "<Question>" "<Option 1>" "<Option 2>" ...  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | -- | -- |
 | quickpolldef | Quickly, create a poll for people to vote on using default choices  Usage: quickpoll <Time (minutes)> "<Question>" "<Default Choice>"  Default Choices: yesno (Yes/No), truefalse (True/False), scale15 (1/2/3/4/5), abcd (A/B/C/D)  Note: If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | qpd | -- |
-| random | Commands that generate random data. | Utility | rand | card, text, number, coin, choice, dice |
-| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | get, clearall, delete, add |
+| random | Commands that generate random data. | Utility | rand | dice, text, card, number, coin, choice |
+| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | delete, add, clearall, get |
 | reload | Reload a specific cog | Owner | -- | -- |
 | reloadall | Reload all cogs | Owner | -- | -- |
 | reloadmusic | Reload the music module | Owner | -- | -- |
@@ -90,7 +90,6 @@
 | shutdown | Shut the bot down. | Owner | -- | -- |
 | slap | Slap someone with a fish | Fun | -- | -- |
 | speedtype | See who can type the fastest!  Words Min 1, Max 50  Accuracy Ratio is 0-1.0 with 0.25 being 25%, etc. | Fun | -- | -- |
-| spoiler | Start a thread based on the last sent message or a message ID. | Utility | spoil, blackbar, hide | -- |
 | spongebreathe | *Breathe in* Shit. | Memes | -- | -- |
 | spongemock | spOngEBoB MoCKifY soMe TeXT | Memes | -- | -- |
 | spongeout | 'Ight, Imma head out | Memes | -- | -- |

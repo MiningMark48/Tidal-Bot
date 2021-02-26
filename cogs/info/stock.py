@@ -14,11 +14,13 @@ class Info(commands.Cog):
 
     @commands.command(aliases=['cryptocurrency'])
     @commands.cooldown(1, 3)
-    async def crypto(self, ctx, symbol: str):
+    async def crypto(self, ctx, symbol: str, decimal_amt=4):
         """
         Get info for a Cryptocurrency by symbol
         i.e. BTC (Bitcoin), DOGE (Dogecoin), XLM (Stellar Lumens)
         """
+
+        decimal_amt = max(2, min(7, decimal_amt))
 
         async with ctx.typing():
             try:
@@ -42,10 +44,12 @@ class Info(commands.Cog):
                         embed.timestamp = ctx.message.created_at
                         embed.set_footer(text="Via AlphaVantage")
                         embed.add_field(name="Date", value=date, inline=False)
-                        embed.add_field(name="Open", value="${}".format(latest['1a. open (USD)'][:-6]))
-                        embed.add_field(name="Close", value="${}".format(latest['4a. close (USD)'][:-6]))
-                        embed.add_field(name="High", value="${}".format(latest['2a. high (USD)'][:-6]))
-                        embed.add_field(name="Low", value="${}".format(latest['3a. low (USD)'][:-6]))
+
+                        decimal_trim = (8 - decimal_amt) * -1
+                        embed.add_field(name="Open", value="${}".format(latest['1a. open (USD)'][:decimal_trim]))
+                        embed.add_field(name="Close", value="${}".format(latest['4a. close (USD)'][:decimal_trim]))
+                        embed.add_field(name="High", value="${}".format(latest['2a. high (USD)'][:decimal_trim]))
+                        embed.add_field(name="Low", value="${}".format(latest['3a. low (USD)'][:decimal_trim]))
 
                         await ctx.send(embed=embed)
 
@@ -56,10 +60,13 @@ class Info(commands.Cog):
 
     @commands.command(aliases=['stocks'])
     @commands.cooldown(1, 3.5)
-    async def stock(self, ctx, symbol: str):
+    async def stock(self, ctx, symbol: str, decimal_amt=2):
         """
         Get Stock info for a specific Symbol
         """
+
+        decimal_amt = max(2, min(3, decimal_amt))
+
         async with ctx.typing():
             try:
                 base_url = "https://www.alphavantage.co/query"
@@ -81,10 +88,12 @@ class Info(commands.Cog):
                         embed.timestamp = ctx.message.created_at
                         embed.set_footer(text="Via AlphaVantage")
                         embed.add_field(name="Date", value=date, inline=False)
-                        embed.add_field(name="Open", value="${}".format(latest['1. open'][:-2]))
-                        embed.add_field(name="Close", value="${}".format(latest['4. close'][:-2]))
-                        embed.add_field(name="High", value="${}".format(latest['2. high'][:-2]))
-                        embed.add_field(name="Low", value="${}".format(latest['3. low'][:-2]))
+
+                        decimal_trim = (4 - decimal_amt) * -1
+                        embed.add_field(name="Open", value="${}".format(latest['1. open'][:decimal_trim]))
+                        embed.add_field(name="Close", value="${}".format(latest['4. close'][:decimal_trim]))
+                        embed.add_field(name="High", value="${}".format(latest['2. high'][:decimal_trim]))
+                        embed.add_field(name="Low", value="${}".format(latest['3. low'][:decimal_trim]))
 
                         await ctx.send(embed=embed)
 
