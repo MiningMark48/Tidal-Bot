@@ -78,6 +78,7 @@ utility = [
     "cmdsearch",
     "colorgen",
     "customcommand",
+    "exchangerate",
     "hashing",
     "lyrics", 
     "memesearch",
