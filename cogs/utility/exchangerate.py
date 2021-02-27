@@ -13,7 +13,7 @@ class Utility(commands.Cog):
 
     @commands.command(name="exchangerate", aliases=['exchange', 'convertcurrency'])
     @commands.cooldown(1, 3)
-    async def exchange_rate(self, ctx, from_symbol: str, to_symbol: str, amount: int):
+    async def exchange_rate(self, ctx, from_currency: str, to_currency: str, amount=1):
         """
         Convert one currency to another
         i.e. USD -> CAD, BTC -> CAD
@@ -25,10 +25,10 @@ class Utility(commands.Cog):
 
             try:
                 base_url = "https://www.alphavantage.co/query"
-                payload_exchange = {"function": "CURRENCY_EXCHANGE_RATE", "from_currency": from_symbol, "to_currency": to_symbol,
+                payload_exchange = {"function": "CURRENCY_EXCHANGE_RATE", "from_currency": from_currency, "to_currency": to_currency,
                             "apikey": self.api_key}
 
-                embed = discord.Embed(title=f"Exchange | {from_symbol.upper()} to {to_symbol.upper()}", color=Color.dark_theme())
+                embed = discord.Embed(title=f"Exchange | {from_currency.upper()} to {to_currency.upper()}", color=Color.dark_theme())
                 embed.timestamp = ctx.message.created_at
                 embed.set_footer(text="Via AlphaVantage")
 
@@ -48,8 +48,8 @@ class Utility(commands.Cog):
                         exchange_rate = float(rate_data['5. Exchange Rate'])
                         exchange_amt = exchange_rate * amount
 
-                        embed.add_field(name=from_symbol.upper(), value=amount)
-                        embed.add_field(name=to_symbol.upper(), value=round(exchange_amt, 2))
+                        embed.add_field(name=rate_data['2. From_Currency Name'], value=amount)
+                        embed.add_field(name=rate_data['4. To_Currency Name'], value=round(exchange_amt, 2))
 
                 await ctx.send(embed=embed)
 
