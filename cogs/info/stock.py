@@ -1,5 +1,4 @@
 import aiohttp
-import copy
 import discord
 from discord.ext import commands
 from discord import Color
