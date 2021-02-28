@@ -1,5 +1,7 @@
 import aiohttp
 import discord
+import matplotlib.pyplot as plt
+from io import BytesIO
 from discord.ext import commands
 from discord import Color
 
@@ -23,8 +25,6 @@ class Info(commands.Cog):
 
         async with ctx.typing():
 
-            
-
             try:
                 base_url = "https://www.alphavantage.co/query"
                 payload_main = {"function": "DIGITAL_CURRENCY_DAILY", "symbol": symbol, "market": "USD",
@@ -46,7 +46,12 @@ class Info(commands.Cog):
                             return
 
                         time_series = data['Time Series (Digital Currency Daily)']
-                        date = next(iter(time_series))
+
+                        # print(time_series)
+
+                        date_iter = iter(time_series)
+                        date = next(date_iter)
+
                         latest = time_series[date]
 
                         embed.add_field(name="Date", value=date, inline=False)
@@ -56,6 +61,58 @@ class Info(commands.Cog):
                         embed.add_field(name="Close", value="${}".format(latest['4a. close (USD)'][:decimal_trim]))
                         embed.add_field(name="High", value="${}".format(latest['2a. high (USD)'][:decimal_trim]))
                         embed.add_field(name="Low", value="${}".format(latest['3a. low (USD)'][:decimal_trim]))
+
+                        week_data = {
+                            date: {
+                                "Open": latest["1a. open (USD)"],
+                                "Close": latest["4a. close (USD)"],
+                                "High": latest["2a. high (USD)"],
+                                "Low": latest["3a. low (USD)"]
+                            }
+                        }
+
+                        for _ in range(0, 4):
+                            date_i = next(date_iter)
+                            date_data = time_series[date_i]
+                            # print(date_data)
+
+                            d = {
+                                "Open": date_data["1a. open (USD)"],
+                                "Close": date_data["4a. close (USD)"],
+                                "High": date_data["2a. high (USD)"],
+                                "Low": date_data["3a. low (USD)"]
+                            }
+
+                            week_data.update({date_i: d})
+
+                        # week_data = {v: k for k, v in week_data.items()}
+
+                        fig, ax = plt.subplots()
+                        
+                        dates = list(reversed([item for item in week_data]))
+                        data_o = list(reversed([round(float(week_data[item]["Open"]), 4) for item in week_data]))
+                        data_c = list(reversed([round(float(week_data[item]["Close"]), 4) for item in week_data]))
+                        data_h = list(reversed([round(float(week_data[item]["High"]), 4) for item in week_data]))
+                        data_l = list(reversed([round(float(week_data[item]["Low"]), 4) for item in week_data]))
+
+                        ax.plot(dates, data_o, label="Open")
+                        ax.plot(dates, data_c, label="Close")
+                        ax.plot(dates, data_h, label="High")
+                        ax.plot(dates, data_l, label="Low")
+
+                        ax.set(xlabel="Time", ylabel="Price (USD)", title=f"Crypto | {symbol.upper()}")
+                        ax.grid()
+                        ax.legend()
+
+                        fig.tight_layout()
+
+                        final_buffer = BytesIO()
+                        fig.savefig(final_buffer)
+
+                        final_buffer.seek(0)
+                        file = discord.File(filename="chart.png", fp=final_buffer)
+
+                        embed.set_image(url="attachment://chart.png")
 
                 async with aiohttp.ClientSession() as session:
                     async with session.get(base_url, params=payload_exchange) as r:
@@ -70,12 +127,12 @@ class Info(commands.Cog):
                         decimal_trim = (8 - decimal_amt) * -1
                         embed.add_field(name="Current Exchange", value="${}".format(rate_data['5. Exchange Rate'][:decimal_trim]), inline=False)
 
-                await ctx.send(embed=embed)
+                await ctx.send(embed=embed, file=file)
 
             except IndexError:
                 await ctx.send("No search results found!")
-            except Exception as e:
-                await ctx.send(f"An error occurred!\n`{e}`")
+            # except Exception as e:
+            #     await ctx.send(f"An error occurred!\n`{e}`")
 
     @commands.command(aliases=['stocks'])
     @commands.cooldown(1, 3.5)
