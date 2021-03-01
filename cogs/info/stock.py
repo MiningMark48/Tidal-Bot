@@ -12,9 +12,11 @@ class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.api_key = BotConfig().get_api_key('alphavantage')
+        
+        self.days = 4
 
     @commands.command(aliases=['cryptocurrency'])
-    @commands.cooldown(1, 3)
+    @commands.cooldown(1, 5)
     async def crypto(self, ctx, symbol: str, decimal_amt=4):
         """
         Get info for a Cryptocurrency by symbol
@@ -71,7 +73,7 @@ class Info(commands.Cog):
                             }
                         }
 
-                        for _ in range(0, 4):
+                        for _ in range(0, self.days):
                             date_i = next(date_iter)
                             date_data = time_series[date_i]
                             # print(date_data)
@@ -85,8 +87,6 @@ class Info(commands.Cog):
 
                             week_data.update({date_i: d})
 
-                        # week_data = {v: k for k, v in week_data.items()}
-
                         fig, ax = plt.subplots()
                         
                         dates = list(reversed([item for item in week_data]))
@@ -95,12 +95,14 @@ class Info(commands.Cog):
                         data_h = list(reversed([round(float(week_data[item]["High"]), 4) for item in week_data]))
                         data_l = list(reversed([round(float(week_data[item]["Low"]), 4) for item in week_data]))
 
-                        ax.plot(dates, data_o, label="Open")
-                        ax.plot(dates, data_c, label="Close")
-                        ax.plot(dates, data_h, label="High")
-                        ax.plot(dates, data_l, label="Low")
+                        ax.plot(dates, data_o, "b.-", label="Open")
+                        ax.plot(dates, data_c, ".:", label="Close", color="#FFA500")
+                        ax.plot(dates, data_h, "g.-.", label="High")
+                        ax.plot(dates, data_l, "r.--", label="Low")
 
-                        ax.set(xlabel="Time", ylabel="Price (USD)", title=f"Crypto | {symbol.upper()}")
+                        ax.grid(color='#95a5a6', linestyle='--', linewidth=1, axis='y', alpha=0.7)
+
+                        ax.set(xlabel="Date", ylabel="Price (USD)", title=f"Crypto | {symbol.upper()}")
                         ax.grid()
                         ax.legend()
 
@@ -135,7 +137,7 @@ class Info(commands.Cog):
             #     await ctx.send(f"An error occurred!\n`{e}`")
 
     @commands.command(aliases=['stocks'])
-    @commands.cooldown(1, 3.5)
+    @commands.cooldown(1, 5)
     async def stock(self, ctx, symbol: str, decimal_amt=2):
         """
         Get Stock info for a specific Symbol
@@ -157,7 +159,10 @@ class Info(commands.Cog):
                             return
 
                         time_series = data['Time Series (Daily)']
-                        date = next(iter(time_series))
+                        
+                        date_iter = iter(time_series)
+                        date = next(date_iter)
+
                         latest = time_series[date]
 
                         embed = discord.Embed(title=f"Stock | {symbol.upper()}", color=Color.dark_theme())
@@ -171,7 +176,59 @@ class Info(commands.Cog):
                         embed.add_field(name="High", value="${}".format(latest['2. high'][:decimal_trim]))
                         embed.add_field(name="Low", value="${}".format(latest['3. low'][:decimal_trim]))
 
-                        await ctx.send(embed=embed)
+                        week_data = {
+                            date: {
+                                "Open": latest["1. open"],
+                                "Close": latest["4. close"],
+                                "High": latest["2. high"],
+                                "Low": latest["3. low"]
+                            }
+                        }
+
+                        for _ in range(0, self.days):
+                            date_i = next(date_iter)
+                            date_data = time_series[date_i]
+                            # print(date_data)
+
+                            d = {
+                                "Open": date_data["1. open"],
+                                "Close": date_data["4. close"],
+                                "High": date_data["2. high"],
+                                "Low": date_data["3. low"]
+                            }
+
+                            week_data.update({date_i: d})
+
+                        fig, ax = plt.subplots()
+                        
+                        dates = list(reversed([item for item in week_data]))
+                        data_o = list(reversed([round(float(week_data[item]["Open"]), 4) for item in week_data]))
+                        data_c = list(reversed([round(float(week_data[item]["Close"]), 4) for item in week_data]))
+                        data_h = list(reversed([round(float(week_data[item]["High"]), 4) for item in week_data]))
+                        data_l = list(reversed([round(float(week_data[item]["Low"]), 4) for item in week_data]))
+
+                        ax.plot(dates, data_o, "b.-", label="Open")
+                        ax.plot(dates, data_c, ".:", label="Close", color="#FFA500")
+                        ax.plot(dates, data_h, "g.-.", label="High")
+                        ax.plot(dates, data_l, "r.--", label="Low")
+
+                        ax.grid(color='#95a5a6', linestyle='--', linewidth=1, axis='y', alpha=0.7)
+
+                        ax.set(xlabel="Date", ylabel="Price (USD)", title=f"Stock | {symbol.upper()}")
+                        ax.grid()
+                        ax.legend()
+
+                        fig.tight_layout()
+
+                        final_buffer = BytesIO()
+                        fig.savefig(final_buffer)
+
+                        final_buffer.seek(0)
+                        file = discord.File(filename="chart.png", fp=final_buffer)
+
+                        embed.set_image(url="attachment://chart.png")
+
+                        await ctx.send(embed=embed, file=file)
 
             except IndexError:
                 await ctx.send("No search results found!")
