@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 123
+**Commands Available:** 124
 | Name    | Description | Category | Aliases | Subcommands |
 |---------|-------------|----------|---------|-------------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard | -- |
@@ -24,9 +24,9 @@
 | createbackup | Create a backup of bot data | Owner | -- | -- |
 | crypto | Get info for a Cryptocurrency by symbol i.e. BTC (Bitcoin), DOGE (Dogecoin), XLM (Stellar Lumens) | Info | cryptocurrency | -- |
 | curseforge | Get Curseforge Project Stats | Info | cf, curse | -- |
-| customcommand | Manage custom commands for the server. | Utility | customcmd | set, help, delete, search, list |
+| customcommand | Manage custom commands for the server. | Utility | customcmd | list, delete, help, search, set |
 | dashdefine | It defines who I am | Memes | -- | -- |
-| defrole | Default role is a role to be added to a user when they join the server. Only one role can be set. | Server Management | defaultrole | get, set, clear |
+| defrole | Default role is a role to be added to a user when they join the server. Only one role can be set. | Server Management | defaultrole | get, clear, set |
 | deletetag | Delete a bot tag. | Tags | deltag, tagdelete | -- |
 | dictionary | Define a word | Info | define | -- |
 | draw25 | ...or draw 25 cards | Memes | -- | -- |
@@ -44,7 +44,7 @@
 | github | Look up information about a user on Github | Info | githubuser, githubinfo | -- |
 | guildinfo | Get information about the server | Info | serverinfo, servinfo | -- |
 | hangman | Play a game of Hangman | Fun | -- | -- |
-| hash | Commands that related to hashing strings to MD5 | Utility | hashing | check, create |
+| hash | Commands that related to hashing strings to MD5 | Utility | hashing | create, check |
 | hastebin | Get the RAW text from a Hastebin | Utility | hastebinget, hasteget, hb | -- |
 | help | Shows this message | None | -- | -- |
 | higherlower | Play a higher-lower number guessing game | Fun | hl | -- |
@@ -74,8 +74,8 @@
 | prune | Bulk delete messages (up to 100) | Utility | purge, nuke | -- |
 | quickpoll | Quickly, create a poll for people to vote on  Usage: quickpoll <Time (minutes)> "<Question>" "<Option 1>" "<Option 2>" ...  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | -- | -- |
 | quickpolldef | Quickly, create a poll for people to vote on using default choices  Usage: quickpoll <Time (minutes)> "<Question>" "<Default Choice>"  Default Choices: yesno (Yes/No), truefalse (True/False), scale15 (1/2/3/4/5), abcd (A/B/C/D)  Note: If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | qpd | -- |
-| random | Commands that generate random data. | Utility | rand | number, coin, choice, dice, text, card |
-| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | add, delete, get, clearall |
+| random | Commands that generate random data. | Utility | rand | coin, number, choice, dice, text, card |
+| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | delete, get, add, clearall |
 | reload | Reload a specific cog | Owner | -- | -- |
 | reloadall | Reload all cogs | Owner | -- | -- |
 | reloadmusic | Reload the music module | Owner | -- | -- |
@@ -109,9 +109,10 @@
 | tea | *Sips tea* | Memes | -- | -- |
 | temprole | Assign a user a temporary role.  Minutes Min: 1, Max: 60  Note: If the bot goes offline/restarts, the role will not be cleared from the user. | Server Management | trole | -- |
 | tenor | Returns a random GIF based on search term | Fun | gif | -- |
-| thread | Channel Threads, until added officially by Discord  (Threads can also be started by reacting with the thread emoji)  Note: This is experimental, use with caution! | Utility | threads | start, rename, end |
+| thread | Channel Threads, until added officially by Discord  (Threads can also be started by reacting with the thread emoji)  Note: This is experimental, use with caution! | Utility | threads | start, end, rename |
 | tidalwave | Get a link to the Tidal Wave Discord | Info | discord | -- |
 | togglerum | Toggle the mobile indicator reaction (RUM: R U Mobile?) | Server Management | togglemobileindicator, toggleismobile | -- |
+| togglestockreact | Toggle the reaction to messages that may contain stock tickers. | Info | togglestock, stockreact | -- |
 | translate | Translate from a detected language to a specified language | Utility | -- | -- |
 | trivia | Answer some trivia!  Usage: trivia [time (seconds)] [randomeasymediumhard]  | Fun | -- | -- |
 | twobuttons | Two buttons! *queue sweating*  Note: This will likely require quotes.         | Memes | -- | -- |

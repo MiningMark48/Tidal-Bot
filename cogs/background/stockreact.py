@@ -4,6 +4,7 @@ import discord
 from bs4 import BeautifulSoup as bs
 from discord.ext import commands
 
+from util.data.guild_data import GuildData
 
 class Info(commands.Cog):
     def __init__(self, bot):
@@ -41,8 +42,22 @@ class Info(commands.Cog):
 
     @commands.Cog.listener("on_message")
     async def on_message(self, msg):
+
+        if not GuildData(str(msg.guild.id)).booleans.fetch_by_name("stock_react"):
+            return
+
         if re.findall(self.pattern, msg.content):
             await msg.add_reaction(self.react_emoji)
+
+    @commands.command(name="togglestockreact", aliases=["togglestock", "stockreact"])
+    @commands.has_permissions(manage_guild=True)
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.guild_only()
+    async def toggle_stock_react(self, ctx):
+        """Toggle the reaction to messages that may contain stock tickers."""
+
+        result = GuildData(str(ctx.guild.id)).booleans.toggle_boolean("stock_react")
+        await ctx.send(f'**{"Enabled" if result else "Disabled"}** the stock reaction.')
 
 
 def setup(bot):
