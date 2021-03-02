@@ -44,7 +44,7 @@ class Info(commands.Cog):
                         data = await r.json()
 
                         if 'Error Message' in data:
-                            await ctx.send("Invalid symbol!")
+                            await ctx.send("Invalid symbol!", delete_after=3)
                             return
 
                         time_series = data['Time Series (Digital Currency Daily)']
@@ -121,7 +121,7 @@ class Info(commands.Cog):
                         data = await r.json()
 
                         if 'Error Message' in data:
-                            await ctx.send("Invalid symbol!")
+                            await ctx.send("Invalid symbol!", delete_after=3)
                             return
 
                         rate_data = data['Realtime Currency Exchange Rate']
@@ -155,7 +155,7 @@ class Info(commands.Cog):
                         data = await r.json()
 
                         if 'Error Message' in data:
-                            await ctx.send("Invalid symbol!")
+                            await ctx.send("Invalid symbol!", delete_after=3)
                             return
 
                         time_series = data['Time Series (Daily)']

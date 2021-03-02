@@ -3,7 +3,8 @@
 
 # Background : Functions that run in background
 background = [
-    "quotes"
+    "quotes",
+    "stockreact"
 ]
 # Bot : Related to bot management and development.
 bot = [
