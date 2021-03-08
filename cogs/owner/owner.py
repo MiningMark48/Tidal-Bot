@@ -278,22 +278,22 @@ class Owner(commands.Cog):
 
         Logger.info(f"{ctx.author} TEST COMMAND")
 
-    @commands.Cog.listener("on_raw_reaction_add")
-    async def on_raw_reaction_add(self, payload):
-        reaction_emoji = str(payload.emoji)
-        user = payload.member
-        guild = user.guild
-        channel = guild.get_channel(payload.channel_id)
-        # msg = await channel.fetch_message(payload.message_id)
-        msg = await self.messages_util.get_message(channel, payload.message_id)
+    # @commands.Cog.listener("on_raw_reaction_add")
+    # async def on_raw_reaction_add(self, payload):
+    #     reaction_emoji = str(payload.emoji)
+    #     user = payload.member
+    #     guild = user.guild
+    #     channel = guild.get_channel(payload.channel_id)
+    #     # msg = await channel.fetch_message(payload.message_id)
+    #     msg = await self.messages_util.get_message(channel, payload.message_id)
 
-        print("ON REACTION", reaction_emoji, msg)
+    #     print("ON REACTION", reaction_emoji, msg)
 
-        if user == self.bot.user or isinstance(channel, discord.DMChannel): # Bot can't quote itself, and can't be used in DM
-            return
+    #     if user == self.bot.user or isinstance(channel, discord.DMChannel): # Bot can't quote itself, and can't be used in DM
+    #         return
 
-        if reaction_emoji == "\N{SMILING FACE WITH OPEN MOUTH AND SMILING EYES}":
-            print("REACTION", msg.content)
+    #     if reaction_emoji == "\N{SMILING FACE WITH OPEN MOUTH AND SMILING EYES}":
+    #         print("REACTION", msg.content)
 
 
 def setup(bot):
