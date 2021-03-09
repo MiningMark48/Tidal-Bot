@@ -5,12 +5,14 @@ import discord
 from discord.ext import commands
 
 from util.decorators import delete_original
+from util.messages import MessagesUtil
 
 
 class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        self.messages_util = MessagesUtil(bot)
         self.threads_cat_name = "Threads"
         self.thread_emoji = "\N{Spool of Thread}"
 
@@ -151,7 +153,8 @@ class Utility(commands.Cog):
         user = payload.member
         guild = user.guild
         channel = guild.get_channel(payload.channel_id)
-        msg = await channel.fetch_message(payload.message_id)
+        # msg = await channel.fetch_message(payload.message_id)
+        msg = await self.messages_util.get_message(channel, payload.message_id)
 
         if user == self.bot.user or isinstance(channel, discord.DMChannel):
             return

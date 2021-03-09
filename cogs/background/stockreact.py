@@ -5,12 +5,13 @@ from bs4 import BeautifulSoup as bs
 from discord.ext import commands
 
 from util.data.guild_data import GuildData
+from util.messages import MessagesUtil
 
 class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-
+        self.messages_util = MessagesUtil(bot)
         self.pattern = r"\$([A-Za-z]{2,})"
         self.react_emoji = "\N{HEAVY DOLLAR SIGN}"
 
@@ -21,6 +22,7 @@ class Info(commands.Cog):
         guild = user.guild
         channel = guild.get_channel(payload.channel_id)
         msg = await channel.fetch_message(payload.message_id)
+        msg = await self.messages_util.get_message(channel, payload.message_id)
 
         if user == self.bot.user or isinstance(channel, discord.DMChannel):
             return

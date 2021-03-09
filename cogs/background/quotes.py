@@ -6,11 +6,14 @@ import requests
 from bs4 import BeautifulSoup as bs
 from discord.ext import commands
 
+from util.messages import MessagesUtil
+
 
 class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        self.messages_util = MessagesUtil(bot)
         self.quote_emoji = "\N{PUSHPIN}"
         self.webhook_name = "tb-quote"  # TODO: Make config
 
@@ -20,7 +23,8 @@ class Utility(commands.Cog):
         user = payload.member
         guild = user.guild
         channel = guild.get_channel(payload.channel_id)
-        msg = await channel.fetch_message(payload.message_id)
+        # msg = await channel.fetch_message(payload.message_id)
+        msg = await self.messages_util.get_message(channel, payload.message_id)
 
         if user == self.bot.user or isinstance(channel, discord.DMChannel): # Bot can't quote itself, and can't be used in DM
             return
