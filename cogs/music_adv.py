@@ -206,7 +206,7 @@ class Player(wavelink.Player):
 
         This handles the reaction buttons and it's controls.
         """
-        # self.bot.loop.create_task(self.add_reactions())
+        self.bot.loop.create_task(self.add_reactions())
 
         def check(r, u):
             if not self.controller_message:
