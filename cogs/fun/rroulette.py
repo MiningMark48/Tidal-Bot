@@ -4,11 +4,14 @@ import random
 import discord
 from discord.ext import commands
 
+from util.messages import MessagesUtil
+
 
 class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        self.messages_util = MessagesUtil(bot)
         self.new_game = []
 
     @commands.command(name="russianroulette", aliases=["rr", "rroulette"])
@@ -41,7 +44,8 @@ class Fun(commands.Cog):
 
         players = []
 
-        rmsg = await ctx.channel.fetch_message(msg_c.id)
+        # rmsg = await ctx.channel.fetch_message(msg_c.id)
+        rmsg = await self.messages_util.get_message(ctx.channel, msg_c.id)
 
         for reac in rmsg.reactions:
             if reac.emoji == reaction_emoji:
@@ -89,20 +93,25 @@ class Fun(commands.Cog):
 
     @commands.Cog.listener("on_raw_reaction_add")
     async def on_raw_reaction_add(self, payload):
+        user = self.bot.get_user(payload.user_id)
+
+        if user == self.bot.user:
+            return
+
         guild = self.bot.get_guild(payload.guild_id)
         channel = guild.get_channel(payload.channel_id)
-        rmsg = await channel.fetch_message(payload.message_id)
+        # rmsg = await channel.fetch_message(payload.message_id)
+        rmsg = await self.messages_util.get_message(channel, payload.message_id)
 
         if rmsg.id in self.new_game:
             reaction_emoji = str(payload.emoji)
-            user = self.bot.get_user(payload.user_id)
+            
             if reaction_emoji == '\N{CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS}':
-                if not user == self.bot.user:
-                    ctx = await self.bot.get_context(rmsg)
-                    cmd = self.bot.get_command("russianroulette")
-                    self.new_game.remove(rmsg.id)
-                    await rmsg.clear_reactions()
-                    await ctx.invoke(cmd)
+                ctx = await self.bot.get_context(rmsg)
+                cmd = self.bot.get_command("russianroulette")
+                self.new_game.remove(rmsg.id)
+                await rmsg.clear_reactions()
+                await ctx.invoke(cmd)
 
 def setup(bot):
     bot.add_cog(Fun(bot))

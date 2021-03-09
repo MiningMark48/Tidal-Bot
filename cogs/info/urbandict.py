@@ -1,13 +1,18 @@
+from re import S
 import aiohttp
 
 import discord
 from bs4 import BeautifulSoup as bs
 from discord.ext import commands
 
+from util.messages import MessagesUtil
+
 
 class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+        self.messages_util = MessagesUtil(bot)
 
         self.dict_messages = []
         self.dict_pages = {}
@@ -73,51 +78,55 @@ class Info(commands.Cog):
 
     @commands.Cog.listener("on_raw_reaction_add")
     async def on_raw_reaction_add(self, payload):
+        user = self.bot.get_user(payload.user_id)
+
+        if user == self.bot.user:
+            return
+
         guild = self.bot.get_guild(payload.guild_id)
         channel = guild.get_channel(payload.channel_id)
         try:
-            rmsg = await channel.fetch_message(payload.message_id)
+            # rmsg = await channel.fetch_message(payload.message_id)
+            rmsg = await self.messages_util.get_message(channel, payload.message_id)
             if rmsg.id in self.dict_messages:
                 reaction_emoji = str(payload.emoji)
-                user = self.bot.get_user(payload.user_id)
-                if not user == self.bot.user:
 
-                    mid = rmsg.id
-                    p_index = {mid: self.page_index.get(mid)}
-                    update = False
-                    if reaction_emoji == "▶":
-                        p_index.update({mid: p_index.get(mid) + 1})
-                        update = True
-                    elif reaction_emoji == "◀":
-                        p_index.update({mid: p_index.get(mid) - 1})
-                        update = True
-                    elif reaction_emoji == "⏪":
-                        p_index.update({mid: 0})
-                        update = True
-                    elif reaction_emoji == "⏩":
-                        p_index.update({mid: len(self.dict_pages.get(mid)) - 1})
-                        update = True
+                mid = rmsg.id
+                p_index = {mid: self.page_index.get(mid)}
+                update = False
+                if reaction_emoji == "▶":
+                    p_index.update({mid: p_index.get(mid) + 1})
+                    update = True
+                elif reaction_emoji == "◀":
+                    p_index.update({mid: p_index.get(mid) - 1})
+                    update = True
+                elif reaction_emoji == "⏪":
+                    p_index.update({mid: 0})
+                    update = True
+                elif reaction_emoji == "⏩":
+                    p_index.update({mid: len(self.dict_pages.get(mid)) - 1})
+                    update = True
 
-                    if update:
-                        p_index.update({mid: max(min(p_index.get(mid), len(self.dict_pages.get(mid)) - 1), 0)})
-                        self.page_index.update(p_index)
+                if update:
+                    p_index.update({mid: max(min(p_index.get(mid), len(self.dict_pages.get(mid)) - 1), 0)})
+                    self.page_index.update(p_index)
 
-                        page_info = f'\n\n**Page:** {self.page_index.get(mid) + 1}/{len(self.dict_pages.get(mid))}'
+                    page_info = f'\n\n**Page:** {self.page_index.get(mid) + 1}/{len(self.dict_pages.get(mid))}'
 
-                        e = self.def_embed.get(mid)
+                    e = self.def_embed.get(mid)
 
-                        w, m, ex = self.dict_pages.get(mid)[self.page_index.get(mid)]
+                    w, m, ex = self.dict_pages.get(mid)[self.page_index.get(mid)]
 
-                        e.title = w
-                        e.description = f'{m[:1800]}{"..." if len(m) > 1800 else ""} ' \
-                                        f'\n\n**Example:** {ex[:100]} {"..." if len(ex) > 100 else ""}' \
-                                        f'{page_info if len(self.dict_pages.get(mid)) > 1 else ""}'
+                    e.title = w
+                    e.description = f'{m[:1800]}{"..." if len(m) > 1800 else ""} ' \
+                                    f'\n\n**Example:** {ex[:100]} {"..." if len(ex) > 100 else ""}' \
+                                    f'{page_info if len(self.dict_pages.get(mid)) > 1 else ""}'
 
-                        await rmsg.edit(embed=e)
-                        self.def_embed.update({mid: e})
+                    await rmsg.edit(embed=e)
+                    self.def_embed.update({mid: e})
 
-                    for reac in rmsg.reactions:
-                        await reac.remove(user)
+                for reac in rmsg.reactions:
+                    await reac.remove(user)
 
         except discord.errors.NotFound:
             pass

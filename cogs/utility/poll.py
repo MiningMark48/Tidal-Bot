@@ -7,11 +7,14 @@ import discord
 from discord.ext import commands
 
 from util.decorators import delete_original
+from util.messages import MessagesUtil
 
 
 class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+        self.messages_util = MessagesUtil(bot)
         self.poll_messages = []
         self.user_answers = {}
 
@@ -204,7 +207,8 @@ class Utility(commands.Cog):
         guild = self.bot.get_guild(payload.guild_id)
         channel = guild.get_channel(payload.channel_id)
         try:
-            rmsg = await channel.fetch_message(payload.message_id)
+            # rmsg = await channel.fetch_message(payload.message_id)
+            rmsg = await self.messages_util.get_message(channel, payload.message_id)
             if rmsg.id in self.poll_messages:
                 reaction_emoji = str(payload.emoji)
                 user = self.bot.get_user(payload.user_id)

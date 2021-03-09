@@ -8,13 +8,14 @@ import discord
 import requests
 from discord.ext import commands
 
-
-# import cogs.checks as cks
+from util.messages import MessagesUtil
 
 
 class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+        self.messages_util = MessagesUtil(bot)
         self.trivia_messages = []
         self.new_trivia = []
 
@@ -62,7 +63,8 @@ class Fun(commands.Cog):
                 self.trivia_messages.remove(msg.id)
 
                 try:
-                    re_msg = await ctx.channel.fetch_message(msg.id)
+                    # re_msg = await ctx.channel.fetch_message(msg.id)
+                    re_msg = await self.messages_util.get_message(ctx.channel, msg.id)
                     users_correct = []
 
                     for reac in re_msg.reactions:
@@ -93,9 +95,16 @@ class Fun(commands.Cog):
 
     @commands.Cog.listener("on_raw_reaction_add")
     async def on_raw_reaction_add(self, payload):
+        user = self.bot.get_user(payload.user_id)
+
+        if user == self.bot.user:
+            return
+
         guild = self.bot.get_guild(payload.guild_id)
         channel = guild.get_channel(payload.channel_id)
-        rmsg = await channel.fetch_message(payload.message_id)
+        # rmsg = await channel.fetch_message(payload.message_id)
+        rmsg = await self.messages_util.get_message(channel, payload.message_id)
+
         if rmsg.id in self.trivia_messages:
             reaction_emoji = str(payload.emoji)
             user = self.bot.get_user(payload.user_id)
@@ -108,12 +117,11 @@ class Fun(commands.Cog):
             reaction_emoji = str(payload.emoji)
             user = self.bot.get_user(payload.user_id)
             if reaction_emoji == "\N{BLACK QUESTION MARK ORNAMENT}":
-                if not user == self.bot.user:
-                    ctx = await self.bot.get_context(rmsg)
-                    cmd = self.bot.get_command("trivia")
-                    self.new_trivia.remove(rmsg.id)
-                    await rmsg.clear_reactions()
-                    await ctx.invoke(cmd)
+                ctx = await self.bot.get_context(rmsg)
+                cmd = self.bot.get_command("trivia")
+                self.new_trivia.remove(rmsg.id)
+                await rmsg.clear_reactions()
+                await ctx.invoke(cmd)
 
 
 def getChoice(lst, a):

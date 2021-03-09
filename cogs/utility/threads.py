@@ -149,15 +149,16 @@ class Utility(commands.Cog):
 
     @commands.Cog.listener("on_raw_reaction_add")
     async def on_raw_reaction_add(self, payload):
-        reaction_emoji = str(payload.emoji)
         user = payload.member
         guild = user.guild
         channel = guild.get_channel(payload.channel_id)
-        # msg = await channel.fetch_message(payload.message_id)
-        msg = await self.messages_util.get_message(channel, payload.message_id)
 
         if user == self.bot.user or isinstance(channel, discord.DMChannel):
             return
+
+        reaction_emoji = str(payload.emoji)        
+        # msg = await channel.fetch_message(payload.message_id)
+        msg = await self.messages_util.get_message(channel, payload.message_id)
 
         if reaction_emoji == self.thread_emoji:
             ctx = await self.bot.get_context(msg, cls=commands.Context)

@@ -17,15 +17,16 @@ class Info(commands.Cog):
 
     @commands.Cog.listener("on_raw_reaction_add")
     async def on_raw_reaction_add(self, payload):
-        reaction_emoji = str(payload.emoji)
         user = payload.member
+        
+        if user == self.bot.user:
+            return
+
+        reaction_emoji = str(payload.emoji)
         guild = user.guild
         channel = guild.get_channel(payload.channel_id)
-        msg = await channel.fetch_message(payload.message_id)
+        # msg = await channel.fetch_message(payload.message_id)
         msg = await self.messages_util.get_message(channel, payload.message_id)
-
-        if user == self.bot.user or isinstance(channel, discord.DMChannel):
-            return
 
         if reaction_emoji == self.react_emoji:
             alert_msg = await channel.send("Attempting to fetch stock data...")
