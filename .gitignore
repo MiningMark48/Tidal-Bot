@@ -142,6 +142,7 @@ dmypy.json
 ffmpeg.exe
 lavalink/
 cmdimgs/
+jupyter/
 updater.py
 !requirements.txt
 !commands.json
