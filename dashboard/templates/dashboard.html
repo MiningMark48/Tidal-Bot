@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dashboard</title>
+    </head>
+    <body>
+        <h1>Dashboard</h1>
+
+        <h2>The bot is in: {{guild_count}} servers</h2>
+
+        <h3>Common guilds</h3>
+
+        <ul>
+            {% for guild in guilds %}
+            	<li><a href="/guild/{{guild.id}}">{{ guild.name }}</a></li>
+            {% endfor %}
+        </ul>
+        
+    </body>
+</html>

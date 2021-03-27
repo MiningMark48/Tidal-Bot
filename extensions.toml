@@ -96,7 +96,8 @@ utility = [
 ]
 
 # None: Misc commands not found in a module/cog.
-none = [ 
+none = [
     "errors",
+    "ipc_routes",
     "support"
 ]

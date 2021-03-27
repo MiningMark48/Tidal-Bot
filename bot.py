@@ -1,8 +1,9 @@
+import json
 import time
 from tqdm import tqdm
 
 import discord
-from discord.ext import commands
+from discord.ext import commands, ipc
 
 import util.gen_list as GenList
 from util.config import BotConfig
@@ -62,6 +63,8 @@ intents.presences = True
 bot = commands.Bot(command_prefix=prefix,
                    help_command=HelpCommand(), intents=intents)
 
+bot.ipc = ipc.Server(bot, secret_key="MM")
+
 
 @bot.event
 async def on_ready():
@@ -79,6 +82,16 @@ async def on_ready():
 
     Logger.success("Bot started in {} seconds".format(
         str(time.time() - start_time)[:4]))
+
+@bot.event
+async def on_ipc_ready():
+    """Called upon the IPC Server being ready"""
+    Logger.info("IPC Server Ready")
+
+@bot.event
+async def on_ipc_error(endpoint, error):
+    """Called upon an error being raised within an IPC route"""
+    Logger.fatal(endpoint + " raised " + str(error))
 
 
 @bot.event
@@ -135,6 +148,7 @@ if __name__ == "__main__":
     Logger.info(f"Loaded {count}/{len(extensions)} cogs")
 
 if do_run:
+    bot.ipc.start()
     bot.run(str(bot_token))
 else:
     Logger.fatal("Startup aborted.")
