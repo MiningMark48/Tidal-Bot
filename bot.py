@@ -63,7 +63,7 @@ intents.presences = True
 bot = commands.Bot(command_prefix=prefix,
                    help_command=HelpCommand(), intents=intents)
 
-bot.ipc = ipc.Server(bot, secret_key="MM")
+bot.ipc = ipc.Server(bot, secret_key=config_data["dashboard"]["secret_key"])
 
 
 @bot.event

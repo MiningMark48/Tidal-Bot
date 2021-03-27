@@ -1,15 +1,19 @@
+import toml
 from discord import channel
 from quart import Quart, render_template, request, session, redirect, url_for
 from quart_discord import DiscordOAuth2Session
 from discord.ext import ipc
 
-app = Quart(__name__)
-ipc_client = ipc.Client(secret_key="MM")
+config_data = toml.load("config.toml")
+config_dash_data = config_data["dashboard"]
 
-app.config["SECRET_KEY"] = "MM"
-app.config["DISCORD_CLIENT_ID"] = 682756052126924810
-app.config["DISCORD_CLIENT_SECRET"] = "-_6_brtZIWPu3r6HejYy5G0D0mc81BSQ"
-app.config["DISCORD_REDIRECT_URI"] = "http://127.0.0.1:5000/callback"
+app = Quart(__name__)
+ipc_client = ipc.Client(secret_key=config_dash_data["secret_key"])
+
+app.config["SECRET_KEY"] = config_dash_data["secret_key"]
+app.config["DISCORD_CLIENT_ID"] = config_dash_data["discord_client_id"]
+app.config["DISCORD_CLIENT_SECRET"] = config_dash_data["discord_client_secret"]
+app.config["DISCORD_REDIRECT_URI"] = config_dash_data["discord_redirect_uri"]
 
 discord = DiscordOAuth2Session(app)
 
@@ -30,10 +34,10 @@ async def callback():
 
 	# user = await discord.fetch_user()
 	# return f"{user.name}#{user.discriminator}" #You should return redirect(url_for("dashboard")) here
-	return redirect(url_for("dashboard"))
+	return redirect(url_for("manage"))
 
-@app.route("/dashboard", methods=["GET"])
-async def dashboard():
+@app.route("/manage", methods=["GET"])
+async def manage():
 	guild_count = await ipc_client.request("get_guild_count")
 	guild_ids = await ipc_client.request("get_guild_ids")
 
@@ -45,15 +49,31 @@ async def dashboard():
 	same_guilds = []
 
 	for guild in user_guilds:
-		if guild.id in guild_ids:
+		if guild.id in guild_ids and guild.permissions.manage_guild:
 			same_guilds.append(guild)
+	
+	user = await discord.fetch_user()
+	user_name = user.username
+	user_discriminator = user.discriminator
+	user_avatar = user.avatar_url
 
+	user_info = {"name": user_name, "discriminator": user_discriminator, "avatar": user_avatar}
 
-	return await render_template("dashboard.html", guild_count=guild_count, guilds=same_guilds)
+	return await render_template("manage.html", user_info=user_info, guild_count=guild_count, guilds=same_guilds)
 
 @app.route("/guild/<guild_id>")
 async def guild(guild_id: int):
 	guild_data = next((x for x in await discord.fetch_guilds() if str(x.id) == str(guild_id)), None)
+	return await render_template("guild.html", guild=guild_data, channels=await ipc_client.request("get_guild_text_channels", guild_id=guild_id))
+
+@app.route("/guild/<guild_id>", methods=["POST"])
+async def guild_post(guild_id: int):
+	guild_data = next((x for x in await discord.fetch_guilds() if str(x.id) == str(guild_id)), None)
+	form = await request.form
+	text = form["text"]
+
+	print(text)
+
 	return await render_template("guild.html", guild=guild_data, channels=await ipc_client.request("get_guild_text_channels", guild_id=guild_id))
 
 @app.route("/guild/<guild_id>/channel/<channel_id>")

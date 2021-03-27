@@ -1,26 +1,138 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Dashboard - {{guild.name}}</title>
-    </head>
-    <body>
-        <h1>Dashboard - {{guild.name}}</h1>
+<html lang="en">
 
-		<img src="{{guild.icon_url}}">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="Tidal Bot: Tidal Wave's Personal Discord Bot" />
+	<meta name="author" content="MiningMark48" />
 
-		<h3>ID: {{guild.id}}</h3>
-		<h3>Is Owner?: {{guild.is_owner}}</h3>
-		<h3>Permissions: {{guild.permissions}}</h3>
-		<h4>Is Admin?: {{guild.permissions.administrator}}</h4>
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:url" content="https://github.com/miningmark48/tidal-bot" />
+	<meta name="twitter:title" content="Tidal Bot" />
+	<meta name="twitter:description" content="Tidal Bot: Tidal Wave's Personal Discord Bot" />
+	<meta name="twitter:image" content="https://miningmark48.github.io/img/logo.png" />
+	<meta name="twitter:site" content="@miningmark48" />
+	<meta name="twitter:creator" content="@miningmark48" />
 
-		<br>
-		<h3>Channels</h3>
-		<ul>
-            {% for channel in channels %}
-            	<li><a href="/guild/{{guild.id}}/channel/{{channel.id}}">{{ channel.name }}</a></li>
-            {% endfor %}
-        </ul>
+	<title>Tidal Bot</title>
 
-        
-    </body>
+	<!-- Bootstrap core CSS -->
+	<link href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" />
+
+	<!-- Custom fonts for this template -->
+	<link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:100,200,300,400,500,600,700,800,900"
+		rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i"
+		rel="stylesheet" />
+	<link href="{{url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" />
+	<link href="{{url_for('static', filename='vendor/devicons/css/devicons.min.css')}}" rel="stylesheet" />
+	<link href="{{url_for('static', filename='vendor/simple-line-icons/css/simple-line-icons.css')}}"
+		rel="stylesheet" />
+	<script src="https://kit.fontawesome.com/9e1477a36f.js" crossorigin="anonymous"></script>
+
+	<!-- Custom style for this template -->
+	<link href="{{url_for('static', filename='css/resume.css')}}" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+		<a class="navbar-brand js-scroll-trigger" href="#page-top">
+			<span class="d-block d-lg-none">Tidal Bot</span>
+			<span class="d-none d-lg-block">
+				<img class="img-fluid img-profile rounded-circle mx-auto mb-2"
+					src="{{guild.icon_url}}" alt="Tidal Bot's Logo" />
+			</span>
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav">
+				<li class="nav-item text-secondary">
+					{{guild.name}}
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container-fluid p-0">
+		<section class="resume-section p-3 p-lg-5 d-flex d-column" id="about">
+			<div class="my-auto">
+
+				<h2 class="text-primary">
+					Manage Server
+				</h2>
+
+				<h3 class="text-secondary">
+					{{guild.name}}
+				</h3>
+
+				<br>
+
+				<div class="container" style="padding-bottom: 15px;">
+					<h4 class="text-primary">
+						Bot Settings
+					</h4>
+					<div class="row">
+						<div class="col">
+							<span class="text-primary">Command Prefix</span><br>
+							<form>
+								<input class="input" type="text" placeholder="!" maxlength="8" style="margin-bottom: 10px" value>
+							</form>
+						</div>
+						<div class="col">
+							<span class="text-primary">Nickname</span><br>
+							<form>
+								<input class="input" type="text" placeholder="Tidal Bot" maxlength="8" style="margin-bottom: 10px" value>
+							</form>
+						</div>
+					</div>
+					<form>
+						<input type="submit" class="btn btn-primary" value="Save Settings">
+					</form>
+				</div>
+
+				<!-- <br>
+				<h3>Channels</h3>
+				<ul>
+					{% for channel in channels %}
+					<li><a href="/guild/{{guild.id}}/channel/{{channel.id}}">{{ channel.name }}</a></li>
+					{% endfor %}
+				</ul> -->
+
+			</div>
+		</section>
+
+		<footer class="footer mt-auto py-3">
+			<div class="container">
+				<p class="mb-2">
+					You've reached the
+					<a onclick="egg_rr()" class="cursor-point">bottom!</a>
+				</p>
+				<!-- <p><a href="https://usebootstrap.com/theme/resume-bootstrap4-master">Resume</a> template/theme provided by <a href="https://usebootstrap.com/">UseBootstrap</a>.</p> -->
+
+				<!-- <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" disabled>
+            <label class="form-check-label" for="flexSwitchCheckChecked">Dark Mode</label>
+          </div> -->
+			</div>
+		</footer>
+	</div>
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Plugin JavaScript -->
+	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for this template -->
+	<script src="js/resume.min.js"></script>
+
+	<script src="js/eggs.js"></script>
+	<script src="js/konami.js"></script>
+</body>
+
 </html>
