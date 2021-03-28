@@ -1,4 +1,6 @@
+from sqlalchemy import exc
 import toml
+import functools
 from discord import channel
 from quart import Quart, render_template, request, session, redirect, url_for
 from quart_discord import DiscordOAuth2Session
@@ -16,6 +18,17 @@ app.config["DISCORD_CLIENT_SECRET"] = config_dash_data["discord_client_secret"]
 app.config["DISCORD_REDIRECT_URI"] = config_dash_data["discord_redirect_uri"]
 
 discord = DiscordOAuth2Session(app)
+
+# def ipc_autoreconnect(func):
+# 	def inner(*args, **kwargs):
+# 		try:
+# 			func(*args, **kwargs)
+# 		except:
+# 			# global ipc_client
+# 			# ipc_client = ipc.Client(secret_key=config_dash_data["secret_key"])
+# 			print(f"{func.__name__}")
+
+# 	return inner
 
 @app.route("/")
 async def home():
@@ -61,20 +74,25 @@ async def manage():
 
 	return await render_template("manage.html", user_info=user_info, guild_count=guild_count, guilds=same_guilds)
 
-@app.route("/guild/<guild_id>")
+@app.route("/guild/<guild_id>", methods=["GET", "POST"])
+# @ipc_autoreconnect
 async def guild(guild_id: int):
+
 	guild_data = next((x for x in await discord.fetch_guilds() if str(x.id) == str(guild_id)), None)
-	return await render_template("guild.html", guild=guild_data, channels=await ipc_client.request("get_guild_text_channels", guild_id=guild_id))
 
-@app.route("/guild/<guild_id>", methods=["POST"])
-async def guild_post(guild_id: int):
-	guild_data = next((x for x in await discord.fetch_guilds() if str(x.id) == str(guild_id)), None)
-	form = await request.form
-	text = form["text"]
+	if request.method == "POST":
+		form = await request.form
+		
+		if "btn_cmd_prefix_update" in form:
+			await ipc_client.request("set_prefix", guild_id=guild_id, prefix=form["text_cmd_prefix"])
+		elif "btn_nickname_update" in form:
+			await ipc_client.request("set_nickname", guild_id=guild_id, nickname=form["text_nickname"])
+		elif "btn_join_msg" in form:
+			await ipc_client.request("set_join_msg", guild_id=guild_id, message=form["text_join_msg"])
 
-	print(text)
-
-	return await render_template("guild.html", guild=guild_data, channels=await ipc_client.request("get_guild_text_channels", guild_id=guild_id))
+	render_channels = await ipc_client.request("get_guild_text_channels", guild_id=guild_id)
+	render_join_msg = await ipc_client.request("get_join_msg", guild_id=guild_id)
+	return await render_template("guild.html", guild=guild_data, channels=render_channels, join_msg=render_join_msg)
 
 @app.route("/guild/<guild_id>/channel/<channel_id>")
 async def text_channel(guild_id: int, channel_id: int):

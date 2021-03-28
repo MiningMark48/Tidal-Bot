@@ -1,13 +1,4 @@
-import copy
-import typing
-from contextlib import redirect_stdout
-
-import discord
-from discord import channel
 from discord.ext import commands, ipc
-
-from util.data.data_backup import backup_databases
-from util.logger import Logger
 
 
 class IPCRoutes(commands.Cog):
@@ -29,11 +20,6 @@ class IPCRoutes(commands.Cog):
 	async def get_guild_text_channels(self, data):
 		text_channels = self.bot.get_guild(int(data.guild_id)).text_channels
 		return [{"name": c.name, "id": c.id} for c in text_channels]
-
-	@ipc.server.route()
-	async def cmd_say(self, data):
-		channel = self.bot.get_guild(int(data.guild_id)).get_channel(int(data.channel_id))
-		await channel.send(data.message)
 
 def setup(bot):
 	bot.add_cog(IPCRoutes(bot))

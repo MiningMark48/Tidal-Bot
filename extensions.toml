@@ -52,6 +52,12 @@ info = [
     "wikipedia"
 ]
 
+# IPC: IPC routes
+ipc = [
+    "ipc_routes",
+    "guild_data"
+]
+
 # Owner: Bot Owner-only commands
 owner = [
     "modules",
@@ -98,6 +104,5 @@ utility = [
 # None: Misc commands not found in a module/cog.
 none = [
     "errors",
-    "ipc_routes",
     "support"
 ]

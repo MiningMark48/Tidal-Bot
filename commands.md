@@ -24,9 +24,9 @@
 | createbackup | Create a backup of bot data | Owner | -- | -- |
 | crypto | Get info for a Cryptocurrency by symbol i.e. BTC (Bitcoin), DOGE (Dogecoin), XLM (Stellar Lumens) | Info | cryptocurrency | -- |
 | curseforge | Get Curseforge Project Stats | Info | cf, curse | -- |
-| customcommand | Manage custom commands for the server. | Utility | customcmd | delete, help, search, list, set |
+| customcommand | Manage custom commands for the server. | Utility | customcmd | help, delete, search, list, set |
 | dashdefine | It defines who I am | Memes | -- | -- |
-| defrole | Default role is a role to be added to a user when they join the server. Only one role can be set. | Server Management | defaultrole | get, clear, set |
+| defrole | Default role is a role to be added to a user when they join the server. Only one role can be set. | Server Management | defaultrole | set, get, clear |
 | deletetag | Delete a bot tag. | Tags | deltag, tagdelete | -- |
 | dictionary | Define a word | Info | define | -- |
 | draw25 | ...or draw 25 cards | Memes | -- | -- |
@@ -75,7 +75,7 @@
 | quickpoll | Quickly, create a poll for people to vote on  Usage: quickpoll <Time (minutes)> "<Question>" "<Option 1>" "<Option 2>" ...  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | -- | -- |
 | quickpolldef | Quickly, create a poll for people to vote on using default choices  Usage: quickpoll <Time (minutes)> "<Question>" "<Default Choice>"  Default Choices: yesno (Yes/No), truefalse (True/False), scale15 (1/2/3/4/5), abcd (A/B/C/D)  Note: If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | qpd | -- |
 | random | Commands that generate random data. | Utility | rand | card, number, coin, choice, dice, text |
-| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | delete, add, get, clearall |
+| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | delete, clearall, add, get |
 | reload | Reload a specific cog | Owner | -- | -- |
 | reloadall | Reload all cogs | Owner | -- | -- |
 | reloadmusic | Reload the music module | Owner | -- | -- |
