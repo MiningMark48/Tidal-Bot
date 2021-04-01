@@ -1,5 +1,5 @@
 # Commands
-**Commands Available:** 124
+**Commands Available:** 125
 | Name    | Description | Category | Aliases | Subcommands |
 |---------|-------------|----------|---------|-------------|
 | activity | View a leaderboard of the user with the most sent messages in a channel from a specified amount.  Min: 10, Max: 2500 | Info | leaderboard | -- |
@@ -24,9 +24,9 @@
 | createbackup | Create a backup of bot data | Owner | -- | -- |
 | crypto | Get info for a Cryptocurrency by symbol i.e. BTC (Bitcoin), DOGE (Dogecoin), XLM (Stellar Lumens) | Info | cryptocurrency | -- |
 | curseforge | Get Curseforge Project Stats | Info | cf, curse | -- |
-| customcommand | Manage custom commands for the server. | Utility | customcmd | set, help, delete, search, list |
+| customcommand | Manage custom commands for the server. | Utility | customcmd | set, list, help, delete, search |
 | dashdefine | It defines who I am | Memes | -- | -- |
-| defrole | Default role is a role to be added to a user when they join the server. Only one role can be set. | Server Management | defaultrole | get, set, clear |
+| defrole | Default role is a role to be added to a user when they join the server. Only one role can be set. | Server Management | defaultrole | set, clear, get |
 | deletetag | Delete a bot tag. | Tags | deltag, tagdelete | -- |
 | dictionary | Define a word | Info | define | -- |
 | draw25 | ...or draw 25 cards | Memes | -- | -- |
@@ -34,6 +34,7 @@
 | eval | Evaluates code | Owner | pyeval | -- |
 | exchangerate | Convert one currency to another i.e. USD -> CAD, BTC -> CAD | Utility | exchange, convertcurrency | -- |
 | exit12 | Left, Exit 12. *Screech*  Note: This will likely require quotes. | Memes | -- | -- |
+| fakeping | Create a fake ping image | Images | pingfake | -- |
 | feedback | Gives feedback about the bot. This is a quick way to request features and submit issues. The bot will communicate with you via DM about the status of your request if possible and when able. | Bot | -- | -- |
 | feedbackdm | None | Bot | fbdm | -- |
 | financialsupport | Financially support me plz | Memes | -- | -- |
@@ -48,7 +49,7 @@
 | hastebin | Get the RAW text from a Hastebin | Utility | hastebinget, hasteget, hb | -- |
 | help | Shows this message | None | -- | -- |
 | higherlower | Play a higher-lower number guessing game | Fun | hl | -- |
-| joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg | set, get, clear |
+| joinmessage | Join message is a message to be sent to a user when they join the server. | Server Management | joinmsg | set, clear, get |
 | kkchum | Krusty Krab > Chum Bucket | Memes | -- | -- |
 | leaveserver | Make the bot leave a server | Owner | -- | -- |
 | linus | Linus selfies ftw. | Memes | -- | -- |
@@ -75,7 +76,7 @@
 | quickpoll | Quickly, create a poll for people to vote on  Usage: quickpoll <Time (minutes)> "<Question>" "<Option 1>" "<Option 2>" ...  Note: You may have up to 20 options. If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | -- | -- |
 | quickpolldef | Quickly, create a poll for people to vote on using default choices  Usage: quickpoll <Time (minutes)> "<Question>" "<Default Choice>"  Default Choices: yesno (Yes/No), truefalse (True/False), scale15 (1/2/3/4/5), abcd (A/B/C/D)  Note: If time is less than 1 or more than 120 (2 hours), no timer will be used. | Utility | qpd | -- |
 | random | Commands that generate random data. | Utility | rand | choice, dice, text, card, number, coin |
-| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | clearall, delete, get, add |
+| reactor | Reactor allows users to react to a message to get assigned a specific role.  Note: This feature is experimental and susceptible to faults. | Server Management | reactionroles | delete, get, add, clearall |
 | reload | Reload a specific cog | Owner | -- | -- |
 | reloadall | Reload all cogs | Owner | -- | -- |
 | reloadmusic | Reload the music module | Owner | -- | -- |

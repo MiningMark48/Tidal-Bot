@@ -36,6 +36,7 @@ fun = [
 
 # Images: Image Generation and Modification
 images = [ 
+    "fakeping",
     "memes"
 ]
 
