@@ -66,7 +66,7 @@
 				</h2>
 
 				<h4 class="text-secondary">
-					These are servers that both the bot is in, and you have permission to manage server.
+					These are servers that both the bot is in and you have the 'Manage Server' permission. 
 				</h4>
 
 				<br>
@@ -74,10 +74,14 @@
 				<div class="container">
 					<div class="card-deck">
 						{% for guild in guilds %}
-						<div class="card" style="width: 18rem;">
-							<img src="{{guild.icon_url}}" class="card-img-top rounded" alt="Icon url">
+						<div class="card" style="max-width: 15rem; max-height: 25rem;">
+							<img src="{{guild.icon_url}}" class="card-img-top rounded" alt="Guild Icon">
 							<div class="card-body">
 								<h3 class="card-title">{{guild.name}}</h3>
+								<!-- <p><strong>##</strong> Members</p> -->
+								{% if guild.is_owner == True %}
+								<p><strong>Server Owner</strong></p>
+								{% endif %}
 								<a href="/guild/{{guild.id}}" class="btn btn-primary">Manage</a>
 							</div>
 						</div>
