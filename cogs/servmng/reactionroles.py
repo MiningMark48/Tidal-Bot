@@ -17,8 +17,6 @@ class ServerManagement(commands.Cog, name="Server Management"):
     async def reactor(self, ctx):
         """
         Reactor allows users to react to a message to get assigned a specific role.
-
-        Note: This feature is experimental and susceptible to faults.
         """
 
         if ctx.invoked_subcommand is None:
